@@ -1,0 +1,15 @@
+<resources>
+    <string name="action_ok">OK</string>
+    <string name="error">Error</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_wait">Please wait…</string>
+
+    <string name="app_name">yoCard</string>
+    <string name="cards">Cards</string>
+    <string name="people">People</string>
+    <string name="debts">Debts</string>
+    <string name="card_number">Card number</string>
+    <string name="card_holder">Card holder</string>
+    <string name="card_details">Card details</string>
+    <string name="action_accept">Accept</string>
+</resources>

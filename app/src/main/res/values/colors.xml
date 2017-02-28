@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/white</color>
+    <color name="primary_dark">@color/white</color>
+    <color name="accent">@color/blue</color>
+    <color name="window">@color/light_grey</color>
+    <color name="text_primary">@color/deep_blue</color>
+
+    <color name="white">#FFF</color>
+    <color name="pink">#F3C2D6</color>
+    <color name="deep_pink">#FFB6D3</color>
+    <color name="blue">#3078C0</color>
+    <color name="deep_blue">#2F70B3</color>
+    <color name="light_grey">#FEFEFF</color>
+    <color name="grey">#cfcfcf</color>
+
+</resources>

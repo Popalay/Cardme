@@ -1,0 +1,16 @@
+package com.popalay.yocard.injection;
+
+import com.popalay.yocard.ui.addcard.AddCardPresenter;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
+
+@Singleton
+@Component(modules = {
+        AppModule.class
+})
+public interface AppComponent {
+
+    void inject(AddCardPresenter presenter);
+}

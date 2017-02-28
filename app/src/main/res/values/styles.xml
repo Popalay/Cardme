@@ -1,0 +1,47 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/deep_blue</item>
+        <item name="android:windowBackground">@color/deep_blue</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:background">@color/primary_dark</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
+    </style>
+
+    <style name="DialogTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="ProgressDialogTheme" parent="DialogTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="BottomBar">
+        <item name="android:background">@drawable/bg_bottom_bar</item>
+        <item name="itemBackground">@drawable/bg_bottom_bar_item</item>
+        <item name="itemIconTint">@color/bottom_bar_item</item>
+        <item name="itemTextColor">@color/bottom_bar_item</item>
+    </style>
+
+    <style name="AddButton">
+        <item name="android:layout_margin">@dimen/normal</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="PrimaryButton" parent="Base.TextAppearance.AppCompat.Widget.Button.Colored">
+        <item name="android:backgroundTint">@color/accent</item>
+    </style>
+
+</resources>

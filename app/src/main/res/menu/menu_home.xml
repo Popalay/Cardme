@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cards"
+        android:checked="true"
+        android:icon="@drawable/ic_card"
+        android:title="@string/cards" />
+    <item
+        android:id="@+id/people"
+        android:icon="@drawable/ic_people"
+        android:title="@string/people" />
+    <item
+        android:id="@+id/debts"
+        android:icon="@drawable/ic_money"
+        android:title="@string/debts" />
+</menu>
