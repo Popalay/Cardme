@@ -15,7 +15,6 @@
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/primary_dark</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
     </style>
 

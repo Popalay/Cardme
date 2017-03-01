@@ -20,7 +20,7 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
         getViewState().showCardDetails(new Card(card));
     }
 
-    public void onAccept(Card card) {
+    public void onAcceptClick(Card card) {
         cardsInteractor.save(card);
         getViewState().close();
     }

@@ -8,6 +8,10 @@
         <variable
             name="card"
             type="com.popalay.yocard.data.models.Card" />
+
+        <variable
+            name="presenter"
+            type="com.popalay.yocard.ui.addcard.AddCardPresenter"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout

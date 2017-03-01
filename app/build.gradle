@@ -51,21 +51,25 @@ dependencies {
     // MVP
     compile "com.arello-mobile:moxy-android:$MVP_MOXY_VERSION"
     annotationProcessor "com.arello-mobile:moxy-compiler:$MVP_MOXY_VERSION"
+    compile 'com.github.popalay:rx-lifecycle-moxy:1.0.0'
 
     // DI
     compile "com.google.dagger:dagger:$DAGGER_VERSION"
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
     // Rx
-    compile "io.reactivex.rxjava2:rxjava:2.0.6"
-    compile "io.reactivex.rxjava2:rxandroid:2.0.1"
+    compile 'io.reactivex:rxjava:1.2.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.trello:rxlifecycle:1.0'
 
     // DB
-    compile 'com.github.popalay:rx2-realm:1.0.3'
+    compile 'com.github.popalay:rx-realm:1.0.3'
 
     // Utils
     compile 'io.card:android-sdk:5.5.0'
     compile 'com.github.nitrico.lastadapter:lastadapter:2.0.0'
+    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.uphyca:stetho_realm:2.0.0'
 
     testCompile 'junit:junit:4.12'
 }

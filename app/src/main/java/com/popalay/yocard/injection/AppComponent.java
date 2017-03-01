@@ -1,6 +1,7 @@
 package com.popalay.yocard.injection;
 
 import com.popalay.yocard.ui.addcard.AddCardPresenter;
+import com.popalay.yocard.ui.cards.CardsPresenter;
 
 import javax.inject.Singleton;
 
@@ -13,4 +14,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(AddCardPresenter presenter);
+
+    void inject(CardsPresenter presenter);
 }

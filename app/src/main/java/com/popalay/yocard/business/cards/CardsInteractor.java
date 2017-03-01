@@ -8,8 +8,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 @Singleton
 public class CardsInteractor {
@@ -25,13 +25,8 @@ public class CardsInteractor {
         cardRepository.save(card);
     }
 
-    public Flowable<List<Card>> getCards() {
-        return cardRepository.getCards()
-                .map(this::transform)
-                .subscribeOn(Schedulers.io());
+    public Observable<List<Card>> getCards() {
+        return cardRepository.getCards().subscribeOn(Schedulers.io());
     }
 
-    private List<Card> transform(List<Card> cards) {
-        return null;
-    }
 }

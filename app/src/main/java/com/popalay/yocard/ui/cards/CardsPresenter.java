@@ -1,15 +1,35 @@
 package com.popalay.yocard.ui.cards;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.popalay.yocard.App;
+import com.popalay.yocard.business.cards.CardsInteractor;
 import com.popalay.yocard.ui.base.BasePresenter;
-import com.popalay.yocard.data.models.Card;
+
+import javax.inject.Inject;
 
 import io.card.payment.CreditCard;
+import rx.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class CardsPresenter extends BasePresenter<CardsView> {
 
-    public void onAddButtonClick() {
+    @Inject CardsInteractor cardsInteractor;
+
+    public CardsPresenter() {
+        App.appComponent().inject(this);
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
+        cardsInteractor.getCards()
+                .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::setCards);
+    }
+
+    public void onAddClick() {
         getViewState().startCardScanning();
     }
 

@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/bg_card"
-        android:backgroundTint="@color/deep_blue"
         android:elevation="4dp"
         android:orientation="vertical"
         android:padding="@dimen/normal">
@@ -29,8 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:letterSpacing="0.3"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
             android:text="@{item.redactedNumber}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             android:textColor="@color/white" />
 
         <TextView
@@ -39,7 +43,6 @@
             android:layout_above="@+id/text_holder"
             android:layout_marginTop="@dimen/normal"
             android:text="@string/card_holder"
-            android:textAllCaps="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/grey" />
 
@@ -51,7 +54,6 @@
             android:layout_marginBottom="@dimen/normal"
             android:layout_marginTop="@dimen/smallest"
             android:text="@{item.holderName}"
-            android:textAllCaps="true"
             android:textColor="@color/white" />
 
     </RelativeLayout>

@@ -2,12 +2,23 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="presenter"
+            type="com.popalay.yocard.ui.cards.CardsPresenter" />
+    </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/item_card" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_cards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_add"
@@ -15,7 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/ic_add" />
+            android:onClick="@{() -> presenter.onAddClick()}"
+            android:src="@drawable/ic_add"
+            app:layout_behavior="@string/fab_hide_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>
 

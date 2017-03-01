@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Flowable;
+import rx.Observable;
 
 @Singleton
 public class CardRepository {
@@ -26,7 +26,7 @@ public class CardRepository {
         });
     }
 
-    public Flowable<List<Card>> getCards() {
+    public Observable<List<Card>> getCards() {
         return RxRealm.listenList(realm -> realm.where(Card.class).findAll());
     }
 }
