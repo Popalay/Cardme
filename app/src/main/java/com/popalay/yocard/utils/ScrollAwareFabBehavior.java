@@ -7,7 +7,6 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 public class ScrollAwareFabBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
@@ -31,9 +30,14 @@ public class ScrollAwareFabBehavior extends CoordinatorLayout.Behavior<FloatingA
             child.animate()
                     .translationY(child.getHeight() + fab_bottomMargin)
                     .setInterpolator(new AccelerateDecelerateInterpolator())
+                    .setDuration(300L)
                     .start();
         } else if (dyConsumed < 0) {
-            child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+            child.animate()
+                    .translationY(0)
+                    .setInterpolator(new AccelerateDecelerateInterpolator())
+                    .setDuration(300L)
+                    .start();
         }
     }
 

@@ -5,15 +5,27 @@
     <color name="accent">@color/blue</color>
     <color name="window">@color/light_grey</color>
     <color name="text_primary">@color/deep_blue</color>
+    <color name="text_secondary">@color/grey</color>
 
     <color name="white">#FFF</color>
     <color name="black">#111</color>
     <color name="pink">#FFB6D3</color>
     <color name="blue">#3078C0</color>
     <color name="deep_blue">#2F70B3</color>
-    <color name="light_grey">#FEFEFF</color>
+    <color name="light_grey">#FCFCFC</color>
     <color name="grey">#cfcfcf</color>
+
+    <!--card colors-->
     <color name="deep_grey">#808E91</color>
     <color name="dark_grey">#253A40</color>
+
+    <color name="deep_red">#EE6D6D</color>
+    <color name="dark_red">#D36A79</color>
+
+    <color name="deep_green">#4ABFA5</color>
+    <color name="dark_green">#2CB3AF</color>
+
+    <color name="deep_purple">#9162BA</color>
+    <color name="dark_purple">#7866B9</color>
 
 </resources>

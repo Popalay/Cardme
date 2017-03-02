@@ -63,13 +63,14 @@ dependencies {
     compile 'com.trello:rxlifecycle:1.0'
 
     // DB
-    compile 'com.github.popalay:rx-realm:1.0.3'
+    compile 'com.github.popalay:rx-realm:1.0.5'
 
     // Utils
     compile 'io.card:android-sdk:5.5.0'
     compile 'com.github.nitrico.lastadapter:lastadapter:2.0.0'
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.uphyca:stetho_realm:2.0.0'
+    compile 'com.annimon:stream:1.1.6'
 
     testCompile 'junit:junit:4.12'
 }

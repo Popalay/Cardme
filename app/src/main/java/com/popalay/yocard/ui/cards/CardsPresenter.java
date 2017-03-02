@@ -26,7 +26,7 @@ public class CardsPresenter extends BasePresenter<CardsView> {
         cardsInteractor.getCards()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setCards);
+                .subscribe(getViewState()::setCards, this::handleBaseError);
     }
 
     public void onAddClick() {

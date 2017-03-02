@@ -1,14 +1,12 @@
 package com.popalay.yocard.ui.cards;
 
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.github.nitrico.lastadapter.LastAdapter;
@@ -75,11 +73,6 @@ public class CardsFragment extends BaseFragment implements CardsView {
         LastAdapter adapter = LastAdapter.with(cards, BR.item)
                 .map(Card.class, R.layout.item_card)
                 .into(b.listCards);
-    }
-
-    @BindingAdapter("android:src")
-    public static void setImageResource(ImageView imageView, int resource){
-        imageView.setImageResource(resource);
     }
 
     private void initUI() {

@@ -17,7 +17,11 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
 
     public AddCardPresenter(CreditCard card) {
         App.appComponent().inject(this);
+
         getViewState().showCardDetails(new Card(card));
+        cardsInteractor.getAutoCompletedCardHoldersName()
+                .compose(bindToLifecycle())
+                .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);
     }
 
     public void onAcceptClick(Card card) {

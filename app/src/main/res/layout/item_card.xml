@@ -11,31 +11,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/bg_card"
-        android:elevation="4dp"
+        android:layout_height="@dimen/card_height"
+        android:background="@{item.colorRes}"
+        android:elevation="@dimen/card_elevation"
         android:orientation="vertical"
         android:padding="@dimen/normal">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/card_type_icon_size"
+            android:layout_height="@dimen/card_type_icon_size"
             android:layout_alignParentEnd="true"
-            android:src="@{item.type}" />
+            android:src="@{item.iconRes}" />
 
-        <TextView
+        <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
             android:id="@+id/text_number"
+            style="@style/CardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:letterSpacing="0.3"
-            android:shadowColor="@color/black"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="1"
-            android:text="@{item.redactedNumber}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/white" />
+            android:text="@{item.redactedNumber}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,8 +37,8 @@
             android:layout_above="@+id/text_holder"
             android:layout_marginTop="@dimen/normal"
             android:text="@string/card_holder"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-            android:textColor="@color/grey" />
+            android:textAllCaps="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:id="@+id/text_holder"
@@ -54,7 +48,9 @@
             android:layout_marginBottom="@dimen/normal"
             android:layout_marginTop="@dimen/smallest"
             android:text="@{item.holderName}"
-            android:textColor="@color/white" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

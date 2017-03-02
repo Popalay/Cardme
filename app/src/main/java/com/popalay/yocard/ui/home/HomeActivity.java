@@ -26,7 +26,6 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initUI() {
-        setActionBar(b.toolbar);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.host, CardsFragment.newInstance())
