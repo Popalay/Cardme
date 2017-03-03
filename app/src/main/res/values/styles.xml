@@ -45,6 +45,7 @@
     </style>
 
     <style name="CardNumber">
+        <item name="android:gravity">center</item>
         <item name="android:shadowColor">@color/black</item>
         <item name="android:shadowDx">1</item>
         <item name="android:maxLines">1</item>

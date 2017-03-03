@@ -13,9 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_height"
         android:background="@{item.colorRes}"
+        android:clickable="true"
         android:elevation="@dimen/card_elevation"
+        android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
-        android:padding="@dimen/normal">
+        android:padding="@dimen/normal"
+        android:stateListAnimator="@anim/lift_on_touch">
 
         <ImageView
             android:layout_width="@dimen/card_type_icon_size"
@@ -26,7 +29,7 @@
         <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
             android:id="@+id/text_number"
             style="@style/CardNumber"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@{item.redactedNumber}" />
@@ -49,8 +52,7 @@
             android:layout_marginTop="@dimen/smallest"
             android:text="@{item.holderName}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

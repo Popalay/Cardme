@@ -22,9 +22,9 @@
 
             <Toolbar
                 android:id="@+id/toolbar"
+                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/ToolbarTheme"
                 app:navigationIcon="@drawable/ic_back" />
 
         </android.support.design.widget.AppBarLayout>
@@ -73,8 +73,7 @@
                 android:text="@={card.holderName}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/white"
-                android:textColorHint="@color/text_secondary"
-                android:textStyle="bold" />
+                android:textColorHint="@color/text_secondary" />
 
         </RelativeLayout>
 

@@ -72,5 +72,7 @@ dependencies {
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.annimon:stream:1.1.6'
 
+    // Views
+
     testCompile 'junit:junit:4.12'
 }
