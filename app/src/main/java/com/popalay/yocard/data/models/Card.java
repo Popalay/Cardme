@@ -17,6 +17,7 @@ public class Card extends RealmObject implements StableId {
 
     public static final String ID = "id";
     public static final String HOLDER_NAME = "holderName";
+    public static final String USAGE = "usage";
 
     @PrimaryKey private long id;
 
@@ -29,6 +30,8 @@ public class Card extends RealmObject implements StableId {
     @CardType private int type;
 
     @CardColor private int color;
+
+    private int usage;
 
     public Card() {
     }
@@ -105,6 +108,14 @@ public class Card extends RealmObject implements StableId {
         this.color = color;
     }
 
+    public int getUsage() {
+        return usage;
+    }
+
+    public void setUsage(int usage) {
+        this.usage = usage;
+    }
+
     @DrawableRes
     public int getIconRes() {
         switch (type) {
@@ -159,6 +170,9 @@ public class Card extends RealmObject implements StableId {
         if (color != card.color) {
             return false;
         }
+        if (usage != card.usage) {
+            return false;
+        }
         if (number != null ? !number.equals(card.number) : card.number != null) {
             return false;
         }
@@ -177,6 +191,7 @@ public class Card extends RealmObject implements StableId {
         result = 31 * result + (holderName != null ? holderName.hashCode() : 0);
         result = 31 * result + type;
         result = 31 * result + color;
+        result = 31 * result + usage;
         return result;
     }
 

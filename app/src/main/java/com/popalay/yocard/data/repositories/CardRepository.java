@@ -38,7 +38,9 @@ public class CardRepository {
     }
 
     public Observable<List<Card>> getCards() {
-        return RxRealm.listenList(realm -> realm.where(Card.class).findAllSorted(Card.ID, Sort.DESCENDING));
+        return RxRealm.listenList(realm -> realm.where(Card.class)
+                .findAllSorted(Card.ID, Sort.DESCENDING)
+                .sort(Card.USAGE, Sort.DESCENDING));
     }
 
     public Observable<List<String>> getCardHolders() {
@@ -54,5 +56,12 @@ public class CardRepository {
                     card.getHolderName()), card.getNumber());
             clipboard.setPrimaryClip(clip);
         });
+    }
+
+    public Completable incCardUsage(final Card card) {
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
+            card.setUsage(card.getUsage() + 1);
+            realm.copyToRealmOrUpdate(card);
+        }));
     }
 }

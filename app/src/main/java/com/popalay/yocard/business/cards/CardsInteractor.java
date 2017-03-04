@@ -41,6 +41,8 @@ public class CardsInteractor {
     }
 
     public Completable copyCard(Card card) {
-        return cardRepository.copyToClipboard(card);
+        return cardRepository.copyToClipboard(card)
+                .observeOn(Schedulers.io())
+                .andThen(cardRepository.incCardUsage(card));
     }
 }
