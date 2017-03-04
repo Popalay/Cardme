@@ -49,4 +49,20 @@ public class CardsPresenter extends BasePresenter<CardsView> {
                 .subscribe(() -> getViewState().showMessage(context.getString(R.string.number_copied)),
                         this::handleBaseError);
     }
+
+    public void onCardSwiped(Card card, int position) {
+        getViewState().removeCard(position);
+        getViewState().showRemoveUndoAction(card, position);
+    }
+
+    public void onRemoveUndoActionDismissed(Card card, int position) {
+        cardsInteractor.removeCard(card)
+                .compose(bindToLifecycle().forCompletable())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {}, this::handleBaseError);
+    }
+
+    public void onRemoveUndo(Card card, int position) {
+        getViewState().addCard(card, position);
+    }
 }

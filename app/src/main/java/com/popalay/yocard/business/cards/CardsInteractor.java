@@ -45,4 +45,9 @@ public class CardsInteractor {
                 .observeOn(Schedulers.io())
                 .andThen(cardRepository.incCardUsage(card));
     }
+
+    public Completable removeCard(Card card) {
+        return cardRepository.removeCard(card)
+                .subscribeOn(Schedulers.io());
+    }
 }

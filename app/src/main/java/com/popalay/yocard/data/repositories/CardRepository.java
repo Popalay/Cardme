@@ -64,4 +64,10 @@ public class CardRepository {
             realm.copyToRealmOrUpdate(card);
         }));
     }
+
+    public Completable removeCard(final Card card) {
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
+            realm.where(Card.class).equalTo(Card.ID, card.getId()).findAll().deleteAllFromRealm();
+        }));
+    }
 }

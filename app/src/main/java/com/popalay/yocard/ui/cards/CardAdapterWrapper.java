@@ -50,8 +50,18 @@ public class CardAdapterWrapper {
         }
     }
 
-    public Card getItem(int position) {
-        return this.items.get(position);
+    public Card get(int position) {
+        return items.get(position);
+    }
+
+    public void remove(int position) {
+        items.remove(position);
+        adapter.notifyItemRemoved(position);
+    }
+
+    public void add(Card card, int position) {
+        items.add(position, card);
+        adapter.notifyItemInserted(position);
     }
 
     public void clear() {

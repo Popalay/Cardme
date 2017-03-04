@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +19,15 @@ import com.popalay.yocard.databinding.FragmentCardsBinding;
 import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.utils.DividerItemDecoration;
+import com.popalay.yocard.utils.SimpleItemTouchHelperCallback;
 
 import java.util.List;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class CardsFragment extends BaseFragment implements CardsView, CardsView.CardListener {
+public class CardsFragment extends BaseFragment implements CardsView, CardsView.CardListener,
+        SimpleItemTouchHelperCallback.SwipeCallback {
 
     private static final int SCAN_REQUEST_CODE = 121;
 
@@ -82,8 +88,44 @@ public class CardsFragment extends BaseFragment implements CardsView, CardsView.
         presenter.onCardClick(card);
     }
 
+    @Override
+    public void removeCard(int position) {
+        adapterWrapper.remove(position);
+    }
+
+    @Override
+    public void addCard(Card card, int position) {
+        adapterWrapper.add(card, position);
+    }
+
+    @Override
+    public void showRemoveUndoAction(Card card, int position) {
+        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card, position))
+                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        if (event == DISMISS_EVENT_ACTION) {
+                            return;
+                        }
+                        presenter.onRemoveUndoActionDismissed(card, position);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder) {
+        final int position = viewHolder.getAdapterPosition();
+        final Card card = adapterWrapper.get(position);
+        presenter.onCardSwiped(card, position);
+    }
+
     private void initUI() {
         b.listCards.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this))
+                .attachToRecyclerView(b.listCards);
         adapterWrapper = new CardAdapterWrapper(this);
         adapterWrapper.attachToRecycler(b.listCards);
     }
