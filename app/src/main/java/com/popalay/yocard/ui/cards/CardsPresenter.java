@@ -1,8 +1,12 @@
 package com.popalay.yocard.ui.cards;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.yocard.App;
+import com.popalay.yocard.R;
 import com.popalay.yocard.business.cards.CardsInteractor;
+import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.ui.base.BasePresenter;
 
 import javax.inject.Inject;
@@ -14,6 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class CardsPresenter extends BasePresenter<CardsView> {
 
     @Inject CardsInteractor cardsInteractor;
+    @Inject Context context;
 
     public CardsPresenter() {
         App.appComponent().inject(this);
@@ -35,5 +40,13 @@ public class CardsPresenter extends BasePresenter<CardsView> {
 
     public void onCardScanned(CreditCard card) {
         getViewState().addCardDetails(card);
+    }
+
+    public void onCardClick(Card card) {
+        cardsInteractor.copyCard(card)
+                .compose(bindToLifecycle().forCompletable())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> getViewState().showMessage(context.getString(R.string.number_copied)),
+                        this::handleBaseError);
     }
 }

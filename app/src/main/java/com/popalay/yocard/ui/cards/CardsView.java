@@ -20,4 +20,9 @@ public interface CardsView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void addCardDetails(CreditCard card);
+
+    interface CardListener {
+
+        void onCardClick(Card card);
+    }
 }

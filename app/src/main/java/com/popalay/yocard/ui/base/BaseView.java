@@ -6,8 +6,11 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 public interface BaseView extends MvpView {
 
-    @StateStrategyType(value = OneExecutionStateStrategy.class)
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showError(String error);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showMessage(String message);
 
     void showProgress();
 

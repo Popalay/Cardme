@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.github.nitrico.lastadapter.LastAdapter;
-import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.FragmentCardsBinding;
@@ -23,13 +21,14 @@ import java.util.List;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class CardsFragment extends BaseFragment implements CardsView {
+public class CardsFragment extends BaseFragment implements CardsView, CardsView.CardListener {
 
     private static final int SCAN_REQUEST_CODE = 121;
 
     @InjectPresenter CardsPresenter presenter;
 
     private FragmentCardsBinding b;
+    private CardAdapterWrapper adapterWrapper;
 
     public static CardsFragment newInstance() {
         return new CardsFragment();
@@ -42,8 +41,13 @@ public class CardsFragment extends BaseFragment implements CardsView {
             @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater, R.layout.fragment_cards, container, false);
         b.setPresenter(presenter);
-        initUI();
         return b.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initUI();
     }
 
     @Override
@@ -70,12 +74,17 @@ public class CardsFragment extends BaseFragment implements CardsView {
 
     @Override
     public void setCards(List<Card> cards) {
-        LastAdapter adapter = LastAdapter.with(cards, BR.item)
-                .map(Card.class, R.layout.item_card)
-                .into(b.listCards);
+        adapterWrapper.setItems(cards);
+    }
+
+    @Override
+    public void onCardClick(Card card) {
+        presenter.onCardClick(card);
     }
 
     private void initUI() {
         b.listCards.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
+        adapterWrapper = new CardAdapterWrapper(this);
+        adapterWrapper.attachToRecycler(b.listCards);
     }
 }

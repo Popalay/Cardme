@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Completable;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -39,4 +40,7 @@ public class CardsInteractor {
         return cardRepository.getCardHolders().subscribeOn(Schedulers.io());
     }
 
+    public Completable copyCard(Card card) {
+        return cardRepository.copyToClipboard(card);
+    }
 }

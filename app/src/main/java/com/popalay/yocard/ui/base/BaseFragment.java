@@ -33,6 +33,12 @@ public abstract class BaseFragment extends MvpFragment implements BaseView {
     }
 
     @Override
+    public void showMessage(String message) {
+        final BaseActivity baseActivity = getBaseActivity();
+        baseActivity.showMessage(message);
+    }
+
+    @Override
     public void showProgress() {
         showLoadingDialog();
     }

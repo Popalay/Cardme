@@ -1,6 +1,7 @@
 package com.popalay.yocard.ui.base;
 
 import android.app.ProgressDialog;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpActivity;
 import com.popalay.yocard.R;
@@ -17,8 +18,7 @@ public abstract class BaseActivity extends MvpActivity implements BaseView {
             return;
         }
 
-        mProgressDialog = DialogFactory.createProgressDialog(this,
-                getString(R.string.please_wait));
+        mProgressDialog = DialogFactory.createProgressDialog(this, getString(R.string.please_wait));
         mProgressDialog.show();
     }
 
@@ -31,6 +31,11 @@ public abstract class BaseActivity extends MvpActivity implements BaseView {
     @Override
     public void showError(String error) {
         DialogFactory.createSimpleOkErrorDialog(this, error).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

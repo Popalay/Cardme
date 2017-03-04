@@ -3,6 +3,7 @@ package com.popalay.yocard.data.models;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 
+import com.github.nitrico.lastadapter.StableId;
 import com.popalay.yocard.R;
 
 import java.lang.annotation.Retention;
@@ -12,7 +13,7 @@ import io.card.payment.CreditCard;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Card extends RealmObject {
+public class Card extends RealmObject implements StableId {
 
     public static final String ID = "id";
     public static final String HOLDER_NAME = "holderName";
@@ -131,6 +132,11 @@ public class Card extends RealmObject {
             case CARD_COLOR_GREY:
                 return R.drawable.bg_card_grey;
         }
+    }
+
+    @Override
+    public long getStableId() {
+        return id;
     }
 
     @Retention(RetentionPolicy.SOURCE)
