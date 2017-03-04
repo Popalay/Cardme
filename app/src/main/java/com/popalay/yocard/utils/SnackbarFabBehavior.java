@@ -7,10 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class ScrollAwareFabBehavior extends SnackbarFabBehavior {
+public class SnackbarFabBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
-    public ScrollAwareFabBehavior(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public SnackbarFabBehavior(Context context, AttributeSet attrs) {
+        super();
     }
 
     @Override
