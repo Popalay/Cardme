@@ -23,7 +23,7 @@ public interface CardsView extends BaseView {
 
     void removeCard(int position);
 
-    void addCard(Card card, int position);
+    void resetCard(Card card, int position);
 
     void showRemoveUndoAction(Card card, int position);
 

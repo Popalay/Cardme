@@ -63,6 +63,6 @@ public class CardsPresenter extends BasePresenter<CardsView> {
     }
 
     public void onRemoveUndo(Card card, int position) {
-        getViewState().addCard(card, position);
+        getViewState().resetCard(card, position);
     }
 }

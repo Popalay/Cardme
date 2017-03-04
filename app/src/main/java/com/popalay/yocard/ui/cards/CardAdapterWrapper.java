@@ -10,7 +10,7 @@ import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.ItemCardBinding;
-import com.popalay.yocard.utils.recycler.DiffUtilCalback;
+import com.popalay.yocard.utils.recycler.DiffUtilCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +45,7 @@ public class CardAdapterWrapper {
         if (oldItems.isEmpty()) {
             adapter.notifyDataSetChanged();
         } else {
-            DiffUtil.calculateDiff(new DiffUtilCalback(oldItems, newItems), true)
+            DiffUtil.calculateDiff(new DiffUtilCallback(oldItems, newItems), true)
                     .dispatchUpdatesTo(adapter);
         }
     }

@@ -94,8 +94,9 @@ public class CardsFragment extends BaseFragment implements CardsView, CardsView.
     }
 
     @Override
-    public void addCard(Card card, int position) {
+    public void resetCard(Card card, int position) {
         adapterWrapper.add(card, position);
+        b.listCards.smoothScrollToPosition(position);
     }
 
     @Override

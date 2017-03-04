@@ -6,12 +6,12 @@ import com.github.nitrico.lastadapter.StableId;
 
 import java.util.List;
 
-public class DiffUtilCalback extends DiffUtil.Callback {
+public class DiffUtilCallback extends DiffUtil.Callback {
 
     private final List<? extends StableId> mOldItems;
     private final List<? extends StableId> mNewItems;
 
-    public DiffUtilCalback(List<? extends StableId> oldItems, List<? extends StableId> newItems) {
+    public DiffUtilCallback(List<? extends StableId> oldItems, List<? extends StableId> newItems) {
         mOldItems = oldItems;
         mNewItems = newItems;
     }
