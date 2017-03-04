@@ -1,4 +1,4 @@
-package com.popalay.yocard.utils;
+package com.popalay.yocard.utils.recycler;
 
 import android.content.Context;
 import android.graphics.Rect;

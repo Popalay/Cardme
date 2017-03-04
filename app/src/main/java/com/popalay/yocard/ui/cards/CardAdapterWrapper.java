@@ -10,7 +10,7 @@ import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.ItemCardBinding;
-import com.popalay.yocard.utils.DiffUtilCalback;
+import com.popalay.yocard.utils.recycler.DiffUtilCalback;
 
 import org.jetbrains.annotations.NotNull;
 

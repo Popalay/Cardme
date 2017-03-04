@@ -18,8 +18,8 @@ import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.FragmentCardsBinding;
 import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.utils.DividerItemDecoration;
-import com.popalay.yocard.utils.SimpleItemTouchHelperCallback;
+import com.popalay.yocard.utils.recycler.DividerItemDecoration;
+import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
 import java.util.List;
 

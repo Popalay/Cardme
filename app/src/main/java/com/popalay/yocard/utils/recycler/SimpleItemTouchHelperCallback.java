@@ -1,4 +1,4 @@
-package com.popalay.yocard.utils;
+package com.popalay.yocard.utils.recycler;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
