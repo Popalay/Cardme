@@ -1,5 +1,6 @@
 package com.popalay.yocard.ui.cards;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.ItemCardBinding;
+import com.popalay.yocard.utils.DiffUtilCalback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +39,15 @@ public class CardAdapterWrapper {
     }
 
     public void setItems(List<Card> newItems) {
+        final List<Card> oldItems = new ArrayList<>(this.items);
         this.items.clear();
         this.items.addAll(newItems);
-        this.adapter.notifyDataSetChanged();
+        if (oldItems.isEmpty()) {
+            adapter.notifyDataSetChanged();
+        } else {
+            DiffUtil.calculateDiff(new DiffUtilCalback(oldItems, newItems), true)
+                    .dispatchUpdatesTo(adapter);
+        }
     }
 
     public Card getItem(int position) {

@@ -139,6 +139,47 @@ public class Card extends RealmObject implements StableId {
         return id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Card card = (Card) o;
+
+        if (id != card.id) {
+            return false;
+        }
+        if (type != card.type) {
+            return false;
+        }
+        if (color != card.color) {
+            return false;
+        }
+        if (number != null ? !number.equals(card.number) : card.number != null) {
+            return false;
+        }
+        if (redactedNumber != null ? !redactedNumber.equals(card.redactedNumber) : card.redactedNumber != null) {
+            return false;
+        }
+        return holderName != null ? holderName.equals(card.holderName) : card.holderName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (redactedNumber != null ? redactedNumber.hashCode() : 0);
+        result = 31 * result + (holderName != null ? holderName.hashCode() : 0);
+        result = 31 * result + type;
+        result = 31 * result + color;
+        return result;
+    }
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({CARD_TYPE_MAESTRO, CARD_TYPE_MASTERCARD, CARD_TYPE_VISA})
     public @interface CardType {}
