@@ -2,7 +2,6 @@ package com.popalay.yocard.business.cards;
 
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.repositories.CardRepository;
-import com.popalay.yocard.data.repositories.HolderRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -23,12 +22,10 @@ import static com.popalay.yocard.data.models.Card.CARD_COLOR_PURPLE;
 public class CardsInteractor {
 
     private final CardRepository cardRepository;
-    private final HolderRepository holderRepository;
 
     @Inject
-    public CardsInteractor(CardRepository cardRepository, HolderRepository holderRepository) {
+    public CardsInteractor(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
-        this.holderRepository = holderRepository;
     }
 
     public Single<Card> transformCard(CreditCard creditCard) {
@@ -40,8 +37,6 @@ public class CardsInteractor {
     }
 
     public void save(Card card) {
-        //noinspection WrongConstant
-        holderRepository.save(card.getHolder());
         cardRepository.save(card);
     }
 

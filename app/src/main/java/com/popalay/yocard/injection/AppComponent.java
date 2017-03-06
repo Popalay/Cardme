@@ -2,6 +2,7 @@ package com.popalay.yocard.injection;
 
 import com.popalay.yocard.ui.addcard.AddCardPresenter;
 import com.popalay.yocard.ui.cards.CardsPresenter;
+import com.popalay.yocard.ui.holders.HoldersPresenter;
 
 import javax.inject.Singleton;
 
@@ -16,4 +17,6 @@ public interface AppComponent {
     void inject(AddCardPresenter presenter);
 
     void inject(CardsPresenter presenter);
+
+    void inject(HoldersPresenter presenter);
 }

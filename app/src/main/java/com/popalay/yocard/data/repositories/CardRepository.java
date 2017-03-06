@@ -34,6 +34,16 @@ public class CardRepository {
     public void save(Card card) {
         RxRealm.generateObjectId(card, (realm, id) -> {
             card.setId(id);
+            Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, card.getHolder().getName())
+                    .findFirst();
+            if (realmHolder != null) {
+                card.setHolder(realmHolder);
+            } else {
+                Number num = realm.where(Holder.class).max(Holder.ID);
+                long nextID = num != null ? num.longValue() + 1L : 0L;
+                card.getHolder().setId(nextID);
+            }
+            card.getHolder().setCardsCount(card.getHolder().getCardsCount() + 1);
             realm.copyToRealmOrUpdate(card);
         });
     }

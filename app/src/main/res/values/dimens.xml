@@ -5,8 +5,11 @@
     <dimen name="small">8dp</dimen>
     <dimen name="normal">16dp</dimen>
     <dimen name="large">32dp</dimen>
+
     <dimen name="card_height">200dp</dimen>
     <dimen name="card_type_icon_size">50dp</dimen>
     <dimen name="card_elevation">8dp</dimen>
+
+    <dimen name="holder_height">75dp</dimen>
 
 </resources>

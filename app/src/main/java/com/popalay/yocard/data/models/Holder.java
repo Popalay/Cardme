@@ -8,10 +8,13 @@ import io.realm.annotations.PrimaryKey;
 public class Holder extends RealmObject implements StableId {
 
     public static final String ID = "id";
+    public static final String NAME = "name";
 
     @PrimaryKey private long id;
 
     private String name;
+
+    private int cardsCount;
 
     public Holder() {
     }
@@ -36,6 +39,14 @@ public class Holder extends RealmObject implements StableId {
         this.name = name;
     }
 
+    public int getCardsCount() {
+        return cardsCount;
+    }
+
+    public void setCardsCount(int cardsCount) {
+        this.cardsCount = cardsCount;
+    }
+
     @Override
     public long getStableId() {
         return id;
@@ -55,6 +66,9 @@ public class Holder extends RealmObject implements StableId {
         if (id != holder.id) {
             return false;
         }
+        if (cardsCount != holder.cardsCount) {
+            return false;
+        }
         return name != null ? name.equals(holder.name) : holder.name == null;
 
     }
@@ -63,6 +77,7 @@ public class Holder extends RealmObject implements StableId {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + cardsCount;
         return result;
     }
 }

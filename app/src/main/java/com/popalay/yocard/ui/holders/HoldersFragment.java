@@ -7,18 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
+import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.FragmentHoldersBinding;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.utils.recycler.DividerItemDecoration;
 
 import java.util.List;
 
-public class HoldersFragment extends BaseFragment implements HoldersView {
+public class HoldersFragment extends BaseFragment implements HoldersView, HoldersView.HolderListener {
 
-    //@InjectPresenter CardsPresenter presenter;
+    @InjectPresenter HoldersPresenter presenter;
 
     private FragmentHoldersBinding b;
+    private HolderAdapterWrapper adapterWrapper;
 
     public static HoldersFragment newInstance() {
         return new HoldersFragment();
@@ -40,17 +42,23 @@ public class HoldersFragment extends BaseFragment implements HoldersView {
     }
 
     @Override
-    public void setHolders(List<String> cards) {
-
+    public void setHolders(List<Holder> holders) {
+        adapterWrapper.setItems(holders);
     }
 
     @Override
-    public void openHolderCards(String holderName) {
+    public void openHolderCards(Holder holder) {
+        //TODO open holder cards
+    }
 
+    @Override
+    public void onHolderClick(Holder holder) {
+        presenter.onHolderClick(holder);
     }
 
     private void initUI() {
-        b.listHolders.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
-        //adapterWrapper.attachToRecycler(b.listCards);
+        adapterWrapper = new HolderAdapterWrapper(this);
+        //b.listHolders.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
+        adapterWrapper.attachToRecycler(b.listHolders);
     }
 }

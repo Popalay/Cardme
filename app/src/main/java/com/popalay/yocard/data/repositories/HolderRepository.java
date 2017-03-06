@@ -23,13 +23,6 @@ public class HolderRepository {
         this.context = context;
     }
 
-    public void save(Holder holder) {
-        RxRealm.generateObjectId(holder, (realm, id) -> {
-            holder.setId(id);
-            realm.copyToRealmOrUpdate(holder);
-        });
-    }
-
     public Observable<List<Holder>> getHolders() {
         return RxRealm.listenList(realm -> realm.where(Holder.class)
                 .findAllSorted(Holder.ID, Sort.DESCENDING));
