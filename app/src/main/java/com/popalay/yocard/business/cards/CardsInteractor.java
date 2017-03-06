@@ -2,6 +2,7 @@ package com.popalay.yocard.business.cards;
 
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.repositories.CardRepository;
+import com.popalay.yocard.data.repositories.HolderRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -9,8 +10,10 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.card.payment.CreditCard;
 import rx.Completable;
 import rx.Observable;
+import rx.Single;
 import rx.schedulers.Schedulers;
 
 import static com.popalay.yocard.data.models.Card.CARD_COLOR_GREY;
@@ -20,15 +23,25 @@ import static com.popalay.yocard.data.models.Card.CARD_COLOR_PURPLE;
 public class CardsInteractor {
 
     private final CardRepository cardRepository;
+    private final HolderRepository holderRepository;
 
     @Inject
-    public CardsInteractor(CardRepository cardRepository) {
+    public CardsInteractor(CardRepository cardRepository, HolderRepository holderRepository) {
         this.cardRepository = cardRepository;
+        this.holderRepository = holderRepository;
+    }
+
+    public Single<Card> transformCard(CreditCard creditCard) {
+        return Single.fromCallable(() -> {
+            final Card card = new Card(creditCard);
+            card.setColor(new Random().nextInt(CARD_COLOR_PURPLE + 1 - CARD_COLOR_GREY) + CARD_COLOR_GREY);
+            return card;
+        });
     }
 
     public void save(Card card) {
         //noinspection WrongConstant
-        card.setColor(new Random().nextInt(CARD_COLOR_PURPLE + 1 - CARD_COLOR_GREY) + CARD_COLOR_GREY);
+        holderRepository.save(card.getHolder());
         cardRepository.save(card);
     }
 
@@ -37,7 +50,8 @@ public class CardsInteractor {
     }
 
     public Observable<List<String>> getAutoCompletedCardHoldersName() {
-        return cardRepository.getCardHolders().subscribeOn(Schedulers.io());
+        return cardRepository.getCardHolders()
+                .subscribeOn(Schedulers.io());
     }
 
     public Completable copyCard(Card card) {

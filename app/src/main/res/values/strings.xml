@@ -6,7 +6,7 @@
 
     <string name="app_name">yoCard</string>
     <string name="cards">Cards</string>
-    <string name="people">People</string>
+    <string name="holders">Holders</string>
     <string name="debts">Debts</string>
     <string name="card_number">Card number</string>
     <string name="card_holder">Card holder</string>

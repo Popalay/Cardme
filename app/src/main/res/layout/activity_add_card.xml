@@ -70,7 +70,7 @@
                 android:layout_marginTop="@dimen/smallest"
                 android:background="@null"
                 android:hint="@string/add_card_holder_name"
-                android:text="@={card.holderName}"
+                android:text="@={card.holder.name}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/white"
                 android:textColorHint="@color/text_secondary" />

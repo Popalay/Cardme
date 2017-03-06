@@ -9,18 +9,31 @@ import com.popalay.yocard.ui.base.BasePresenter;
 import javax.inject.Inject;
 
 import io.card.payment.CreditCard;
+import rx.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class AddCardPresenter extends BasePresenter<AddCardView> {
 
     @Inject CardsInteractor cardsInteractor;
 
+    private final CreditCard creditCard;
+
     public AddCardPresenter(CreditCard card) {
         App.appComponent().inject(this);
+        creditCard = card;
+    }
 
-        getViewState().showCardDetails(new Card(card));
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
+        cardsInteractor.transformCard(creditCard)
+                .compose(bindToLifecycle().forSingle())
+                .subscribe(getViewState()::showCardDetails, this::handleBaseError);
+
         cardsInteractor.getAutoCompletedCardHoldersName()
                 .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);
     }
 

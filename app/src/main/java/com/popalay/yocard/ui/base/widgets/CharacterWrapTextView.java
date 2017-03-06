@@ -3,8 +3,11 @@ package com.popalay.yocard.ui.base.widgets;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class CharacterWrapTextView extends android.support.v7.widget.AppCompatTextView {
+
+    private static final String TAG = "CharacterWrapTextView";
 
     public CharacterWrapTextView(Context context) {
         super(context);
@@ -28,12 +31,14 @@ public class CharacterWrapTextView extends android.support.v7.widget.AppCompatTe
         final Rect bounds = new Rect();
         getPaint().getTextBounds(getText().toString(), 0, getText().length(), bounds);
         final int textWidth = bounds.width();
+        if (textWidth == 0) {
+            return;
+        }
         post(() -> {
             final int width = getWidth();
-            if (width == 0) {
-                return;
-            }
-            setLetterSpacing((float) textWidth / width);
+            final float spacing = (float) width / textWidth - 1.5f;
+            Log.d(TAG, "applyLetterSpacing: " + getText().toString() + " " + width + " " + textWidth + " " + spacing);
+            setLetterSpacing(spacing);
         });
 
     }

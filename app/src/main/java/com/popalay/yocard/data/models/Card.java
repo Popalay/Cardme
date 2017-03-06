@@ -16,7 +16,6 @@ import io.realm.annotations.PrimaryKey;
 public class Card extends RealmObject implements StableId {
 
     public static final String ID = "id";
-    public static final String HOLDER_NAME = "holderName";
     public static final String USAGE = "usage";
 
     @PrimaryKey private long id;
@@ -25,7 +24,7 @@ public class Card extends RealmObject implements StableId {
 
     private String redactedNumber;
 
-    private String holderName;
+    private Holder holder;
 
     @CardType private int type;
 
@@ -39,6 +38,7 @@ public class Card extends RealmObject implements StableId {
     public Card(CreditCard creditCard) {
         this.number = creditCard.getFormattedCardNumber();
         this.redactedNumber = creditCard.getRedactedCardNumber();
+        this.holder = new Holder();
         switch (creditCard.getCardType()) {
             case MASTERCARD:
                 this.type = CARD_TYPE_MASTERCARD;
@@ -52,10 +52,9 @@ public class Card extends RealmObject implements StableId {
         }
     }
 
-    public Card(String number, String redactedNumber, String holderName, @CardType int type) {
+    public Card(String number, String redactedNumber, @CardType int type) {
         this.number = number;
         this.redactedNumber = redactedNumber;
-        this.holderName = holderName;
         this.type = type;
     }
 
@@ -83,12 +82,12 @@ public class Card extends RealmObject implements StableId {
         this.redactedNumber = redactedNumber;
     }
 
-    public String getHolderName() {
-        return holderName;
+    public Holder getHolder() {
+        return holder;
     }
 
-    public void setHolderName(String holderName) {
-        this.holderName = holderName;
+    public void setHolder(Holder holder) {
+        this.holder = holder;
     }
 
     @CardType
@@ -125,8 +124,16 @@ public class Card extends RealmObject implements StableId {
                 return R.drawable.ic_mastercard;
             case CARD_TYPE_VISA:
                 return R.drawable.ic_visa;
+            case CARD_TYPE_AMEX:
+                return R.drawable.ic_amex;
+            case CARD_TYPE_DINERSCLUB:
+                return R.drawable.ic_diners_club;
+            case CARD_TYPE_DISCOVER:
+                return R.drawable.ic_discover;
+            case CARD_TYPE_JCB:
+                return R.drawable.ic_jcb;
             default:
-                return 0;
+                return R.drawable.ic_unknown;
         }
     }
 
@@ -179,7 +186,7 @@ public class Card extends RealmObject implements StableId {
         if (redactedNumber != null ? !redactedNumber.equals(card.redactedNumber) : card.redactedNumber != null) {
             return false;
         }
-        return holderName != null ? holderName.equals(card.holderName) : card.holderName == null;
+        return holder != null ? holder.equals(card.holder) : card.holder == null;
 
     }
 
@@ -188,7 +195,7 @@ public class Card extends RealmObject implements StableId {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (redactedNumber != null ? redactedNumber.hashCode() : 0);
-        result = 31 * result + (holderName != null ? holderName.hashCode() : 0);
+        result = 31 * result + (holder != null ? holder.hashCode() : 0);
         result = 31 * result + type;
         result = 31 * result + color;
         result = 31 * result + usage;
@@ -196,12 +203,17 @@ public class Card extends RealmObject implements StableId {
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({CARD_TYPE_MAESTRO, CARD_TYPE_MASTERCARD, CARD_TYPE_VISA})
+    @IntDef({CARD_TYPE_MAESTRO, CARD_TYPE_MASTERCARD, CARD_TYPE_VISA,
+            CARD_TYPE_AMEX, CARD_TYPE_DINERSCLUB, CARD_TYPE_DISCOVER, CARD_TYPE_JCB})
     public @interface CardType {}
 
     public static final int CARD_TYPE_MAESTRO = 0;
     public static final int CARD_TYPE_MASTERCARD = 1;
     public static final int CARD_TYPE_VISA = 2;
+    public static final int CARD_TYPE_AMEX = 3;
+    public static final int CARD_TYPE_DINERSCLUB = 4;
+    public static final int CARD_TYPE_DISCOVER = 5;
+    public static final int CARD_TYPE_JCB = 6;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({CARD_COLOR_GREY, CARD_COLOR_RED, CARD_COLOR_GREEN, CARD_COLOR_PURPLE})

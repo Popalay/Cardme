@@ -56,7 +56,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/normal"
             android:layout_marginTop="@dimen/smallest"
-            android:text="@{item.holderName}"
+            android:text="@{item.holder.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             android:textColor="@color/white" />
 

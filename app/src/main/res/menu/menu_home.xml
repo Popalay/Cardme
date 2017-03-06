@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_card"
         android:title="@string/cards" />
     <item
-        android:id="@+id/people"
+        android:id="@+id/holders"
         android:icon="@drawable/ic_people"
-        android:title="@string/people" />
+        android:title="@string/holders" />
     <item
         android:id="@+id/debts"
         android:icon="@drawable/ic_money"
