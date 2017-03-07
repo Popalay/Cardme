@@ -12,6 +12,8 @@ import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.FragmentHoldersBinding;
 import com.popalay.yocard.ui.base.BaseFragment;
+import com.popalay.yocard.utils.ViewUtil;
+import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -58,7 +60,8 @@ public class HoldersFragment extends BaseFragment implements HoldersView, Holder
 
     private void initUI() {
         adapterWrapper = new HolderAdapterWrapper(this);
-        //b.listHolders.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
+        b.listHolders.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
+                R.color.grey, 1, ViewUtil.dpToPx(56), 0));
         adapterWrapper.attachToRecycler(b.listHolders);
     }
 }

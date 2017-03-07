@@ -3,6 +3,7 @@ package com.popalay.yocard;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.github.tamir7.contacts.Contacts;
 import com.popalay.yocard.injection.AppComponent;
 import com.popalay.yocard.injection.AppModule;
 import com.popalay.yocard.injection.DaggerAppComponent;
@@ -28,6 +29,7 @@ public class App extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+        Contacts.initialize(this);
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

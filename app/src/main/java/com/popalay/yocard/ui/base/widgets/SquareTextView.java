@@ -21,8 +21,11 @@ public class SquareTextView extends AppCompatTextView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.max(getMeasuredWidth(), getMeasuredHeight());
-        //noinspection SuspiciousNameCombination
-        setMeasuredDimension(size, size);
+        int width = this.getMeasuredWidth();
+        int height = this.getMeasuredHeight();
+        int size = Math.max(width, height);
+        int widthSpec = MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
+        int heightSpec = MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
+        super.onMeasure(widthSpec, heightSpec);
     }
 }

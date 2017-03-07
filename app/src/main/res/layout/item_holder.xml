@@ -26,9 +26,16 @@
         android:paddingStart="@dimen/normal"
         android:stateListAnimator="@anim/lift_on_touch">
 
+        <ImageView
+            android:layout_width="@dimen/circle_size"
+            android:layout_height="@dimen/circle_size"
+            android:elevation="@dimen/small_elevation"
+            android:src="@drawable/ic_man" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal"
             android:layout_weight="1"
             android:text="@{item.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
@@ -38,8 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_circle_accent"
-            android:elevation="2dp"
+            android:elevation="@dimen/small_elevation"
             android:gravity="center"
+            android:includeFontPadding="false"
             android:padding="@dimen/small"
             android:text="@{String.valueOf(item.cardsCount)}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"

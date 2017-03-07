@@ -1,8 +1,14 @@
 package com.popalay.yocard.business.cards;
 
-import com.popalay.yocard.data.models.Card;
-import com.popalay.yocard.data.repositories.CardRepository;
+import android.content.Context;
 
+import com.annimon.stream.Stream;
+import com.popalay.yocard.data.models.Card;
+import com.popalay.yocard.data.models.Holder;
+import com.popalay.yocard.data.repositories.CardRepository;
+import com.popalay.yocard.data.repositories.HolderRepository;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -22,10 +28,16 @@ import static com.popalay.yocard.data.models.Card.CARD_COLOR_PURPLE;
 public class CardsInteractor {
 
     private final CardRepository cardRepository;
+    private final HolderRepository holderRepository;
+    private final Context context;
 
     @Inject
-    public CardsInteractor(CardRepository cardRepository) {
+    public CardsInteractor(CardRepository cardRepository,
+            HolderRepository holderRepository,
+            Context context) {
         this.cardRepository = cardRepository;
+        this.holderRepository = holderRepository;
+        this.context = context;
     }
 
     public Single<Card> transformCard(CreditCard creditCard) {
@@ -45,7 +57,8 @@ public class CardsInteractor {
     }
 
     public Observable<List<String>> getAutoCompletedCardHoldersName() {
-        return cardRepository.getCardHolders()
+        return holderRepository.getHolders()
+                .map(this::transform)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -58,5 +71,12 @@ public class CardsInteractor {
     public Completable removeCard(Card card) {
         return cardRepository.removeCard(card)
                 .subscribeOn(Schedulers.io());
+    }
+
+    private List<String> transform(List<Holder> holders) {
+        List<String> names = Stream.of(holders).map(Holder::getName).toList();
+        //Stream.of(Contacts.getQuery().find()).map(Contact::getDisplayName).forEach(names::add);
+        Collections.sort(names);
+        return names;
     }
 }

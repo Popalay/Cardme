@@ -54,14 +54,6 @@ public class CardRepository {
                 .sort(Card.USAGE, Sort.DESCENDING));
     }
 
-    public Observable<List<String>> getCardHolders() {
-        return RxRealm.listenList(realm -> realm.where(Card.class).findAll())
-                .map(cards -> Stream.of(cards).map(Card::getHolder)
-                        .map(Holder::getName)
-                        .sorted()
-                        .collect(Collectors.toList()));
-    }
-
     @MainThread
     public Completable copyToClipboard(Card card) {
         return Completable.fromAction(() -> {

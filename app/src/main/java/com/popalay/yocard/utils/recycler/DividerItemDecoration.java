@@ -2,6 +2,7 @@ package com.popalay.yocard.utils.recycler;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.popalay.yocard.R;
+
+import static android.widget.LinearLayout.HORIZONTAL;
+import static android.widget.LinearLayout.VERTICAL;
 
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -20,10 +24,20 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private int mOrientation = -1;
 
-    private final int mDividerSize;
+    private int mDividerSize;
 
     public DividerItemDecoration(Context context, AttributeSet attrs) {
         mDividerSize = (int) context.getResources().getDimension(R.dimen.normal);
+    }
+
+    public DividerItemDecoration(Context context,
+            int size,
+            int color,
+            @LinearLayoutCompat.OrientationMode int orientation) {
+        this(context, false, false,
+                orientation == VERTICAL,
+                orientation == HORIZONTAL);
+        mDividerSize = size;
     }
 
     public DividerItemDecoration(Context context, boolean showFirstDivider, boolean showLastDivider,
@@ -76,4 +90,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             }
         }
     }
+
+
 }

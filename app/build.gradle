@@ -72,8 +72,7 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.annimon:stream:1.1.6'
-
-    // Views
+    compile 'com.github.tamir7.contacts:contacts:1.1.4'
 
     testCompile 'junit:junit:4.12'
 }
