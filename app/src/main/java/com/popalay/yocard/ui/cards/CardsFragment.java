@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.FragmentCardsBinding;
+import com.popalay.yocard.ui.adapters.CardAdapterWrapper;
 import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.utils.recycler.DividerItemDecoration;
@@ -26,7 +27,7 @@ import java.util.List;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class CardsFragment extends BaseFragment implements CardsView, CardsView.CardListener,
+public class CardsFragment extends BaseFragment implements CardsView, CardAdapterWrapper.CardListener,
         SimpleItemTouchHelperCallback.SwipeCallback {
 
     private static final int SCAN_REQUEST_CODE = 121;

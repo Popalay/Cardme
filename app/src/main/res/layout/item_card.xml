@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.cards.CardsView.CardListener" />
+            type="com.popalay.yocard.ui.adapters.CardAdapterWrapper.CardListener" />
     </data>
 
     <RelativeLayout

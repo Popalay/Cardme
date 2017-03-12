@@ -30,6 +30,6 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     }
 
     public void onHolderClick(Holder holder) {
-        //TODO show holder cards
+        getViewState().openHolderCards(holder);
     }
 }

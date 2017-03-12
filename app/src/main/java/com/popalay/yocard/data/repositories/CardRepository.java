@@ -5,8 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.MainThread;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
@@ -50,6 +48,13 @@ public class CardRepository {
 
     public Observable<List<Card>> getCards() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
+                .findAllSorted(Card.ID, Sort.DESCENDING)
+                .sort(Card.USAGE, Sort.DESCENDING));
+    }
+
+    public Observable<List<Card>> getHolderCards(long holderId) {
+        return RxRealm.listenList(realm -> realm.where(Card.class)
+                .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.USAGE, Sort.DESCENDING));
     }

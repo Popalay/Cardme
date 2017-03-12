@@ -1,25 +1,18 @@
-package com.popalay.yocard.ui.cards;
+package com.popalay.yocard.ui.holdercards;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.ui.base.BaseView;
 
 import java.util.List;
 
-import io.card.payment.CreditCard;
-
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface CardsView extends BaseView {
+public interface HolderCardsView extends BaseView {
+
+    void setHolderName(String name);
 
     void setCards(List<Card> cards);
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void startCardScanning();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void addCardDetails(CreditCard card);
 
     void removeCard(int position);
 

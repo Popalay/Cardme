@@ -1,4 +1,4 @@
-package com.popalay.yocard.ui.holders;
+package com.popalay.yocard.ui.adapters;
 
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.ItemHolderBinding;
+import com.popalay.yocard.ui.holders.HoldersView;
 import com.popalay.yocard.utils.recycler.DiffUtilCallback;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class HolderAdapterWrapper {
     private final LastAdapter adapter;
     private List<Holder> items;
 
-    public HolderAdapterWrapper(HoldersView.HolderListener listener) {
+    public HolderAdapterWrapper(HolderListener listener) {
         this.items = new ArrayList<>();
         this.adapter = LastAdapter.with(items, BR.item, true)
                 .map(Holder.class, new ItemType<ItemHolderBinding>(R.layout.item_holder) {
@@ -67,5 +68,10 @@ public class HolderAdapterWrapper {
     public void clear() {
         this.items.clear();
         this.adapter.notifyDataSetChanged();
+    }
+
+    public interface HolderListener {
+
+        void onHolderClick(Holder holder);
     }
 }

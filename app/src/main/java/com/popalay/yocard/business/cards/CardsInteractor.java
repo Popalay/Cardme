@@ -56,6 +56,10 @@ public class CardsInteractor {
         return cardRepository.getCards().subscribeOn(Schedulers.io());
     }
 
+    public Observable<List<Card>> getHolderCards(long holderId) {
+        return cardRepository.getHolderCards(holderId).subscribeOn(Schedulers.io());
+    }
+
     public Observable<List<String>> getAutoCompletedCardHoldersName() {
         return holderRepository.getHolders()
                 .map(this::transform)

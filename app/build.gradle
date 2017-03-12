@@ -36,27 +36,30 @@ android {
     }
 }
 
+ext {
+    supportLibrary = '25.2.0'
+    dagger = '2.9'
+    mvpMoxy = '1.4.5'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    final SUPPORT_LIBRARY_VERSION = '25.2.0'
-    final DAGGER_VERSION = '2.9'
-    final MVP_MOXY_VERSION = '1.4.5'
 
     // Support
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:cardview-v7:$supportLibrary"
+    compile "com.android.support:recyclerview-v7:$supportLibrary"
+    compile "com.android.support:support-v13:$supportLibrary"
+    compile "com.android.support:design:$supportLibrary"
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
 
     // MVP
-    compile "com.arello-mobile:moxy-android:$MVP_MOXY_VERSION"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$MVP_MOXY_VERSION"
+    compile "com.arello-mobile:moxy-android:$mvpMoxy"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$mvpMoxy"
     compile 'com.github.popalay:rx-lifecycle-moxy:1.0.0'
 
     // DI
-    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    compile "com.google.dagger:dagger:$dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // Rx
     compile 'io.reactivex:rxjava:1.2.6'

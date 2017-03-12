@@ -11,13 +11,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.FragmentHoldersBinding;
+import com.popalay.yocard.ui.adapters.HolderAdapterWrapper;
 import com.popalay.yocard.ui.base.BaseFragment;
+import com.popalay.yocard.ui.holdercards.HolderCardsActivity;
 import com.popalay.yocard.utils.ViewUtil;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
-public class HoldersFragment extends BaseFragment implements HoldersView, HoldersView.HolderListener {
+public class HoldersFragment extends BaseFragment implements HoldersView, HolderAdapterWrapper.HolderListener {
 
     @InjectPresenter HoldersPresenter presenter;
 
@@ -50,7 +52,7 @@ public class HoldersFragment extends BaseFragment implements HoldersView, Holder
 
     @Override
     public void openHolderCards(Holder holder) {
-        //TODO open holder cards
+        startActivity(HolderCardsActivity.getIntent(getActivity(), holder));
     }
 
     @Override

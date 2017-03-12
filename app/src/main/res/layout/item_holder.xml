@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.holders.HoldersView.HolderListener" />
+            type="com.popalay.yocard.ui.adapters.HolderAdapterWrapper.HolderListener" />
     </data>
 
     <LinearLayout
@@ -44,7 +44,7 @@
         <com.popalay.yocard.ui.base.widgets.SquareTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_circle_accent"
+            android:background="@drawable/bg_circle_blue"
             android:elevation="@dimen/small_elevation"
             android:gravity="center"
             android:includeFontPadding="false"

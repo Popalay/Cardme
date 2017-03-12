@@ -10,7 +10,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.realm.Sort;
 import rx.Observable;
 
 @Singleton
@@ -25,6 +24,12 @@ public class HolderRepository {
 
     public Observable<List<Holder>> getHolders() {
         return RxRealm.listenList(realm -> realm.where(Holder.class)
-                .findAllSorted(Holder.ID, Sort.DESCENDING));
+                .findAllSorted(Holder.NAME));
+    }
+
+    public Observable<Holder> getHolder(long holderId) {
+        return RxRealm.listenElement(realm -> realm.where(Holder.class)
+                .equalTo(Holder.ID, holderId)
+                .findAll());
     }
 }

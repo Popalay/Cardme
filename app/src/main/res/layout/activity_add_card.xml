@@ -25,7 +25,7 @@
                 style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_back" />
+                android:navigationIcon="@drawable/ic_back" />
 
         </android.support.design.widget.AppBarLayout>
 

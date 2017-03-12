@@ -1,4 +1,4 @@
-package com.popalay.yocard.ui.cards;
+package com.popalay.yocard.ui.adapters;
 
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ public class CardAdapterWrapper {
     private final LastAdapter adapter;
     private List<Card> items;
 
-    public CardAdapterWrapper(CardsView.CardListener listener) {
+    public CardAdapterWrapper(CardListener listener) {
         this.items = new ArrayList<>();
         this.adapter = LastAdapter.with(items, BR.item, true)
                 .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
@@ -67,5 +67,10 @@ public class CardAdapterWrapper {
     public void clear() {
         this.items.clear();
         this.adapter.notifyDataSetChanged();
+    }
+
+    public interface CardListener {
+
+        void onCardClick(Card card);
     }
 }
