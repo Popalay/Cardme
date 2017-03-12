@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -82,6 +83,7 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     @Override
     public void setCards(List<Card> cards) {
         adapterWrapper.setItems(cards);
+        scrollToStartIfTop();
     }
 
     @Override
@@ -122,6 +124,12 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
         final int position = viewHolder.getAdapterPosition();
         final Card card = adapterWrapper.get(position);
         presenter.onCardSwiped(card, position);
+    }
+
+    private void scrollToStartIfTop() {
+        if(((LinearLayoutManager) b.listCards.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0){
+            b.listCards.scrollToPosition(0);
+        }
     }
 
     private void initUI() {
