@@ -12,13 +12,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Yocard">
 
         <activity
             android:name=".ui.splash.SplashActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/Yocard.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +41,12 @@
             android:name=".ui.holdercards.HolderCardsActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.debts.AddDebtActivity"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Yocard.Translucent.DialogActivityTheme" />
 
     </application>
 

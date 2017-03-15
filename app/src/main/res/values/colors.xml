@@ -7,6 +7,9 @@
     <color name="text_primary">@color/deep_blue</color>
     <color name="text_secondary">@color/grey</color>
 
+    <color name="background">@color/light_grey</color>
+    <color name="dialog_background">@color/white</color>
+
     <color name="white">#FFF</color>
     <color name="black">#111</color>
     <color name="pink">#FFB6D3</color>
@@ -14,6 +17,8 @@
     <color name="deep_blue">#2F70B3</color>
     <color name="light_grey">#FCFCFC</color>
     <color name="grey">#cfcfcf</color>
+
+    <color name="scrim">#99323232</color>
 
     <!--card colors-->
     <color name="deep_grey">#808E91</color>

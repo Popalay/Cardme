@@ -20,4 +20,8 @@
     <string name="to">To</string>
     <string name="sey_something">Sey something…</string>
     <string name="action_save">Save</string>
+
+    <!-- transition shared elements -->
+    <string name="transition_add_debt" translatable="false">transition_add_debt</string>
+
 </resources>

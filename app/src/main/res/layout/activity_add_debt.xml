@@ -4,15 +4,18 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:onClick="dismiss"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/normal"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/large"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            android:transitionName="@string/transition_add_debt">
 
             <AutoCompleteTextView
                 android:id="@+id/input_to"
@@ -20,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
                 android:background="@null"
-                android:drawableEnd="@drawable/ic_close"
                 android:hint="@string/to"
                 android:lines="1"
                 android:maxLines="1"
