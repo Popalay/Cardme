@@ -41,15 +41,6 @@
             android:text="@{item.redactedNumber}" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/text_holder"
-            android:layout_marginTop="@dimen/normal"
-            android:text="@string/card_holder"
-            android:textAllCaps="true"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
-
-        <TextView
             android:id="@+id/text_holder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

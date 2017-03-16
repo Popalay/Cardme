@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 import io.realm.Sort;
 import rx.Completable;
 import rx.Observable;
+import rx.Single;
 
 @Singleton
 public class CardRepository {
@@ -80,5 +81,10 @@ public class CardRepository {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
             realm.where(Card.class).equalTo(Card.ID, card.getId()).findAll().deleteAllFromRealm();
         }));
+    }
+
+    public Single<Integer> cardsCountByHolder(Holder holder){
+        return RxRealm.getList(realm -> realm.where(Card.class).equalTo(Card.HOLDER_ID, holder.getId()).findAll())
+                .map(List::size);
     }
 }

@@ -13,10 +13,10 @@
 
             <Toolbar
                 android:id="@+id/toolbar"
-                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:navigationIcon="@drawable/ic_back" />
+                android:navigationIcon="@drawable/ic_back"
+                android:theme="@style/Yocard.Toolbar" />
 
         </android.support.design.widget.AppBarLayout>
 

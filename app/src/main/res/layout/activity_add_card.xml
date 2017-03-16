@@ -22,60 +22,82 @@
 
             <Toolbar
                 android:id="@+id/toolbar"
-                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:navigationIcon="@drawable/ic_back" />
+                android:navigationIcon="@drawable/ic_back"
+                android:theme="@style/Yocard.Toolbar" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_height"
+                android:layout_margin="@dimen/normal"
+                android:background="@{card.colorRes}"
+                android:elevation="@dimen/card_elevation"
+                android:orientation="vertical"
+                android:padding="@dimen/normal"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <ImageView
+                    android:layout_width="@dimen/card_type_icon_size"
+                    android:layout_height="@dimen/card_type_icon_size"
+                    android:layout_alignParentEnd="true"
+                    android:src="@{card.iconRes}" />
+
+                <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
+                    android:id="@+id/text_number"
+                    style="@style/CardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@{card.number}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/smallest"
+                    android:text="@={card.holder.name}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
 
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_height"
-            android:layout_margin="@dimen/normal"
-            android:background="@{card.colorRes}"
-            android:elevation="@dimen/card_elevation"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:padding="@dimen/normal"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <ImageView
-                android:layout_width="@dimen/card_type_icon_size"
-                android:layout_height="@dimen/card_type_icon_size"
-                android:layout_alignParentEnd="true"
-                android:src="@{card.iconRes}" />
-
-            <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
-                android:id="@+id/text_number"
-                style="@style/CardNumber"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@{card.number}" />
+                android:hint="@string/holder_name">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/text_holder"
-                android:layout_marginTop="@dimen/normal"
-                android:text="@string/card_holder"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
+                <AutoCompleteTextView
+                    android:id="@+id/text_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/smallest"
+                    android:text="@={card.holder.name}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
-            <AutoCompleteTextView
-                android:id="@+id/text_holder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/normal"
-                android:layout_marginTop="@dimen/smallest"
-                android:background="@null"
-                android:hint="@string/add_card_holder_name"
-                android:text="@={card.holder.name}"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/white"
-                android:textColorHint="@color/text_secondary" />
+            </android.support.design.widget.TextInputLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_save"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/normal"
+            android:text="@string/action_save" />
 
     </android.support.design.widget.CoordinatorLayout>
 

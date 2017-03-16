@@ -12,7 +12,7 @@
     <string name="card_holder">Card holder</string>
     <string name="card_details">Card details</string>
     <string name="action_accept">Accept</string>
-    <string name="add_card_holder_name">Add card holder name</string>
+    <string name="holder_name">Holder name</string>
     <string name="number_copied">Copied to clipboard</string>
     <string name="card_holder_number">%s\'s card</string>
     <string name="action_undo">Undo</string>

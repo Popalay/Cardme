@@ -18,7 +18,7 @@
             android:name=".ui.splash.SplashActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Yocard.SplashTheme">
+            android:theme="@style/Yocard.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

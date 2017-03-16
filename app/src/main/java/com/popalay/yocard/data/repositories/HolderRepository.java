@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Completable;
 import rx.Observable;
 
 @Singleton
@@ -31,5 +32,11 @@ public class HolderRepository {
         return RxRealm.listenElement(realm -> realm.where(Holder.class)
                 .equalTo(Holder.ID, holderId)
                 .findAll());
+    }
+
+    public Completable removeHolder(Holder holder) {
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
+            realm.where(Holder.class).equalTo(Holder.ID, holder.getId()).findAll().deleteAllFromRealm();
+        }));
     }
 }

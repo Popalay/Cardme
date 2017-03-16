@@ -42,7 +42,7 @@
             tools:text="Denis Nikiforov" />
 
         <com.popalay.yocard.ui.base.widgets.SquareTextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/circle_size"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_circle_blue"
             android:elevation="@dimen/small_elevation"
@@ -50,7 +50,6 @@
             android:includeFontPadding="false"
             android:padding="@dimen/small"
             android:text="@{String.valueOf(item.cardsCount)}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/white"
             tools:text="1" />
 

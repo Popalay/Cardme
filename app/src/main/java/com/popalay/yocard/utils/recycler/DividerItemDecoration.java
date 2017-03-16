@@ -70,11 +70,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             outRect.bottom = outRect.top;
         }
 
-        outRect.left = mDividerSize;
-        if (mOrientation == OrientationHelper.VERTICAL) {
-            outRect.right = outRect.left;
-        }
-        if (mWithVertical && mShowLastDivider && position == (state.getItemCount() - 1)) {
+        if (mWithVertical) {
+            outRect.left = mDividerSize;
             outRect.right = outRect.left;
         }
     }
@@ -90,6 +87,5 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             }
         }
     }
-
 
 }

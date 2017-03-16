@@ -74,6 +74,9 @@ public class CardsInteractor {
 
     public Completable removeCard(Card card) {
         return cardRepository.removeCard(card)
+                .andThen(cardRepository.cardsCountByHolder(card.getHolder()))
+                .flatMapCompletable(count -> count == 0 ? holderRepository.removeHolder(card.getHolder())
+                        : Completable.complete())
                 .subscribeOn(Schedulers.io());
     }
 

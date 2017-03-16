@@ -13,13 +13,13 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
-    <style name="Yocard.SplashTheme">
+    <style name="Yocard.Splash">
         <item name="colorPrimaryDark">@color/deep_blue</item>
         <item name="android:windowBackground">@color/deep_blue</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
+    <style name="Yocard.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="DialogTheme" parent="Base.Theme.AppCompat.Light.Dialog">
@@ -46,8 +46,7 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-
-    <style name="BottomBar">
+    <style name="Yocard.BottomBar">
         <item name="android:background">@drawable/bg_bottom_bar</item>
         <item name="itemBackground">@drawable/bg_bottom_bar_item</item>
         <item name="itemIconTint">@color/bottom_bar_item</item>
@@ -65,13 +64,7 @@
 
     <style name="CardNumber">
         <item name="android:gravity">center</item>
-        <item name="android:shadowColor">@color/black</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:lines">1</item>
-        <item name="android:shadowDy">1</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:shadowRadius">1</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
         <item name="android:textColor">@color/white</item>
     </style>

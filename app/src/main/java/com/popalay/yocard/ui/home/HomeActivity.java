@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.popalay.yocard.R;
@@ -15,6 +16,8 @@ import com.popalay.yocard.ui.debts.DebtsFragment;
 import com.popalay.yocard.ui.holders.HoldersFragment;
 
 public class HomeActivity extends BaseActivity {
+
+    private static final int MENU_SETTINGS = Menu.FIRST;
 
     private ActivityHomeBinding b;
     private CommonPagerAdapter pagerAdapter;
@@ -30,8 +33,16 @@ public class HomeActivity extends BaseActivity {
         initUI();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, "Settings")
+                .setIcon(R.drawable.ic_settings)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return true;
+    }
+
     private boolean onNavigationClick(MenuItem item) {
-        int nextPosition;
+        final int nextPosition;
         switch (item.getItemId()) {
             case R.id.cards:
                 nextPosition = 0;
@@ -45,11 +56,13 @@ public class HomeActivity extends BaseActivity {
             default:
                 return false;
         }
-        b.host.setCurrentItem(nextPosition);
+        b.host.setCurrentItem(nextPosition, false);
         return true;
     }
 
     private void initUI() {
+        setActionBar(b.toolbar);
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.host, CardsFragment.newInstance())

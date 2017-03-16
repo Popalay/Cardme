@@ -37,7 +37,7 @@ android {
 }
 
 ext {
-    supportLibrary = '25.2.0'
+    supportLibrary = '25.3.0'
     dagger = '2.9'
     mvpMoxy = '1.4.5'
 }
@@ -76,6 +76,9 @@ dependencies {
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.annimon:stream:1.1.6'
     compile 'com.github.tamir7.contacts:contacts:1.1.4'
+
+    // Widgets
+
 
     testCompile 'junit:junit:4.12'
 }

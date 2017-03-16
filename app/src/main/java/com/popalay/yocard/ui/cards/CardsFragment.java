@@ -127,15 +127,14 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     }
 
     private void scrollToStartIfTop() {
-        if(((LinearLayoutManager) b.listCards.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0){
+        if (((LinearLayoutManager) b.listCards.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
             b.listCards.scrollToPosition(0);
         }
     }
 
     private void initUI() {
         b.listCards.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
-        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this))
-                .attachToRecyclerView(b.listCards);
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listCards);
         adapterWrapper = new CardAdapterWrapper(this);
         adapterWrapper.attachToRecycler(b.listCards);
     }

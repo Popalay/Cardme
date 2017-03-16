@@ -5,11 +5,11 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class SwypeableViewPager extends ViewPager {
+public class SwypelessViewPager extends ViewPager {
 
     private boolean enabled;
 
-    public SwypeableViewPager(Context context, AttributeSet attrs) {
+    public SwypelessViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.enabled = true;
     }
