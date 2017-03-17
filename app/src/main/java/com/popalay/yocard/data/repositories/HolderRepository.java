@@ -34,9 +34,14 @@ public class HolderRepository {
                 .findAll());
     }
 
-    public Completable removeHolder(Holder holder) {
+    public Completable removeHolder(Holder holder, int cards) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
-            realm.where(Holder.class).equalTo(Holder.ID, holder.getId()).findAll().deleteAllFromRealm();
+            final Holder first = realm.where(Holder.class).equalTo(Holder.ID, holder.getId()).findFirst();
+            if (cards <= 0) {
+                first.deleteFromRealm();
+            } else {
+                first.setCardsCount(cards);
+            }
         }));
     }
 }

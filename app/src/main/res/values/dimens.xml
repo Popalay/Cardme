@@ -14,5 +14,6 @@
     <dimen name="circle_size">30dp</dimen>
     <dimen name="small_elevation">2dp</dimen>
     <dimen name="dialog_corners">2dp</dimen>
+    <dimen name="card_corners">4dp</dimen>
 
 </resources>

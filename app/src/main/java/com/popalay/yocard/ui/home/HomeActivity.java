@@ -10,17 +10,14 @@ import android.view.MenuItem;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityHomeBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.ui.base.CommonPagerAdapter;
 import com.popalay.yocard.ui.cards.CardsFragment;
-import com.popalay.yocard.ui.debts.DebtsFragment;
-import com.popalay.yocard.ui.holders.HoldersFragment;
 
 public class HomeActivity extends BaseActivity {
 
     private static final int MENU_SETTINGS = Menu.FIRST;
 
     private ActivityHomeBinding b;
-    private CommonPagerAdapter pagerAdapter;
+    private HomePagerAdapter pagerAdapter;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -68,13 +65,12 @@ public class HomeActivity extends BaseActivity {
                 .replace(R.id.host, CardsFragment.newInstance())
                 .commitAllowingStateLoss();
 
-        pagerAdapter = new CommonPagerAdapter(this, getFragmentManager());
-        pagerAdapter.add(CardsFragment.newInstance(), null);
-        pagerAdapter.add(HoldersFragment.newInstance(), null);
-        pagerAdapter.add(DebtsFragment.newInstance(), null);
+        pagerAdapter = new HomePagerAdapter(getFragmentManager());
 
         b.host.setAdapter(pagerAdapter);
         b.host.setPagingEnabled(false);
+        b.host.setOffscreenPageLimit(pagerAdapter.getCount() - 1);
+
         b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick);
     }
 }

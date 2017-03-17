@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">@color/blue</color>
-    <color name="primary_dark">@color/deep_blue</color>
-    <color name="accent">@color/blue</color>
-    <color name="window">@color/light_grey</color>
-    <color name="text_primary">@color/deep_blue</color>
-    <color name="text_secondary">@color/grey</color>
-
-    <color name="background">@color/light_grey</color>
+    <color name="primary">#607D8B</color>
+    <color name="primary_dark">#455A64</color>
+    <color name="primary_light">#CFD8DC</color>
+    <color name="accent">@color/deep_yellow</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
 
     <color name="white">#FFF</color>
     <color name="black">#111</color>
-    <color name="pink">#FFB6D3</color>
-    <color name="blue">#3078C0</color>
-    <color name="deep_blue">#2F70B3</color>
     <color name="light_grey">#FCFCFC</color>
     <color name="grey">#cfcfcf</color>
+    <color name="yellow">#FEDE01</color>
+    <color name="deep_yellow">#B59401</color>
 
     <color name="scrim">#99323232</color>
 
     <!--card colors-->
-    <color name="deep_grey">#808E91</color>
-    <color name="dark_grey">#253A40</color>
+    <color name="deep_grey">#3699D4</color>
+    <color name="dark_grey">#2764AE</color>
 
     <color name="deep_red">#EE6D6D</color>
     <color name="dark_red">#b65865</color>

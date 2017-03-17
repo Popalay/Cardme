@@ -7,6 +7,6 @@
         android:endColor="@color/deep_grey"
         android:startColor="@color/dark_grey" />
 
-    <corners android:radius="2dp" />
+    <corners android:radius="@dimen/card_corners" />
 
 </shape>
