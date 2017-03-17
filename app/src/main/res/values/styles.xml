@@ -14,8 +14,8 @@
     </style>
 
     <style name="Yocard.Splash">
-        <item name="colorPrimaryDark">@color/deep_blue</item>
-        <item name="android:windowBackground">@color/deep_blue</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:windowBackground">@color/primary_dark</item>
     </style>
 
     <style name="Yocard.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
