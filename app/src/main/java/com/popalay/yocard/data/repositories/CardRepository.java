@@ -47,13 +47,13 @@ public class CardRepository {
         });
     }
 
-    public Observable<List<Card>> getCards() {
+    public Observable<List<Card>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.USAGE, Sort.DESCENDING));
     }
 
-    public Observable<List<Card>> getHolderCards(long holderId) {
+    public Observable<List<Card>> getAllByHolder(long holderId) {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
@@ -77,13 +77,13 @@ public class CardRepository {
         }));
     }
 
-    public Completable removeCard(final Card card) {
+    public Completable remove(final Card card) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
             realm.where(Card.class).equalTo(Card.ID, card.getId()).findAll().deleteAllFromRealm();
         }));
     }
 
-    public Single<Integer> cardsCountByHolder(Holder holder){
+    public Single<Integer> countByHolder(Holder holder){
         return RxRealm.getList(realm -> realm.where(Card.class).equalTo(Card.HOLDER_ID, holder.getId()).findAll())
                 .map(List::size);
     }

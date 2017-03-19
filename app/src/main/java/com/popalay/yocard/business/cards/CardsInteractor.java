@@ -2,13 +2,10 @@ package com.popalay.yocard.business.cards;
 
 import android.content.Context;
 
-import com.annimon.stream.Stream;
 import com.popalay.yocard.data.models.Card;
-import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.data.repositories.CardRepository;
 import com.popalay.yocard.data.repositories.HolderRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -53,17 +50,11 @@ public class CardsInteractor {
     }
 
     public Observable<List<Card>> getCards() {
-        return cardRepository.getCards().subscribeOn(Schedulers.io());
+        return cardRepository.getAll().subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<Card>> getHolderCards(long holderId) {
-        return cardRepository.getHolderCards(holderId).subscribeOn(Schedulers.io());
-    }
-
-    public Observable<List<String>> getAutoCompletedCardHoldersName() {
-        return holderRepository.getHolders()
-                .map(this::transform)
-                .subscribeOn(Schedulers.io());
+    public Observable<List<Card>> getCardsByHolder(long holderId) {
+        return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
     public Completable copyCard(Card card) {
@@ -73,16 +64,8 @@ public class CardsInteractor {
     }
 
     public Completable removeCard(Card card) {
-        return cardRepository.removeCard(card)
-                .andThen(cardRepository.cardsCountByHolder(card.getHolder()))
-                .flatMapCompletable(count -> holderRepository.removeHolder(card.getHolder(), count))
+        return cardRepository.remove(card)
+                .andThen(holderRepository.updateCounts(card.getHolder()))
                 .subscribeOn(Schedulers.io());
-    }
-
-    private List<String> transform(List<Holder> holders) {
-        List<String> names = Stream.of(holders).map(Holder::getName).toList();
-        //Stream.of(Contacts.getQuery().find()).map(Contact::getDisplayName).forEach(names::add);
-        Collections.sort(names);
-        return names;
     }
 }

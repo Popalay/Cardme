@@ -3,6 +3,7 @@ package com.popalay.yocard.ui.addcard;
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.yocard.App;
 import com.popalay.yocard.business.cards.CardsInteractor;
+import com.popalay.yocard.business.holders.HoldersInteractor;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.ui.base.BasePresenter;
 
@@ -15,6 +16,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class AddCardPresenter extends BasePresenter<AddCardView> {
 
     @Inject CardsInteractor cardsInteractor;
+    @Inject HoldersInteractor holderInteractor;
 
     private final CreditCard creditCard;
 
@@ -31,7 +33,7 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
                 .compose(bindToLifecycle().forSingle())
                 .subscribe(getViewState()::showCardDetails, this::handleBaseError);
 
-        cardsInteractor.getAutoCompletedCardHoldersName()
+        holderInteractor.getHolderNames()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);

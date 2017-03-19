@@ -1,12 +1,24 @@
 package com.popalay.yocard.data.models;
 
-import io.realm.RealmObject;
+import com.github.nitrico.lastadapter.StableId;
 
-public class Debt extends RealmObject {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Debt extends RealmObject implements StableId {
+
+    public static final String ID = "id";
+    public static final String CREATED_AT = "createdAt";
+    public static final String HOLDER_ID = "holder.id";
+
+    @PrimaryKey
+    private long id;
 
     private Holder holder;
 
     private String message;
+
+    private long createdAt;
 
     public Debt() {
     }
@@ -14,6 +26,14 @@ public class Debt extends RealmObject {
     public Debt(Holder holder, String message) {
         this.holder = holder;
         this.message = message;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Holder getHolder() {
@@ -32,11 +52,16 @@ public class Debt extends RealmObject {
         this.message = message;
     }
 
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
-    public String toString() {
-        return "Debt{" +
-                "holder=" + holder +
-                ", message='" + message + '\'' +
-                '}';
+    public long getStableId() {
+        return id;
     }
 }

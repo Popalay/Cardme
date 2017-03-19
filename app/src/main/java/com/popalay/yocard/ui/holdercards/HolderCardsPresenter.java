@@ -32,7 +32,7 @@ public class HolderCardsPresenter extends BasePresenter<HolderCardsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        cardsInteractor.getHolderCards(holderId)
+        cardsInteractor.getCardsByHolder(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCards, this::handleBaseError);

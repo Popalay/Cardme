@@ -16,6 +16,8 @@ public class Holder extends RealmObject implements StableId {
 
     private int cardsCount;
 
+    private int debtCount;
+
     public Holder() {
     }
 
@@ -45,6 +47,14 @@ public class Holder extends RealmObject implements StableId {
 
     public void setCardsCount(int cardsCount) {
         this.cardsCount = cardsCount;
+    }
+
+    public int getDebtCount() {
+        return debtCount;
+    }
+
+    public void setDebtCount(int debtCount) {
+        this.debtCount = debtCount;
     }
 
     @Override

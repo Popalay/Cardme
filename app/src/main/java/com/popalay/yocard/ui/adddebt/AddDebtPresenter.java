@@ -2,7 +2,8 @@ package com.popalay.yocard.ui.adddebt;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.yocard.App;
-import com.popalay.yocard.business.cards.CardsInteractor;
+import com.popalay.yocard.business.debts.DebtsInteractor;
+import com.popalay.yocard.business.holders.HoldersInteractor;
 import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.ui.base.BasePresenter;
 
@@ -13,9 +14,8 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class AddDebtPresenter extends BasePresenter<AddDebtView> {
 
-    private static final String TAG = "AddDebtPresenter";
-
-    @Inject CardsInteractor cardsInteractor;
+    @Inject DebtsInteractor debtsInteractor;
+    @Inject HoldersInteractor holdersInteractor;
 
     public AddDebtPresenter() {
         App.appComponent().inject(this);
@@ -25,14 +25,16 @@ public class AddDebtPresenter extends BasePresenter<AddDebtView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        cardsInteractor.getAutoCompletedCardHoldersName()
+        holdersInteractor.getHolderNames()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);
     }
 
     public void onSaveClick(Debt debt) {
-        //TODO save debt
-        getViewState().close();
+        debtsInteractor.save(debt)
+                .compose(bindToLifecycle().forCompletable())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::close, this::handleBaseError);
     }
 }
