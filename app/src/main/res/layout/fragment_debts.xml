@@ -18,7 +18,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_write"
-            style="@style/FloatingButton"
+            style="@style/Yocard.FloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

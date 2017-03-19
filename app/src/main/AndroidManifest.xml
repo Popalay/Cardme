@@ -43,10 +43,10 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.debts.AddDebtActivity"
+            android:name=".ui.adddebt.AddDebtActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Yocard.Translucent.DialogActivityTheme" />
+            android:theme="@style/Yocard.Translucent.DialogActivity" />
 
     </application>
 

@@ -11,6 +11,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.ActivityAddCardBinding;
+import com.popalay.yocard.ui.addcard.models.AddCardViewModel;
 import com.popalay.yocard.ui.base.BaseActivity;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
 
     @Override
     public void showCardDetails(Card card) {
-        b.setCard(card);
+        b.setModel(new AddCardViewModel(card));
     }
 
     @Override
@@ -58,6 +59,6 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
         setActionBar(b.toolbar);
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
-        b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getCard()));
+        b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getModel().getCard()));
     }
 }

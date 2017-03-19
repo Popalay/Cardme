@@ -1,4 +1,4 @@
-package com.popalay.yocard.ui.debts;
+package com.popalay.yocard.ui.adddebt;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.transition.Transition;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityAddDebtBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
@@ -16,9 +18,13 @@ import com.popalay.yocard.ui.transitions.FabTransform;
 import com.popalay.yocard.ui.transitions.MorphTransform;
 import com.popalay.yocard.utils.TransitionUtils;
 
-public class AddDebtActivity extends BaseActivity {
+import java.util.List;
+
+public class AddDebtActivity extends BaseActivity implements AddDebtView {
 
     private static final String TAG = "AddDebtActivity";
+
+    @InjectPresenter AddDebtPresenter presenter;
 
     private ActivityAddDebtBinding b;
 
@@ -57,6 +63,17 @@ public class AddDebtActivity extends BaseActivity {
     public void dismiss(View view) {
         setResult(Activity.RESULT_CANCELED);
         finishAfterTransition();
+    }
+
+    @Override
+    public void setCompletedCardHolders(List<String> holders) {
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, holders);
+        b.inputTo.setAdapter(adapter);
+    }
+
+    @Override
+    public void enableSave(boolean enable) {
+
     }
 
     private void initUI() {

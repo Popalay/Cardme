@@ -1,6 +1,7 @@
 package com.popalay.yocard.injection;
 
 import com.popalay.yocard.ui.addcard.AddCardPresenter;
+import com.popalay.yocard.ui.adddebt.AddDebtPresenter;
 import com.popalay.yocard.ui.cards.CardsPresenter;
 import com.popalay.yocard.ui.holdercards.HolderCardsPresenter;
 import com.popalay.yocard.ui.holders.HoldersPresenter;
@@ -22,4 +23,6 @@ public interface AppComponent {
     void inject(HoldersPresenter presenter);
 
     void inject(HolderCardsPresenter presenter);
+
+    void inject(AddDebtPresenter presenter);
 }

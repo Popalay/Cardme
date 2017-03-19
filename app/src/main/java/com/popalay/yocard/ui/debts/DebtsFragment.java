@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
+import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.transitions.FabTransform;
 

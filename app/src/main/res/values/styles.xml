@@ -22,17 +22,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="DialogTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+    <style name="Yocard.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/accent</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
 
-    <style name="ProgressDialogTheme" parent="DialogTheme">
+    <style name="Yocard.Dialog.Progress">
         <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Yocard.Translucent">
-        <!-- using a semi-transparent window background for the drag-back gesture -->
         <item name="android:windowBackground">@color/scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -42,7 +41,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="Yocard.Translucent.DialogActivityTheme">
+    <style name="Yocard.Translucent.DialogActivity">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
@@ -53,12 +52,12 @@
         <item name="itemTextColor">@color/bottom_bar_item</item>
     </style>
 
-    <style name="FloatingButton">
+    <style name="Yocard.FloatingButton">
         <item name="android:layout_margin">@dimen/normal</item>
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="CardNumber">
+    <style name="Yocard.CardNumber">
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>

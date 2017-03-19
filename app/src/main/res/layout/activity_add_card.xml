@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="card"
-            type="com.popalay.yocard.data.models.Card" />
+            name="model"
+            type="com.popalay.yocard.ui.addcard.models.AddCardViewModel" />
 
     </data>
 
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/card_height"
                 android:layout_margin="@dimen/normal"
-                android:background="@{card.colorRes}"
+                android:background="@{model.card.colorRes}"
                 android:elevation="@dimen/card_elevation"
                 android:orientation="vertical"
                 android:padding="@dimen/normal"
@@ -41,15 +41,15 @@
                     android:layout_width="@dimen/card_type_icon_size"
                     android:layout_height="@dimen/card_type_icon_size"
                     android:layout_alignParentEnd="true"
-                    android:src="@{card.iconRes}" />
+                    android:src="@{model.card.iconRes}" />
 
                 <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
                     android:id="@+id/text_number"
-                    style="@style/CardNumber"
+                    style="@style/Yocard.CardNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@{card.number}" />
+                    android:text="@{model.card.number}" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/normal"
                     android:layout_marginTop="@dimen/smallest"
-                    android:text="@={card.holder.name}"
+                    android:text="@={model.holderName}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/white" />
 
@@ -83,7 +83,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/normal"
                     android:layout_marginTop="@dimen/smallest"
-                    android:text="@={card.holder.name}"
+                    android:text="@={model.holderName}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
             </android.support.design.widget.TextInputLayout>

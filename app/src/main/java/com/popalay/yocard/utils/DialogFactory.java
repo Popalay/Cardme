@@ -12,7 +12,7 @@ import com.popalay.yocard.R;
 public final class DialogFactory {
 
     public static Dialog createSimpleOkErrorDialog(Context context, String message) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.DialogTheme)
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Yocard_Dialog)
                 .setTitle(R.string.error)
                 .setMessage(message)
                 .setPositiveButton(R.string.action_ok, null);
@@ -21,7 +21,7 @@ public final class DialogFactory {
 
     public static Dialog createSimpleInfoDialog(Context context, String message,
             @Nullable DialogInterface.OnDismissListener onDismiss) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.DialogTheme)
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Yocard_Dialog)
                 .setMessage(message)
                 .setOnDismissListener(onDismiss)
                 .setPositiveButton(R.string.action_ok, null);
@@ -31,7 +31,7 @@ public final class DialogFactory {
     public static Dialog createSimpleOkCancelDialog(Context context, String message,
             @Nullable DialogInterface.OnClickListener positiveButtonClickListener,
             @Nullable DialogInterface.OnDismissListener onDismissListener) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.DialogTheme)
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Yocard_Dialog)
                 .setMessage(message)
                 .setPositiveButton(R.string.action_ok, positiveButtonClickListener)
                 .setOnDismissListener(onDismissListener)
@@ -40,7 +40,7 @@ public final class DialogFactory {
     }
 
     public static ProgressDialog createProgressDialog(Context context, String message) {
-        final ProgressDialog progressDialog = new ProgressDialog(context, R.style.ProgressDialogTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(context, R.style.Yocard_Dialog_Progress);
         progressDialog.setMessage(message);
         progressDialog.setCancelable(false);
         return progressDialog;

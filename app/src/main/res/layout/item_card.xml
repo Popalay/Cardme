@@ -34,7 +34,7 @@
 
         <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
             android:id="@+id/text_number"
-            style="@style/CardNumber"
+            style="@style/Yocard.CardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
