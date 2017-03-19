@@ -7,12 +7,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.transition.Transition;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityAddDebtBinding;
+import com.popalay.yocard.ui.adddebt.models.AddDebtViewModel;
 import com.popalay.yocard.ui.base.BaseActivity;
 import com.popalay.yocard.ui.transitions.FabTransform;
 import com.popalay.yocard.ui.transitions.MorphTransform;
@@ -36,6 +36,7 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_add_debt);
+        b.setModel(new AddDebtViewModel());
 
         if (!FabTransform.setup(this, b.container)) {
             MorphTransform.setup(this, b.container,
@@ -57,10 +58,11 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
 
     @Override
     public void onBackPressed() {
-        dismiss(null);
+        close();
     }
 
-    public void dismiss(View view) {
+    @Override
+    public void close() {
         setResult(Activity.RESULT_CANCELED);
         finishAfterTransition();
     }
@@ -71,12 +73,7 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
         b.inputTo.setAdapter(adapter);
     }
 
-    @Override
-    public void enableSave(boolean enable) {
-
-    }
-
     private void initUI() {
-        b.buttonSave.setOnClickListener(v -> close());
+        b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().getDebt()));
     }
 }

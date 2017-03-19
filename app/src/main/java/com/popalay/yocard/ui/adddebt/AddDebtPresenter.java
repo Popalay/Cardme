@@ -13,6 +13,8 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class AddDebtPresenter extends BasePresenter<AddDebtView> {
 
+    private static final String TAG = "AddDebtPresenter";
+
     @Inject CardsInteractor cardsInteractor;
 
     public AddDebtPresenter() {
@@ -30,6 +32,7 @@ public class AddDebtPresenter extends BasePresenter<AddDebtView> {
     }
 
     public void onSaveClick(Debt debt) {
-
+        //TODO save debt
+        getViewState().close();
     }
 }

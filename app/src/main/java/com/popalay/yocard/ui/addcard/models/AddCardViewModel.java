@@ -1,34 +1,24 @@
 package com.popalay.yocard.ui.addcard.models;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import android.databinding.Observable;
+import android.databinding.ObservableField;
 
-import com.popalay.yocard.BR;
 import com.popalay.yocard.data.models.Card;
 
-public class AddCardViewModel extends BaseObservable {
+public class AddCardViewModel {
 
-    private Card card;
+    public final ObservableField<String> holderName = new ObservableField<>();
+
+    public final Card card;
 
     public AddCardViewModel(Card card) {
         this.card = card;
-    }
 
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
-    @Bindable
-    public String getHolderName() {
-        return card.getHolder().getName();
-    }
-
-    public void setHolderName(String holderName) {
-        card.getHolder().setName(holderName);
-        notifyPropertyChanged(BR.holderName);
+        holderName.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                card.getHolder().setName(holderName.get());
+            }
+        });
     }
 }

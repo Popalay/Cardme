@@ -11,5 +11,4 @@ public interface AddDebtView extends BaseView {
 
     void setCompletedCardHolders(List<String> holders);
 
-    void enableSave(boolean enable);
 }

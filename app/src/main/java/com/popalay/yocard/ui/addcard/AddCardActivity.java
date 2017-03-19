@@ -59,6 +59,6 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
         setActionBar(b.toolbar);
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
-        b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getModel().getCard()));
+        b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getModel().card));
     }
 }

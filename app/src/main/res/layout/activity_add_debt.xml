@@ -3,9 +3,11 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
         <variable
-            name="debt"
-            type="com.popalay.yocard.data.models.Debt" />
+            name="model"
+            type="com.popalay.yocard.ui.adddebt.models.AddDebtViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -34,7 +36,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="@dimen/small"
-                android:text="@={debt.holder.name}"
+                android:text="@={model.to}"
                 android:textStyle="bold" />
 
             <View
@@ -51,7 +53,7 @@
                 android:background="@null"
                 android:hint="@string/sey_something"
                 android:padding="@dimen/small"
-                android:text="@={debt.message}" />
+                android:text="@={model.message}" />
 
             <Button
                 android:id="@+id/button_save"
@@ -61,7 +63,7 @@
                 android:layout_marginBottom="@dimen/normal"
                 android:layout_marginStart="@dimen/small"
                 android:layout_marginTop="@dimen/small"
-                android:enabled="@{!debt.holder.name.empty &amp;&amp; !debt.message.empty}"
+                android:enabled="@{!TextUtils.isEmpty(model.to) &amp;&amp; !TextUtils.isEmpty(model.message)}"
                 android:text="@string/action_save" />
 
         </LinearLayout>

@@ -31,4 +31,12 @@ public class Debt extends RealmObject {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "Debt{" +
+                "holder=" + holder +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
