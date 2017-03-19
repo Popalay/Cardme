@@ -11,9 +11,9 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="dismiss"
         android:orientation="vertical">
 
         <LinearLayout
@@ -63,7 +63,7 @@
                 android:layout_marginBottom="@dimen/normal"
                 android:layout_marginStart="@dimen/small"
                 android:layout_marginTop="@dimen/small"
-                android:enabled="@{!TextUtils.isEmpty(model.to) &amp;&amp; !TextUtils.isEmpty(model.message)}"
+                android:enabled="@{model.canSave}"
                 android:text="@string/action_save" />
 
         </LinearLayout>

@@ -74,6 +74,7 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     }
 
     private void initUI() {
-        b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().getDebt()));
+        b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().debt));
+        b.root.setOnClickListener(v -> close());
     }
 }
