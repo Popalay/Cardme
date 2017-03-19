@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.popalay.yocard.data.models.Debt" />
+
+        <variable
+            name="listener"
+            type="com.popalay.yocard.ui.adapters.HolderAdapterWrapper.HolderListener" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/debt_height"
+        android:background="@color/white"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/normal"
+        android:stateListAnimator="@anim/lift_on_touch">
+
+        <ImageView
+            android:id="@+id/image_coin"
+            android:layout_width="@dimen/circle_size"
+            android:layout_height="@dimen/circle_size"
+            android:layout_centerVertical="true"
+            android:elevation="@dimen/small_elevation"
+            android:src="@drawable/ic_coin" />
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal"
+            android:layout_toEndOf="@id/image_coin"
+            android:text="@{item.message}"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textStyle="bold"
+            tools:text="$100" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/text_message"
+            android:layout_below="@id/text_message"
+            android:layout_marginTop="@dimen/smallest"
+            android:layout_toEndOf="@id/image_coin"
+            android:text="@{item.holder.name}"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            tools:text="$100" />
+
+    </RelativeLayout>
+
+</layout>

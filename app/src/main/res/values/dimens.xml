@@ -11,6 +11,7 @@
     <dimen name="card_elevation">8dp</dimen>
 
     <dimen name="holder_height">50dp</dimen>
+    <dimen name="debt_height">75dp</dimen>
     <dimen name="circle_size">30dp</dimen>
     <dimen name="small_elevation">2dp</dimen>
     <dimen name="dialog_corners">2dp</dimen>

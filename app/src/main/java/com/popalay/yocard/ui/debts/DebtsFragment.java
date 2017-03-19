@@ -10,15 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.github.nitrico.lastadapter.LastAdapter;
+import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
+import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.transitions.FabTransform;
+import com.popalay.yocard.utils.ViewUtil;
+import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
-public class DebtsFragment extends BaseFragment {
+import java.util.List;
 
-    //@InjectPresenter CardsPresenter presenter;
+public class DebtsFragment extends BaseFragment implements DebtsView {
+
+    @InjectPresenter DebtsPresenter presenter;
 
     private FragmentDebtsBinding b;
 
@@ -41,13 +49,25 @@ public class DebtsFragment extends BaseFragment {
         initUI();
     }
 
+    @Override
+    public void showAddDialog() {
+        final Intent intent = AddDebtActivity.getIntent(getActivity());
+        FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
+                getString(R.string.transition_add_debt));
+        startActivity(AddDebtActivity.getIntent(getActivity()), options.toBundle());
+    }
+
+    @Override
+    public void setDebts(List<Debt> items) {
+        LastAdapter adapter = LastAdapter.with(items, BR.item, true).map(Debt.class, R.layout.item_debt);
+        b.listDebts.setAdapter(adapter);
+    }
+
     private void initUI() {
-        b.buttonWrite.setOnClickListener(v -> {
-            final Intent intent = AddDebtActivity.getIntent(getActivity());
-            FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
-                    getString(R.string.transition_add_debt));
-            startActivity(AddDebtActivity.getIntent(getActivity()), options.toBundle());
-        });
+        b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
+
+        b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
+                R.color.grey, 1, ViewUtil.dpToPx(56), 0));
     }
 }
