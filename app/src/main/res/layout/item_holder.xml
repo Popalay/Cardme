@@ -50,7 +50,7 @@
             android:includeFontPadding="false"
             android:padding="@dimen/small"
             android:text="@{String.valueOf(item.cardsCount)}"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_text_invert"
             tools:text="1" />
 
     </LinearLayout>

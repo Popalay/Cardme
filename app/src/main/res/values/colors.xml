@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#42424E</color>
-    <color name="primary_dark">#3F3F4B</color>
-    <color name="primary_light">#CFD8DC</color>
-    <color name="accent">#ED6368</color>
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#757575</color>
-    <color name="icons">#FFFFFF</color>
-    <color name="divider">#BDBDBD</color>
+    <color name="primary">#49525D</color>
+    <color name="primary_dark">#444D58</color>
+    <color name="accent">#4ED4B8</color>
+    <color name="primary_text">#3a4149</color>
+    <color name="primary_text_invert">@color/white</color>
+    <color name="secondary_text">#7A8189</color>
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
 
@@ -15,8 +13,6 @@
     <color name="black">#111</color>
     <color name="light_grey">#FCFCFC</color>
     <color name="grey">#cfcfcf</color>
-    <color name="yellow">#FEDE01</color>
-    <color name="deep_yellow">#B59401</color>
 
     <color name="scrim">#99323232</color>
 
@@ -27,8 +23,8 @@
     <color name="deep_red">#EE6D6D</color>
     <color name="dark_red">#b65865</color>
 
-    <color name="deep_green">#4ABFA5</color>
-    <color name="dark_green">#24918e</color>
+    <color name="deep_green">#397381</color>
+    <color name="dark_green">#447675</color>
 
     <color name="deep_purple">#9c6dc6</color>
     <color name="dark_purple">#7866B9</color>
