@@ -5,30 +5,36 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.github.nitrico.lastadapter.LastAdapter;
-import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
+import com.popalay.yocard.ui.adapters.DebtAdapterWrapper;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.transitions.FabTransform;
 import com.popalay.yocard.utils.ViewUtil;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
+import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
 import java.util.List;
 
-public class DebtsFragment extends BaseFragment implements DebtsView {
+public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItemTouchHelperCallback.SwipeCallback {
 
     @InjectPresenter DebtsPresenter presenter;
 
     private FragmentDebtsBinding b;
+    private DebtAdapterWrapper adapterWrapper;
 
     public static DebtsFragment newInstance() {
         return new DebtsFragment();
@@ -60,14 +66,57 @@ public class DebtsFragment extends BaseFragment implements DebtsView {
 
     @Override
     public void setDebts(List<Debt> items) {
-        LastAdapter adapter = LastAdapter.with(items, BR.item, true).map(Debt.class, R.layout.item_debt);
-        b.listDebts.setAdapter(adapter);
+        adapterWrapper.setItems(items);
+        scrollToStartIfTop();
+    }
+
+    @Override
+    public void removeItem(int position) {
+        adapterWrapper.remove(position);
+    }
+
+    @Override
+    public void resetItem(Debt item, int position) {
+        adapterWrapper.add(item, position);
+        b.listDebts.smoothScrollToPosition(position);
+    }
+
+    @Override
+    public void showRemoveUndoAction(Debt item, int position) {
+        Snackbar.make(b.listDebts, R.string.debt_removed, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(item, position))
+                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        if (event == DISMISS_EVENT_ACTION) {
+                            return;
+                        }
+                        presenter.onRemoveUndoActionDismissed(item, position);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder) {
+        final int position = viewHolder.getAdapterPosition();
+        final Debt debt = adapterWrapper.get(position);
+        presenter.onItemSwiped(debt, position);
+    }
+
+    private void scrollToStartIfTop() {
+        if (((LinearLayoutManager) b.listDebts.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
+            b.listDebts.scrollToPosition(0);
+        }
     }
 
     private void initUI() {
         b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
-
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listDebts);
         b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
                 R.color.grey, 1, ViewUtil.dpToPx(56), 0));
+        adapterWrapper = new DebtAdapterWrapper();
+        adapterWrapper.attachToRecycler(b.listDebts);
     }
 }

@@ -37,7 +37,7 @@
             style="@style/Yocard.CardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="@{item.redactedNumber}" />
 
         <TextView

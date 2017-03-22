@@ -13,7 +13,6 @@ import javax.inject.Singleton;
 
 import rx.Completable;
 import rx.Observable;
-import rx.Single;
 
 @Singleton
 public class DebtsRepository {
@@ -62,12 +61,6 @@ public class DebtsRepository {
 
     public Completable remove(Debt debt) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm ->
-                realm.where(Holder.class).equalTo(Debt.ID, debt.getId()).findAll()
-                        .deleteAllFromRealm()));
-    }
-
-    public Single<Integer> countByHolder(Holder holder) {
-        return RxRealm.getList(realm -> realm.where(Debt.class).equalTo(Debt.HOLDER_ID, holder.getId()).findAll())
-                .map(List::size);
+                realm.where(Debt.class).equalTo(Debt.ID, debt.getId()).findAll().deleteAllFromRealm()));
     }
 }

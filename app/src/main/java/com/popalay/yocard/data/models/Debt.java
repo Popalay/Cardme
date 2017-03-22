@@ -64,4 +64,37 @@ public class Debt extends RealmObject implements StableId {
     public long getStableId() {
         return id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Debt debt = (Debt) o;
+
+        if (id != debt.id) {
+            return false;
+        }
+        if (createdAt != debt.createdAt) {
+            return false;
+        }
+        if (holder != null ? !holder.equals(debt.holder) : debt.holder != null) {
+            return false;
+        }
+        return message != null ? message.equals(debt.message) : debt.message == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (holder != null ? holder.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + (int) (createdAt ^ (createdAt >>> 32));
+        return result;
+    }
 }

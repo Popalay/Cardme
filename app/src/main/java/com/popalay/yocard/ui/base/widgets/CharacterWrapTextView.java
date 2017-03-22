@@ -2,10 +2,11 @@ package com.popalay.yocard.ui.base.widgets;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-public class CharacterWrapTextView extends android.support.v7.widget.AppCompatTextView {
+public class CharacterWrapTextView extends AppCompatTextView {
 
     private static final String TAG = "CharacterWrapTextView";
 

@@ -92,19 +92,19 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     }
 
     @Override
-    public void removeCard(int position) {
+    public void removeItem(int position) {
         adapterWrapper.remove(position);
     }
 
     @Override
-    public void resetCard(Card card, int position) {
+    public void resetItem(Card card, int position) {
         adapterWrapper.add(card, position);
         b.listCards.smoothScrollToPosition(position);
     }
 
     @Override
     public void showRemoveUndoAction(Card card, int position) {
-        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_LONG)
+        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card, position))
                 .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
                     @Override
@@ -123,7 +123,7 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
         final int position = viewHolder.getAdapterPosition();
         final Card card = adapterWrapper.get(position);
-        presenter.onCardSwiped(card, position);
+        presenter.onItemSwiped(card, position);
     }
 
     private void scrollToStartIfTop() {

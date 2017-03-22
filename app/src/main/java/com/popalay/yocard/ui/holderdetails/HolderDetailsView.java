@@ -17,10 +17,4 @@ public interface HolderDetailsView extends BaseView {
 
     void setDebts(List<Debt> debts);
 
-    void removeCard(int position);
-
-    void resetCard(Card card, int position);
-
-    void showRemoveUndoAction(Card card, int position);
-
 }

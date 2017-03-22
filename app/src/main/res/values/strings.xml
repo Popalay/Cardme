@@ -17,6 +17,7 @@
     <string name="card_holder_number">%s\'s card</string>
     <string name="action_undo">Undo</string>
     <string name="card_removed">Card was removed</string>
+    <string name="debt_removed">Debt was removed</string>
     <string name="to">To</string>
     <string name="sey_something">Sey something…</string>
     <string name="action_save">Save</string>
