@@ -44,12 +44,25 @@
         <com.popalay.yocard.ui.base.widgets.SquareTextView
             android:layout_width="@dimen/circle_size"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_circle_blue"
+            android:background="@drawable/bg_circle_card"
             android:elevation="@dimen/small_elevation"
             android:gravity="center"
             android:includeFontPadding="false"
             android:padding="@dimen/small"
             android:text="@{String.valueOf(item.cardsCount)}"
+            android:textColor="@color/primary_text_invert"
+            tools:text="1" />
+
+        <com.popalay.yocard.ui.base.widgets.SquareTextView
+            android:layout_width="@dimen/circle_size"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_circle_debt"
+            android:elevation="@dimen/small_elevation"
+            android:gravity="center"
+            android:layout_marginStart="-4dp"
+            android:includeFontPadding="false"
+            android:padding="@dimen/small"
+            android:text="@{String.valueOf(item.debtCount)}"
             android:textColor="@color/primary_text_invert"
             tools:text="1" />
 

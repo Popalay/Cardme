@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+
+            <solid android:color="@color/primary_dark" />
+
+            <stroke
+                android:width="@dimen/smallest"
+                android:color="@color/primary" />
+
+        </shape>
+    </item>
+
+    <item
+        android:bottom="@dimen/smallest"
+        android:drawable="@drawable/ic_card_grey"
+        android:left="@dimen/smallest"
+        android:right="@dimen/smallest"
+        android:top="@dimen/smallest">
+
+    </item>
+
+</layer-list>
