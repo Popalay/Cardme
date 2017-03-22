@@ -1,4 +1,4 @@
-package com.popalay.yocard.utils;
+package com.popalay.yocard.utils.behaviors;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

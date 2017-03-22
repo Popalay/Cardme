@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="fab_hide_behavior">com.popalay.yocard.utils.ScrollAwareFabBehavior</string>
+    <string name="fab_hide_behavior">com.popalay.yocard.utils.behaviors.ScrollAwareFabBehavior</string>
+    <string name="bottom_navigation_behavior">com.popalay.yocard.utils.behaviors.BottomNavigationBehavior</string>
 
 </resources>

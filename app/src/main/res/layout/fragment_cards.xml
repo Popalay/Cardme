@@ -28,8 +28,8 @@
             android:layout_gravity="bottom|end"
             android:onClick="@{() -> presenter.onAddClick()}"
             android:src="@drawable/ic_add"
-            app:fabSize="normal"
-            app:layout_behavior="@string/fab_hide_behavior" />
+            app:layout_behavior="@string/fab_hide_behavior"
+            app:rippleColor="@color/primary" />
 
     </android.support.design.widget.CoordinatorLayout>
 

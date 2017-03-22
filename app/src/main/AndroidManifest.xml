@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.holdercards.HolderCardsActivity"
+            android:name=".ui.holderdetails.HolderDetailsActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait" />
 

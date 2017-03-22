@@ -4,7 +4,7 @@ import com.popalay.yocard.ui.addcard.AddCardPresenter;
 import com.popalay.yocard.ui.adddebt.AddDebtPresenter;
 import com.popalay.yocard.ui.cards.CardsPresenter;
 import com.popalay.yocard.ui.debts.DebtsPresenter;
-import com.popalay.yocard.ui.holdercards.HolderCardsPresenter;
+import com.popalay.yocard.ui.holderdetails.HolderDetailsPresenter;
 import com.popalay.yocard.ui.holders.HoldersPresenter;
 
 import javax.inject.Singleton;
@@ -23,7 +23,7 @@ public interface AppComponent {
 
     void inject(HoldersPresenter presenter);
 
-    void inject(HolderCardsPresenter presenter);
+    void inject(HolderDetailsPresenter presenter);
 
     void inject(AddDebtPresenter presenter);
 

@@ -13,7 +13,7 @@ import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.FragmentHoldersBinding;
 import com.popalay.yocard.ui.adapters.HolderAdapterWrapper;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.ui.holdercards.HolderCardsActivity;
+import com.popalay.yocard.ui.holderdetails.HolderDetailsActivity;
 import com.popalay.yocard.utils.ViewUtil;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
@@ -52,7 +52,7 @@ public class HoldersFragment extends BaseFragment implements HoldersView, Holder
 
     @Override
     public void openHolderCards(Holder holder) {
-        startActivity(HolderCardsActivity.getIntent(getActivity(), holder));
+        startActivity(HolderDetailsActivity.getIntent(getActivity(), holder));
     }
 
     @Override
