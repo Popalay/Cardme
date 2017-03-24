@@ -23,19 +23,19 @@
         android:onClick="@{() -> listener.onHolderClick(item)}"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/normal"
-        android:paddingStart="@dimen/normal"
-        android:stateListAnimator="@anim/lift_on_touch">
+        android:paddingStart="@dimen/normal">
 
         <ImageView
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
+            android:layout_marginEnd="@dimen/normal"
             android:elevation="@dimen/small_elevation"
             android:src="@drawable/ic_man" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal"
+            android:layout_marginStart="@dimen/small"
             android:layout_weight="1"
             android:text="@{item.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
@@ -56,10 +56,10 @@
         <com.popalay.yocard.ui.base.widgets.SquareTextView
             android:layout_width="@dimen/circle_size"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
             android:background="@drawable/bg_circle_debt"
             android:elevation="@dimen/small_elevation"
             android:gravity="center"
-            android:layout_marginStart="-4dp"
             android:includeFontPadding="false"
             android:padding="@dimen/small"
             android:text="@{String.valueOf(item.debtCount)}"

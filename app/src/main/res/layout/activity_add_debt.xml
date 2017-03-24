@@ -60,8 +60,9 @@
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginBottom="@dimen/normal"
-                android:layout_marginStart="@dimen/small"
+                android:layout_marginEnd="@dimen/small"
                 android:layout_marginTop="@dimen/small"
                 android:enabled="@{model.canSave}"
                 android:text="@string/action_save" />

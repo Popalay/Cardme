@@ -58,14 +58,14 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initUI() {
-        setActionBar(b.toolbar);
+        setSupportActionBar(b.toolbar);
 
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.host, CardsFragment.newInstance())
                 .commitAllowingStateLoss();
 
-        pagerAdapter = new HomePagerAdapter(getFragmentManager());
+        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
 
         b.host.setAdapter(pagerAdapter);
         b.host.setPagingEnabled(false);

@@ -3,9 +3,9 @@ package com.popalay.yocard.ui.base;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.arellomobile.mvp.MvpFragment;
+import com.arellomobile.mvp.MvpAppCompatFragment;
 
-public abstract class BaseFragment extends MvpFragment implements BaseView {
+public abstract class BaseFragment extends MvpAppCompatFragment implements BaseView {
 
     @NonNull
     public BaseActivity getBaseActivity() {

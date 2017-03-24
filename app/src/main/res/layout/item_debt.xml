@@ -21,14 +21,14 @@
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/normal"
-        android:stateListAnimator="@anim/lift_on_touch">
+        android:padding="@dimen/normal">
 
         <ImageView
             android:id="@+id/image_coin"
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/normal"
             android:elevation="@dimen/small_elevation"
             android:src="@drawable/ic_coin" />
 
@@ -36,7 +36,7 @@
             android:id="@+id/text_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal"
+            android:layout_marginStart="@dimen/small"
             android:layout_toEndOf="@id/image_coin"
             android:text="@{item.message}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"

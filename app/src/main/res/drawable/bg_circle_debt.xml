@@ -4,21 +4,21 @@
     <item>
         <shape android:shape="oval">
 
-            <solid android:color="@color/primary_dark" />
+            <solid android:color="@color/yellow" />
 
             <stroke
                 android:width="@dimen/smallest"
-                android:color="@color/primary" />
+                android:color="@color/orange" />
 
         </shape>
     </item>
 
     <item
-        android:bottom="@dimen/smallest"
+        android:bottom="@dimen/small"
         android:drawable="@drawable/ic_money_grey"
-        android:left="@dimen/smallest"
-        android:right="@dimen/smallest"
-        android:top="@dimen/smallest">
+        android:left="@dimen/small"
+        android:right="@dimen/small"
+        android:top="@dimen/small">
 
     </item>
 

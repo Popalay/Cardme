@@ -17,7 +17,6 @@ import com.popalay.yocard.databinding.ActivityHolderDetailsBinding;
 import com.popalay.yocard.ui.adapters.CardAdapterWrapper;
 import com.popalay.yocard.ui.adapters.DebtAdapterWrapper;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.utils.ViewUtil;
 import com.popalay.yocard.utils.recycler.DividerItemDecoration;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
@@ -31,8 +30,8 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     private ActivityHolderDetailsBinding b;
 
-    private CardAdapterWrapper cardsAadapterWrapper;
-    private DebtAdapterWrapper debtsAadapterWrapper;
+    private CardAdapterWrapper cardsAdapterWrapper;
+    private DebtAdapterWrapper debtsAdapterWrapper;
 
     public static Intent getIntent(Context context, Holder holder) {
         final Intent intent = new Intent(context, HolderDetailsActivity.class);
@@ -54,17 +53,17 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void setHolderName(String name) {
-        setTitle(name);
+        b.toolbar.setTitle(name);
     }
 
     @Override
     public void setCards(List<Card> cards) {
-        cardsAadapterWrapper.setItems(cards);
+        cardsAdapterWrapper.setItems(cards);
     }
 
     @Override
     public void setDebts(List<Debt> debts) {
-        debtsAadapterWrapper.setItems(debts);
+        debtsAdapterWrapper.setItems(debts);
     }
 
     @Override
@@ -73,21 +72,21 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     }
 
     private void initUI() {
-        setActionBar(b.toolbar);
+        setSupportActionBar(b.toolbar);
         setTitle(null);
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
         b.listCards.addItemDecoration(new DividerItemDecoration(this, true, true, true, true));
         b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(this, R.color.grey, 1,
-                ViewUtil.dpToPx(56), 0));
+                getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
 
-        cardsAadapterWrapper = new CardAdapterWrapper(this);
-        cardsAadapterWrapper.attachToRecycler(b.listCards);
+        cardsAdapterWrapper = new CardAdapterWrapper(this);
+        cardsAdapterWrapper.attachToRecycler(b.listCards);
 
         final SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(b.listCards);
 
-        debtsAadapterWrapper = new DebtAdapterWrapper();
-        debtsAadapterWrapper.attachToRecycler(b.listDebts);
+        debtsAdapterWrapper = new DebtAdapterWrapper();
+        debtsAdapterWrapper.attachToRecycler(b.listDebts);
     }
 }

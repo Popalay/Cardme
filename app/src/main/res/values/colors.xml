@@ -13,8 +13,10 @@
     <color name="black">#111</color>
     <color name="light_grey">#FCFCFC</color>
     <color name="grey">#cfcfcf</color>
-
     <color name="scrim">#99323232</color>
+
+    <color name="orange">#DC8744</color>
+    <color name="yellow">#F6C358</color>
 
     <!--card colors-->
     <color name="deep_grey">#3699D4</color>

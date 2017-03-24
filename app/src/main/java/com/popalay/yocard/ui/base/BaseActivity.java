@@ -3,12 +3,12 @@ package com.popalay.yocard.ui.base;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.popalay.yocard.R;
 import com.popalay.yocard.utils.DialogFactory;
 import com.popalay.yocard.utils.ViewUtil;
 
-public abstract class BaseActivity extends MvpActivity implements BaseView {
+public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private ProgressDialog mProgressDialog;
 

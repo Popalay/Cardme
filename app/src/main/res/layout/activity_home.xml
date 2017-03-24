@@ -10,11 +10,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Toolbar
+            <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:navigationIcon="@drawable/ic_hamburger"
+                app:navigationIcon="@drawable/ic_hamburger"
                 android:theme="@style/Yocard.Toolbar" />
 
         </android.support.design.widget.AppBarLayout>

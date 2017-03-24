@@ -23,7 +23,6 @@ import com.popalay.yocard.ui.adapters.DebtAdapterWrapper;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.transitions.FabTransform;
-import com.popalay.yocard.utils.ViewUtil;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
@@ -115,7 +114,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
         b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listDebts);
         b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
-                R.color.grey, 1, ViewUtil.dpToPx(56), 0));
+                R.color.grey, 1, (int) getResources().getDimension(R.dimen.title_offset), 0));
         adapterWrapper = new DebtAdapterWrapper();
         adapterWrapper.attachToRecycler(b.listDebts);
     }
