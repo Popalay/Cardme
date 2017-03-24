@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.adapters.HolderAdapterWrapper.HolderListener" />
+            type="com.popalay.yocard.ui.base.ItemClickListener" />
     </data>
 
     <RelativeLayout
@@ -19,7 +19,7 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:onClick="@{() -> listener.onHolderClick(item)}"
+        android:onClick="@{() -> listener.onItemClick(item)}"
         android:padding="@dimen/normal">
 
         <ImageView
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/text_name"
             android:layout_below="@id/text_name"
-            android:layout_marginTop="@dimen/small"
+            android:layout_marginTop="@dimen/smallest"
             android:orientation="horizontal">
 
             <TextView
@@ -55,6 +55,7 @@
                 android:drawablePadding="@dimen/smallest"
                 android:drawableStart="@drawable/ic_card_16_grey"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@{String.valueOf(item.cardsCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 tools:text="23" />
@@ -66,6 +67,7 @@
                 android:drawablePadding="@dimen/smallest"
                 android:drawableStart="@drawable/ic_money_16_grey"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@{String.valueOf(item.debtCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 tools:text="23" />

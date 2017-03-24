@@ -1,4 +1,4 @@
-package com.popalay.yocard.ui.adddebt.models;
+package com.popalay.yocard.ui.adddebt;
 
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;

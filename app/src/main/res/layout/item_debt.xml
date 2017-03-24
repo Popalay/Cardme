@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/text_message"
             android:layout_below="@id/text_message"
-            android:layout_marginTop="@dimen/small"
+            android:layout_marginTop="@dimen/smallest"
             android:text="@{item.holder.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             tools:text="$100" />

@@ -71,7 +71,7 @@ public class Holder extends RealmObject implements StableId {
             return false;
         }
 
-        final Holder holder = (Holder) o;
+        Holder holder = (Holder) o;
 
         if (id != holder.id) {
             return false;
@@ -79,8 +79,10 @@ public class Holder extends RealmObject implements StableId {
         if (cardsCount != holder.cardsCount) {
             return false;
         }
+        if (debtCount != holder.debtCount) {
+            return false;
+        }
         return name != null ? name.equals(holder.name) : holder.name == null;
-
     }
 
     @Override
@@ -88,6 +90,7 @@ public class Holder extends RealmObject implements StableId {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + cardsCount;
+        result = 31 * result + debtCount;
         return result;
     }
 }

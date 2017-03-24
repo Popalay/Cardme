@@ -29,7 +29,7 @@ public class CardAdapterWrapper {
                     @Override
                     public void onBind(@NotNull ItemCardBinding binding, @NotNull View view, int position) {
                         super.onBind(binding, view, position);
-                        binding.setListener(listener);
+                        //binding.setListener(listener);
                     }
                 });
     }

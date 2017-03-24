@@ -11,19 +11,19 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.FragmentHoldersBinding;
-import com.popalay.yocard.ui.adapters.HolderAdapterWrapper;
 import com.popalay.yocard.ui.base.BaseFragment;
+import com.popalay.yocard.ui.base.ItemClickListener;
 import com.popalay.yocard.ui.holderdetails.HolderDetailsActivity;
-import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
-public class HoldersFragment extends BaseFragment implements HoldersView, HolderAdapterWrapper.HolderListener {
+public class HoldersFragment extends BaseFragment implements HoldersView, ItemClickListener<Holder> {
 
     @InjectPresenter HoldersPresenter presenter;
 
     private FragmentHoldersBinding b;
-    private HolderAdapterWrapper adapterWrapper;
+
+    private HoldersViewModel viewModel;
 
     public static HoldersFragment newInstance() {
         return new HoldersFragment();
@@ -46,7 +46,7 @@ public class HoldersFragment extends BaseFragment implements HoldersView, Holder
 
     @Override
     public void setHolders(List<Holder> holders) {
-        adapterWrapper.setItems(holders);
+        viewModel.setHolders(holders);
     }
 
     @Override
@@ -55,14 +55,13 @@ public class HoldersFragment extends BaseFragment implements HoldersView, Holder
     }
 
     @Override
-    public void onHolderClick(Holder holder) {
-        presenter.onHolderClick(holder);
+    public void onItemClick(Holder item) {
+        presenter.onHolderClick(item);
     }
 
     private void initUI() {
-        adapterWrapper = new HolderAdapterWrapper(this);
-        b.listHolders.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
-                R.color.grey, 1, getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
-        adapterWrapper.attachToRecycler(b.listHolders);
+        viewModel = new HoldersViewModel();
+        b.setModel(viewModel);
+        b.setListener(this);
     }
 }

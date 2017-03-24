@@ -16,13 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.github.nitrico.lastadapter.StableId;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
-import com.popalay.yocard.ui.adapters.DebtAdapterWrapper;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.ui.transitions.FabTransform;
+import com.popalay.yocard.ui.base.ItemClickListener;
+import com.popalay.yocard.utils.transitions.FabTransform;
 import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
@@ -33,8 +34,8 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     @InjectPresenter DebtsPresenter presenter;
 
     private FragmentDebtsBinding b;
-    private DebtAdapterWrapper adapterWrapper;
-
+    private DebtsViewModel viewModel;
+    
     public static DebtsFragment newInstance() {
         return new DebtsFragment();
     }
@@ -65,18 +66,20 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void setDebts(List<Debt> items) {
-        adapterWrapper.setItems(items);
+        viewModel.setDebts(items);
         scrollToStartIfTop();
     }
 
     @Override
     public void removeItem(int position) {
-        adapterWrapper.remove(position);
+        // TODO: 25.03.17  
+        //adapterWrapper.remove(position);
     }
 
     @Override
     public void resetItem(Debt item, int position) {
-        adapterWrapper.add(item, position);
+        // TODO: 25.03.17  
+        //adapterWrapper.add(item, position);
         b.listDebts.smoothScrollToPosition(position);
     }
 
@@ -99,9 +102,10 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        final int position = viewHolder.getAdapterPosition();
+        // TODO: 25.03.17  
+       /* final int position = viewHolder.getAdapterPosition();
         final Debt debt = adapterWrapper.get(position);
-        presenter.onItemSwiped(debt, position);
+        presenter.onItemSwiped(debt, position);*/
     }
 
     private void scrollToStartIfTop() {
@@ -111,11 +115,10 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     }
 
     private void initUI() {
+        viewModel = new DebtsViewModel();
+        b.setModel(viewModel);
+        
         b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listDebts);
-        b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(getActivity(),
-                R.color.grey, 1, (int) getResources().getDimension(R.dimen.title_offset), 0));
-        adapterWrapper = new DebtAdapterWrapper();
-        adapterWrapper.attachToRecycler(b.listDebts);
     }
 }

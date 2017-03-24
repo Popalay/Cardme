@@ -12,10 +12,9 @@ import android.widget.ArrayAdapter;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityAddDebtBinding;
-import com.popalay.yocard.ui.adddebt.models.AddDebtViewModel;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.ui.transitions.FabTransform;
-import com.popalay.yocard.ui.transitions.MorphTransform;
+import com.popalay.yocard.utils.transitions.FabTransform;
+import com.popalay.yocard.utils.transitions.MorphTransform;
 import com.popalay.yocard.utils.TransitionUtils;
 
 import java.util.List;

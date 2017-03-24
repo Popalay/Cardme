@@ -24,5 +24,7 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
+    <string name="list_debts_placeholder">You didn\'t borrow anything</string>
+    <string name="list_holders_placeholder">There are no holders</string>
 
 </resources>

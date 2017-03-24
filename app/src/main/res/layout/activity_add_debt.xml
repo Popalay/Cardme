@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.popalay.yocard.ui.adddebt.models.AddDebtViewModel" />
+            type="com.popalay.yocard.ui.adddebt.AddDebtViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

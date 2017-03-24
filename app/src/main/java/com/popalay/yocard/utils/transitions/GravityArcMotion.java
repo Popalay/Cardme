@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.popalay.yocard.ui.transitions;
+package com.popalay.yocard.utils.transitions;
 
 import android.content.Context;
 import android.graphics.Path;

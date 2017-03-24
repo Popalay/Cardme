@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearSnapHelper;
-import android.support.v7.widget.SnapHelper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -14,15 +12,12 @@ import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.ActivityHolderDetailsBinding;
-import com.popalay.yocard.ui.adapters.CardAdapterWrapper;
-import com.popalay.yocard.ui.adapters.DebtAdapterWrapper;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.utils.recycler.DividerItemDecoration;
-import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
+import com.popalay.yocard.ui.base.ItemClickListener;
 
 import java.util.List;
 
-public class HolderDetailsActivity extends BaseActivity implements HolderDetailsView, CardAdapterWrapper.CardListener {
+public class HolderDetailsActivity extends BaseActivity implements HolderDetailsView, ItemClickListener<Card> {
 
     private static final String KEY_HOLDER_ID = "HOLDER_ID";
 
@@ -30,8 +25,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     private ActivityHolderDetailsBinding b;
 
-    private CardAdapterWrapper cardsAdapterWrapper;
-    private DebtAdapterWrapper debtsAdapterWrapper;
+    private HolderDetailsViewModel viewModel;
 
     public static Intent getIntent(Context context, Holder holder) {
         final Intent intent = new Intent(context, HolderDetailsActivity.class);
@@ -58,17 +52,17 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void setCards(List<Card> cards) {
-        cardsAdapterWrapper.setItems(cards);
+        viewModel.setCards(cards);
     }
 
     @Override
     public void setDebts(List<Debt> debts) {
-        debtsAdapterWrapper.setItems(debts);
+        viewModel.setDebts(debts);
     }
 
     @Override
-    public void onCardClick(Card card) {
-        presenter.onCardClick(card);
+    public void onItemClick(Card item) {
+        presenter.onCardClick(item);
     }
 
     private void initUI() {
@@ -76,17 +70,8 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
         setTitle(null);
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
-        b.listCards.addItemDecoration(new DividerItemDecoration(this, true, true, true, true));
-        b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(this, R.color.grey, 1,
-                getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
-
-        cardsAdapterWrapper = new CardAdapterWrapper(this);
-        cardsAdapterWrapper.attachToRecycler(b.listCards);
-
-        final SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(b.listCards);
-
-        debtsAdapterWrapper = new DebtAdapterWrapper();
-        debtsAdapterWrapper.attachToRecycler(b.listDebts);
+        viewModel = new HolderDetailsViewModel();
+        b.setModel(viewModel);
+        b.setListener(this);
     }
 }

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.popalay.yocard.ui.holders.HoldersViewModel" />
+
+        <variable
+            name="listener"
+            type="com.popalay.yocard.ui.base.ItemClickListener" />
+
+    </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -12,7 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:layoutManager="LinearLayoutManager" />
+            app:layoutManager="LinearLayoutManager"
+            bind:holders="@{model.holders}"
+            bind:itemClickListener="@{listener}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/list_holders_placeholder"
+            bind:listPlaceholder="@{model.holders}" />
 
     </android.support.design.widget.CoordinatorLayout>
 

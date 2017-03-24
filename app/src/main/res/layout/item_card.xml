@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.adapters.CardAdapterWrapper.CardListener" />
+            type="com.popalay.yocard.ui.base.ItemClickListener" />
     </data>
 
     <RelativeLayout
@@ -20,7 +20,7 @@
         android:clickable="true"
         android:elevation="@dimen/card_elevation"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{() -> listener.onCardClick(item)}"
+        android:onClick="@{() -> listener.onItemClick(item)}"
         android:orientation="vertical"
         android:padding="@dimen/normal"
         android:stateListAnimator="@anim/lift_on_touch"
