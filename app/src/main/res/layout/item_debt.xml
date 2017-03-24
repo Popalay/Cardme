@@ -8,19 +8,14 @@
             name="item"
             type="com.popalay.yocard.data.models.Debt" />
 
-        <variable
-            name="listener"
-            type="com.popalay.yocard.ui.adapters.HolderAdapterWrapper.HolderListener" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/debt_height"
-        android:background="@color/white"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="@dimen/normal">
 
         <ImageView
@@ -40,7 +35,6 @@
             android:layout_toEndOf="@id/image_coin"
             android:text="@{item.message}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textStyle="bold"
             tools:text="$100" />
 
         <TextView
@@ -48,8 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/text_message"
             android:layout_below="@id/text_message"
-            android:layout_marginTop="@dimen/smallest"
-            android:layout_toEndOf="@id/image_coin"
+            android:layout_marginTop="@dimen/small"
             android:text="@{item.holder.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             tools:text="$100" />

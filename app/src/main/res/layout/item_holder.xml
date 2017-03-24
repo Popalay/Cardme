@@ -13,59 +13,65 @@
             type="com.popalay.yocard.ui.adapters.HolderAdapterWrapper.HolderListener" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/holder_height"
-        android:background="@color/white"
+        android:layout_height="@dimen/debt_height"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:onClick="@{() -> listener.onHolderClick(item)}"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/normal"
-        android:paddingStart="@dimen/normal">
+        android:padding="@dimen/normal">
 
         <ImageView
+            android:id="@+id/image_man"
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/normal"
             android:elevation="@dimen/small_elevation"
             android:src="@drawable/ic_man" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small"
-            android:layout_weight="1"
+            android:layout_toEndOf="@id/image_man"
             android:text="@{item.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             tools:text="Denis Nikiforov" />
 
-        <com.popalay.yocard.ui.base.widgets.SquareTextView
-            android:layout_width="@dimen/circle_size"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_circle_card"
-            android:elevation="@dimen/small_elevation"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:padding="@dimen/small"
-            android:text="@{String.valueOf(item.cardsCount)}"
-            android:textColor="@color/primary_text_invert"
-            tools:text="1" />
+            android:layout_alignStart="@id/text_name"
+            android:layout_below="@id/text_name"
+            android:layout_marginTop="@dimen/small"
+            android:orientation="horizontal">
 
-        <com.popalay.yocard.ui.base.widgets.SquareTextView
-            android:layout_width="@dimen/circle_size"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:background="@drawable/bg_circle_debt"
-            android:elevation="@dimen/small_elevation"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:padding="@dimen/small"
-            android:text="@{String.valueOf(item.debtCount)}"
-            android:textColor="@color/primary_text_invert"
-            tools:text="1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/smallest"
+                android:drawableStart="@drawable/ic_card_16_grey"
+                android:gravity="center"
+                android:text="@{String.valueOf(item.cardsCount)}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                tools:text="23" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal"
+                android:drawablePadding="@dimen/smallest"
+                android:drawableStart="@drawable/ic_money_16_grey"
+                android:gravity="center"
+                android:text="@{String.valueOf(item.debtCount)}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                tools:text="23" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </layout>
