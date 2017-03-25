@@ -21,6 +21,7 @@
     <string name="to">To</string>
     <string name="sey_something">Sey something…</string>
     <string name="action_save">Save</string>
+    <string name="settings">Settings</string>
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
@@ -29,5 +30,10 @@
     <string name="list_debts_placeholder">You didn\'t borrow anything</string>
     <string name="list_holders_placeholder">There are no holders</string>
     <string name="list_cards_placeholder">There are no cards</string>
+
+    <!-- app shortcuts -->
+    <string name="shortcut_add_card">Add card</string>
+    <string name="shortcut_debts">Your debts</string>
+    <string name="shortcut_favorite_holder">Favorite holder</string>
 
 </resources>

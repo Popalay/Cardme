@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.realm.Sort;
 import rx.Completable;
 import rx.Observable;
 
@@ -27,7 +28,8 @@ public class HolderRepository {
 
     public Observable<List<Holder>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Holder.class)
-                .findAllSorted(Holder.NAME));
+                .findAllSorted(Holder.NAME)
+                .sort(Holder.DEBTS_COUNT, Sort.DESCENDING, Holder.CARDS_COUNT, Sort.DESCENDING));
     }
 
     public Observable<Holder> get(long holderId) {

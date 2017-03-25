@@ -14,6 +14,6 @@ public interface HoldersView extends BaseView {
     void setHolders(List<Holder> cards);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openHolderCards(Holder holder);
+    void openHolderDetails(Holder holder);
 
 }

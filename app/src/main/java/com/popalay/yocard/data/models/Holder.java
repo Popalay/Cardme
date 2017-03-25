@@ -9,6 +9,8 @@ public class Holder extends RealmObject implements StableId {
 
     public static final String ID = "id";
     public static final String NAME = "name";
+    public static final String CARDS_COUNT = "cardsCount";
+    public static final String DEBTS_COUNT = "debtCount";
 
     @PrimaryKey private long id;
 

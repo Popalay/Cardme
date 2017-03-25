@@ -77,6 +77,11 @@ dependencies {
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.annimon:stream:1.1.6'
     compile 'com.github.tamir7.contacts:contacts:1.1.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // Shortcuts
+    compile 'com.github.matthiasrobbers:shortbread:1.0.1'
+    annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
 
     // Widgets
     //compile 'com.github.Popalay:LandscapeView:master-fbcd6c9a61-1'

@@ -11,6 +11,7 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import shortbread.Shortbread;
 
 public class App extends Application {
 
@@ -30,6 +31,7 @@ public class App extends Application {
                 .build();
         Realm.setDefaultConfiguration(config);
         Contacts.initialize(this);
+        Shortbread.create(this);
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

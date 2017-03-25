@@ -50,7 +50,7 @@ public class HoldersFragment extends BaseFragment implements HoldersView, ItemCl
     }
 
     @Override
-    public void openHolderCards(Holder holder) {
+    public void openHolderDetails(Holder holder) {
         startActivity(HolderDetailsActivity.getIntent(getActivity(), holder));
     }
 
