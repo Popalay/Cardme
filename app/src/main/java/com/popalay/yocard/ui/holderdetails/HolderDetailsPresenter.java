@@ -51,7 +51,7 @@ public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
     }
 
     public void onCardClick(Card card) {
-        cardsInteractor.copyCard(card)
+        cardsInteractor.shareCard(card)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> getViewState().showMessage(context.getString(R.string.number_copied)),

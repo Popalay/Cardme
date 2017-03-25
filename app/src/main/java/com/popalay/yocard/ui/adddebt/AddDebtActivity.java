@@ -7,15 +7,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.transition.Transition;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityAddDebtBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
+import com.popalay.yocard.utils.TransitionUtils;
 import com.popalay.yocard.utils.transitions.FabTransform;
 import com.popalay.yocard.utils.transitions.MorphTransform;
-import com.popalay.yocard.utils.TransitionUtils;
 
 import java.util.List;
 
@@ -75,5 +76,13 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     private void initUI() {
         b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().debt));
         b.root.setOnClickListener(v -> close());
+
+        b.inputMessage.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                b.buttonSave.performClick();
+                return true;
+            }
+            return false;
+        });
     }
 }

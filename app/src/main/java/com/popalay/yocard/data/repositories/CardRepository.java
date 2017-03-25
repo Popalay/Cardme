@@ -1,12 +1,8 @@
 package com.popalay.yocard.data.repositories;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.MainThread;
 
 import com.github.popalay.rxrealm.RxRealm;
-import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.models.Holder;
 
@@ -58,16 +54,6 @@ public class CardRepository {
                 .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.USAGE, Sort.DESCENDING));
-    }
-
-    @MainThread
-    public Completable copyToClipboard(Card card) {
-        return Completable.fromAction(() -> {
-            final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            final ClipData clip = ClipData.newPlainText(context.getString(R.string.card_holder_number,
-                    card.getHolder().getName()), card.getNumber());
-            clipboard.setPrimaryClip(clip);
-        });
     }
 
     public Completable incCardUsage(final Card card) {

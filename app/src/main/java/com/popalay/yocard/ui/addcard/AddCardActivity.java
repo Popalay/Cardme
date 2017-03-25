@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -60,5 +61,14 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
         b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getModel().card));
+
+        b.textHolder.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                b.buttonSave.performClick();
+                return true;
+            }
+            return false;
+        });
+
     }
 }

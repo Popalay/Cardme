@@ -1,7 +1,9 @@
 package com.popalay.yocard.business.cards;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.repositories.CardRepository;
 import com.popalay.yocard.data.repositories.HolderRepository;
@@ -57,10 +59,13 @@ public class CardsInteractor {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
-    public Completable copyCard(Card card) {
-        return cardRepository.copyToClipboard(card)
-                .observeOn(Schedulers.io())
-                .andThen(cardRepository.incCardUsage(card));
+    public Completable shareCard(Card card) {
+        return Completable.fromAction(() -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, card.getNumber());
+            context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_card)));
+        });
     }
 
     public Completable removeCard(Card card) {

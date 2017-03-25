@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.yocard.App;
-import com.popalay.yocard.R;
 import com.popalay.yocard.business.cards.CardsInteractor;
 import com.popalay.yocard.data.events.AddCardEvent;
 import com.popalay.yocard.data.models.Card;
@@ -62,11 +61,10 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardClick(Card card) {
-        cardsInteractor.copyCard(card)
+        cardsInteractor.shareCard(card)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().showMessage(context.getString(R.string.number_copied)),
-                        this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError);
     }
 
     @Override

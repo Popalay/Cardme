@@ -10,65 +10,76 @@
             type="com.popalay.yocard.ui.adddebt.AddDebtViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/root"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:id="@+id/container"
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/large"
-            android:background="@drawable/dialog_background"
-            android:orientation="vertical"
-            android:transitionName="@string/transition_add_debt">
+            android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/input_to"
+            <LinearLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small"
-                android:background="@null"
-                android:hint="@string/to"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="@dimen/small"
-                android:text="@={model.to}"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/large"
+                android:background="@drawable/dialog_background"
+                android:orientation="vertical"
+                android:transitionName="@string/transition_add_debt">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/grey" />
+                <AutoCompleteTextView
+                    android:id="@+id/input_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:background="@null"
+                    android:hint="@string/to"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="@dimen/small"
+                    android:text="@={model.to}"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/input_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small"
-                android:layout_marginTop="@dimen/small"
-                android:background="@null"
-                android:hint="@string/sey_something"
-                android:padding="@dimen/small"
-                android:text="@={model.message}" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/grey" />
 
-            <Button
-                android:id="@+id/button_save"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/normal"
-                android:layout_marginEnd="@dimen/small"
-                android:layout_marginTop="@dimen/small"
-                android:enabled="@{model.canSave}"
-                android:text="@string/action_save" />
+                <EditText
+                    android:id="@+id/input_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@null"
+                    android:hint="@string/sey_something"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:padding="@dimen/small"
+                    android:text="@={model.message}" />
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/button_save"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginEnd="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:enabled="@{model.canSave}"
+                    android:text="@string/action_save" />
 
-    </android.support.design.widget.CoordinatorLayout>
+            </LinearLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </ScrollView>
 
 </layout>

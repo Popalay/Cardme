@@ -13,9 +13,9 @@
             type="com.popalay.yocard.ui.base.ItemClickListener" />
     </data>
 
-    <RelativeLayout
+    <com.popalay.yocard.ui.base.widgets.ThreeToTwoView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_height"
+        android:layout_height="wrap_content"
         android:background="@{item.colorRes}"
         android:clickable="true"
         android:elevation="@dimen/card_elevation"
@@ -51,6 +51,6 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             android:textColor="@color/primary_text_invert" />
 
-    </RelativeLayout>
+    </com.popalay.yocard.ui.base.widgets.ThreeToTwoView>
 
 </layout>
