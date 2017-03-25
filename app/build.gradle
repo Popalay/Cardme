@@ -38,6 +38,7 @@ android {
 
 ext {
     supportLibrary = '25.3.0'
+    playServices = '10.2.0'
     dagger = '2.9'
     mvpMoxy = '1.4.6'
 }
@@ -80,5 +81,11 @@ dependencies {
     // Widgets
     //compile 'com.github.Popalay:LandscapeView:master-fbcd6c9a61-1'
 
+    // Firebase
+    compile "com.google.firebase:firebase-core:$playServices"
+    compile "com.google.firebase:firebase-crash:$playServices"
+
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

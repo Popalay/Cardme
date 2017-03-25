@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "220567239098",
+    "firebase_url": "https://yocard-9afd4.firebaseio.com",
+    "project_id": "yocard-9afd4",
+    "storage_bucket": "yocard-9afd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220567239098:android:ca2174e3b9d76956",
+        "android_client_info": {
+          "package_name": "com.popalay.yocard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220567239098-1tqbd8avacihaejlhmgbgnjo4in6kmfo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.popalay.yocard",
+            "certificate_hash": "6d0e1c1773c9a662aa7f181e54aad1a2f3d2bb67"
+          }
+        },
+        {
+          "client_id": "220567239098-t71u44um3vr81ruqj49bsock9ga6tr95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH7LEuL-hPmO01FJGFA1CUsKhXCKMVMYM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220567239098-t71u44um3vr81ruqj49bsock9ga6tr95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
