@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="presenter"
-            type="com.popalay.yocard.ui.cards.CardsPresenter" />
+            name="model"
+            type="com.popalay.yocard.ui.cards.CardsViewModel" />
+
+        <variable
+            name="listener"
+            type="com.popalay.yocard.ui.base.ItemClickListener" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -18,7 +23,9 @@
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager" />
+            app:layoutManager="LinearLayoutManager"
+            bind:cards="@{model.cards}"
+            bind:itemClickListener="@{listener}" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_add"
@@ -26,10 +33,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:onClick="@{() -> presenter.onAddClick()}"
             android:src="@drawable/ic_add"
             app:layout_behavior="@string/fab_hide_behavior"
             app:rippleColor="@color/primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/list_cards_placeholder"
+            bind:listPlaceholder="@{model.cards}" />
 
     </android.support.design.widget.CoordinatorLayout>
 

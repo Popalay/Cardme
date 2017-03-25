@@ -6,14 +6,10 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.ui.removablelistitem.RemovableListItemView;
 
-import java.util.List;
-
 import io.card.payment.CreditCard;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CardsView extends RemovableListItemView<Card> {
-
-    void setCards(List<Card> cards);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void startCardScanning();

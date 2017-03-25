@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -17,10 +16,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.databinding.FragmentCardsBinding;
-import com.popalay.yocard.ui.adapters.CardAdapterWrapper;
 import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.utils.recycler.DividerItemDecoration;
+import com.popalay.yocard.ui.base.ItemClickListener;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
 import java.util.List;
@@ -28,15 +26,15 @@ import java.util.List;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class CardsFragment extends BaseFragment implements CardsView, CardAdapterWrapper.CardListener,
-        SimpleItemTouchHelperCallback.SwipeCallback {
+public class CardsFragment extends BaseFragment implements CardsView,
+        SimpleItemTouchHelperCallback.SwipeCallback, ItemClickListener<Card> {
 
     private static final int SCAN_REQUEST_CODE = 121;
 
     @InjectPresenter CardsPresenter presenter;
 
     private FragmentCardsBinding b;
-    private CardAdapterWrapper adapterWrapper;
+    private CardsViewModel viewModel;
 
     public static CardsFragment newInstance() {
         return new CardsFragment();
@@ -48,7 +46,6 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater, R.layout.fragment_cards, container, false);
-        b.setPresenter(presenter);
         return b.getRoot();
     }
 
@@ -81,28 +78,6 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     }
 
     @Override
-    public void setCards(List<Card> cards) {
-        adapterWrapper.setItems(cards);
-        scrollToStartIfTop();
-    }
-
-    @Override
-    public void onCardClick(Card card) {
-        presenter.onCardClick(card);
-    }
-
-    @Override
-    public void removeItem(int position) {
-        adapterWrapper.remove(position);
-    }
-
-    @Override
-    public void resetItem(Card card, int position) {
-        adapterWrapper.add(card, position);
-        b.listCards.smoothScrollToPosition(position);
-    }
-
-    @Override
     public void showRemoveUndoAction(Card card, int position) {
         Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card, position))
@@ -120,22 +95,28 @@ public class CardsFragment extends BaseFragment implements CardsView, CardAdapte
     }
 
     @Override
+    public void setItems(List<Card> items) {
+        viewModel.setCards(items);
+    }
+
+    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
         final int position = viewHolder.getAdapterPosition();
-        final Card card = adapterWrapper.get(position);
+        final Card card = viewModel.get(position);
         presenter.onItemSwiped(card, position);
     }
 
-    private void scrollToStartIfTop() {
-        if (((LinearLayoutManager) b.listCards.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
-            b.listCards.scrollToPosition(0);
-        }
+    @Override
+    public void onItemClick(Card item) {
+        presenter.onCardClick(item);
     }
 
     private void initUI() {
-        b.listCards.addItemDecoration(new DividerItemDecoration(getActivity(), true, true, true, true));
+        viewModel = new CardsViewModel();
+        b.setModel(viewModel);
+        b.setListener(this);
+
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listCards);
-        adapterWrapper = new CardAdapterWrapper(this);
-        adapterWrapper.attachToRecycler(b.listCards);
+        b.buttonAdd.setOnClickListener(v -> presenter.onAddClick());
     }
 }

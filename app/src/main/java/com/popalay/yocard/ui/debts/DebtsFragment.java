@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -16,16 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.github.nitrico.lastadapter.StableId;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
-import com.popalay.yocard.ui.base.ItemClickListener;
-import com.popalay.yocard.utils.transitions.FabTransform;
-import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
+import com.popalay.yocard.utils.transitions.FabTransform;
 
 import java.util.List;
 
@@ -65,22 +61,8 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     }
 
     @Override
-    public void setDebts(List<Debt> items) {
+    public void setItems(List<Debt> items) {
         viewModel.setDebts(items);
-        scrollToStartIfTop();
-    }
-
-    @Override
-    public void removeItem(int position) {
-        // TODO: 25.03.17  
-        //adapterWrapper.remove(position);
-    }
-
-    @Override
-    public void resetItem(Debt item, int position) {
-        // TODO: 25.03.17  
-        //adapterWrapper.add(item, position);
-        b.listDebts.smoothScrollToPosition(position);
     }
 
     @Override
@@ -102,16 +84,9 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        // TODO: 25.03.17  
-       /* final int position = viewHolder.getAdapterPosition();
-        final Debt debt = adapterWrapper.get(position);
-        presenter.onItemSwiped(debt, position);*/
-    }
-
-    private void scrollToStartIfTop() {
-        if (((LinearLayoutManager) b.listDebts.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
-            b.listDebts.scrollToPosition(0);
-        }
+        final int position = viewHolder.getAdapterPosition();
+        final Debt debt = viewModel.get(position);
+        presenter.onItemSwiped(debt, position);
     }
 
     private void initUI() {

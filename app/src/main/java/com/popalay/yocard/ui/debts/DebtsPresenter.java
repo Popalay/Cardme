@@ -29,8 +29,9 @@ public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> 
 
         debtsInteractor.getDebts()
                 .compose(bindToLifecycle())
+                .doOnNext(this::setItems)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setDebts, this::handleBaseError);
+                .subscribe(getViewState()::setItems, this::handleBaseError);
     }
 
     public void onAddClick() {

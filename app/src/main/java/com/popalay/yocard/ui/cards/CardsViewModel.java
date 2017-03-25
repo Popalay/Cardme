@@ -1,55 +1,58 @@
-package com.popalay.yocard.ui.debts;
+package com.popalay.yocard.ui.cards;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
 import com.popalay.yocard.BR;
 import com.popalay.yocard.R;
-import com.popalay.yocard.data.models.Debt;
-import com.popalay.yocard.databinding.ItemDebtBinding;
+import com.popalay.yocard.data.models.Card;
+import com.popalay.yocard.databinding.ItemCardBinding;
 import com.popalay.yocard.ui.base.ItemClickListener;
 import com.popalay.yocard.utils.recycler.DiffUtilCallback;
-import com.popalay.yocard.utils.recycler.HorizontalDividerItemDecoration;
+import com.popalay.yocard.utils.recycler.DividerItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtsViewModel {
+public class CardsViewModel {
 
-    public final ObservableField<List<Debt>> debts = new ObservableField<>();
+    public final ObservableField<List<Card>> cards = new ObservableField<>();
 
-    @BindingAdapter(value = {"bind:debts", "bind:itemClickListener"}, requireAll = false)
-    public static void setDebts(RecyclerView recyclerView, List<Debt> newItems, ItemClickListener listener) {
+    @BindingAdapter(value = {"bind:cards", "bind:itemClickListener"}, requireAll = false)
+    public static void setCards(RecyclerView recyclerView, List<Card> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;
         }
-        final List<Debt> items;
+        final List<Card> items;
         final Context context = recyclerView.getContext();
         if (recyclerView.getAdapter() == null) {
-            recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(context, R.color.grey, 1,
-                    context.getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
+            recyclerView.addItemDecoration(new DividerItemDecoration(context, true, true, true, true));
             items = new ArrayList<>(newItems);
             LastAdapter.with(items, BR.item, true)
-                    .map(Debt.class, new ItemType<ItemDebtBinding>(R.layout.item_debt) {
+                    .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
                         @Override
-                        public void onBind(@NotNull ItemDebtBinding binding, @NotNull View view, int position) {
+                        public void onBind(@NotNull ItemCardBinding binding, @NotNull View view, int position) {
                             super.onBind(binding, view, position);
-                            //binding.setListener(listener);
+                            binding.setListener(listener);
                         }
                     })
                     .into(recyclerView);
             recyclerView.setTag(R.id.recycler_data, items);
+            final SnapHelper snapHelper = new LinearSnapHelper();
+            snapHelper.attachToRecyclerView(recyclerView);
         } else {
             //noinspection unchecked
-            items = ((List<Debt>) recyclerView.getTag(R.id.recycler_data));
+            items = ((List<Card>) recyclerView.getTag(R.id.recycler_data));
             DiffUtil.calculateDiff(new DiffUtilCallback(items, newItems), true)
                     .dispatchUpdatesTo(recyclerView.getAdapter());
             items.clear();
@@ -57,13 +60,13 @@ public class DebtsViewModel {
         }
     }
 
-    public void setDebts(List<Debt> items) {
-        debts.set(items);
-        debts.notifyChange();
+    public void setCards(List<Card> items) {
+        cards.set(items);
+        cards.notifyChange();
     }
 
-    public Debt get(int position) {
-        return debts.get().get(position);
+    public Card get(int position) {
+        return cards.get().get(position);
     }
 
 }
