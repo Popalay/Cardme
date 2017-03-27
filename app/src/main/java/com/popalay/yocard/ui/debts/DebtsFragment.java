@@ -19,6 +19,7 @@ import com.popalay.yocard.data.models.Debt;
 import com.popalay.yocard.databinding.FragmentDebtsBinding;
 import com.popalay.yocard.ui.adddebt.AddDebtActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
+import com.popalay.yocard.ui.base.widgets.OnOneOffClickListener;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 import com.popalay.yocard.utils.transitions.FabTransform;
 
@@ -52,7 +53,6 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void showAddDialog() {
-        b.buttonWrite.setClickable(false);
         final Intent intent = AddDebtActivity.getIntent(getActivity());
         FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
@@ -83,7 +83,12 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
         viewModel = new DebtsViewModel();
         b.setModel(viewModel);
 
-        b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
+        b.buttonWrite.setOnClickListener(new OnOneOffClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                presenter.onAddClick();
+            }
+        });
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listDebts);
     }
 }

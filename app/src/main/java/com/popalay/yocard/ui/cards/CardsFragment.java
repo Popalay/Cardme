@@ -18,6 +18,7 @@ import com.popalay.yocard.databinding.FragmentCardsBinding;
 import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.base.ItemClickListener;
+import com.popalay.yocard.ui.base.widgets.OnOneOffClickListener;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
 import java.util.List;
@@ -105,6 +106,11 @@ public class CardsFragment extends BaseFragment implements CardsView,
         b.setListener(this);
 
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listCards);
-        b.buttonAdd.setOnClickListener(v -> presenter.onAddClick());
+        b.buttonAdd.setOnClickListener(new OnOneOffClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                presenter.onAddClick();
+            }
+        });
     }
 }
