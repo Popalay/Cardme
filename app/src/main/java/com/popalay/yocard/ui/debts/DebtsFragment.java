@@ -30,7 +30,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     private FragmentDebtsBinding b;
     private DebtsViewModel viewModel;
-    
+
     public static DebtsFragment newInstance() {
         return new DebtsFragment();
     }
@@ -52,11 +52,13 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void showAddDialog() {
+        b.buttonWrite.setClickable(false);
         final Intent intent = AddDebtActivity.getIntent(getActivity());
         FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
                 getString(R.string.transition_add_debt));
         startActivity(AddDebtActivity.getIntent(getActivity()), options.toBundle());
+        b.buttonWrite.setClickable(true);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     private void initUI() {
         viewModel = new DebtsViewModel();
         b.setModel(viewModel);
-        
+
         b.buttonWrite.setOnClickListener(v -> presenter.onAddClick());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listDebts);
     }
