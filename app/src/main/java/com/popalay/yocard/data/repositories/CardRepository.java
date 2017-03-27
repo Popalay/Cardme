@@ -26,8 +26,8 @@ public class CardRepository {
         this.context = context;
     }
 
-    public void save(Card card) {
-        RxRealm.generateObjectId(card, (realm, id) -> {
+    public Completable save(Card card) {
+        return Completable.fromAction(() -> RxRealm.generateObjectId(card, (realm, id) -> {
             card.setId(id);
             Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, card.getHolder().getName())
                     .findFirst();
@@ -40,7 +40,7 @@ public class CardRepository {
             }
             card.getHolder().setCardsCount(card.getHolder().getCardsCount() + 1);
             realm.copyToRealmOrUpdate(card);
-        });
+        }));
     }
 
     public Observable<List<Card>> getAll() {
@@ -69,7 +69,7 @@ public class CardRepository {
         }));
     }
 
-    public Single<Integer> countByHolder(Holder holder){
+    public Single<Integer> countByHolder(Holder holder) {
         return RxRealm.getList(realm -> realm.where(Card.class).equalTo(Card.HOLDER_ID, holder.getId()).findAll())
                 .map(List::size);
     }

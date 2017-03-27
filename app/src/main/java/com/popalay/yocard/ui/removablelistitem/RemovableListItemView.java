@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RemovableListItemView<T> extends BaseView {
 
-    void showRemoveUndoAction(T item, int position);
+    void showRemoveUndoAction(T item);
 
     void setItems(List<T> items);
 }

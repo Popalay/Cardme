@@ -47,7 +47,6 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
 
         cardsInteractor.getCards()
                 .compose(bindToLifecycle())
-                .doOnNext(this::setItems)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setItems, this::handleBaseError);
     }
@@ -70,5 +69,10 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     @Override
     protected Completable removeItem(Card item) {
         return cardsInteractor.removeCard(item);
+    }
+
+    @Override
+    protected Completable saveItem(Card item) {
+        return cardsInteractor.save(item);
     }
 }

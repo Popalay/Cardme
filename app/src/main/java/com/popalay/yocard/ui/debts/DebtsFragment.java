@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -66,27 +65,16 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     }
 
     @Override
-    public void showRemoveUndoAction(Debt item, int position) {
+    public void showRemoveUndoAction(Debt item) {
         Snackbar.make(b.listDebts, R.string.debt_removed, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(item, position))
-                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    @Override
-                    public void onDismissed(Snackbar transientBottomBar, int event) {
-                        super.onDismissed(transientBottomBar, event);
-                        if (event == DISMISS_EVENT_ACTION) {
-                            return;
-                        }
-                        presenter.onRemoveUndoActionDismissed(item, position);
-                    }
-                })
+                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(item))
                 .show();
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        final int position = viewHolder.getAdapterPosition();
-        final Debt debt = viewModel.get(position);
-        presenter.onItemSwiped(debt, position);
+        final Debt debt = viewModel.get(viewHolder.getAdapterPosition());
+        presenter.onItemSwiped(debt);
     }
 
     private void initUI() {

@@ -10,8 +10,8 @@ import com.popalay.yocard.data.models.Holder;
 
 public class AddDebtViewModel {
 
-    public final ObservableField<String> to = new ObservableField<>();
-    public final ObservableField<String> message = new ObservableField<>();
+    public final ObservableField<String> to = new ObservableField<>("");
+    public final ObservableField<String> message = new ObservableField<>("");
     public final ObservableBoolean canSave = new ObservableBoolean(false);
 
     public final Debt debt;

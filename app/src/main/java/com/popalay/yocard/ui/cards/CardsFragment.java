@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -78,19 +77,9 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void showRemoveUndoAction(Card card, int position) {
+    public void showRemoveUndoAction(Card card) {
         Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card, position))
-                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    @Override
-                    public void onDismissed(Snackbar transientBottomBar, int event) {
-                        super.onDismissed(transientBottomBar, event);
-                        if (event == DISMISS_EVENT_ACTION) {
-                            return;
-                        }
-                        presenter.onRemoveUndoActionDismissed(card, position);
-                    }
-                })
+                .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card))
                 .show();
     }
 
@@ -101,9 +90,8 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        final int position = viewHolder.getAdapterPosition();
-        final Card card = viewModel.get(position);
-        presenter.onItemSwiped(card, position);
+        final Card card = viewModel.get(viewHolder.getAdapterPosition());
+        presenter.onItemSwiped(card);
     }
 
     @Override

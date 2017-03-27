@@ -37,7 +37,9 @@ public class DebtsRepository {
                 debt.getHolder().setId(nextID);
             }
             debt.getHolder().setDebtCount(debt.getHolder().getDebtCount() + 1);
-            debt.setCreatedAt(System.currentTimeMillis());
+            if (debt.getCreatedAt() == 0L) {
+                debt.setCreatedAt(System.currentTimeMillis());
+            }
             realm.copyToRealmOrUpdate(debt);
         }));
     }

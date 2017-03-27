@@ -33,6 +33,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/input_to"
+                    style="@style/SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"
@@ -40,8 +41,6 @@
                     android:hint="@string/to"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences|textAutoCorrect"
-                    android:lines="1"
-                    android:maxLines="1"
                     android:padding="@dimen/small"
                     android:text="@={model.to}"
                     android:textStyle="bold" />
@@ -53,15 +52,14 @@
 
                 <EditText
                     android:id="@+id/input_message"
+                    style="@style/MultiLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"
                     android:layout_marginTop="@dimen/small"
-                    android:background="@null"
                     android:hint="@string/sey_something"
                     android:imeOptions="actionDone"
                     android:inputType="textCapSentences|textAutoCorrect"
-                    android:padding="@dimen/small"
                     android:text="@={model.message}" />
 
                 <Button

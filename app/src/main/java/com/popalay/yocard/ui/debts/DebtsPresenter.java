@@ -29,7 +29,6 @@ public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> 
 
         debtsInteractor.getDebts()
                 .compose(bindToLifecycle())
-                .doOnNext(this::setItems)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setItems, this::handleBaseError);
     }
@@ -41,5 +40,10 @@ public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> 
     @Override
     protected Completable removeItem(Debt item) {
         return debtsInteractor.remove(item);
+    }
+
+    @Override
+    protected Completable saveItem(Debt item) {
+        return debtsInteractor.save(item);
     }
 }

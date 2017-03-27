@@ -78,6 +78,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/text_holder"
+                    style="@style/SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

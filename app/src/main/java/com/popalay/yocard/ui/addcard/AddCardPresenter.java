@@ -40,7 +40,9 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
     }
 
     public void onAcceptClick(Card card) {
-        cardsInteractor.save(card);
-        getViewState().close();
+        cardsInteractor.save(card)
+                .compose(bindToLifecycle().forCompletable())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::close, this::handleBaseError);
     }
 }

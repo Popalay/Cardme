@@ -47,8 +47,9 @@ public class CardsInteractor {
         });
     }
 
-    public void save(Card card) {
-        cardRepository.save(card);
+    public Completable save(Card card) {
+        return cardRepository.save(card)
+                .subscribeOn(Schedulers.io());
     }
 
     public Observable<List<Card>> getCards() {
