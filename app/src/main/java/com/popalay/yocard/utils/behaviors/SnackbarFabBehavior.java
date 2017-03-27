@@ -10,7 +10,7 @@ import android.view.View;
 public class SnackbarFabBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
     public SnackbarFabBehavior(Context context, AttributeSet attrs) {
-        super();
+        super(context, attrs);
     }
 
     @Override
@@ -23,5 +23,12 @@ public class SnackbarFabBehavior extends CoordinatorLayout.Behavior<FloatingActi
         float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
         child.setTranslationY(translationY);
         return true;
+    }
+
+    @Override
+    public void onDependentViewRemoved(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        super.onDependentViewRemoved(parent, child, dependency);
+        float translationY = Math.min(0, parent.getBottom() - child.getBottom());
+        child.setTranslationY(translationY);
     }
 }
