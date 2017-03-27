@@ -23,7 +23,7 @@ public class ThreeToTwoView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = this.getMeasuredWidth();
         int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-        int heightSpec = MeasureSpec.makeMeasureSpec(width / 2, MeasureSpec.EXACTLY);
+        int heightSpec = MeasureSpec.makeMeasureSpec((int) (width / 1.6f), MeasureSpec.EXACTLY);
         super.onMeasure(widthSpec, heightSpec);
     }
 }

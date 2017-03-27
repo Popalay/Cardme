@@ -68,7 +68,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     @Override
     public void startCardScanning() {
-        Intent scanIntent = new Intent(getActivity(), CardIOActivity.class);
+        final Intent scanIntent = new Intent(getActivity(), CardIOActivity.class);
         startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
     }
 

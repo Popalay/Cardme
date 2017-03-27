@@ -42,6 +42,6 @@ public class AddDebtViewModel {
     }
 
     private void updateCanSave() {
-        canSave.set(!TextUtils.isEmpty(to.get()) && !TextUtils.isEmpty(message.get()));
+        canSave.set(!TextUtils.isEmpty(to.get().trim()) && !TextUtils.isEmpty(message.get().trim()));
     }
 }

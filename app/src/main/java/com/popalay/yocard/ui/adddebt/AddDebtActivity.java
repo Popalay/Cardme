@@ -27,6 +27,7 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     @InjectPresenter AddDebtPresenter presenter;
 
     private ActivityAddDebtBinding b;
+    private AddDebtViewModel addDebtViewModel;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, AddDebtActivity.class);
@@ -36,7 +37,6 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_add_debt);
-        b.setModel(new AddDebtViewModel());
 
         if (!FabTransform.setup(this, b.container)) {
             MorphTransform.setup(this, b.container,
@@ -74,13 +74,18 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     }
 
     private void initUI() {
+        addDebtViewModel = new AddDebtViewModel();
+        b.setModel(addDebtViewModel);
+
         b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().debt));
         b.root.setOnClickListener(v -> close());
 
         b.inputMessage.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                b.buttonSave.performClick();
-                return true;
+                if (b.buttonSave.isEnabled()) {
+                    b.buttonSave.performClick();
+                    return true;
+                }
             }
             return false;
         });
