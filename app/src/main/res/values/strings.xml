@@ -29,8 +29,8 @@
 
     <!-- list placeholders -->
     <string name="list_debts_placeholder">You didn\'t borrow anything</string>
-    <string name="list_holders_placeholder">There are no holders</string>
-    <string name="list_cards_placeholder">There are no cards</string>
+    <string name="list_holders_placeholder">There are no holders yet</string>
+    <string name="list_cards_placeholder">There are no cards yet</string>
 
     <!-- app shortcuts -->
     <string name="shortcut_add_card">Add card</string>
