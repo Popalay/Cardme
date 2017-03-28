@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@{item.colorRes}"
         android:clickable="true"
-        android:elevation="@dimen/card_elevation"
+        android:elevation="@dimen/normal_elevation"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> listener.onItemClick(item)}"
         android:orientation="vertical"

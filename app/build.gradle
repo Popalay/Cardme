@@ -55,7 +55,7 @@ android {
 }
 
 ext {
-    supportLibrary = '25.3.0'
+    supportLibrary = '25.3.1'
     playServices = '10.2.0'
     dagger = '2.9'
     mvpMoxy = '1.4.6'

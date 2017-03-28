@@ -14,8 +14,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_hamburger"
-                android:theme="@style/Yocard.Toolbar" />
+                android:theme="@style/Yocard.Toolbar"
+                app:navigationIcon="@drawable/ic_hamburger" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -29,14 +29,16 @@
                 android:id="@+id/host"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:layout_weight="1" />
+
+            <include layout="@layout/shadow" />
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottom_bar"
                 style="@style/Yocard.BottomBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:elevation="@dimen/normal_elevation"
                 app:layout_behavior="@string/bottom_navigation_behavior"
                 app:menu="@menu/menu_home" />
 

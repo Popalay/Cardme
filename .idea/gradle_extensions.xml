@@ -200,7 +200,7 @@
             <ext name="retrolambda" type="me.tatarka.RetrolambdaExtension" />
             <ext name="realm" type="io.realm.gradle.RealmPluginExtension" />
             <prop name="dagger">2.9</prop>
-            <prop name="supportLibrary">25.3.0</prop>
+            <prop name="supportLibrary">25.3.1</prop>
             <prop name="mvpMoxy">1.4.6</prop>
             <prop name="playServices">10.2.0</prop>
             <task name="transformClassesWithRealmTransformerForDebugAndroidTest" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>

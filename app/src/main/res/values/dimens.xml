@@ -7,10 +7,10 @@
     <dimen name="large">24dp</dimen>
 
     <dimen name="card_type_icon_size">40dp</dimen>
-    <dimen name="card_elevation">8dp</dimen>
     <dimen name="holder_height">72dp</dimen>
     <dimen name="debt_height">72dp</dimen>
     <dimen name="circle_size">32dp</dimen>
+    <dimen name="normal_elevation">8dp</dimen>
     <dimen name="small_elevation">2dp</dimen>
     <dimen name="dialog_corners">2dp</dimen>
     <dimen name="card_corners">4dp</dimen>
