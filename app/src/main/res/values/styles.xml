@@ -76,4 +76,9 @@
         <item name="android:padding">@dimen/small</item>
     </style>
 
+    <style name="Yocard.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Caption">
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
 </resources>

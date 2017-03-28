@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"
                     android:background="@null"
-                    android:hint="@string/to"
+                    android:hint="@string/who_lent"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences|textAutoCorrect"
                     android:padding="@dimen/small"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"
                     android:layout_marginTop="@dimen/small"
-                    android:hint="@string/sey_something"
+                    android:hint="@string/debt_information"
                     android:imeOptions="actionDone"
                     android:inputType="textCapSentences|textAutoCorrect"
                     android:text="@={model.message}" />

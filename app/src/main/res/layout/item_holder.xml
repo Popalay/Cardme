@@ -15,10 +15,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/debt_height"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
+        android:minHeight="@dimen/holder_height"
         android:onClick="@{() -> listener.onItemClick(item)}"
         android:padding="@dimen/normal">
 

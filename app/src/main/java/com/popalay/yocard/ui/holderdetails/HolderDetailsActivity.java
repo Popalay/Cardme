@@ -47,8 +47,8 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void setHolderName(String name) {
-        setTitle("title");
-        b.collapsingToolbar.setTitle(name);
+        //setTitle("title");
+        //b.collapsingToolbar.setTitle(name);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     }
 
     private void initUI() {
-        setSupportActionBar(b.toolbar);
-        //setTitle(null);
+        setTitle("sss");
+        //setSupportActionBar(b.toolbar);
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
         viewModel = new HolderDetailsViewModel();

@@ -27,8 +27,8 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_debt"
-            bind:debts="@{model.debts}" />
+            bind:debts="@{model.debts}"
+            tools:listitem="@layout/item_debt" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_write"
@@ -41,6 +41,7 @@
             app:layout_behavior="@string/fab_hide_behavior" />
 
         <TextView
+            style="@style/Yocard.ListPlaceholderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
