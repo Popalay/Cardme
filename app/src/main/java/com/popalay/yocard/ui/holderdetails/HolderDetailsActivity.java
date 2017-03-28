@@ -67,8 +67,9 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     }
 
     private void initUI() {
-        setTitle("sss");
-        //setSupportActionBar(b.toolbar);
+        setSupportActionBar(b.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle("Tittle");
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
         viewModel = new HolderDetailsViewModel();
