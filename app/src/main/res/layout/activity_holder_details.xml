@@ -29,13 +29,12 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
@@ -47,9 +46,9 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/Yocard.Toolbar"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_back" />
+                    app:navigationIcon="@drawable/ic_back"
+                    app:theme="@style/Yocard.Toolbar" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

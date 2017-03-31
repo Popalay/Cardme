@@ -3,7 +3,9 @@ package com.popalay.yocard.ui.holderdetails;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -18,6 +20,8 @@ import com.popalay.yocard.ui.base.ItemClickListener;
 import java.util.List;
 
 public class HolderDetailsActivity extends BaseActivity implements HolderDetailsView, ItemClickListener<Card> {
+
+    private static final String TAG = "HolderDetailsActivity";
 
     private static final String KEY_HOLDER_ID = "HOLDER_ID";
 
@@ -47,8 +51,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void setHolderName(String name) {
-        //setTitle("title");
-        //b.collapsingToolbar.setTitle(name);
+        setTitle(name);
     }
 
     @Override
@@ -67,13 +70,17 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     }
 
     private void initUI() {
-        setSupportActionBar(b.toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setTitle("Tittle");
-        b.toolbar.setNavigationOnClickListener(v -> finish());
-
         viewModel = new HolderDetailsViewModel();
         b.setModel(viewModel);
         b.setListener(this);
+
+        setSupportActionBar(b.toolbar);
+        b.collapsingToolbar.setTitleEnabled(false);
+        b.toolbar.setNavigationOnClickListener(v -> finish());
+
+        b.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            final int alpha = Math.min(-verticalOffset, 255);
+            b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255));
+        });
     }
 }
