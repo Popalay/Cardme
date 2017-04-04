@@ -37,7 +37,7 @@ public class CharacterWrapTextView extends AppCompatTextView {
         }
         post(() -> {
             final int width = getWidth();
-            final float spacing = (float) textWidth / width;
+            final float spacing = 1f - (float) textWidth / width - 0.1f;
             Log.d(TAG, "applyLetterSpacing: " + getText().toString() + " " + width + " " + textWidth + " " + spacing);
             setLetterSpacing(spacing);
         });
