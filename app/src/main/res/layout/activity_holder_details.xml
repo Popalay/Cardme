@@ -36,9 +36,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="?actionBarSize"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
-                    bind:cards="@{model.cards}"
+                    bind:holderCards="@{model.cards}"
                     bind:itemClickListener="@{listener}"
                     tools:listitem="@layout/item_card" />
 
@@ -70,7 +71,7 @@
                     android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager"
-                    bind:debts="@{model.debts}"
+                    bind:holderDebts="@{model.debts}"
                     tools:listitem="@layout/item_debt" />
 
                 <TextView

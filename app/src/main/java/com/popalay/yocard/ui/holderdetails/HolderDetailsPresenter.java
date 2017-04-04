@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.yocard.App;
-import com.popalay.yocard.R;
 import com.popalay.yocard.business.cards.CardsInteractor;
 import com.popalay.yocard.business.debts.DebtsInteractor;
 import com.popalay.yocard.business.holders.HoldersInteractor;
@@ -54,7 +53,6 @@ public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
         cardsInteractor.shareCard(card)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().showMessage(context.getString(R.string.number_copied)),
-                        this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError);
     }
 }

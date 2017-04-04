@@ -4,7 +4,7 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
@@ -31,7 +31,7 @@ public class HolderDetailsViewModel {
     public final ObservableField<List<Debt>> debts = new ObservableField<>();
     public final ObservableField<List<Card>> cards = new ObservableField<>();
 
-    @BindingAdapter("bind:debts")
+    @BindingAdapter("bind:holderDebts")
     public static void setDebts(RecyclerView recyclerView, List<Debt> newItems) {
         if (newItems == null) {
             return;
@@ -56,7 +56,7 @@ public class HolderDetailsViewModel {
         }
     }
 
-    @BindingAdapter(value = {"bind:cards", "bind:itemClickListener"}, requireAll = false)
+    @BindingAdapter(value = {"bind:holderCards", "bind:itemClickListener"}, requireAll = false)
     public static void setCards(RecyclerView recyclerView, List<Card> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;
@@ -76,7 +76,8 @@ public class HolderDetailsViewModel {
                     })
                     .into(recyclerView);
             recyclerView.setTag(R.id.recycler_data, items);
-            final SnapHelper snapHelper = new LinearSnapHelper();
+            //recyclerView.setLayoutManager(new LinearPartLayoutManager(context, LinearLayoutManager.VERTICAL));
+            final SnapHelper snapHelper = new PagerSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
         } else {
             //noinspection unchecked

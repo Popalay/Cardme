@@ -25,20 +25,25 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.popalay.yocard.ui.base.widgets.SwypelessViewPager
-                android:id="@+id/host"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
 
-            <include layout="@layout/shadow" />
+                <com.popalay.yocard.ui.base.widgets.SwypelessViewPager
+                    android:id="@+id/host"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <include layout="@layout/shadow" />
+
+            </FrameLayout>
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottom_bar"
                 style="@style/Yocard.BottomBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:elevation="@dimen/normal_elevation"
                 app:layout_behavior="@string/bottom_navigation_behavior"
                 app:menu="@menu/menu_home" />
 
