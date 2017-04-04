@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
                 android:background="@{model.card.colorRes}"
-                android:elevation="@dimen/card_elevation"
+                android:elevation="@dimen/normal_elevation"
                 android:orientation="vertical"
                 android:padding="@dimen/normal"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">

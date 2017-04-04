@@ -11,12 +11,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/Yocard">
 
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Yocard.Splash">
             <intent-filter>
@@ -28,23 +28,19 @@
 
         <activity
             android:name=".ui.home.HomeActivity"
-            android:resizeableActivity="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.addcard.AddCardActivity"
             android:label="@string/card_details"
-            android:resizeableActivity="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.holderdetails.HolderDetailsActivity"
-            android:resizeableActivity="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.adddebt.AddDebtActivity"
-            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Yocard.Translucent.DialogActivity" />
 

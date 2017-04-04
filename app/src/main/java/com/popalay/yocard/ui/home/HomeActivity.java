@@ -12,7 +12,6 @@ import com.popalay.yocard.data.events.AddCardEvent;
 import com.popalay.yocard.data.events.FavoriteHolderEvent;
 import com.popalay.yocard.databinding.ActivityHomeBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.ui.cards.CardsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -69,11 +68,6 @@ public class HomeActivity extends BaseActivity {
 
     private void initUI() {
         setSupportActionBar(b.toolbar);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.host, CardsFragment.newInstance())
-                .commitAllowingStateLoss();
 
         pagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
 

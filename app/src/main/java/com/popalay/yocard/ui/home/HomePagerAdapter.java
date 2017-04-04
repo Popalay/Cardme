@@ -1,6 +1,5 @@
 package com.popalay.yocard.ui.home;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -27,7 +26,7 @@ public class HomePagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return DebtsFragment.newInstance();
             default:
-                throw new RuntimeException("Illegal position");
+                return null;
         }
     }
 
@@ -36,8 +35,4 @@ public class HomePagerAdapter extends FragmentStatePagerAdapter {
         return PAGE_COUNT;
     }
 
-    @Override
-    public Parcelable saveState() {
-        return null;
-    }
 }

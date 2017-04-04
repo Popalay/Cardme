@@ -3,6 +3,7 @@ package com.popalay.yocard.ui.holderdetails;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -14,10 +15,13 @@ import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.ActivityHolderDetailsBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
 import com.popalay.yocard.ui.base.ItemClickListener;
+import com.popalay.yocard.utils.ShareUtils;
 
 import java.util.List;
 
 public class HolderDetailsActivity extends BaseActivity implements HolderDetailsView, ItemClickListener<Card> {
+
+    private static final String TAG = "HolderDetailsActivity";
 
     private static final String KEY_HOLDER_ID = "HOLDER_ID";
 
@@ -47,8 +51,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void setHolderName(String name) {
-        setTitle("title");
-        b.collapsingToolbar.setTitle(name);
+        setTitle(name);
     }
 
     @Override
@@ -66,13 +69,23 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
         presenter.onCardClick(item);
     }
 
-    private void initUI() {
-        setSupportActionBar(b.toolbar);
-        //setTitle(null);
-        b.toolbar.setNavigationOnClickListener(v -> finish());
+    @Override
+    public void shareCardNumber(String cardNumber) {
+        ShareUtils.shareTetx(this, R.string.share_card, cardNumber);
+    }
 
+    private void initUI() {
         viewModel = new HolderDetailsViewModel();
         b.setModel(viewModel);
         b.setListener(this);
+
+        setSupportActionBar(b.toolbar);
+        b.collapsingToolbar.setTitleEnabled(false);
+        b.toolbar.setNavigationOnClickListener(v -> finish());
+
+        b.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            final int alpha = Math.min(-verticalOffset, 255);
+            b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255));
+        });
     }
 }

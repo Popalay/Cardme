@@ -24,21 +24,21 @@ public class CharacterWrapTextView extends AppCompatTextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
+        applyLetterSpacing(text);
         super.setText(text, type);
-        applyLetterSpacing();
     }
 
-    private void applyLetterSpacing() {
+    private void applyLetterSpacing(CharSequence text) {
         final Rect bounds = new Rect();
-        getPaint().getTextBounds(getText().toString(), 0, getText().length(), bounds);
+        getPaint().getTextBounds(text.toString(), 0, text.length(), bounds);
         final int textWidth = bounds.width();
         if (textWidth == 0) {
             return;
         }
         post(() -> {
             final int width = getWidth();
-            final float spacing = (float) width / textWidth / 4;
-            Log.d(TAG, "applyLetterSpacing: " + getText().toString() + " " + width + " " + textWidth + " " + spacing);
+            final float spacing = 1f - (float) textWidth / width - 0.1f;
+            Log.d(TAG, "applyLetterSpacing: " + text.toString() + " " + width + " " + textWidth + " " + spacing);
             setLetterSpacing(spacing);
         });
 

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 import com.github.nitrico.lastadapter.ItemType;
@@ -48,8 +46,6 @@ public class CardsViewModel {
                     })
                     .into(recyclerView);
             recyclerView.setTag(R.id.recycler_data, items);
-            final SnapHelper snapHelper = new LinearSnapHelper();
-            snapHelper.attachToRecyclerView(recyclerView);
         } else {
             //noinspection unchecked
             items = ((List<Card>) recyclerView.getTag(R.id.recycler_data));

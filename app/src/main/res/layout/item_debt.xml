@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/debt_height"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/debt_height"
         android:gravity="center_vertical"
         android:padding="@dimen/normal">
 
