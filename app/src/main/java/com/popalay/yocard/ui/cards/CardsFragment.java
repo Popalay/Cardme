@@ -103,7 +103,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     @Override
     public void shareCardNumber(String cardNumber) {
-        ShareUtils.shareTetx(getActivity(), R.string.share_card, cardNumber);
+        ShareUtils.shareText(getActivity(), R.string.share_card, cardNumber);
     }
 
     private void initUI() {

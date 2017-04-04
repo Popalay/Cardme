@@ -71,7 +71,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
 
     @Override
     public void shareCardNumber(String cardNumber) {
-        ShareUtils.shareTetx(this, R.string.share_card, cardNumber);
+        ShareUtils.shareText(this, R.string.share_card, cardNumber);
     }
 
     private void initUI() {

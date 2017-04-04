@@ -76,7 +76,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportLibrary"
     compile "com.android.support:support-v4:$supportLibrary"
     compile "com.android.support:design:$supportLibrary"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // MVP
     compile "com.arello-mobile:moxy-app-compat:$mvpMoxy"
