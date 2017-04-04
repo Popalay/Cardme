@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
 

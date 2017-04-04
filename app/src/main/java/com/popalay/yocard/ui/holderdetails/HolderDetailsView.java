@@ -1,6 +1,7 @@
 package com.popalay.yocard.ui.holderdetails;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.popalay.yocard.data.models.Card;
 import com.popalay.yocard.data.models.Debt;
@@ -17,4 +18,6 @@ public interface HolderDetailsView extends BaseView {
 
     void setDebts(List<Debt> debts);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void shareCardNumber(String number);
 }

@@ -60,10 +60,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardClick(Card card) {
-        cardsInteractor.shareCard(card)
-                .compose(bindToLifecycle().forCompletable())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {}, this::handleBaseError);
+        getViewState().shareCardNumber(card.getNumber());
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.popalay.yocard.data.models.Holder;
 import com.popalay.yocard.databinding.ActivityHolderDetailsBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
 import com.popalay.yocard.ui.base.ItemClickListener;
+import com.popalay.yocard.utils.ShareUtils;
 
 import java.util.List;
 
@@ -66,6 +67,11 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     @Override
     public void onItemClick(Card item) {
         presenter.onCardClick(item);
+    }
+
+    @Override
+    public void shareCardNumber(String cardNumber) {
+        ShareUtils.shareTetx(this, R.string.share_card, cardNumber);
     }
 
     private void initUI() {

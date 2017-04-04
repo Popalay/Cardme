@@ -19,6 +19,7 @@ import com.popalay.yocard.ui.addcard.AddCardActivity;
 import com.popalay.yocard.ui.base.BaseFragment;
 import com.popalay.yocard.ui.base.ItemClickListener;
 import com.popalay.yocard.ui.base.widgets.OnOneOffClickListener;
+import com.popalay.yocard.utils.ShareUtils;
 import com.popalay.yocard.utils.recycler.SimpleItemTouchHelperCallback;
 
 import java.util.List;
@@ -98,6 +99,11 @@ public class CardsFragment extends BaseFragment implements CardsView,
     @Override
     public void onItemClick(Card item) {
         presenter.onCardClick(item);
+    }
+
+    @Override
+    public void shareCardNumber(String cardNumber) {
+        ShareUtils.shareTetx(getActivity(), R.string.share_card, cardNumber);
     }
 
     private void initUI() {

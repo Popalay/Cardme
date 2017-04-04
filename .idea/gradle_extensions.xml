@@ -44,6 +44,7 @@
             <task name="testReleaseUnitTest" type="com.android.build.gradle.tasks.factory.AndroidUnitTest">Run unit tests for the release build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="cleanBuildCache" type="com.android.build.gradle.tasks.CleanBuildCache">Deletes the build cache directory.&lt;p&gt;&lt;i&gt;Task group: build&lt;i&gt;</task>
             <task name="compileDebugAndroidTestShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="firebaseUploadArchivedProguardMapping" type="com.google.firebase.crash.plugin.UploadProguardMappingTask">Uploads the Proguard mapping file for archived applications by specifying properties FirebaseCrashMappingFilePath, FirebaseCrashVersionCode, FirebaseCrashPackageName, and optionally both FirebaseCrashAppId and FirebaseCrashApiKey&lt;p&gt;&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformClassesWithPreDexForRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeDebugShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileDebugAndroidTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -241,6 +242,7 @@
             <task name="testReleaseUnitTest" type="com.android.build.gradle.tasks.factory.AndroidUnitTest">Run unit tests for the release build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="cleanBuildCache" type="com.android.build.gradle.tasks.CleanBuildCache">Deletes the build cache directory.&lt;p&gt;&lt;i&gt;Task group: build&lt;i&gt;</task>
             <task name="compileDebugAndroidTestShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="firebaseUploadArchivedProguardMapping" type="com.google.firebase.crash.plugin.UploadProguardMappingTask">Uploads the Proguard mapping file for archived applications by specifying properties FirebaseCrashMappingFilePath, FirebaseCrashVersionCode, FirebaseCrashPackageName, and optionally both FirebaseCrashAppId and FirebaseCrashApiKey&lt;p&gt;&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformClassesWithPreDexForRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeDebugShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileDebugAndroidTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>

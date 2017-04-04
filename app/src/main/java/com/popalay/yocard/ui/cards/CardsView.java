@@ -17,4 +17,7 @@ public interface CardsView extends RemovableListItemView<Card> {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void addCardDetails(CreditCard card);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void shareCardNumber(String cardNumber);
+
 }
