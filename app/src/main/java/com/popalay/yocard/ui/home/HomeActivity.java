@@ -5,33 +5,46 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.popalay.yocard.Constants;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.events.AddCardEvent;
 import com.popalay.yocard.data.events.FavoriteHolderEvent;
 import com.popalay.yocard.databinding.ActivityHomeBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
+import com.popalay.yocard.ui.cards.CardsFragment;
+import com.popalay.yocard.ui.debts.DebtsFragment;
+import com.popalay.yocard.ui.holders.HoldersFragment;
 import com.popalay.yocard.utils.BrowserUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import shortbread.Shortcut;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeView {
 
     private static final int MENU_SETTINGS = Menu.FIRST;
 
-    private ActivityHomeBinding b;
-    private HomePagerAdapter pagerAdapter;
+    @InjectPresenter HomePresenter presenter;
+
     private int startPage = R.id.cards;
+
+    private ActivityHomeBinding b;
     private ActionBarDrawerToggle toggle;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, HomeActivity.class);
+    }
+
+    @ProvidePresenter
+    HomePresenter providePresenter() {
+        return new HomePresenter(startPage);
     }
 
     @Override
@@ -69,25 +82,53 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean onNavigationClick(MenuItem item) {
-        final int nextPosition;
-        switch (item.getItemId()) {
+    @Override
+    public void openPage(int pageId) {
+        final Fragment fragment;
+        switch (pageId) {
             case R.id.cards:
-                nextPosition = 0;
+                fragment = CardsFragment.newInstance();
                 break;
             case R.id.holders:
-                nextPosition = 1;
+                fragment = HoldersFragment.newInstance();
                 break;
             case R.id.debts:
-                nextPosition = 2;
+                fragment = DebtsFragment.newInstance();
                 break;
             default:
-                return false;
+                throw new IllegalArgumentException("Illegal position");
         }
-        if (nextPosition == b.host.getCurrentItem()) {
-            return false;
+
+        final Fragment current = getSupportFragmentManager().findFragmentByTag(fragment.getClass().getSimpleName());
+        if (current != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.host, current, current.getClass().getSimpleName())
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.host, fragment, fragment.getClass().getSimpleName())
+                    .commit();
         }
-        b.host.setCurrentItem(nextPosition, false);
+    }
+
+    @Override
+    public void setBottomNavigationItemSelected(int pageId) {
+        b.bottomBar.setSelectedItemId(pageId);
+    }
+
+    private boolean onNavigationClick(MenuItem item) {
+        presenter.onBottomNavigationItemClick(item.getItemId());
+        return true;
+    }
+
+    private boolean onDrawerItemClick(MenuItem item) {
+        presenter.onDrawerItemClick(item.getItemId());
+        switch (item.getItemId()) {
+            case R.id.navigation_privacy_policy:
+                BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
+                break;
+        }
+        b.drawerLayout.closeDrawers();
         return true;
     }
 
@@ -97,40 +138,15 @@ public class HomeActivity extends BaseActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(true);
         b.drawerLayout.addDrawerListener(toggle);
-
-        b.navigationView.setNavigationItemSelectedListener(
-                item -> {
-                    item.setChecked(true);
-
-                    onNavigationItemClick(item.getItemId());
-
-                    b.drawerLayout.closeDrawers();
-                    return true;
-                });
-
-        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
-
-        b.host.setAdapter(pagerAdapter);
-        b.host.setPagingEnabled(false);
-        b.host.setOffscreenPageLimit(pagerAdapter.getCount() - 1);
-
+        b.navigationView.setNavigationItemSelectedListener(this::onDrawerItemClick);
         b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick);
-        b.bottomBar.setSelectedItemId(startPage);
-    }
-
-    private void onNavigationItemClick(int itemId) {
-        switch (itemId) {
-            case R.id.navigation_privacy_policy:
-                BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
-                break;
-        }
     }
 
     // Shortcuts
     @Shortcut(id = "shortcut_add_card", icon = R.drawable.ic_shortcut_add_card,
             shortLabelRes = R.string.shortcut_add_card)
     public void addCardShortcut() {
-        startPage = R.id.debts;
+        startPage = R.id.cards;
         EventBus.getDefault().postSticky(new AddCardEvent());
     }
 
