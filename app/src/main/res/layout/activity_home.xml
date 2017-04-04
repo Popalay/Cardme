@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/Yocard.Toolbar"
-                app:navigationIcon="@drawable/ic_hamburger" />
+                android:layout_height="wrap_content">
 
-        </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <com.popalay.yocard.ui.base.widgets.SwypelessViewPager
-                    android:id="@+id/host"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Yocard.Toolbar"
+                    app:navigationIcon="@drawable/ic_hamburger" />
 
-                <include layout="@layout/shadow" />
+            </android.support.design.widget.AppBarLayout>
 
-            </FrameLayout>
-
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/bottom_bar"
-                style="@style/Yocard.BottomBar"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/bottom_navigation_behavior"
-                app:menu="@menu/menu_home" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-    </android.support.design.widget.CoordinatorLayout>
+                    <com.popalay.yocard.ui.base.widgets.SwypelessViewPager
+                        android:id="@+id/host"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <include layout="@layout/shadow" />
+
+                </FrameLayout>
+
+                <android.support.design.widget.BottomNavigationView
+                    android:id="@+id/bottom_bar"
+                    style="@style/Yocard.BottomBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/bottom_navigation_behavior"
+                    app:menu="@menu/menu_home" />
+
+            </LinearLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/drawer_menu" />
+
+    </android.support.v4.widget.DrawerLayout>
 
 </layout>

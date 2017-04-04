@@ -2,16 +2,20 @@ package com.popalay.yocard.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.popalay.yocard.Constants;
 import com.popalay.yocard.R;
 import com.popalay.yocard.data.events.AddCardEvent;
 import com.popalay.yocard.data.events.FavoriteHolderEvent;
 import com.popalay.yocard.databinding.ActivityHomeBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
+import com.popalay.yocard.utils.BrowserUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,6 +28,7 @@ public class HomeActivity extends BaseActivity {
     private ActivityHomeBinding b;
     private HomePagerAdapter pagerAdapter;
     private int startPage = R.id.cards;
+    private ActionBarDrawerToggle toggle;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -37,11 +42,31 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.settings)
                 .setIcon(R.drawable.ic_settings)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private boolean onNavigationClick(MenuItem item) {
@@ -68,6 +93,20 @@ public class HomeActivity extends BaseActivity {
 
     private void initUI() {
         setSupportActionBar(b.toolbar);
+        toggle = new ActionBarDrawerToggle(this, b.drawerLayout,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(true);
+        b.drawerLayout.addDrawerListener(toggle);
+
+        b.navigationView.setNavigationItemSelectedListener(
+                item -> {
+                    item.setChecked(true);
+
+                    onNavigationItemClick(item.getItemId());
+
+                    b.drawerLayout.closeDrawers();
+                    return true;
+                });
 
         pagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
 
@@ -77,6 +116,14 @@ public class HomeActivity extends BaseActivity {
 
         b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick);
         b.bottomBar.setSelectedItemId(startPage);
+    }
+
+    private void onNavigationItemClick(int itemId) {
+        switch (itemId) {
+            case R.id.navigation_privacy_policy:
+                BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
+                break;
+        }
     }
 
     // Shortcuts
