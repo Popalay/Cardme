@@ -61,7 +61,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCAN_REQUEST_CODE) {
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+                final CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
                 presenter.onCardScanned(scanResult);
             }
         }

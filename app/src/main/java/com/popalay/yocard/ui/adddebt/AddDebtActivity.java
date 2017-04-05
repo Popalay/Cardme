@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.transition.Transition;
 import android.widget.ArrayAdapter;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.yocard.R;
 import com.popalay.yocard.databinding.ActivityAddDebtBinding;
 import com.popalay.yocard.ui.base.BaseActivity;
-import com.popalay.yocard.utils.TransitionUtils;
 import com.popalay.yocard.utils.transitions.FabTransform;
 import com.popalay.yocard.utils.transitions.MorphTransform;
 
@@ -26,7 +24,6 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
     @InjectPresenter AddDebtPresenter presenter;
 
     private ActivityAddDebtBinding b;
-    private AddDebtViewModel addDebtViewModel;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, AddDebtActivity.class);
@@ -42,17 +39,7 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
                     ContextCompat.getColor(this, R.color.dialog_background),
                     getResources().getDimensionPixelSize(R.dimen.dialog_corners));
         }
-        if (getWindow().getSharedElementEnterTransition() != null) {
-            getWindow().getSharedElementEnterTransition().addListener(new TransitionUtils.TransitionListenerAdapter() {
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    getWindow().getSharedElementEnterTransition().removeListener(this);
-                    initUI();
-                }
-            });
-        } else {
-            initUI();
-        }
+        initUI();
     }
 
     @Override
@@ -72,10 +59,12 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
         b.inputTo.setAdapter(adapter);
     }
 
-    private void initUI() {
-        addDebtViewModel = new AddDebtViewModel();
-        b.setModel(addDebtViewModel);
+    @Override
+    public void setViewModel(AddDebtViewModel viewModel) {
+        b.setModel(viewModel);
+    }
 
+    private void initUI() {
         b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().debt));
         b.root.setOnClickListener(v -> close());
     }

@@ -19,12 +19,8 @@ public class AddDebtPresenter extends BasePresenter<AddDebtView> {
 
     public AddDebtPresenter() {
         App.appComponent().inject(this);
-    }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
+        getViewState().setViewModel(new AddDebtViewModel());
         holdersInteractor.getHolderNames()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
