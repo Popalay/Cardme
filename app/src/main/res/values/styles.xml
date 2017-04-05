@@ -63,16 +63,18 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="SingleLineText">
+    <style name="Yocard.SingleLineText">
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="MultiLineText">
+    <style name="Yocard.MultiLineText">
         <item name="android:background">@null</item>
         <item name="android:maxLength">80</item>
         <item name="android:maxLines">5</item>
+        <item name="android:minLines">3</item>
+        <item name="android:gravity">top|start</item>
         <item name="android:padding">@dimen/small</item>
     </style>
 

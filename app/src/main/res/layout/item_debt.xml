@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/text_message"
-            style="@style/SingleLineText"
+            style="@style/Yocard.SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small"
@@ -38,7 +38,7 @@
             tools:text="$100" />
 
         <TextView
-            style="@style/SingleLineText"
+            style="@style/Yocard.SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/text_message"

@@ -52,6 +52,7 @@
                     android:text="@{model.card.number}" />
 
                 <TextView
+                    style="@style/Yocard.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -78,7 +79,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/text_holder"
-                    style="@style/SingleLineText"
+                    style="@style/Yocard.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

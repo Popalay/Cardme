@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.transition.Transition;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -79,15 +78,5 @@ public class AddDebtActivity extends BaseActivity implements AddDebtView {
 
         b.buttonSave.setOnClickListener(v -> presenter.onSaveClick(b.getModel().debt));
         b.root.setOnClickListener(v -> close());
-
-        b.inputMessage.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (b.buttonSave.isEnabled()) {
-                    b.buttonSave.performClick();
-                    return true;
-                }
-            }
-            return false;
-        });
     }
 }
