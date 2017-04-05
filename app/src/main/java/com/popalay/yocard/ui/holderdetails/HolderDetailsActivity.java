@@ -84,6 +84,9 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
         b.toolbar.setNavigationOnClickListener(v -> finish());
 
         b.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (appBarLayout.getTotalScrollRange() == 0) {
+                return;
+            }
             final int alpha = Math.min(-verticalOffset, 255);
             b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255));
         });
