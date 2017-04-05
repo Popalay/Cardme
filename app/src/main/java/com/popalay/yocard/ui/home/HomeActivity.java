@@ -102,10 +102,12 @@ public class HomeActivity extends BaseActivity implements HomeView {
         final Fragment current = getSupportFragmentManager().findFragmentByTag(fragment.getClass().getSimpleName());
         if (current != null) {
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up, 0, R.anim.slide_up, 0)
                     .replace(R.id.host, current, current.getClass().getSimpleName())
                     .commit();
         } else {
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up, 0, R.anim.slide_up, 0)
                     .add(R.id.host, fragment, fragment.getClass().getSimpleName())
                     .commit();
         }
