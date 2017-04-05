@@ -9,5 +9,4 @@ public interface HomeView extends BaseView {
 
     void openPage(int pageId);
 
-    void setBottomNavigationItemSelected(int itemId);
 }

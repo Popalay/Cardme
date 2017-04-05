@@ -111,11 +111,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
         }
     }
 
-    @Override
-    public void setBottomNavigationItemSelected(int pageId) {
-        b.bottomBar.setSelectedItemId(pageId);
-    }
-
     private boolean onNavigationClick(MenuItem item) {
         presenter.onBottomNavigationItemClick(item.getItemId());
         return true;
@@ -139,6 +134,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
         toggle.setDrawerIndicatorEnabled(true);
         b.drawerLayout.addDrawerListener(toggle);
         b.navigationView.setNavigationItemSelectedListener(this::onDrawerItemClick);
+        b.bottomBar.setSelectedItemId(startPage);
         b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick);
     }
 
