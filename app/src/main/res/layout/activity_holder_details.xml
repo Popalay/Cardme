@@ -8,11 +8,11 @@
 
         <variable
             name="model"
-            type="com.popalay.yocard.ui.holderdetails.HolderDetailsViewModel" />
+            type="com.popalay.cardme.ui.holderdetails.HolderDetailsViewModel" />
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.base.ItemClickListener" />
+            type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_back"
-                    app:theme="@style/Yocard.Toolbar" />
+                    app:theme="@style/Cardme.Toolbar" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -74,7 +74,7 @@
                     tools:listitem="@layout/item_debt" />
 
                 <TextView
-                    style="@style/Yocard.ListPlaceholderText"
+                    style="@style/Cardme.ListPlaceholderText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

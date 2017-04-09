@@ -12,7 +12,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.popalay.yocard"
+        applicationId "com.popalay.cardme"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 2

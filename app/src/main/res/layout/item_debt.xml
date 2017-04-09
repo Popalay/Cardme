@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.popalay.yocard.data.models.Debt" />
+            type="com.popalay.cardme.data.models.Debt" />
 
     </data>
 
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/text_message"
-            style="@style/Yocard.SingleLineText"
+            style="@style/Cardme.SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small"
@@ -38,7 +38,7 @@
             tools:text="$100" />
 
         <TextView
-            style="@style/Yocard.SingleLineText"
+            style="@style/Cardme.SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/text_message"

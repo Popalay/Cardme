@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="fab_hide_behavior">com.popalay.yocard.utils.behaviors.ScrollAwareFabBehavior</string>
-    <string name="fab_snackbar_behavior">com.popalay.yocard.utils.behaviors.SnackbarFabBehavior</string>
-    <string name="bottom_navigation_behavior">com.popalay.yocard.utils.behaviors.BottomNavigationBehavior</string>
+    <string name="fab_hide_behavior">com.popalay.cardme.utils.behaviors.ScrollAwareFabBehavior</string>
+    <string name="fab_snackbar_behavior">com.popalay.cardme.utils.behaviors.SnackbarFabBehavior</string>
+    <string name="bottom_navigation_behavior">com.popalay.cardme.utils.behaviors.BottomNavigationBehavior</string>
 
 </resources>

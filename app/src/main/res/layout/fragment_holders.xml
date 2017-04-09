@@ -7,17 +7,18 @@
 
         <variable
             name="model"
-            type="com.popalay.yocard.ui.holders.HoldersViewModel" />
+            type="com.popalay.cardme.ui.holders.HoldersViewModel" />
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.base.ItemClickListener" />
+            type="com.popalay.cardme.ui.base.ItemClickListener" />
 
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/window_background"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
@@ -30,7 +31,7 @@
             bind:itemClickListener="@{listener}" />
 
         <TextView
-            style="@style/Yocard.ListPlaceholderText"
+            style="@style/Cardme.ListPlaceholderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

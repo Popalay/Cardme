@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.popalay.yocard.ui.addcard.models.AddCardViewModel" />
+            type="com.popalay.cardme.ui.addcard.models.AddCardViewModel" />
 
     </data>
 
@@ -24,10 +24,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/Yocard.Toolbar"
+                android:theme="@style/Cardme.Toolbar"
                 app:navigationIcon="@drawable/ic_back" />
 
-            <com.popalay.yocard.ui.base.widgets.ThreeToTwoView
+            <com.popalay.cardme.ui.base.widgets.ThreeToTwoView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
@@ -43,16 +43,16 @@
                     android:layout_alignParentEnd="true"
                     android:src="@{model.card.iconRes}" />
 
-                <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
+                <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
                     android:id="@+id/text_number"
-                    style="@style/Yocard.CardNumber"
+                    style="@style/Cardme.CardNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@{model.card.number}" />
 
                 <TextView
-                    style="@style/Yocard.SingleLineText"
+                    style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -62,7 +62,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/white" />
 
-            </com.popalay.yocard.ui.base.widgets.ThreeToTwoView>
+            </com.popalay.cardme.ui.base.widgets.ThreeToTwoView>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -79,7 +79,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/text_holder"
-                    style="@style/Yocard.SingleLineText"
+                    style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

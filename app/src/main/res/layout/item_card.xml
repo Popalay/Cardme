@@ -6,14 +6,14 @@
 
         <variable
             name="item"
-            type="com.popalay.yocard.data.models.Card" />
+            type="com.popalay.cardme.data.models.Card" />
 
         <variable
             name="listener"
-            type="com.popalay.yocard.ui.base.ItemClickListener" />
+            type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
 
-    <com.popalay.yocard.ui.base.widgets.ThreeToTwoView
+    <com.popalay.cardme.ui.base.widgets.ThreeToTwoView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@{item.colorRes}"
@@ -32,9 +32,9 @@
             android:layout_alignParentEnd="true"
             android:src="@{item.iconRes}" />
 
-        <com.popalay.yocard.ui.base.widgets.CharacterWrapTextView
+        <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
             android:id="@+id/text_number"
-            style="@style/Yocard.CardNumber"
+            style="@style/Cardme.CardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/text_holder"
-            style="@style/Yocard.SingleLineText"
+            style="@style/Cardme.SingleLineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -53,6 +53,6 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             android:textColor="@color/primary_text_invert" />
 
-    </com.popalay.yocard.ui.base.widgets.ThreeToTwoView>
+    </com.popalay.cardme.ui.base.widgets.ThreeToTwoView>
 
 </layout>

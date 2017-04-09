@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.popalay.yocard.ui.adddebt.AddDebtViewModel" />
+            type="com.popalay.cardme.ui.adddebt.AddDebtViewModel" />
     </data>
 
     <ScrollView
@@ -35,7 +35,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/input_to"
-                    style="@style/Yocard.SingleLineText"
+                    style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"
@@ -54,7 +54,7 @@
 
                 <EditText
                     android:id="@+id/input_message"
-                    style="@style/Yocard.MultiLineText"
+                    style="@style/Cardme.MultiLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small"

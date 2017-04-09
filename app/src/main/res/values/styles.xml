@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Yocard" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Cardme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
@@ -12,25 +12,25 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
-    <style name="Yocard.Splash">
+    <style name="Cardme.Splash">
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="android:windowBackground">@color/primary_dark</item>
     </style>
 
-    <style name="Yocard.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="Cardme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Yocard.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
+    <style name="Cardme.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/accent</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
 
-    <style name="Yocard.Dialog.Progress">
+    <style name="Cardme.Dialog.Progress">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Yocard.Translucent">
+    <style name="Cardme.Translucent">
         <item name="android:windowBackground">@color/scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -40,36 +40,36 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="Yocard.Translucent.DialogActivity">
+    <style name="Cardme.Translucent.DialogActivity">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="Yocard.BottomBar">
+    <style name="Cardme.BottomBar">
         <item name="android:background">@drawable/bg_bottom_bar</item>
         <item name="itemBackground">@drawable/bg_bottom_bar_item</item>
         <item name="itemIconTint">@color/bottom_bar_item</item>
         <item name="itemTextColor">@color/bottom_bar_item</item>
     </style>
 
-    <style name="Yocard.FloatingButton">
+    <style name="Cardme.FloatingButton">
         <item name="android:layout_margin">@dimen/normal</item>
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="Yocard.CardNumber">
+    <style name="Cardme.CardNumber">
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Yocard.SingleLineText">
+    <style name="Cardme.SingleLineText">
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="Yocard.MultiLineText">
+    <style name="Cardme.MultiLineText">
         <item name="android:background">@null</item>
         <item name="android:maxLength">80</item>
         <item name="android:maxLines">5</item>
@@ -78,7 +78,7 @@
         <item name="android:padding">@dimen/small</item>
     </style>
 
-    <style name="Yocard.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Caption">
+    <style name="Cardme.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Caption">
         <item name="android:gravity">center</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>

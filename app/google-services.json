@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:220567239098:android:ca2174e3b9d76956",
+        "mobilesdk_app_id": "1:220567239098:android:1544e22b0f81b9ac",
         "android_client_info": {
-          "package_name": "com.popalay.yocard"
+          "package_name": "com.popalay.cardme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "220567239098-1tqbd8avacihaejlhmgbgnjo4in6kmfo.apps.googleusercontent.com",
+          "client_id": "220567239098-2hivilrse73vnvcbq72u6htt5l35h83f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.popalay.yocard",
-            "certificate_hash": "6d0e1c1773c9a662aa7f181e54aad1a2f3d2bb67"
+            "package_name": "com.popalay.cardme",
+            "certificate_hash": "eb49d6bc532d3293b8501017208b45503934d3e7"
           }
         },
         {

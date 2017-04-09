@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.popalay.yocard"
+<manifest package="com.popalay.cardme"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="UnusedAttribute">
@@ -13,12 +13,12 @@
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher"
-        android:theme="@style/Yocard">
+        android:theme="@style/Cardme">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.popalay.cardme.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Yocard.Splash">
+            android:theme="@style/Cardme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,22 +27,22 @@
         </activity>
 
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="com.popalay.cardme.ui.home.HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.addcard.AddCardActivity"
+            android:name="com.popalay.cardme.ui.addcard.AddCardActivity"
             android:label="@string/card_details"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.holderdetails.HolderDetailsActivity"
+            android:name="com.popalay.cardme.ui.holderdetails.HolderDetailsActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.adddebt.AddDebtActivity"
+            android:name="com.popalay.cardme.ui.adddebt.AddDebtActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Yocard.Translucent.DialogActivity" />
+            android:theme="@style/Cardme.Translucent.DialogActivity" />
 
     </application>
 
