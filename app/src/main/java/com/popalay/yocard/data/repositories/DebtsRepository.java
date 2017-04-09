@@ -26,14 +26,16 @@ public class DebtsRepository {
 
     public Completable save(Debt debt) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(debt, (realm, id) -> {
-            debt.setId(id);
-            Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, debt.getHolder().getName())
+            if (debt.getId() > 0) {
+                debt.setId(id);
+            }
+            final Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, debt.getHolder().getName())
                     .findFirst();
             if (realmHolder != null) {
                 debt.setHolder(realmHolder);
             } else {
-                Number num = realm.where(Holder.class).max(Holder.ID);
-                long nextID = num != null ? num.longValue() + 1L : 0L;
+                final Number num = realm.where(Holder.class).max(Holder.ID);
+                final long nextID = num != null ? num.longValue() + 1L : 0L;
                 debt.getHolder().setId(nextID);
             }
             debt.getHolder().setDebtCount(debt.getHolder().getDebtCount() + 1);

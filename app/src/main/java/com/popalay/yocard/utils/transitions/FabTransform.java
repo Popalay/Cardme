@@ -61,7 +61,7 @@ public class FabTransform extends Transition {
     private static final String EXTRA_FAB_COLOR = "EXTRA_FAB_COLOR";
     private static final String EXTRA_FAB_ICON_RES_ID = "EXTRA_FAB_ICON_RES_ID";
     private static final long DEFAULT_DURATION = 240L;
-    private static final String PROP_BOUNDS = "yocard:fabTransform:bounds";
+    private static final String PROP_BOUNDS = "plaid:fabTransform:bounds";
     private static final String[] TRANSITION_PROPERTIES = {
             PROP_BOUNDS
     };
@@ -100,7 +100,7 @@ public class FabTransform extends Transition {
      * Configure {@code intent} with the extras needed to initialize this transition.
      */
     public static void addExtras(@NonNull Intent intent, @ColorInt int fabColor,
-                                 @DrawableRes int fabIconResId) {
+            @DrawableRes int fabIconResId) {
         intent.putExtra(EXTRA_FAB_COLOR, fabColor);
         intent.putExtra(EXTRA_FAB_ICON_RES_ID, fabIconResId);
     }
@@ -142,9 +142,11 @@ public class FabTransform extends Transition {
 
     @Override
     public Animator createAnimator(final ViewGroup sceneRoot,
-                                   final TransitionValues startValues,
-                                   final TransitionValues endValues) {
-        if (startValues == null || endValues == null)  return null;
+            final TransitionValues startValues,
+            final TransitionValues endValues) {
+        if (startValues == null || endValues == null) {
+            return null;
+        }
 
         final Rect startBounds = (Rect) startValues.values.get(PROP_BOUNDS);
         final Rect endBounds = (Rect) endValues.values.get(PROP_BOUNDS);
@@ -177,7 +179,9 @@ public class FabTransform extends Transition {
         // Add a color overlay to fake appearance of the FAB
         final ColorDrawable fabColor = new ColorDrawable(color);
         fabColor.setBounds(0, 0, dialogBounds.width(), dialogBounds.height());
-        if (!fromFab) fabColor.setAlpha(0);
+        if (!fromFab) {
+            fabColor.setAlpha(0);
+        }
         view.getOverlay().add(fabColor);
 
         // Add an icon overlay again to fake the appearance of the FAB
@@ -188,7 +192,9 @@ public class FabTransform extends Transition {
         fabIcon.setBounds(iconLeft, iconTop,
                 iconLeft + fabIcon.getIntrinsicWidth(),
                 iconTop + fabIcon.getIntrinsicHeight());
-        if (!fromFab) fabIcon.setAlpha(0);
+        if (!fromFab) {
+            fabIcon.setAlpha(0);
+        }
         view.getOverlay().add(fabIcon);
 
         // Circular clip from/to the FAB size
@@ -283,7 +289,9 @@ public class FabTransform extends Transition {
         final AnimatorSet transition = new AnimatorSet();
         transition.playTogether(circularReveal, translate, colorFade, iconFade);
         transition.playTogether(fadeContents);
-        if (elevation != null) transition.play(elevation);
+        if (elevation != null) {
+            transition.play(elevation);
+        }
         if (fromFab) {
             transition.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -298,7 +306,9 @@ public class FabTransform extends Transition {
 
     private void captureValues(TransitionValues transitionValues) {
         final View view = transitionValues.view;
-        if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) return;
+        if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
+            return;
+        }
 
         transitionValues.values.put(PROP_BOUNDS, new Rect(view.getLeft(), view.getTop(),
                 view.getRight(), view.getBottom()));

@@ -58,6 +58,11 @@ public class CardsInteractor {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
+    public Completable incCardUsage(Card card) {
+        return cardRepository.incCardUsage(card)
+                .subscribeOn(Schedulers.io());
+    }
+
     public Completable removeCard(Card card) {
         return cardRepository.remove(card)
                 .andThen(holderRepository.updateCounts(card.getHolder()))

@@ -28,14 +28,16 @@ public class CardRepository {
 
     public Completable save(Card card) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(card, (realm, id) -> {
-            card.setId(id);
-            Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, card.getHolder().getName())
+            if (card.getId() > 0) {
+                card.setId(id);
+            }
+            final Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, card.getHolder().getName())
                     .findFirst();
             if (realmHolder != null) {
                 card.setHolder(realmHolder);
             } else {
-                Number num = realm.where(Holder.class).max(Holder.ID);
-                long nextID = num != null ? num.longValue() + 1L : 0L;
+                final Number num = realm.where(Holder.class).max(Holder.ID);
+                final long nextID = num != null ? num.longValue() + 1L : 0L;
                 card.getHolder().setId(nextID);
             }
             card.getHolder().setCardsCount(card.getHolder().getCardsCount() + 1);
