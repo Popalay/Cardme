@@ -6,5 +6,5 @@ public final class Constants {
     }
 
     public static final String PRIVACY_POLICY_LINK
-            = "https://cdn.rawgit.com/Popalay/Cardme/48fdd882/privacy_policy.html";
+            = "https://rawgit.com/Popalay/Cardme/master/privacy_policy.html";
 }
