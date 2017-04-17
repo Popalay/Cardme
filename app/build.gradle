@@ -15,8 +15,8 @@ android {
         applicationId "com.popalay.cardme"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
     }
 
     signingConfigs {
