@@ -26,7 +26,7 @@ public class DebtsRepository {
 
     public Completable save(Debt debt) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(debt, (realm, id) -> {
-            if (debt.getId() > 0) {
+            if (debt.getId() == 0) {
                 debt.setId(id);
             }
             final Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, debt.getHolder().getName())

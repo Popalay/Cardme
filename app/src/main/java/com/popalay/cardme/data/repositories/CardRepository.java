@@ -28,7 +28,7 @@ public class CardRepository {
 
     public Completable save(Card card) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(card, (realm, id) -> {
-            if (card.getId() > 0) {
+            if (card.getId() == 0) {
                 card.setId(id);
             }
             final Holder realmHolder = realm.where(Holder.class).equalTo(Holder.NAME, card.getHolder().getName())
