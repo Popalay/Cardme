@@ -9,6 +9,7 @@ import android.util.Log;
 public class CharacterWrapTextView extends AppCompatTextView {
 
     private static final String TAG = "CharacterWrapTextView";
+    private int textWidth;
 
     public CharacterWrapTextView(Context context) {
         super(context);
@@ -31,17 +32,17 @@ public class CharacterWrapTextView extends AppCompatTextView {
     private void applyLetterSpacing(CharSequence text) {
         final Rect bounds = new Rect();
         getPaint().getTextBounds(text.toString(), 0, text.length(), bounds);
-        final int textWidth = bounds.width();
-        if (textWidth == 0) {
-            return;
-        }
-        post(() -> {
-            final int width = getWidth();
-            final float spacing = 1f - (float) textWidth / width - 0.1f;
-            Log.d(TAG, "applyLetterSpacing: " + text.toString() + " " + width + " " + textWidth + " " + spacing);
-            setLetterSpacing(spacing);
-        });
-
+        textWidth = bounds.width();
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        final int width = getMeasuredWidth();
+        //TODO calc correct letter spacing
+        Log.d(TAG, "onMeasure: " + getLetterSpacing());
+        final float spacing = 1f - (float) textWidth / width - 0.1f;
+        Log.d(TAG, "onMeasure: " + getLetterSpacing());
+        setLetterSpacing(spacing);
+    }
 }
