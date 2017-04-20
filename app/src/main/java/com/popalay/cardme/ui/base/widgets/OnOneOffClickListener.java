@@ -16,8 +16,8 @@ public abstract class OnOneOffClickListener implements View.OnClickListener {
 
     @Override
     public final void onClick(View v) {
-        long currentClickTime = SystemClock.uptimeMillis();
-        long elapsedTime = currentClickTime - mLastClickTime;
+        final long currentClickTime = SystemClock.uptimeMillis();
+        final long elapsedTime = currentClickTime - mLastClickTime;
 
         mLastClickTime = currentClickTime;
 
@@ -37,10 +37,8 @@ public abstract class OnOneOffClickListener implements View.OnClickListener {
      * This method delays simultaneous touch events of multiple views.
      */
     private void startTimer() {
-        Handler handler = new Handler();
-
+        final Handler handler = new Handler();
         handler.postDelayed(() -> isViewClicked = false, MIN_CLICK_INTERVAL);
-
     }
 
 }
