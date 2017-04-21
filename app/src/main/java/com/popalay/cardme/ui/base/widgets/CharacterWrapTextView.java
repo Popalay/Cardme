@@ -1,48 +1,74 @@
 package com.popalay.cardme.ui.base.widgets;
 
 import android.content.Context;
-import android.graphics.Rect;
+import android.graphics.Paint;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.util.Log;
 
 public class CharacterWrapTextView extends AppCompatTextView {
 
-    private static final String TAG = "CharacterWrapTextView";
-    private int textWidth;
+    private Paint mTestPaint;
 
     public CharacterWrapTextView(Context context) {
         super(context);
+        initialise(context, null);
     }
 
-    public CharacterWrapTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public CharacterWrapTextView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        initialise(context, attributeSet);
     }
 
-    public CharacterWrapTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public CharacterWrapTextView(Context context, AttributeSet attributeSet, int defStyle) {
+        super(context, attributeSet, defStyle);
+        initialise(context, attributeSet);
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        applyLetterSpacing(text);
-        super.setText(text, type);
+    private void initialise(Context context, AttributeSet attributeSet) {
+        mTestPaint = new Paint();
+        mTestPaint.set(getPaint());
     }
 
-    private void applyLetterSpacing(CharSequence text) {
-        final Rect bounds = new Rect();
-        getPaint().getTextBounds(text.toString(), 0, text.length(), bounds);
-        textWidth = bounds.width();
+    private void refitText(String text, int textWidth) {
+        if (textWidth <= 0) {
+            return;
+        }
+        final int targetWidth = textWidth - getPaddingLeft() - getPaddingRight();
+        float hi = 1f;
+        float lo = 0f;
+
+        float textWidthCalculated;
+        while (hi - lo > 0.1f) {
+            final float size = (hi + lo) / 2;
+            mTestPaint.setLetterSpacing(size);
+            textWidthCalculated = mTestPaint.measureText(text, 0, text.length());
+            if (textWidthCalculated >= targetWidth) {
+                hi = size;
+            } else {
+                lo = size;
+            }
+        }
+        setLetterSpacing(lo);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int width = getMeasuredWidth();
-        //TODO calc correct letter spacing
-        Log.d(TAG, "onMeasure: " + getLetterSpacing());
-        final float spacing = 1f - (float) textWidth / width - 0.1f;
-        Log.d(TAG, "onMeasure: " + getLetterSpacing());
-        setLetterSpacing(spacing);
+        final int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        final int height = getMeasuredHeight();
+        refitText(getText().toString(), parentWidth);
+        this.setMeasuredDimension(parentWidth, height);
+    }
+
+    @Override
+    protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
+        refitText(text.toString(), getWidth());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (w != oldw) {
+            refitText(getText().toString(), w);
+        }
     }
 }

@@ -12,7 +12,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.ActivityAddCardBinding;
-import com.popalay.cardme.ui.addcard.models.AddCardViewModel;
 import com.popalay.cardme.ui.base.BaseActivity;
 
 import java.util.List;
@@ -64,7 +63,9 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
 
         b.textHolder.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                b.buttonSave.performClick();
+                if (b.buttonSave.isEnabled()) {
+                    b.buttonSave.performClick();
+                }
                 return true;
             }
             return false;
