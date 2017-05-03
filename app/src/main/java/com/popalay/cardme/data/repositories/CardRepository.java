@@ -45,6 +45,10 @@ public class CardRepository {
         }));
     }
 
+    public Completable update(List<Card> cards) {
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> realm.copyToRealmOrUpdate(cards)));
+    }
+
     public Observable<List<Card>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .findAllSorted(Card.ID, Sort.DESCENDING, Card.USAGE, Sort.DESCENDING)

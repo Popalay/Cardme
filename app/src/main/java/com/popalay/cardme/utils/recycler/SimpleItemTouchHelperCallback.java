@@ -28,8 +28,14 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+        int dragFlags = 0;
+        int swipeFlags = 0;
+        if (dragCallback != null) {
+            dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        }
+        if (swipeCallback != null) {
+            swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+        }
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
@@ -45,14 +51,18 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void onChildDraw(Canvas c,
-            RecyclerView recyclerView,
+    public void onMoved(RecyclerView recyclerView,
             RecyclerView.ViewHolder viewHolder,
-            float dX,
-            float dY,
-            int actionState,
-            boolean isCurrentlyActive) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            int fromPos,
+            RecyclerView.ViewHolder target,
+            int toPos,
+            int x,
+            int y) {
+        super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+        if (dragCallback == null || fromPos == toPos) {
+            return;
+        }
+        dragCallback.onDropped();
     }
 
     @Override
@@ -61,6 +71,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             return;
         }
         swipeCallback.onSwiped(viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    public void onChildDraw(Canvas c,
+            RecyclerView recyclerView,
+            RecyclerView.ViewHolder viewHolder,
+            float dX,
+            float dY,
+            int actionState,
+            boolean isCurrentlyActive) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
 
     public interface SwipeCallback {
@@ -72,5 +93,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public interface DragCallback {
 
         void onDragged(int from, int to);
+
+        void onDropped();
     }
 }

@@ -50,9 +50,6 @@ public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
     }
 
     public void onCardClick(Card card) {
-        cardsInteractor.incCardUsage(card)
-                .compose(bindToLifecycle().forCompletable())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().shareCardNumber(card.getNumber()), this::handleBaseError);
+        getViewState().shareCardNumber(card.getNumber());
     }
 }

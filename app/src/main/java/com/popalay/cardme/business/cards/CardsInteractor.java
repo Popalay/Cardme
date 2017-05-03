@@ -58,8 +58,11 @@ public class CardsInteractor {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
-    public Completable incCardUsage(Card card) {
-        return cardRepository.incCardUsage(card)
+    public Completable updateCardPositions(List<Card> items) {
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).setUsage(i);
+        }
+        return cardRepository.update(items)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -12,6 +12,9 @@ import com.popalay.cardme.ui.removablelistitem.RemovableListItemPresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.card.payment.CreditCard;
@@ -60,10 +63,27 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardClick(Card card) {
-        cardsInteractor.incCardUsage(card)
+        getViewState().shareCardNumber(card.getNumber());
+    }
+
+    public void onItemDragged(List<Card> items, int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(items, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(items, i, i - 1);
+            }
+        }
+        getViewState().setItems(items);
+    }
+
+    public void onItemDropped(List<Card> items) {
+        cardsInteractor.updateCardPositions(items)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().shareCardNumber(card.getNumber()), this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError);
     }
 
     @Override
