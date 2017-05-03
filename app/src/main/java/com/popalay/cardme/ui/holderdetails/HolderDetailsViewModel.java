@@ -11,6 +11,7 @@ import android.support.v7.widget.SnapHelper;
 import com.github.nitrico.lastadapter.Holder;
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
+import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.popalay.cardme.BR;
 import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
@@ -18,8 +19,8 @@ import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.databinding.ItemCardBinding;
 import com.popalay.cardme.ui.base.ItemClickListener;
 import com.popalay.cardme.utils.recycler.DiffUtilCallback;
-import com.popalay.cardme.utils.recycler.SpacingItemDecoration;
 import com.popalay.cardme.utils.recycler.HorizontalDividerItemDecoration;
+import com.popalay.cardme.utils.recycler.SpacingItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +58,7 @@ public class HolderDetailsViewModel {
     }
 
     @BindingAdapter(value = {"bind:holderCards", "bind:itemClickListener"}, requireAll = false)
-    public static void setCards(RecyclerView recyclerView, List<Card> newItems, ItemClickListener listener) {
+    public static void setCards(RecyclerViewPager recyclerView, List<Card> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;
         }

@@ -111,6 +111,7 @@ dependencies {
 
     // Widgets
     //compile 'com.github.Popalay:LandscapeView:master-fbcd6c9a61-1'
+    compile 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2'
 
     // Firebase
     compile "com.google.firebase:firebase-core:$playServices"

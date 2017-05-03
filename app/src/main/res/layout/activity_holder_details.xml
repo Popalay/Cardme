@@ -17,7 +17,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -31,13 +31,17 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <android.support.v7.widget.RecyclerView
+                <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="?actionBarSize"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/normal"
+                    android:paddingStart="@dimen/normal"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
+                    app:rvp_singlePageFling="true"
                     bind:holderCards="@{model.cards}"
                     bind:itemClickListener="@{listener}"
                     tools:listitem="@layout/item_card" />
