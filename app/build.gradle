@@ -63,7 +63,7 @@ android {
 
 ext {
     supportLibrary = '25.3.1'
-    playServices = '10.2.0'
+    playServices = '10.2.4'
     dagger = '2.9'
     mvpMoxy = '1.5.1'
 }
@@ -98,7 +98,7 @@ dependencies {
 
     // Utils
     compile 'io.card:android-sdk:5.5.1'
-    compile 'com.github.nitrico.lastadapter:lastadapter:2.0.0'
+    compile 'com.github.nitrico.lastadapter:lastadapter:2.2.0'
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.annimon:stream:1.1.6'

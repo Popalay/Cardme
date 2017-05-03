@@ -48,6 +48,11 @@ public class CharacterWrapTextView extends AppCompatTextView {
                 lo = size;
             }
         }
+
+        if (lo == getLetterSpacing()) {
+            return;
+        }
+
         setLetterSpacing(lo);
     }
 

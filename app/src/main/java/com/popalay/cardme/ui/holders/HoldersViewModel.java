@@ -5,7 +5,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
@@ -37,12 +36,12 @@ public class HoldersViewModel {
             recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(context, R.color.grey, 1,
                     context.getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
             items = new ArrayList<>(newItems);
-            LastAdapter.with(items, BR.item, true)
+            new LastAdapter(items, BR.item, true)
                     .map(Holder.class, new ItemType<ItemHolderBinding>(R.layout.item_holder) {
                         @Override
-                        public void onBind(@NotNull ItemHolderBinding binding, @NotNull View view, int position) {
-                            super.onBind(binding, view, position);
-                            binding.setListener(listener);
+                        public void onCreate(@NotNull com.github.nitrico.lastadapter.Holder<ItemHolderBinding> holder) {
+                            super.onCreate(holder);
+                            holder.getBinding().setListener(listener);
                         }
                     })
                     .into(recyclerView);

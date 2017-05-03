@@ -22,6 +22,10 @@ public abstract class RemovableListItemPresenter<T, V extends RemovableListItemV
                 .subscribe(() -> {}, this::handleBaseError);
     }
 
+    public void onItemDragged(int from, int to) {
+
+    }
+
     protected abstract Completable removeItem(T item);
 
     protected abstract Completable saveItem(T item);

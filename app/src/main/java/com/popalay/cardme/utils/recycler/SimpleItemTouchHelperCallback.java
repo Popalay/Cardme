@@ -1,5 +1,6 @@
 package com.popalay.cardme.utils.recycler;
 
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -27,8 +28,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        int dragFlags = 0;
-        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
@@ -39,8 +40,19 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (dragCallback == null) {
             return false;
         }
-        dragCallback.onDragged(viewHolder);
+        dragCallback.onDragged(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
+    }
+
+    @Override
+    public void onChildDraw(Canvas c,
+            RecyclerView recyclerView,
+            RecyclerView.ViewHolder viewHolder,
+            float dX,
+            float dY,
+            int actionState,
+            boolean isCurrentlyActive) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
@@ -48,17 +60,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (swipeCallback == null) {
             return;
         }
-        swipeCallback.onSwiped(viewHolder);
+        swipeCallback.onSwiped(viewHolder.getAdapterPosition());
     }
 
     public interface SwipeCallback {
 
-        void onSwiped(RecyclerView.ViewHolder viewHolder);
+        void onSwiped(int position);
 
     }
 
     public interface DragCallback {
 
-        void onDragged(RecyclerView.ViewHolder viewHolder);
+        void onDragged(int from, int to);
     }
 }

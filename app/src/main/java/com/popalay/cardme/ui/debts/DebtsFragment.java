@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,8 +72,8 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        final Debt debt = viewModel.get(viewHolder.getAdapterPosition());
+    public void onSwiped(int position) {
+        final Debt debt = viewModel.get(position);
         presenter.onItemSwiped(debt);
     }
 

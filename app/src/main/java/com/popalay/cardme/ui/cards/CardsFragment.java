@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
 public class CardsFragment extends BaseFragment implements CardsView,
-        SimpleItemTouchHelperCallback.SwipeCallback, ItemClickListener<Card> {
+        SimpleItemTouchHelperCallback.SwipeCallback, ItemClickListener<Card>,SimpleItemTouchHelperCallback.DragCallback {
 
     private static final int SCAN_REQUEST_CODE = 121;
 
@@ -91,9 +90,23 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder) {
-        final Card card = viewModel.get(viewHolder.getAdapterPosition());
+    public void onSwiped(int position) {
+        final Card card = viewModel.get(position);
         presenter.onItemSwiped(card);
+    }
+
+    @Override
+    public void onDragged(int from, int to) {
+/*        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(mItems, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(mItems, i, i - 1);
+            }
+        }*/
+        presenter.onItemDragged(from, to);
     }
 
     @Override
@@ -111,7 +124,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
         b.setModel(viewModel);
         b.setListener(this);
 
-        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this)).attachToRecyclerView(b.listCards);
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this)).attachToRecyclerView(b.listCards);
         b.buttonAdd.setOnClickListener(new OnOneOffClickListener() {
             @Override
             public void onSingleClick(View v) {

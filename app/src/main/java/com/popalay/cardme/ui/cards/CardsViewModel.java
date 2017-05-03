@@ -5,8 +5,8 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
+import com.github.nitrico.lastadapter.Holder;
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
 import com.popalay.cardme.BR;
@@ -15,7 +15,7 @@ import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.ItemCardBinding;
 import com.popalay.cardme.ui.base.ItemClickListener;
 import com.popalay.cardme.utils.recycler.DiffUtilCallback;
-import com.popalay.cardme.utils.recycler.DividerItemDecoration;
+import com.popalay.cardme.utils.recycler.SpacingItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,14 +34,14 @@ public class CardsViewModel {
         final List<Card> items;
         final Context context = recyclerView.getContext();
         if (recyclerView.getAdapter() == null) {
-            recyclerView.addItemDecoration(new DividerItemDecoration(context, true, true, true, true));
+            recyclerView.addItemDecoration(new SpacingItemDecoration(context, true, true, true, true));
             items = new ArrayList<>(newItems);
-            LastAdapter.with(items, BR.item, true)
+            new LastAdapter(items, BR.item, true)
                     .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
                         @Override
-                        public void onBind(@NotNull ItemCardBinding binding, @NotNull View view, int position) {
-                            super.onBind(binding, view, position);
-                            binding.setListener(listener);
+                        public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
+                            super.onCreate(holder);
+                            holder.getBinding().setListener(listener);
                         }
                     })
                     .into(recyclerView);
