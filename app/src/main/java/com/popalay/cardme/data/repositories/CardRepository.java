@@ -62,21 +62,15 @@ public class CardRepository {
                 .sort(Card.USAGE, Sort.DESCENDING));
     }
 
-    public Completable incCardUsage(final Card card) {
-        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
-            card.setUsage(card.getUsage() + 1);
-            realm.copyToRealmOrUpdate(card);
-        }));
-    }
-
     public Completable remove(final Card card) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
             realm.where(Card.class).equalTo(Card.ID, card.getId()).findAll().deleteAllFromRealm();
         }));
     }
 
-    public Single<Integer> countByHolder(Holder holder) {
-        return RxRealm.getList(realm -> realm.where(Card.class).equalTo(Card.HOLDER_ID, holder.getId()).findAll())
-                .map(List::size);
+    public Single<Card> getByFormattedNumber(String formattedNumber) {
+        return RxRealm.getElement(realm -> realm.where(Card.class)
+                .equalTo(Card.FORMATTED_NUMBER, formattedNumber)
+                .findFirst());
     }
 }

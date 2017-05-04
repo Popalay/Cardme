@@ -17,6 +17,7 @@ public class Card extends RealmObject implements StableId {
 
     public static final String ID = "id";
     public static final String HOLDER_ID = "holder.id";
+    public static final String FORMATTED_NUMBER = "number";
     public static final String USAGE = "usage";
 
     @PrimaryKey private long id;

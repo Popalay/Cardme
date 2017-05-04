@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
-import com.popalay.cardme.business.cards.CardsInteractor;
+import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.data.events.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.ui.removablelistitem.RemovableListItemPresenter;
@@ -24,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> {
 
-    @Inject CardsInteractor cardsInteractor;
+    @Inject CardInteractor mCardInteractor;
     @Inject Context context;
 
     public CardsPresenter() {
@@ -48,7 +48,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        cardsInteractor.getCards()
+        mCardInteractor.getCards()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setItems, this::handleBaseError);
@@ -80,7 +80,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onItemDropped(List<Card> items) {
-        cardsInteractor.updateCardPositions(items)
+        mCardInteractor.updateCardPositions(items)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, this::handleBaseError);
@@ -88,11 +88,11 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
 
     @Override
     protected Completable removeItem(Card item) {
-        return cardsInteractor.removeCard(item);
+        return mCardInteractor.removeCard(item);
     }
 
     @Override
     protected Completable saveItem(Card item) {
-        return cardsInteractor.save(item);
+        return mCardInteractor.save(item);
     }
 }

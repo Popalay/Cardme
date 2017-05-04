@@ -2,7 +2,7 @@ package com.popalay.cardme.ui.holders;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
-import com.popalay.cardme.business.holders.HoldersInteractor;
+import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.data.events.FavoriteHolderEvent;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.ui.base.BasePresenter;
@@ -17,7 +17,7 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class HoldersPresenter extends BasePresenter<HoldersView> {
 
-    @Inject HoldersInteractor holdersInteractor;
+    @Inject HolderInteractor mHolderInteractor;
 
     private boolean openFavoriteHolder;
 
@@ -42,7 +42,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        holdersInteractor.getHolders()
+        mHolderInteractor.getHolders()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(holders -> {

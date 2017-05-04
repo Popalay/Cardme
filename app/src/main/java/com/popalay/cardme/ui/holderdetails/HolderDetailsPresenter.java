@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
-import com.popalay.cardme.business.cards.CardsInteractor;
+import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.debts.DebtsInteractor;
-import com.popalay.cardme.business.holders.HoldersInteractor;
+import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.ui.base.BasePresenter;
 
@@ -17,8 +17,8 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
 
-    @Inject CardsInteractor cardsInteractor;
-    @Inject HoldersInteractor holdersInteractor;
+    @Inject CardInteractor mCardInteractor;
+    @Inject HolderInteractor mHolderInteractor;
     @Inject DebtsInteractor debtsInteractor;
     @Inject Context context;
 
@@ -33,7 +33,7 @@ public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        cardsInteractor.getCardsByHolder(holderId)
+        mCardInteractor.getCardsByHolder(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCards, this::handleBaseError);
@@ -43,7 +43,7 @@ public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setDebts, this::handleBaseError);
 
-        holdersInteractor.getHolderName(holderId)
+        mHolderInteractor.getHolderName(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setHolderName, this::handleBaseError);

@@ -13,4 +13,5 @@ public interface AddCardView extends BaseView {
     void showCardDetails(Card card);
 
     void setCompletedCardHolders(List<String> holders);
+
 }

@@ -53,8 +53,8 @@ public class HolderRepository {
     }
 
     public Completable remove(Holder holder) {
-        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
-            realm.where(Holder.class).equalTo(Holder.ID, holder.getId()).findAll().deleteAllFromRealm();
-        }));
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm ->
+                realm.where(Holder.class).equalTo(Holder.ID, holder.getId())
+                        .findAll().deleteAllFromRealm()));
     }
 }

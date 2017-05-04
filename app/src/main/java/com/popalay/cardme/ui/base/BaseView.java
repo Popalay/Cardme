@@ -3,14 +3,21 @@ package com.popalay.cardme.ui.base;
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.popalay.cardme.utils.AddToEndSingleByTagStateStrategy;
 
 public interface BaseView extends MvpView {
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
+    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "Error")
     void showError(String error);
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
+    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "Message")
     void showMessage(String message);
+
+    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "Error")
+    void hideError();
+
+    @StateStrategyType(value = AddToEndSingleByTagStateStrategy.class, tag = "Message")
+    void hideMessage();
 
     void showProgress();
 

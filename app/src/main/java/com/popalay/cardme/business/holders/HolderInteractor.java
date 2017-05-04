@@ -14,12 +14,12 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 
 @Singleton
-public class HoldersInteractor {
+public class HolderInteractor {
 
     private final HolderRepository holderRepository;
 
     @Inject
-    public HoldersInteractor(HolderRepository holderRepository) {
+    public HolderInteractor(HolderRepository holderRepository) {
         this.holderRepository = holderRepository;
     }
 
@@ -46,7 +46,7 @@ public class HoldersInteractor {
     }
 
     private List<String> transform(List<Holder> holders) {
-        List<String> names = Stream.of(holders).map(Holder::getName).toList();
+        final List<String> names = Stream.of(holders).map(Holder::getName).toList();
         //Stream.of(Contacts.getQuery().find()).map(Contact::getDisplayName).forEach(names::add);
         Collections.sort(names);
         return names;

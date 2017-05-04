@@ -39,6 +39,16 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements BaseV
     }
 
     @Override
+    public void hideError() {
+
+    }
+
+    @Override
+    public void hideMessage() {
+
+    }
+
+    @Override
     public void showProgress() {
         showLoadingDialog();
     }

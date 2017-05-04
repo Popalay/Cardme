@@ -1,5 +1,6 @@
 package com.popalay.cardme.ui.addcard;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -13,6 +14,7 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.ActivityAddCardBinding;
 import com.popalay.cardme.ui.base.BaseActivity;
+import com.popalay.cardme.utils.DialogFactory;
 
 import java.util.List;
 
@@ -53,6 +55,16 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
     public void setCompletedCardHolders(List<String> holders) {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, holders);
         b.textHolder.setAdapter(adapter);
+    }
+
+    @Override
+    public void showError(String message) {
+        final Dialog errorDialog = DialogFactory.createCustomButtonsDialog(this, message,
+                getString(R.string.close), null,
+                (dialog, which) -> presenter.onCloseClick(), dialog -> presenter.onErrorDialogDismiss());
+
+        errorDialog.setCancelable(false);
+        errorDialog.show();
     }
 
     private void initUI() {

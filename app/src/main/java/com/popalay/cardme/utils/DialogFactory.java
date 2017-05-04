@@ -39,6 +39,18 @@ public final class DialogFactory {
         return alertDialog.create();
     }
 
+    public static Dialog createCustomButtonsDialog(Context context, String message,
+            String positiveButton, String negativeButton,
+            @Nullable DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable DialogInterface.OnDismissListener onDismissListener) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Cardme_Dialog)
+                .setMessage(message)
+                .setPositiveButton(positiveButton, positiveButtonClickListener)
+                .setOnDismissListener(onDismissListener)
+                .setNegativeButton(negativeButton, null);
+        return alertDialog.create();
+    }
+
     public static ProgressDialog createProgressDialog(Context context, String message) {
         final ProgressDialog progressDialog = new ProgressDialog(context, R.style.Cardme_Dialog_Progress);
         progressDialog.setMessage(message);

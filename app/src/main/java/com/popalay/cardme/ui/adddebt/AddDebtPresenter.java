@@ -3,7 +3,7 @@ package com.popalay.cardme.ui.adddebt;
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.debts.DebtsInteractor;
-import com.popalay.cardme.business.holders.HoldersInteractor;
+import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.ui.base.BasePresenter;
 
@@ -15,13 +15,13 @@ import rx.android.schedulers.AndroidSchedulers;
 public class AddDebtPresenter extends BasePresenter<AddDebtView> {
 
     @Inject DebtsInteractor debtsInteractor;
-    @Inject HoldersInteractor holdersInteractor;
+    @Inject HolderInteractor mHolderInteractor;
 
     public AddDebtPresenter() {
         App.appComponent().inject(this);
 
         getViewState().setViewModel(new AddDebtViewModel());
-        holdersInteractor.getHolderNames()
+        mHolderInteractor.getHolderNames()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);
