@@ -8,9 +8,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-public class ScrollAwareFabBehavior extends SnackbarFabBehavior {
+public class FabScrollBehavior extends SnackbarFabBehavior {
 
-    public ScrollAwareFabBehavior(Context context, AttributeSet attrs) {
+    public FabScrollBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -25,18 +25,20 @@ public class ScrollAwareFabBehavior extends SnackbarFabBehavior {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
         if (dyConsumed > 0) {
-            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            int fab_bottomMargin = layoutParams.bottomMargin;
             child.animate()
-                    .translationY(child.getHeight() + fab_bottomMargin)
+                    .alpha(0)
+                    .scaleX(0)
+                    .scaleY(0)
                     .setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(300L)
+                    .setDuration(200L)
                     .start();
         } else if (dyConsumed < 0) {
             child.animate()
-                    .translationY(0)
+                    .alpha(1)
+                    .scaleX(1)
+                    .scaleY(1)
                     .setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(300L)
+                    .setDuration(200L)
                     .start();
         }
     }
