@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:minHeight="@dimen/holder_height"
@@ -54,25 +55,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/smallest"
-                android:drawableStart="@drawable/ic_card_16_grey"
                 android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="@{String.valueOf(item.cardsCount)}"
+                android:text="@{@string/format_holder_cards(item.cardsCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                tools:text="23" />
+                tools:text="Cards: 23" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal"
-                android:drawablePadding="@dimen/smallest"
-                android:drawableStart="@drawable/ic_money_16_grey"
+                android:layout_marginStart="@dimen/small"
                 android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="@{String.valueOf(item.debtCount)}"
+                android:text="@{@string/format_holder_debts(item.debtCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                tools:text="23" />
+                tools:text="Debts: 23" />
 
         </LinearLayout>
 

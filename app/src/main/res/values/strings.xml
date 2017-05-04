@@ -11,7 +11,6 @@
     <string name="card_details">Card details</string>
     <string name="holder_name">Holder name</string>
     <string name="number_copied">Copied to clipboard</string>
-    <string name="card_holder_number">%s\'s card</string>
     <string name="card_removed">Card was removed</string>
     <string name="debt_removed">Debt was removed</string>
     <string name="who_lent">Who lent you?</string>
@@ -26,6 +25,11 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
+
+    <!-- formats -->
+    <string name="format_holder_number">%s\'s card</string>
+    <string name="format_holder_cards">Cards: %d</string>
+    <string name="format_holder_debts">Debts: %d</string>
 
     <!-- list placeholders -->
     <string name="list_debts_placeholder">You didn\'t borrow anything. \nTo add a debt click on button below</string>
