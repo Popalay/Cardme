@@ -66,7 +66,6 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements BaseV
 
     @Override
     public void close() {
-        final BaseActivity baseActivity = getBaseActivity();
-        baseActivity.close();
+        throw new UnsupportedOperationException("You can not close the fragment");
     }
 }
