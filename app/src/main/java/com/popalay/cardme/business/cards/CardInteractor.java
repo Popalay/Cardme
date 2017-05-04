@@ -2,6 +2,7 @@ package com.popalay.cardme.business.cards;
 
 import android.content.Context;
 
+import com.popalay.cardme.R;
 import com.popalay.cardme.business.exception.ExceptionFactory;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.repositories.CardRepository;
@@ -80,6 +81,6 @@ public class CardInteractor {
 
     private Throwable createCardExistError() {
         return ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST,
-                "The card is already exist. Check your list");
+                context.getString(R.string.error_card_exist));
     }
 }

@@ -60,7 +60,7 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
     @Override
     public void showError(String message) {
         final Dialog errorDialog = DialogFactory.createCustomButtonsDialog(this, message,
-                getString(R.string.close), null,
+                getString(R.string.action_close), null,
                 (dialog, which) -> presenter.onCloseClick(), dialog -> presenter.onErrorDialogDismiss());
 
         errorDialog.setCancelable(false);

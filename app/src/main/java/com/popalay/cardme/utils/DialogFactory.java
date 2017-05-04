@@ -35,7 +35,7 @@ public final class DialogFactory {
                 .setMessage(message)
                 .setPositiveButton(R.string.action_ok, positiveButtonClickListener)
                 .setOnDismissListener(onDismissListener)
-                .setNegativeButton(R.string.cancel, null);
+                .setNegativeButton(R.string.action_cancel, null);
         return alertDialog.create();
     }
 
