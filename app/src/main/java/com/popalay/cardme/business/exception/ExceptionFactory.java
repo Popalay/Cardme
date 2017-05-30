@@ -8,7 +8,8 @@ public final class ExceptionFactory {
     }
 
     public enum ErrorType {
-        CARD_EXIST
+        CARD_EXIST,
+        PERMISSION_DENIED
     }
 
     public static Throwable createError(ErrorType type) {
