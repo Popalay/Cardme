@@ -69,7 +69,7 @@ ext {
     supportLibrary = '25.3.1'
     playServices = '10.2.6'
     dagger = '2.9'
-    moxy = '1.5.2'
+    moxy = '1.5.3'
 }
 
 dependencies {
