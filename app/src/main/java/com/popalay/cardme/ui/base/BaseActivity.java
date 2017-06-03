@@ -1,6 +1,7 @@
 package com.popalay.cardme.ui.base;
 
 import android.app.ProgressDialog;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -28,43 +29,35 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         }
     }
 
-    @Override
-    public void showError(String error) {
+    @Override public void showError(String error) {
         DialogFactory.createSimpleOkErrorDialog(this, error).show();
     }
 
-    @Override
-    public void showMessage(String message) {
+    @Override public void showError(@StringRes int error) {
+        showError(getString(error));
+    }
+
+    @Override public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void hideError() {
+    @Override public void hideError() { }
 
-    }
+    @Override public void hideMessage() { }
 
-    @Override
-    public void hideMessage() {
-
-    }
-
-    @Override
-    public void showProgress() {
+    @Override public void showProgress() {
         showLoadingDialog();
     }
 
-    @Override
-    public void hideProgress() {
+    @Override public void hideProgress() {
         hideLoadingDialog();
     }
 
-    @Override
-    public void hideKeyboard() {
+    @Override public void hideKeyboard() {
         ViewUtil.hideKeyboard(this);
     }
 
-    @Override
-    public void close() {
+    @Override public void close() {
         finish();
     }
 }

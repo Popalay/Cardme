@@ -5,17 +5,9 @@ import com.github.tamir7.contacts.Contacts;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+public class DeviceRepository implements IDeviceRepository {
 
-@Singleton
-public class DeviceRepository {
-
-    @Inject
-    public DeviceRepository() {
-    }
-
-    public List<Contact> getContacts(){
+    @Override public List<Contact> getContacts(){
         return Contacts.getQuery().find();
     }
 }

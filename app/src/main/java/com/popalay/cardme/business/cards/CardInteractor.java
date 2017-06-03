@@ -1,12 +1,10 @@
 package com.popalay.cardme.business.cards;
 
-import android.content.Context;
-
 import com.popalay.cardme.R;
 import com.popalay.cardme.business.exception.ExceptionFactory;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.data.repositories.CardRepository;
-import com.popalay.cardme.data.repositories.HolderRepository;
+import com.popalay.cardme.data.repositories.ICardRepository;
+import com.popalay.cardme.data.repositories.IHolderRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -26,17 +24,13 @@ import static com.popalay.cardme.data.models.Card.CARD_COLOR_PURPLE;
 @Singleton
 public class CardInteractor {
 
-    private final CardRepository cardRepository;
-    private final HolderRepository holderRepository;
-    private final Context context;
+    private final ICardRepository cardRepository;
+    private final IHolderRepository holderRepository;
 
-    @Inject
-    public CardInteractor(CardRepository cardRepository,
-            HolderRepository holderRepository,
-            Context context) {
+    @Inject public CardInteractor(ICardRepository cardRepository,
+            IHolderRepository holderRepository) {
         this.cardRepository = cardRepository;
         this.holderRepository = holderRepository;
-        this.context = context;
     }
 
     public Single<Card> transformCard(CreditCard creditCard) {
@@ -80,7 +74,6 @@ public class CardInteractor {
     }
 
     private Throwable createCardExistError() {
-        return ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST,
-                context.getString(R.string.error_card_exist));
+        return ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST, R.string.error_card_exist);
     }
 }

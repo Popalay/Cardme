@@ -6,8 +6,8 @@ import android.content.Context;
 import com.annimon.stream.Stream;
 import com.github.tamir7.contacts.Contact;
 import com.popalay.cardme.data.models.Holder;
-import com.popalay.cardme.data.repositories.DeviceRepository;
-import com.popalay.cardme.data.repositories.HolderRepository;
+import com.popalay.cardme.data.repositories.IDeviceRepository;
+import com.popalay.cardme.data.repositories.IHolderRepository;
 import com.popalay.cardme.utils.PermissionChecker;
 
 import java.util.Collections;
@@ -23,13 +23,12 @@ import rx.schedulers.Schedulers;
 public class HolderInteractor {
 
     private final Context context;
-    private final DeviceRepository deviceRepository;
-    private final HolderRepository holderRepository;
+    private final IDeviceRepository deviceRepository;
+    private final IHolderRepository holderRepository;
 
-    @Inject
-    public HolderInteractor(Context context,
-            DeviceRepository deviceRepository,
-            HolderRepository holderRepository) {
+    @Inject public HolderInteractor(Context context,
+            IDeviceRepository deviceRepository,
+            IHolderRepository holderRepository) {
         this.context = context;
         this.deviceRepository = deviceRepository;
         this.holderRepository = holderRepository;

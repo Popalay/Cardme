@@ -1,13 +1,14 @@
 package com.popalay.cardme.business.exception;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 public class AppException extends RuntimeException {
 
     private ExceptionFactory.ErrorType errorType;
+    @StringRes private final int messageRes;
 
-    public AppException(ExceptionFactory.ErrorType errorType, @Nullable String message) {
-        super(message);
+    public AppException(ExceptionFactory.ErrorType errorType, @StringRes int message) {
+        this.messageRes = message;
         this.errorType = errorType;
     }
 
@@ -17,5 +18,9 @@ public class AppException extends RuntimeException {
 
     public void setErrorType(ExceptionFactory.ErrorType errorType) {
         this.errorType = errorType;
+    }
+
+    public int getMessageRes() {
+        return messageRes;
     }
 }

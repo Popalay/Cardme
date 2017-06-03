@@ -67,7 +67,7 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
 
     private void handleAppError(AppException exception) {
         if (exception.getErrorType() == ExceptionFactory.ErrorType.CARD_EXIST) {
-            getViewState().showError(exception.getMessage());
+            getViewState().showError(exception.getMessageRes());
         }
     }
 }

@@ -1,32 +1,19 @@
 package com.popalay.cardme.data.repositories;
 
-import android.content.Context;
-
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Holder;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.realm.Sort;
 import rx.Completable;
 import rx.Observable;
 import rx.Single;
 
-@Singleton
-public class CardRepository {
+public class CardRepository implements ICardRepository {
 
-    private final Context context;
-
-    @Inject
-    public CardRepository(Context context) {
-        this.context = context;
-    }
-
-    public Completable save(Card card) {
+    @Override public Completable save(Card card) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(card, (realm, id) -> {
             if (card.getId() == 0) {
                 card.setId(id);
@@ -45,30 +32,30 @@ public class CardRepository {
         }));
     }
 
-    public Completable update(List<Card> cards) {
+    @Override public Completable update(List<Card> cards) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> realm.copyToRealmOrUpdate(cards)));
     }
 
-    public Observable<List<Card>> getAll() {
+    @Override public Observable<List<Card>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .findAllSorted(Card.ID, Sort.DESCENDING, Card.USAGE, Sort.DESCENDING)
                 .sort(Card.USAGE, Sort.DESCENDING));
     }
 
-    public Observable<List<Card>> getAllByHolder(long holderId) {
+    @Override public Observable<List<Card>> getAllByHolder(long holderId) {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.USAGE, Sort.DESCENDING));
     }
 
-    public Completable remove(final Card card) {
+    @Override public Completable remove(final Card card) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
             realm.where(Card.class).equalTo(Card.ID, card.getId()).findAll().deleteAllFromRealm();
         }));
     }
 
-    public Single<Card> getByFormattedNumber(String formattedNumber) {
+    @Override public Single<Card> getByFormattedNumber(String formattedNumber) {
         return RxRealm.getElement(realm -> realm.where(Card.class)
                 .equalTo(Card.FORMATTED_NUMBER, formattedNumber)
                 .findFirst());

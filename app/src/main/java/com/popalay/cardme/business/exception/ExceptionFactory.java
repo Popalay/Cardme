@@ -1,6 +1,8 @@
 package com.popalay.cardme.business.exception;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+
+import com.popalay.cardme.R;
 
 public final class ExceptionFactory {
 
@@ -13,10 +15,10 @@ public final class ExceptionFactory {
     }
 
     public static Throwable createError(ErrorType type) {
-        return createError(type, null);
+        return createError(type, R.string.none);
     }
 
-    public static Throwable createError(ErrorType type, @Nullable String message) {
+    public static Throwable createError(ErrorType type, @StringRes int message) {
         return new AppException(type, message);
     }
 

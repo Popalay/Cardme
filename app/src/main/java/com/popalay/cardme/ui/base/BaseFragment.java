@@ -2,13 +2,13 @@ package com.popalay.cardme.ui.base;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
 public abstract class BaseFragment extends MvpAppCompatFragment implements BaseView {
 
-    @NonNull
-    public BaseActivity getBaseActivity() {
+    @NonNull public BaseActivity getBaseActivity() {
         final Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             return (BaseActivity) activity;
@@ -26,46 +26,38 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements BaseV
         baseActivity.hideLoadingDialog();
     }
 
-    @Override
-    public void showError(String error) {
+    @Override public void showError(String error) {
         final BaseActivity baseActivity = getBaseActivity();
         baseActivity.showError(error);
     }
 
-    @Override
-    public void showMessage(String message) {
+    @Override public void showError(@StringRes int error) {
+        showError(getString(error));
+    }
+
+    @Override public void showMessage(String message) {
         final BaseActivity baseActivity = getBaseActivity();
         baseActivity.showMessage(message);
     }
 
-    @Override
-    public void hideError() {
+    @Override public void hideError() { }
 
-    }
+    @Override public void hideMessage() { }
 
-    @Override
-    public void hideMessage() {
-
-    }
-
-    @Override
-    public void showProgress() {
+    @Override public void showProgress() {
         showLoadingDialog();
     }
 
-    @Override
-    public void hideProgress() {
+    @Override public void hideProgress() {
         hideLoadingDialog();
     }
 
-    @Override
-    public void hideKeyboard() {
+    @Override public void hideKeyboard() {
         final BaseActivity baseActivity = getBaseActivity();
         baseActivity.hideKeyboard();
     }
 
-    @Override
-    public void close() {
+    @Override public void close() {
         throw new UnsupportedOperationException("You can not close the fragment");
     }
 }

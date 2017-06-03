@@ -1,30 +1,17 @@
 package com.popalay.cardme.data.repositories;
 
-import android.content.Context;
-
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.data.models.Holder;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import rx.Completable;
 import rx.Observable;
 
-@Singleton
-public class DebtsRepository {
+public class DebtRepository implements IDebtRepository {
 
-    private final Context context;
-
-    @Inject
-    public DebtsRepository(Context context) {
-        this.context = context;
-    }
-
-    public Completable save(Debt debt) {
+    @Override public Completable save(Debt debt) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(debt, (realm, id) -> {
             if (debt.getId() == 0) {
                 debt.setId(id);
@@ -46,24 +33,24 @@ public class DebtsRepository {
         }));
     }
 
-    public Observable<List<Debt>> getAll() {
+    @Override public Observable<List<Debt>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Debt.class)
                 .findAllSorted(Debt.CREATED_AT));
     }
 
-    public Observable<List<Debt>> getAllByHolder(long holderId) {
+    @Override public Observable<List<Debt>> getAllByHolder(long holderId) {
         return RxRealm.listenList(realm -> realm.where(Debt.class)
                 .equalTo(Debt.HOLDER_ID, holderId)
                 .findAllSorted(Debt.CREATED_AT));
     }
 
-    public Observable<Holder> get(long id) {
+    @Override public Observable<Holder> get(long id) {
         return RxRealm.listenElement(realm -> realm.where(Holder.class)
                 .equalTo(Debt.ID, id)
                 .findAll());
     }
 
-    public Completable remove(Debt debt) {
+    @Override public Completable remove(Debt debt) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm ->
                 realm.where(Debt.class).equalTo(Debt.ID, debt.getId()).findAll().deleteAllFromRealm()));
     }
