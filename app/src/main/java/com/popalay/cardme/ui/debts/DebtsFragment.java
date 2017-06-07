@@ -66,7 +66,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void showRemoveUndoAction(Debt item) {
-        Snackbar.make(b.listDebts, R.string.debt_removed, Snackbar.LENGTH_SHORT)
+        Snackbar.make(b.listDebts, R.string.debt_removed, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(item))
                 .show();
     }

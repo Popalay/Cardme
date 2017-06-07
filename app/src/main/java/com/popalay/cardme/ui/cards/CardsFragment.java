@@ -80,7 +80,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     @Override
     public void showRemoveUndoAction(Card card) {
-        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_SHORT)
+        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card))
                 .show();
     }

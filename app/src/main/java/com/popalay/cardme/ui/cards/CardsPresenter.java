@@ -66,21 +66,13 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
         getViewState().shareCardNumber(card.getNumber());
     }
 
-    public void onItemDragged(List<Card> items, int from, int to) {
-        if (from < to) {
-            for (int i = from; i < to; i++) {
-                Collections.swap(items, i, i + 1);
-            }
-        } else {
-            for (int i = from; i > to; i--) {
-                Collections.swap(items, i, i - 1);
-            }
-        }
+    public void onItemDragged(List<Card> items, int from, int to){
+        Collections.swap(items, from, to);
         getViewState().setItems(items);
     }
 
     public void onItemDropped(List<Card> items) {
-        mCardInteractor.updateCardPositions(items)
+        mCardInteractor.updateCards(items)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, this::handleBaseError);

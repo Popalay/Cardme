@@ -48,11 +48,11 @@ public class CardInteractor {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
-    public Completable updateCardPositions(List<Card> items) {
+    public Completable updateCards(List<Card> items) {
         for (int i = 0; i < items.size(); i++) {
             items.get(i).setUsage(i);
         }
-        return cardRepository.update(items)
+        return cardRepository.save(items)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -64,7 +64,7 @@ public class CardInteractor {
 
     private Card transform(CreditCard creditCard) {
         final Card card = new Card(creditCard);
-        card.setGeneratedBackgroundSeed((int) System.nanoTime());
+        card.setGeneratedBackgroundSeed(System.nanoTime());
         return card;
     }
 

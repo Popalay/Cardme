@@ -32,21 +32,21 @@ public class DefaultCardRepository implements CardRepository {
         }));
     }
 
-    @Override public Completable update(List<Card> cards) {
+    @Override public Completable save(List<Card> cards) {
         return Completable.fromAction(() -> RxRealm.doTransactional(realm -> realm.copyToRealmOrUpdate(cards)));
     }
 
     @Override public Observable<List<Card>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
-                .findAllSorted(Card.ID, Sort.DESCENDING, Card.USAGE, Sort.DESCENDING)
-                .sort(Card.USAGE, Sort.DESCENDING));
+                .findAllSorted(Card.ID, Sort.DESCENDING)
+                .sort(Card.USAGE));
     }
 
     @Override public Observable<List<Card>> getAllByHolder(long holderId) {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
-                .sort(Card.USAGE, Sort.DESCENDING));
+                .sort(Card.USAGE));
     }
 
     @Override public Completable remove(final Card card) {

@@ -2,6 +2,7 @@ package com.popalay.cardme.utils.recycler;
 
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -9,6 +10,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Nullable private final SwipeCallback swipeCallback;
     @Nullable private final DragCallback dragCallback;
+
+    private boolean orderChanged;
 
     public SimpleItemTouchHelperCallback(@Nullable SwipeCallback swipeCallback) {
         this.swipeCallback = swipeCallback;
@@ -28,41 +31,30 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        int dragFlags = 0;
-        int swipeFlags = 0;
-        if (dragCallback != null) {
-            dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            final int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        } else {
+            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
         }
-        if (swipeCallback != null) {
-            swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-        }
-        return makeMovementFlags(dragFlags, swipeFlags);
     }
 
     @Override
     public boolean onMove(RecyclerView recyclerView,
             RecyclerView.ViewHolder viewHolder,
             RecyclerView.ViewHolder target) {
-        if (dragCallback == null) {
+        final int from = viewHolder.getAdapterPosition();
+        final int to = target.getAdapterPosition();
+        if (dragCallback == null || from == to) {
             return false;
         }
-        dragCallback.onDragged(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        dragCallback.onDragged(from, to);
+        orderChanged = true;
         return true;
-    }
-
-    @Override
-    public void onMoved(RecyclerView recyclerView,
-            RecyclerView.ViewHolder viewHolder,
-            int fromPos,
-            RecyclerView.ViewHolder target,
-            int toPos,
-            int x,
-            int y) {
-        super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
-        if (dragCallback == null || fromPos == toPos) {
-            return;
-        }
-        dragCallback.onDropped();
     }
 
     @Override
@@ -81,7 +73,36 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             float dY,
             int actionState,
             boolean isCurrentlyActive) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            final float alpha = 1.0f - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+            viewHolder.itemView.setAlpha(alpha);
+            viewHolder.itemView.setTranslationX(dX);
+        } else {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    }
+
+    @Override
+    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+        super.onSelectedChanged(viewHolder, actionState);
+        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE &&
+                actionState != ItemTouchHelper.ACTION_STATE_SWIPE) {
+            viewHolder.itemView.setAlpha(0.5f);
+        }
+
+        if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && orderChanged) {
+            if (dragCallback == null) {
+                return;
+            }
+            dragCallback.onDropped();
+            orderChanged = false;
+        }
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        viewHolder.itemView.setAlpha(1f);
     }
 
     public interface SwipeCallback {

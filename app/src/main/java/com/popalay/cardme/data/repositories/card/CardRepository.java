@@ -12,7 +12,7 @@ public interface CardRepository {
 
     Completable save(Card card);
 
-    Completable update(List<Card> cards);
+    Completable save(List<Card> cards);
 
     Observable<List<Card>> getAll();
 
