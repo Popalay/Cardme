@@ -3,8 +3,8 @@ package com.popalay.cardme.business.cards;
 import com.popalay.cardme.R;
 import com.popalay.cardme.business.exception.ExceptionFactory;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.data.repositories.ICardRepository;
-import com.popalay.cardme.data.repositories.IHolderRepository;
+import com.popalay.cardme.data.repositories.card.CardRepository;
+import com.popalay.cardme.data.repositories.holder.HolderRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -24,19 +24,18 @@ import static com.popalay.cardme.data.models.Card.CARD_COLOR_PURPLE;
 @Singleton
 public class CardInteractor {
 
-    private final ICardRepository cardRepository;
-    private final IHolderRepository holderRepository;
+    private final CardRepository cardRepository;
+    private final HolderRepository holderRepository;
 
-    @Inject public CardInteractor(ICardRepository cardRepository,
-            IHolderRepository holderRepository) {
+    @Inject public CardInteractor(CardRepository cardRepository, HolderRepository holderRepository) {
         this.cardRepository = cardRepository;
         this.holderRepository = holderRepository;
     }
 
     public Single<Card> transformCard(CreditCard creditCard) {
-        return cardRepository.getByFormattedNumber(creditCard.getFormattedCardNumber())
-                .flatMap(oldCard -> oldCard == null ? Single.just(transform(creditCard))
-                        : Single.error(createCardExistError()))
+        final Card card = transform(creditCard);
+        return cardRepository.isCardExist(card)
+                .flatMap(exist -> exist ? Single.error(createCardExistError()) : Single.just(card))
                 .subscribeOn(Schedulers.io());
     }
 

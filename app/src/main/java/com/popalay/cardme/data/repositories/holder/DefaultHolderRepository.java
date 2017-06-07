@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories;
+package com.popalay.cardme.data.repositories.holder;
 
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Card;
@@ -11,7 +11,7 @@ import io.realm.Sort;
 import rx.Completable;
 import rx.Observable;
 
-public class HolderRepository implements IHolderRepository {
+public class DefaultHolderRepository implements HolderRepository {
 
     @Override public Observable<List<Holder>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Holder.class)

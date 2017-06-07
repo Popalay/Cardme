@@ -1,8 +1,8 @@
 package com.popalay.cardme.business.debts;
 
 import com.popalay.cardme.data.models.Debt;
-import com.popalay.cardme.data.repositories.IDebtRepository;
-import com.popalay.cardme.data.repositories.IHolderRepository;
+import com.popalay.cardme.data.repositories.debt.DebtRepository;
+import com.popalay.cardme.data.repositories.holder.HolderRepository;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import rx.schedulers.Schedulers;
 @Singleton
 public class DebtsInteractor {
 
-    private final IDebtRepository debtRepository;
-    private final IHolderRepository holderRepository;
+    private final DebtRepository debtRepository;
+    private final HolderRepository holderRepository;
 
-    @Inject public DebtsInteractor(IDebtRepository debtRepository, IHolderRepository holderRepository) {
+    @Inject public DebtsInteractor(DebtRepository debtRepository, HolderRepository holderRepository) {
         this.debtRepository = debtRepository;
         this.holderRepository = holderRepository;
     }

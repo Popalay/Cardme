@@ -3,14 +3,14 @@ package com.popalay.cardme.injection;
 import android.content.Context;
 
 import com.popalay.cardme.App;
-import com.popalay.cardme.data.repositories.CardRepository;
-import com.popalay.cardme.data.repositories.DebtRepository;
-import com.popalay.cardme.data.repositories.DeviceRepository;
-import com.popalay.cardme.data.repositories.HolderRepository;
-import com.popalay.cardme.data.repositories.ICardRepository;
-import com.popalay.cardme.data.repositories.IDebtRepository;
-import com.popalay.cardme.data.repositories.IDeviceRepository;
-import com.popalay.cardme.data.repositories.IHolderRepository;
+import com.popalay.cardme.data.repositories.card.CardRepository;
+import com.popalay.cardme.data.repositories.debt.DebtRepository;
+import com.popalay.cardme.data.repositories.card.DefaultCardRepository;
+import com.popalay.cardme.data.repositories.debt.DefaultDebtRepository;
+import com.popalay.cardme.data.repositories.device.DefaultDeviceRepository;
+import com.popalay.cardme.data.repositories.holder.DefaultHolderRepository;
+import com.popalay.cardme.data.repositories.device.DeviceRepository;
+import com.popalay.cardme.data.repositories.holder.HolderRepository;
 
 import javax.inject.Singleton;
 
@@ -34,18 +34,18 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ICardRepository provideCardRepository() { return new CardRepository(); }
+    CardRepository provideCardRepository() { return new DefaultCardRepository(); }
 
     @Provides
     @Singleton
-    IDebtRepository provideDebtRepository() { return new DebtRepository(); }
+    DebtRepository provideDebtRepository() { return new DefaultDebtRepository(); }
 
     @Provides
     @Singleton
-    IDeviceRepository provideDeviceRepository() { return new DeviceRepository(); }
+    DeviceRepository provideDeviceRepository() { return new DefaultDeviceRepository(); }
 
     @Provides
     @Singleton
-    IHolderRepository provideHolderRepository() { return new HolderRepository(); }
+    HolderRepository provideHolderRepository() { return new DefaultHolderRepository(); }
 
 }

@@ -1,11 +1,11 @@
-package com.popalay.cardme.data.repositories;
+package com.popalay.cardme.data.repositories.device;
 
 import com.github.tamir7.contacts.Contact;
 import com.github.tamir7.contacts.Contacts;
 
 import java.util.List;
 
-public class DeviceRepository implements IDeviceRepository {
+public class DefaultDeviceRepository implements DeviceRepository {
 
     @Override public List<Contact> getContacts(){
         return Contacts.getQuery().find();

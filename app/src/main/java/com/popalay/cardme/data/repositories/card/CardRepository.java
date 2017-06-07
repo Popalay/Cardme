@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories;
+package com.popalay.cardme.data.repositories.card;
 
 import com.popalay.cardme.data.models.Card;
 
@@ -8,7 +8,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.Single;
 
-public interface ICardRepository {
+public interface CardRepository {
 
     Completable save(Card card);
 
@@ -20,5 +20,5 @@ public interface ICardRepository {
 
     Completable remove(Card card);
 
-    Single<Card> getByFormattedNumber(String formattedNumber);
+    Single<Boolean> isCardExist(Card card);
 }

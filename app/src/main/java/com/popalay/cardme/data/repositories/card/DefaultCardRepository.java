@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories;
+package com.popalay.cardme.data.repositories.card;
 
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Card;
@@ -11,7 +11,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.Single;
 
-public class CardRepository implements ICardRepository {
+public class DefaultCardRepository implements CardRepository {
 
     @Override public Completable save(Card card) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(card, (realm, id) -> {
@@ -55,9 +55,10 @@ public class CardRepository implements ICardRepository {
         }));
     }
 
-    @Override public Single<Card> getByFormattedNumber(String formattedNumber) {
+    @Override public Single<Boolean> isCardExist(Card card) {
         return RxRealm.getElement(realm -> realm.where(Card.class)
-                .equalTo(Card.FORMATTED_NUMBER, formattedNumber)
-                .findFirst());
+                .equalTo(Card.FORMATTED_NUMBER, card.getNumber())
+                .findFirst())
+                .map(finded -> finded != null);
     }
 }

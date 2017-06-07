@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories;
+package com.popalay.cardme.data.repositories.debt;
 
 import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Debt;
@@ -9,7 +9,7 @@ import java.util.List;
 import rx.Completable;
 import rx.Observable;
 
-public class DebtRepository implements IDebtRepository {
+public class DefaultDebtRepository implements DebtRepository {
 
     @Override public Completable save(Debt debt) {
         return Completable.fromAction(() -> RxRealm.generateObjectId(debt, (realm, id) -> {
