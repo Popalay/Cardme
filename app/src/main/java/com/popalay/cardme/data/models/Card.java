@@ -139,21 +139,6 @@ public class Card extends RealmObject implements StableId {
         }
     }
 
-    @DrawableRes
-    public int getColorRes() {
-        switch (color) {
-            case CARD_COLOR_GREEN:
-                return R.drawable.bg_card_green;
-            case CARD_COLOR_PURPLE:
-                return R.drawable.bg_card_purple;
-            case CARD_COLOR_RED:
-                return R.drawable.bg_card_red;
-            default:
-            case CARD_COLOR_GREY:
-                return R.drawable.bg_card_grey;
-        }
-    }
-
     @Override
     public long getStableId() {
         return id;

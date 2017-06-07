@@ -26,42 +26,45 @@
                 android:theme="@style/Cardme.Toolbar"
                 app:navigationIcon="@drawable/ic_back" />
 
-            <com.popalay.cardme.ui.base.widgets.ThreeToTwoView
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
-                android:background="@{model.card.colorRes}"
-                android:elevation="@dimen/normal_elevation"
-                android:orientation="vertical"
-                android:padding="@dimen/normal"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <ImageView
-                    android:layout_width="@dimen/card_type_icon_size"
-                    android:layout_height="@dimen/card_type_icon_size"
-                    android:layout_alignParentEnd="true"
-                    android:src="@{model.card.iconRes}" />
-
-                <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
-                    android:id="@+id/text_number"
-                    style="@style/Cardme.CardNumber"
+                <com.popalay.cardme.ui.base.widgets.CreditCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@{model.card.number}" />
+                    android:padding="@dimen/normal">
 
-                <TextView
-                    style="@style/Cardme.SingleLineText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/normal"
-                    android:layout_marginTop="@dimen/smallest"
-                    android:text="@={model.holderName}"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/white" />
+                    <ImageView
+                        android:layout_width="@dimen/card_type_icon_size"
+                        android:layout_height="@dimen/card_type_icon_size"
+                        android:layout_alignParentEnd="true"
+                        android:src="@{model.card.iconRes}" />
 
-            </com.popalay.cardme.ui.base.widgets.ThreeToTwoView>
+                    <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
+                        android:id="@+id/text_number"
+                        style="@style/Cardme.CardNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@{model.card.number}" />
+
+                    <TextView
+                        style="@style/Cardme.SingleLineText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/normal"
+                        android:layout_marginTop="@dimen/smallest"
+                        android:text="@={model.holderName}"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/white" />
+
+                </com.popalay.cardme.ui.base.widgets.CreditCardView>
+
+            </android.support.v7.widget.CardView>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -99,8 +102,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:enabled="@{model.canSave}"
             android:layout_margin="@dimen/normal"
+            android:enabled="@{model.canSave}"
             android:text="@string/action_save" />
 
     </android.support.design.widget.CoordinatorLayout>

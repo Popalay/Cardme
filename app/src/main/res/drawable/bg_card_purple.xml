@@ -7,6 +7,4 @@
         android:endColor="@color/deep_purple"
         android:startColor="@color/dark_purple" />
 
-    <corners android:radius="@dimen/card_corners" />
-
 </shape>

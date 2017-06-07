@@ -4,18 +4,23 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-public class ThreeToTwoView extends RelativeLayout {
+import com.popalay.cardme.utils.PatternBackgroundUtils;
 
-    public ThreeToTwoView(Context context) {
+public class CreditCardView extends RelativeLayout {
+
+    public CreditCardView(Context context) {
         super(context);
+        init(context);
     }
 
-    public ThreeToTwoView(Context context, AttributeSet attrs) {
+    public CreditCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
-    public ThreeToTwoView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CreditCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     @Override
@@ -25,5 +30,9 @@ public class ThreeToTwoView extends RelativeLayout {
         final int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         final int heightSpec = MeasureSpec.makeMeasureSpec((int) (width / 1.6f), MeasureSpec.EXACTLY);
         super.onMeasure(widthSpec, heightSpec);
+    }
+
+    private void init(Context context) {
+        setBackground(PatternBackgroundUtils.generateBackground(context));
     }
 }

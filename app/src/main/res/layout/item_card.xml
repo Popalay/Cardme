@@ -14,47 +14,51 @@
             type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
 
-    <com.popalay.cardme.ui.base.widgets.ThreeToTwoView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@{item.colorRes}"
         android:clickable="true"
-        android:elevation="@dimen/normal_elevation"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:orientation="vertical"
-        android:padding="@dimen/normal"
-        android:stateListAnimator="@anim/lift_on_touch"
-        bind:onClickDebounced="@{() -> listener.onItemClick(item)}"
-        tools:background="@drawable/bg_card_green">
+        bind:cardCornerRadius="@dimen/card_corners">
 
-        <ImageView
-            android:layout_width="@dimen/card_type_icon_size"
-            android:layout_height="@dimen/card_type_icon_size"
-            android:layout_alignParentEnd="true"
-            android:src="@{item.iconRes}" />
-
-        <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
-            android:id="@+id/text_number"
-            style="@style/Cardme.CardNumber"
+        <com.popalay.cardme.ui.base.widgets.CreditCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="@{item.redactedNumber}" />
+            android:padding="@dimen/normal"
+            android:stateListAnimator="@anim/lift_on_touch"
+            bind:onClickDebounced="@{() -> listener.onItemClick(item)}"
+            tools:background="@drawable/bg_card_green">
 
-        <TextView
-            android:id="@+id/text_holder"
-            style="@style/Cardme.SingleLineText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/normal"
-            android:layout_marginTop="@dimen/smallest"
-            android:text="@{item.holder.name}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/primary_text_invert" />
+            <ImageView
+                android:layout_width="@dimen/card_type_icon_size"
+                android:layout_height="@dimen/card_type_icon_size"
+                android:layout_alignParentEnd="true"
+                android:src="@{item.iconRes}" />
 
-    </com.popalay.cardme.ui.base.widgets.ThreeToTwoView>
+            <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
+                android:id="@+id/text_number"
+                style="@style/Cardme.CardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@{item.redactedNumber}" />
+
+            <TextView
+                android:id="@+id/text_holder"
+                style="@style/Cardme.SingleLineText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/normal"
+                android:layout_marginTop="@dimen/smallest"
+                android:text="@{item.holder.name}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/primary_text_invert" />
+
+        </com.popalay.cardme.ui.base.widgets.CreditCardView>
+
+    </android.support.v7.widget.CardView>
 
 </layout>
