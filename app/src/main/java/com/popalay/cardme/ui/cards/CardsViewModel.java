@@ -26,7 +26,7 @@ public class CardsViewModel {
 
     public final ObservableField<List<Card>> cards = new ObservableField<>();
 
-    @BindingAdapter(value = {"bind:cards", "bind:itemClickListener"}, requireAll = false)
+    @BindingAdapter(value = {"cards", "itemClickListener"}, requireAll = false)
     public static void setCards(RecyclerView recyclerView, List<Card> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;

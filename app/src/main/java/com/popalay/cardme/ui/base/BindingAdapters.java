@@ -22,12 +22,12 @@ public class BindingAdapters {
         view.setBackgroundResource(resource);
     }
 
-    @BindingAdapter("bind:listPlaceholder")
+    @BindingAdapter("listPlaceholder")
     public static void setListPlaceholder(View view, List list) {
         view.setVisibility(list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
-    @BindingAdapter("bind:onClickDebounced")
+    @BindingAdapter("onClickDebounced")
     public static void setDebouncedOnClickListener(View view, ActionN action) {
         view.setOnClickListener(new OnOneOffClickListener(){
             @Override

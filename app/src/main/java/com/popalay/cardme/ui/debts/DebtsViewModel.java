@@ -21,7 +21,7 @@ public class DebtsViewModel {
 
     public final ObservableField<List<Debt>> debts = new ObservableField<>();
 
-    @BindingAdapter(value = {"bind:debts", "bind:itemClickListener"}, requireAll = false)
+    @BindingAdapter(value = {"debts", "itemClickListener"}, requireAll = false)
     public static void setDebts(RecyclerView recyclerView, List<Debt> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;

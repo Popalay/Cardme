@@ -25,7 +25,7 @@ public class HoldersViewModel {
 
     public final ObservableField<List<Holder>> holders = new ObservableField<>();
 
-    @BindingAdapter(value = {"bind:holders", "bind:itemClickListener"}, requireAll = false)
+    @BindingAdapter(value = {"holders", "itemClickListener"}, requireAll = false)
     public static void setHolders(RecyclerView recyclerView, List<Holder> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;

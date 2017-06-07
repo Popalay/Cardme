@@ -15,12 +15,10 @@ public final class PatternBackgroundUtils {
     private PatternBackgroundUtils() {
     }
 
-    public static Drawable generateBackground(Context context) {
-        final int random = new Random().nextInt(Integer.MAX_VALUE);
-
+    public static Drawable generateBackground(Context context, long seed) {
+        final int random = new Random(seed).nextInt(Integer.MAX_VALUE);
         final Drawable pattern = ContextCompat.getDrawable(context, getRandomPattern(random));
         final Drawable background = ContextCompat.getDrawable(context, getRandomBackground(random));
-
         return new LayerDrawable(new Drawable[] {pattern, background});
     }
 
@@ -30,7 +28,6 @@ public final class PatternBackgroundUtils {
                 R.drawable.pattern_2,
                 R.drawable.pattern_3,
         };
-
         return patterns[random % patterns.length];
     }
 
@@ -41,7 +38,6 @@ public final class PatternBackgroundUtils {
                 R.drawable.bg_card_red,
                 R.drawable.bg_card_grey
         };
-
         return backgrounds[random % backgrounds.length];
     }
 }

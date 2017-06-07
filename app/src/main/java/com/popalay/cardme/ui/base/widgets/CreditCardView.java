@@ -1,26 +1,31 @@
 package com.popalay.cardme.ui.base.widgets;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 
 import com.popalay.cardme.utils.PatternBackgroundUtils;
 
-public class CreditCardView extends RelativeLayout {
+public class CreditCardView extends CardView {
 
     public CreditCardView(Context context) {
         super(context);
-        init(context);
+        init(context, null, 0);
     }
 
     public CreditCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs, 0);
     }
 
     public CreditCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs, defStyleAttr);
+    }
+
+    public void setBackgroundGeneratorSeed(long seed) {
+        if (seed == 0) seed = System.nanoTime();
+        setBackground(PatternBackgroundUtils.generateBackground(getContext(), seed));
     }
 
     @Override
@@ -32,7 +37,7 @@ public class CreditCardView extends RelativeLayout {
         super.onMeasure(widthSpec, heightSpec);
     }
 
-    private void init(Context context) {
-        setBackground(PatternBackgroundUtils.generateBackground(context));
+    private void init(Context context, AttributeSet attrs, int defStyle) {
+        //ignored
     }
 }

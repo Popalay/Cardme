@@ -30,7 +30,7 @@ public class Card extends RealmObject implements StableId {
 
     @CardType private int type;
 
-    @CardColor private int color;
+    private long generatedBackgroundSeed;
 
     private int usage;
 
@@ -101,20 +101,20 @@ public class Card extends RealmObject implements StableId {
         this.type = type;
     }
 
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
     public int getUsage() {
         return usage;
     }
 
     public void setUsage(int usage) {
         this.usage = usage;
+    }
+
+    public long getGeneratedBackgroundSeed() {
+        return generatedBackgroundSeed;
+    }
+
+    public void setGeneratedBackgroundSeed(long generatedBackgroundSeed) {
+        this.generatedBackgroundSeed = generatedBackgroundSeed;
     }
 
     @DrawableRes
@@ -161,7 +161,7 @@ public class Card extends RealmObject implements StableId {
         if (type != card.type) {
             return false;
         }
-        if (color != card.color) {
+        if (generatedBackgroundSeed != card.generatedBackgroundSeed) {
             return false;
         }
         if (usage != card.usage) {
@@ -177,14 +177,13 @@ public class Card extends RealmObject implements StableId {
 
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (redactedNumber != null ? redactedNumber.hashCode() : 0);
         result = 31 * result + (holder != null ? holder.hashCode() : 0);
         result = 31 * result + type;
-        result = 31 * result + color;
+        result = 31 * result + (int) (generatedBackgroundSeed ^ (generatedBackgroundSeed >>> 32));
         result = 31 * result + usage;
         return result;
     }
@@ -201,14 +200,5 @@ public class Card extends RealmObject implements StableId {
     public static final int CARD_TYPE_DINERSCLUB = 4;
     public static final int CARD_TYPE_DISCOVER = 5;
     public static final int CARD_TYPE_JCB = 6;
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({CARD_COLOR_GREY, CARD_COLOR_RED, CARD_COLOR_GREEN, CARD_COLOR_PURPLE})
-    public @interface CardColor {}
-
-    public static final int CARD_COLOR_GREY = 0;
-    public static final int CARD_COLOR_RED = 1;
-    public static final int CARD_COLOR_GREEN = 2;
-    public static final int CARD_COLOR_PURPLE = 3;
 
 }

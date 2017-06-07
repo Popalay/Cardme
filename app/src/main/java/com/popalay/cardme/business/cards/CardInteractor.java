@@ -7,7 +7,6 @@ import com.popalay.cardme.data.repositories.card.CardRepository;
 import com.popalay.cardme.data.repositories.holder.HolderRepository;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,9 +16,6 @@ import rx.Completable;
 import rx.Observable;
 import rx.Single;
 import rx.schedulers.Schedulers;
-
-import static com.popalay.cardme.data.models.Card.CARD_COLOR_GREY;
-import static com.popalay.cardme.data.models.Card.CARD_COLOR_PURPLE;
 
 @Singleton
 public class CardInteractor {
@@ -68,7 +64,7 @@ public class CardInteractor {
 
     private Card transform(CreditCard creditCard) {
         final Card card = new Card(creditCard);
-        card.setColor(new Random().nextInt(CARD_COLOR_PURPLE + 1 - CARD_COLOR_GREY) + CARD_COLOR_GREY);
+        card.setGeneratedBackgroundSeed((int) System.nanoTime());
         return card;
     }
 

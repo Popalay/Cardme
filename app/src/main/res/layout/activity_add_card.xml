@@ -26,16 +26,17 @@
                 android:theme="@style/Cardme.Toolbar"
                 app:navigationIcon="@drawable/ic_back" />
 
-            <android.support.v7.widget.CardView
+            <com.popalay.cardme.ui.base.widgets.CreditCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
+                app:backgroundGeneratorSeed="@{model.card.generatedBackgroundSeed}"
+                app:contentPadding="@dimen/normal"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <com.popalay.cardme.ui.base.widgets.CreditCardView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/normal">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:layout_width="@dimen/card_type_icon_size"
@@ -62,9 +63,9 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/white" />
 
-                </com.popalay.cardme.ui.base.widgets.CreditCardView>
+                </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </com.popalay.cardme.ui.base.widgets.CreditCardView>
 
         </android.support.design.widget.AppBarLayout>
 

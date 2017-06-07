@@ -32,7 +32,7 @@ public class HolderDetailsViewModel {
     public final ObservableField<List<Debt>> debts = new ObservableField<>();
     public final ObservableField<List<Card>> cards = new ObservableField<>();
 
-    @BindingAdapter("bind:holderDebts")
+    @BindingAdapter("holderDebts")
     public static void setDebts(RecyclerView recyclerView, List<Debt> newItems) {
         if (newItems == null) {
             return;
@@ -57,7 +57,7 @@ public class HolderDetailsViewModel {
         }
     }
 
-    @BindingAdapter(value = {"bind:holderCards", "bind:itemClickListener"}, requireAll = false)
+    @BindingAdapter(value = {"holderCards", "itemClickListener"}, requireAll = false)
     public static void setCards(RecyclerViewPager recyclerView, List<Card> newItems, ItemClickListener listener) {
         if (newItems == null) {
             return;
