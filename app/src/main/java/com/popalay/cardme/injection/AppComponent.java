@@ -6,6 +6,7 @@ import com.popalay.cardme.ui.cards.CardsPresenter;
 import com.popalay.cardme.ui.debts.DebtsPresenter;
 import com.popalay.cardme.ui.holderdetails.HolderDetailsPresenter;
 import com.popalay.cardme.ui.holders.HoldersPresenter;
+import com.popalay.cardme.ui.settings.SettingPresenter;
 
 import javax.inject.Singleton;
 
@@ -28,4 +29,6 @@ public interface AppComponent {
     void inject(AddDebtPresenter presenter);
 
     void inject(DebtsPresenter presenter);
+
+    void inject(SettingPresenter presenter);
 }

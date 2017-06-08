@@ -46,6 +46,6 @@ public class AppModule {
     HolderRepository provideHolderRepository() { return new DefaultHolderRepository(); }
 
     @Provides @Singleton
-    SettingsRepository provideSettingsRepository() { return new DefaultSettingsRepository(); }
+    SettingsRepository provideSettingsRepository(Context context) { return new DefaultSettingsRepository(context); }
 
 }

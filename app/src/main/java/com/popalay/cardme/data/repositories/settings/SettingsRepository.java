@@ -4,10 +4,13 @@ import com.popalay.cardme.data.models.Settings;
 
 import rx.Completable;
 import rx.Observable;
+import rx.Single;
 
 public interface SettingsRepository {
 
     Observable<Settings> listen();
 
-    Completable saveSettings(Settings settings);
+    Single<Settings> get();
+
+    Completable save(Settings settings);
 }

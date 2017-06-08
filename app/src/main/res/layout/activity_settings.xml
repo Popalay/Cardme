@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.popalay.cardme.ui.settings.SettingsViewModel" />
+    </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_color"
                 android:text="@string/theme"
-                app:settingText="Default" />
+                app:settingText="@{vm.settings.theme}" />
 
             <com.popalay.cardme.ui.base.widgets.SettingTextView
                 style="@style/Cardme.SettingItem"
@@ -39,13 +46,14 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_language"
                 android:text="@string/language"
-                app:settingText="English" />
+                app:settingText="@{vm.settings.language}" />
 
             <android.support.v7.widget.SwitchCompat
                 style="@style/Cardme.SettingItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_image"
+                android:checked="@={vm.settings.cardBackground}"
                 android:text="@string/card_background" />
 
         </LinearLayout>
