@@ -25,12 +25,15 @@ public class FabScrollBehavior extends SnackbarFabBehavior {
     }
 
     @Override
-    public void onNestedScrollAccepted(CoordinatorLayout coordinatorLayout,
+    public void onNestedScroll(CoordinatorLayout coordinatorLayout,
             FloatingActionButton child,
-            View directTargetChild,
             View target,
-            int nestedScrollAxes) {
-        super.onNestedScrollAccepted(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+            int dxConsumed,
+            int dyConsumed,
+            int dxUnconsumed,
+            int dyUnconsumed) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+        if(dyConsumed == 0) return;
         hide(child);
     }
 

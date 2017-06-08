@@ -11,6 +11,8 @@ import com.popalay.cardme.data.repositories.device.DefaultDeviceRepository;
 import com.popalay.cardme.data.repositories.holder.DefaultHolderRepository;
 import com.popalay.cardme.data.repositories.device.DeviceRepository;
 import com.popalay.cardme.data.repositories.holder.HolderRepository;
+import com.popalay.cardme.data.repositories.settings.DefaultSettingsRepository;
+import com.popalay.cardme.data.repositories.settings.SettingsRepository;
 
 import javax.inject.Singleton;
 
@@ -26,26 +28,24 @@ public class AppModule {
         mApplicationContext = app;
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     Context provideApplicationContext() {
         return mApplicationContext;
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     CardRepository provideCardRepository() { return new DefaultCardRepository(); }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     DebtRepository provideDebtRepository() { return new DefaultDebtRepository(); }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     DeviceRepository provideDeviceRepository() { return new DefaultDeviceRepository(); }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     HolderRepository provideHolderRepository() { return new DefaultHolderRepository(); }
+
+    @Provides @Singleton
+    SettingsRepository provideSettingsRepository() { return new DefaultSettingsRepository(); }
 
 }
