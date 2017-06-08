@@ -32,7 +32,8 @@
                 android:layout_margin="@dimen/normal"
                 app:backgroundGeneratorSeed="@{model.card.generatedBackgroundSeed}"
                 app:contentPadding="@dimen/normal"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:withImage="@{model.showImage}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -20,4 +20,6 @@ public interface CardsView extends RemovableListItemView<Card> {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void shareCardNumber(String cardNumber);
 
+    void setViewModel(CardsViewModel viewModel);
+
 }

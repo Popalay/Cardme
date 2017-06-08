@@ -13,20 +13,21 @@ import rx.android.schedulers.AndroidSchedulers;
 public class SettingPresenter extends BasePresenter<SettingView> {
 
     @Inject SettingsInteractor settingsInteractor;
-    private SettingsViewModel vm;
+    private SettingsViewModel viewModel;
 
     public SettingPresenter() {
         App.appComponent().inject(this);
+        viewModel = new SettingsViewModel();
+        getViewState().setSettings(viewModel);
 
         settingsInteractor.listenSettings()
                 .compose(bindToLifecycle())
-                .map(settings -> this.vm = new SettingsViewModel(settings))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setSettings, this::handleBaseError);
+                .subscribe(settings -> viewModel.setSettings(settings), this::handleBaseError);
     }
 
     public void onClose() {
-        settingsInteractor.saveSettings(vm.getSettings())
+        settingsInteractor.saveSettings(viewModel.getSettings())
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, this::handleBaseError);

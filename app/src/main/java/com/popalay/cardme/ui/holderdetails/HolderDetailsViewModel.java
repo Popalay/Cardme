@@ -2,6 +2,7 @@ package com.popalay.cardme.ui.holderdetails;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.PagerSnapHelper;
@@ -31,6 +32,7 @@ public class HolderDetailsViewModel {
 
     public final ObservableField<List<Debt>> debts = new ObservableField<>();
     public final ObservableField<List<Card>> cards = new ObservableField<>();
+    public final ObservableBoolean showImage = new ObservableBoolean();
 
     @BindingAdapter("holderDebts")
     public static void setDebts(RecyclerView recyclerView, List<Debt> newItems) {
@@ -57,8 +59,9 @@ public class HolderDetailsViewModel {
         }
     }
 
-    @BindingAdapter(value = {"holderCards", "itemClickListener"}, requireAll = false)
-    public static void setCards(RecyclerViewPager recyclerView, List<Card> newItems, ItemClickListener listener) {
+    @BindingAdapter(value = {"holderCards", "itemClickListener", "showImage"}, requireAll = false)
+    public static void setCards(RecyclerViewPager recyclerView, List<Card> newItems,
+            ItemClickListener listener, boolean showImage) {
         if (newItems == null) {
             return;
         }
@@ -69,15 +72,18 @@ public class HolderDetailsViewModel {
             items = new ArrayList<>(newItems);
             new LastAdapter(items, BR.item, true)
                     .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
-                        @Override
-                        public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
+                        @Override public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
                             super.onCreate(holder);
                             holder.getBinding().setListener(listener);
+                        }
+
+                        @Override public void onBind(Holder<ItemCardBinding> holder) {
+                            super.onBind(holder);
+                            holder.getBinding().cardView.setWithImage(showImage);
                         }
                     })
                     .into(recyclerView);
             recyclerView.setTag(R.id.recycler_data, items);
-            //recyclerView.setLayoutManager(new LinearPartLayoutManager(context, LinearLayoutManager.VERTICAL));
             final SnapHelper snapHelper = new PagerSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
         } else {
@@ -88,6 +94,11 @@ public class HolderDetailsViewModel {
             items.clear();
             items.addAll(newItems);
         }
+    }
+
+    public void setShowImage(boolean show) {
+        showImage.set(show);
+        cards.notifyChange();
     }
 
     public void setDebts(List<Debt> items) {

@@ -6,9 +6,13 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.ui.removablelistitem.RemovableListItemView;
 
+import java.util.List;
+
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface DebtsView extends RemovableListItemView<Debt> {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showAddDialog();
+
+    void setItems(List<Debt> items);
 }

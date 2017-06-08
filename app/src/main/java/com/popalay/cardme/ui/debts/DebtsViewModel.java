@@ -48,7 +48,6 @@ public class DebtsViewModel {
 
     public void setDebts(List<Debt> items) {
         debts.set(items);
-        debts.notifyChange();
     }
 
     public Debt get(int position) {

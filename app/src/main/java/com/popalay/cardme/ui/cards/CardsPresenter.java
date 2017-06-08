@@ -1,12 +1,12 @@
 package com.popalay.cardme.ui.cards;
 
-import android.content.Context;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.cards.CardInteractor;
+import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.events.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
+import com.popalay.cardme.data.models.Settings;
 import com.popalay.cardme.ui.removablelistitem.RemovableListItemPresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,12 +24,28 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> {
 
-    @Inject CardInteractor mCardInteractor;
-    @Inject Context context;
+    @Inject CardInteractor cardInteractor;
+    @Inject SettingsInteractor settingsInteractor;
+
+    private final CardsViewModel viewModel;
 
     public CardsPresenter() {
         App.appComponent().inject(this);
         EventBus.getDefault().register(this);
+        viewModel = new CardsViewModel();
+        getViewState().setViewModel(viewModel);
+
+        cardInteractor.getCards()
+                .compose(bindToLifecycle())
+                .doOnNext(viewModel::setCards)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(viewModel::setCards, this::handleBaseError);
+
+        settingsInteractor.listenSettings()
+                .compose(bindToLifecycle())
+                .map(Settings::isCardBackground)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(show -> viewModel.setShowImage(show), this::handleBaseError);
     }
 
     @Override
@@ -44,16 +60,6 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
         onAddClick();
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        mCardInteractor.getCards()
-                .compose(bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setItems, this::handleBaseError);
-    }
-
     public void onAddClick() {
         getViewState().startCardScanning();
     }
@@ -66,13 +72,13 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
         getViewState().shareCardNumber(card.getNumber());
     }
 
-    public void onItemDragged(List<Card> items, int from, int to){
+    public void onItemDragged(List<Card> items, int from, int to) {
         Collections.swap(items, from, to);
-        getViewState().setItems(items);
+        viewModel.setCards(items);
     }
 
     public void onItemDropped(List<Card> items) {
-        mCardInteractor.updateCards(items)
+        cardInteractor.updateCards(items)
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, this::handleBaseError);
@@ -80,11 +86,11 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
 
     @Override
     protected Completable removeItem(Card item) {
-        return mCardInteractor.removeCard(item);
+        return cardInteractor.removeCard(item);
     }
 
     @Override
     protected Completable saveItem(Card item) {
-        return mCardInteractor.save(item);
+        return cardInteractor.save(item);
     }
 }

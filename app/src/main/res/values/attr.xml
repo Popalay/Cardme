@@ -10,4 +10,9 @@
         <attr name="settingText" format="string|reference" />
     </declare-styleable>
 
+    <declare-styleable name="CreditCardView">
+        <attr name="backgroundGeneratorSeed" format="integer|reference" />
+        <attr name="withImage" format="boolean|reference" />
+    </declare-styleable>
+
 </resources>

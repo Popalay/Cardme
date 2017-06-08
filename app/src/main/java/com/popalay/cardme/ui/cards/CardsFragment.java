@@ -21,8 +21,6 @@ import com.popalay.cardme.ui.base.widgets.OnOneOffClickListener;
 import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
 
-import java.util.List;
-
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
@@ -35,7 +33,6 @@ public class CardsFragment extends BaseFragment implements CardsView,
     @InjectPresenter CardsPresenter presenter;
 
     private FragmentCardsBinding b;
-    private CardsViewModel viewModel;
 
     public static CardsFragment newInstance() {
         return new CardsFragment();
@@ -86,24 +83,24 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void setItems(List<Card> items) {
-        viewModel.setCards(items);
+    public void setViewModel(CardsViewModel viewModel) {
+        b.setModel(viewModel);
     }
 
     @Override
     public void onSwiped(int position) {
-        final Card card = viewModel.get(position);
+        final Card card = b.getModel().get(position);
         presenter.onItemSwiped(card);
     }
 
     @Override
     public void onDragged(int from, int to) {
-        presenter.onItemDragged(viewModel.cards.get(), from, to);
+        presenter.onItemDragged(b.getModel().cards.get(), from, to);
     }
 
     @Override
     public void onDropped() {
-        presenter.onItemDropped(viewModel.cards.get());
+        presenter.onItemDropped(b.getModel().cards.get());
     }
 
     @Override
@@ -117,8 +114,6 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     private void initUI() {
-        viewModel = new CardsViewModel();
-        b.setModel(viewModel);
         b.setListener(this);
 
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this))

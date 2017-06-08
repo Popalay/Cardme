@@ -44,6 +44,7 @@
                     app:rvp_singlePageFling="true"
                     bind:holderCards="@{model.cards}"
                     bind:itemClickListener="@{listener}"
+                    bind:showImage="@{model.showImage}"
                     tools:listitem="@layout/item_card" />
 
                 <android.support.v7.widget.Toolbar

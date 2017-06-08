@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.popalay.cardme.R;
-import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.ActivityAddCardBinding;
 import com.popalay.cardme.ui.base.BaseActivity;
 import com.popalay.cardme.utils.DialogFactory;
@@ -47,8 +46,8 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
     }
 
     @Override
-    public void showCardDetails(Card card) {
-        b.setModel(new AddCardViewModel(card));
+    public void showCardDetails(AddCardViewModel vm) {
+        b.setModel(vm);
     }
 
     @Override

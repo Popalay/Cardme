@@ -43,6 +43,7 @@ public class SettingTextView extends AppCompatTextView {
 
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (settingText == null) return;
         canvas.save();
         canvas.translate(getPaddingLeft(), getPaddingTop());
         final float width = canvas.getWidth() - paint.measureText(settingText)

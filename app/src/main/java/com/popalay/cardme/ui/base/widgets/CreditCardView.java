@@ -8,6 +8,9 @@ import com.popalay.cardme.utils.PatternBackgroundUtils;
 
 public class CreditCardView extends CardView {
 
+    private boolean withImage;
+    private long seed;
+
     public CreditCardView(Context context) {
         super(context);
         init(context, null, 0);
@@ -23,9 +26,15 @@ public class CreditCardView extends CardView {
         init(context, attrs, defStyleAttr);
     }
 
+    public void setWithImage(boolean withImage) {
+        this.withImage = withImage;
+        updateBackground();
+    }
+
     public void setBackgroundGeneratorSeed(long seed) {
         if (seed == 0) seed = System.nanoTime();
-        setBackground(PatternBackgroundUtils.generateBackground(getContext(), seed));
+        this.seed = seed;
+        updateBackground();
     }
 
     @Override
@@ -35,6 +44,10 @@ public class CreditCardView extends CardView {
         final int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         final int heightSpec = MeasureSpec.makeMeasureSpec((int) (width / 1.6f), MeasureSpec.EXACTLY);
         super.onMeasure(widthSpec, heightSpec);
+    }
+
+    private void updateBackground() {
+        setBackground(PatternBackgroundUtils.generateBackground(getContext(), seed, withImage));
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {

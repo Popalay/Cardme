@@ -2,6 +2,7 @@ package com.popalay.cardme.ui.cards;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -25,9 +26,11 @@ import java.util.List;
 public class CardsViewModel {
 
     public final ObservableField<List<Card>> cards = new ObservableField<>();
+    public final ObservableBoolean showImage = new ObservableBoolean();
 
-    @BindingAdapter(value = {"cards", "itemClickListener"}, requireAll = false)
-    public static void setCards(RecyclerView recyclerView, List<Card> newItems, ItemClickListener listener) {
+    @BindingAdapter(value = {"cards", "itemClickListener", "showImage"}, requireAll = false)
+    public static void setCards(RecyclerView recyclerView, List<Card> newItems,
+            ItemClickListener listener, Boolean showImage) {
         if (newItems == null) {
             return;
         }
@@ -38,15 +41,20 @@ public class CardsViewModel {
             items = new ArrayList<>(newItems);
             new LastAdapter(items, BR.item, true)
                     .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
-                        @Override
-                        public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
+                        @Override public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
                             super.onCreate(holder);
                             holder.getBinding().setListener(listener);
+                        }
+
+                        @Override public void onBind(Holder<ItemCardBinding> holder) {
+                            super.onBind(holder);
+                            holder.getBinding().cardView.setWithImage(showImage);
                         }
                     })
                     .into(recyclerView);
             recyclerView.setTag(R.id.recycler_data, items);
         } else {
+            // FIXME: 09.06.17 UPDATE SHOW IMAGE FIELD
             //noinspection unchecked
             items = ((List<Card>) recyclerView.getTag(R.id.recycler_data));
             DiffUtil.calculateDiff(new DiffUtilCallback(items, newItems), true)
@@ -56,9 +64,13 @@ public class CardsViewModel {
         }
     }
 
+    public void setShowImage(Boolean show) {
+        showImage.set(show);
+        cards.notifyChange();
+    }
+
     public void setCards(List<Card> items) {
         cards.set(items);
-        cards.notifyChange();
     }
 
     public Card get(int position) {
