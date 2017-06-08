@@ -96,4 +96,14 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
+    <style name="Cardme.SettingItem">
+        <item name="android:padding">@dimen/normal</item>
+        <item name="android:drawablePadding">@dimen/larger</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
+    </style>
+
 </resources>

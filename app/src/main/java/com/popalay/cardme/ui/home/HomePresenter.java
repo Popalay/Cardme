@@ -14,7 +14,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
         getViewState().openPage(itemId);
     }
 
-    public void onDrawerItemClick(int itemId) {
+    public void onSettingsClick() {
+        getViewState().openSettings();
+    }
 
+    public void onPolicyClick() {
+        getViewState().openPolicy();
     }
 }

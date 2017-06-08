@@ -5,6 +5,7 @@
     <dimen name="small">8dp</dimen>
     <dimen name="normal">16dp</dimen>
     <dimen name="large">24dp</dimen>
+    <dimen name="larger">32dp</dimen>
 
     <dimen name="card_type_icon_size">40dp</dimen>
     <dimen name="holder_height">72dp</dimen>

@@ -6,4 +6,8 @@
         <attr name="fabIcon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SettingTextView">
+        <attr name="settingText" format="string|reference" />
+    </declare-styleable>
+
 </resources>

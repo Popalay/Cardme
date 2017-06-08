@@ -44,6 +44,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Translucent.DialogActivity" />
 
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/settings"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ import com.popalay.cardme.ui.base.BaseActivity;
 import com.popalay.cardme.ui.cards.CardsFragment;
 import com.popalay.cardme.ui.debts.DebtsFragment;
 import com.popalay.cardme.ui.holders.HoldersFragment;
+import com.popalay.cardme.ui.settings.SettingsActivity;
 import com.popalay.cardme.utils.BrowserUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -74,6 +75,11 @@ public class HomeActivity extends BaseActivity implements HomeView {
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
+        switch (item.getItemId()) {
+            case MENU_SETTINGS:
+                presenter.onSettingsClick();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -98,16 +104,23 @@ public class HomeActivity extends BaseActivity implements HomeView {
                 .commit();
     }
 
+    @Override public void openSettings() {
+        startActivity(SettingsActivity.getIntent(this));
+    }
+
+    @Override public void openPolicy() {
+        BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
+    }
+
     private boolean onNavigationClick(MenuItem item) {
         presenter.onBottomNavigationItemClick(item.getItemId());
         return true;
     }
 
     private boolean onDrawerItemClick(MenuItem item) {
-        presenter.onDrawerItemClick(item.getItemId());
         switch (item.getItemId()) {
             case R.id.navigation_privacy_policy:
-                BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
+                presenter.onPolicyClick();
                 break;
         }
         b.drawerLayout.closeDrawers();
