@@ -20,7 +20,7 @@ public class SnackbarFabBehavior extends CoordinatorLayout.Behavior<FloatingActi
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
+        final float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
         child.setTranslationY(translationY);
         return true;
     }
@@ -28,7 +28,7 @@ public class SnackbarFabBehavior extends CoordinatorLayout.Behavior<FloatingActi
     @Override
     public void onDependentViewRemoved(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
         super.onDependentViewRemoved(parent, child, dependency);
-        float translationY = Math.min(0, parent.getBottom() - child.getBottom());
+        final float translationY = Math.min(0, parent.getBottom() - child.getBottom());
         child.setTranslationY(translationY);
     }
 }
