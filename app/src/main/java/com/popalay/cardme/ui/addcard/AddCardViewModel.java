@@ -10,6 +10,7 @@ import com.popalay.cardme.data.models.Card;
 public class AddCardViewModel {
 
     public final ObservableField<String> holderName = new ObservableField<>();
+    public final ObservableField<String> title = new ObservableField<>();
     public final ObservableBoolean canSave = new ObservableBoolean();
 
     public final Card card;
@@ -22,6 +23,12 @@ public class AddCardViewModel {
             public void onPropertyChanged(Observable observable, int i) {
                 card.getHolder().setName(holderName.get());
                 updateCanSave();
+            }
+        });
+        title.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                card.setTitle(title.get());
             }
         });
     }

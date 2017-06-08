@@ -73,7 +73,7 @@ public class AddCardActivity extends BaseActivity implements AddCardView {
 
         b.buttonSave.setOnClickListener(v -> presenter.onAcceptClick(b.getModel().card));
 
-        b.textHolder.setOnEditorActionListener((v, actionId, event) -> {
+        b.textTitle.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (b.buttonSave.isEnabled()) {
                     b.buttonSave.performClick();

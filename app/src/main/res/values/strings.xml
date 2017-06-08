@@ -51,5 +51,6 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
+    <string name="title">Title</string>
 
 </resources>

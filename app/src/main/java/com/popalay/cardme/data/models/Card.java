@@ -23,6 +23,7 @@ public class Card extends RealmObject implements StableId {
     @PrimaryKey private long id;
 
     private String number;
+    private String title;
 
     private String redactedNumber;
 
@@ -117,6 +118,14 @@ public class Card extends RealmObject implements StableId {
         this.generatedBackgroundSeed = generatedBackgroundSeed;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @DrawableRes
     public int getIconRes() {
         switch (type) {
@@ -144,42 +153,28 @@ public class Card extends RealmObject implements StableId {
         return id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        final Card card = (Card) o;
+        Card card = (Card) o;
 
-        if (id != card.id) {
-            return false;
-        }
-        if (type != card.type) {
-            return false;
-        }
-        if (generatedBackgroundSeed != card.generatedBackgroundSeed) {
-            return false;
-        }
-        if (usage != card.usage) {
-            return false;
-        }
-        if (number != null ? !number.equals(card.number) : card.number != null) {
-            return false;
-        }
+        if (id != card.id) return false;
+        if (type != card.type) return false;
+        if (generatedBackgroundSeed != card.generatedBackgroundSeed) return false;
+        if (usage != card.usage) return false;
+        if (number != null ? !number.equals(card.number) : card.number != null) return false;
+        if (title != null ? !title.equals(card.title) : card.title != null) return false;
         if (redactedNumber != null ? !redactedNumber.equals(card.redactedNumber) : card.redactedNumber != null) {
             return false;
         }
         return holder != null ? holder.equals(card.holder) : card.holder == null;
-
     }
 
     @Override public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (redactedNumber != null ? redactedNumber.hashCode() : 0);
         result = 31 * result + (holder != null ? holder.hashCode() : 0);
         result = 31 * result + type;
