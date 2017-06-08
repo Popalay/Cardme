@@ -47,43 +47,37 @@ public class HomeActivity extends BaseActivity implements HomeView {
         return new HomePresenter(startPage);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_home);
         initUI();
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    @Override protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    @Override public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.settings)
                 .setIcon(R.drawable.ic_settings)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void openPage(int pageId) {
+    @Override public void openPage(int pageId) {
         final Fragment fragment;
         switch (pageId) {
             case R.id.cards:
@@ -98,19 +92,10 @@ public class HomeActivity extends BaseActivity implements HomeView {
             default:
                 throw new IllegalArgumentException("Illegal position");
         }
-
-        final Fragment current = getSupportFragmentManager().findFragmentByTag(fragment.getClass().getSimpleName());
-        if (current != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.host, current, current.getClass().getSimpleName())
-                    .commit();
-        } else {
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .add(R.id.host, fragment, fragment.getClass().getSimpleName())
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.host, fragment)
+                .commit();
     }
 
     private boolean onNavigationClick(MenuItem item) {
