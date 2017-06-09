@@ -31,9 +31,9 @@ public class SettingsActivity extends BaseActivity implements SettingView {
     @Override public void setSettings(SettingsViewModel vm) {
         b.setVm(vm);
 
-        vm.getShowImagesObservable()
+        addSubscription(vm.getShowImagesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(presenter::showImageChanged);
+                .subscribe(presenter::showImageChanged));
     }
 
     private void initUI() {

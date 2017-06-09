@@ -6,7 +6,12 @@ import android.support.annotation.StringRes;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
 public abstract class BaseFragment extends MvpAppCompatFragment implements BaseView {
+
+    private final CompositeSubscription subscriptions = new CompositeSubscription();
 
     @NonNull public BaseActivity getBaseActivity() {
         final Activity activity = getActivity();
@@ -14,6 +19,16 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements BaseV
             return (BaseActivity) activity;
         }
         throw new RuntimeException("BaseActivity is null");
+    }
+
+    @Override public void onDestroyView() {
+        subscriptions.clear();
+        super.onDestroyView();
+    }
+
+    public void addSubscription(Subscription subscription) {
+        if (subscription.isUnsubscribed()) return;
+        subscriptions.add(subscription);
     }
 
     protected void showLoadingDialog() {

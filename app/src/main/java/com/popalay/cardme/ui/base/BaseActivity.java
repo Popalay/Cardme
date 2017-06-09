@@ -9,9 +9,13 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.utils.DialogFactory;
 import com.popalay.cardme.utils.ViewUtil;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private ProgressDialog mProgressDialog;
+    private final CompositeSubscription subscriptions = new CompositeSubscription();
 
     public void showLoadingDialog() {
         if (mProgressDialog != null) {
@@ -23,10 +27,20 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         mProgressDialog.show();
     }
 
+    public void addSubscription(Subscription subscription) {
+        if (subscription.isUnsubscribed()) return;
+        subscriptions.add(subscription);
+    }
+
     public void hideLoadingDialog() {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    @Override protected void onDestroy() {
+        subscriptions.clear();
+        super.onDestroy();
     }
 
     @Override public void showError(String error) {

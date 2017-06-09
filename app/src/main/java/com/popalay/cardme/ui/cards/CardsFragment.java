@@ -89,13 +89,13 @@ public class CardsFragment extends BaseFragment implements CardsView,
     public void setViewModel(CardsViewModel viewModel) {
         b.setModel(viewModel);
 
-        viewModel.getCardsObservable()
+        addSubscription(viewModel.getCardsObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter::setItems);
+                .subscribe(adapter::setItems));
 
-        viewModel.getShowImageObservable()
+        addSubscription(viewModel.getShowImageObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter::setShowBackgrounds);
+                .subscribe(adapter::setShowBackgrounds));
     }
 
     @Override

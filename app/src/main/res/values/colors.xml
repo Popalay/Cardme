@@ -19,16 +19,16 @@
     <color name="yellow">#F6C358</color>
 
     <!--card colors-->
-    <color name="deep_grey">#803699d4</color>
-    <color name="dark_grey">#802764ae</color>
+    <color name="deep_grey">#FF3699d4</color>
+    <color name="dark_grey">#FF2764ae</color>
 
-    <color name="deep_red">#80ee6d6d</color>
-    <color name="dark_red">#80b65865</color>
+    <color name="deep_red">#FFee6d6d</color>
+    <color name="dark_red">#FFb65865</color>
 
-    <color name="deep_green">#80397381</color>
-    <color name="dark_green">#80447675</color>
+    <color name="deep_green">#FF397381</color>
+    <color name="dark_green">#FF447675</color>
 
-    <color name="deep_purple">#809c6dc6</color>
-    <color name="dark_purple">#807866b9</color>
+    <color name="deep_purple">#FF9c6dc6</color>
+    <color name="dark_purple">#FF7866b9</color>
 
 </resources>

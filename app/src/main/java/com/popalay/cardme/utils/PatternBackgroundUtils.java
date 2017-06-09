@@ -17,10 +17,14 @@ public final class PatternBackgroundUtils {
 
     public static Drawable generateBackground(Context context, long seed, boolean withImage) {
         final int random = new Random(seed).nextInt(Integer.MAX_VALUE);
-        final Drawable pattern = withImage ? ContextCompat.getDrawable(context, getRandomPattern(random))
-                : ContextCompat.getDrawable(context, R.color.primary);
         final Drawable background = ContextCompat.getDrawable(context, getRandomBackground(random));
-        return new LayerDrawable(new Drawable[] {pattern, background});
+        if (!withImage) {
+            return background;
+        } else {
+            final Drawable pattern = ContextCompat.getDrawable(context, getRandomPattern(random));
+            background.setAlpha(140);
+            return new LayerDrawable(new Drawable[] {pattern, background});
+        }
     }
 
     @DrawableRes private static int getRandomPattern(int random) {
