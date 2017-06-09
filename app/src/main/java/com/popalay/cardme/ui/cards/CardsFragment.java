@@ -20,9 +20,11 @@ import com.popalay.cardme.ui.base.ItemClickListener;
 import com.popalay.cardme.ui.base.widgets.OnOneOffClickListener;
 import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
+import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class CardsFragment extends BaseFragment implements CardsView,
         SimpleItemTouchHelperCallback.SwipeCallback, ItemClickListener<Card>,
@@ -33,6 +35,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
     @InjectPresenter CardsPresenter presenter;
 
     private FragmentCardsBinding b;
+    private CardsAdapter adapter;
 
     public static CardsFragment newInstance() {
         return new CardsFragment();
@@ -85,6 +88,14 @@ public class CardsFragment extends BaseFragment implements CardsView,
     @Override
     public void setViewModel(CardsViewModel viewModel) {
         b.setModel(viewModel);
+
+        viewModel.getCardsObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(adapter::setItems);
+
+        viewModel.getShowImageObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(adapter::setShowBackgrounds);
     }
 
     @Override
@@ -114,8 +125,10 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     private void initUI() {
-        b.setListener(this);
-
+        b.listCards.addItemDecoration(new SpacingItemDecoration(getContext(), true, true, true, true));
+        adapter = new CardsAdapter();
+        adapter.setItemClickListener(this);
+        b.listCards.setAdapter(adapter);
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this))
                 .attachToRecyclerView(b.listCards);
         b.buttonAdd.setOnClickListener(new OnOneOffClickListener() {

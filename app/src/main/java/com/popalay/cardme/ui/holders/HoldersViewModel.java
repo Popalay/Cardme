@@ -14,7 +14,7 @@ import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.databinding.ItemHolderBinding;
 import com.popalay.cardme.ui.base.ItemClickListener;
 import com.popalay.cardme.utils.recycler.DiffUtilCallback;
-import com.popalay.cardme.utils.recycler.HorizontalDividerItemDecoration;
+import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 

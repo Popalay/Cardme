@@ -11,6 +11,10 @@
             type="com.popalay.cardme.data.models.Card" />
 
         <variable
+            name="withImage"
+            type="boolean" />
+
+        <variable
             name="listener"
             type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
@@ -25,6 +29,7 @@
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
         app:contentPadding="@dimen/normal"
+        app:withImage="@{withImage}"
         bind:onClickDebounced="@{() -> listener.onItemClick(item)}">
 
         <RelativeLayout

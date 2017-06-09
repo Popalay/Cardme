@@ -20,8 +20,8 @@ import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.databinding.ItemCardBinding;
 import com.popalay.cardme.ui.base.ItemClickListener;
 import com.popalay.cardme.utils.recycler.DiffUtilCallback;
-import com.popalay.cardme.utils.recycler.HorizontalDividerItemDecoration;
-import com.popalay.cardme.utils.recycler.SpacingItemDecoration;
+import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
+import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 

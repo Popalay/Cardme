@@ -45,7 +45,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
                 .compose(bindToLifecycle())
                 .map(Settings::isCardBackground)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(show -> viewModel.setShowImage(show), this::handleBaseError);
+                .subscribe(viewModel::setShowImage, this::handleBaseError);
     }
 
     @Override

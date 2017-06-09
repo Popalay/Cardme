@@ -9,9 +9,6 @@
             name="model"
             type="com.popalay.cardme.ui.cards.CardsViewModel" />
 
-        <variable
-            name="listener"
-            type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -23,10 +20,7 @@
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            bind:cards="@{model.cards}"
-            bind:itemClickListener="@{listener}"
-            bind:showImage="@{model.showImage}" />
+            app:layoutManager="LinearLayoutManager" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_add"

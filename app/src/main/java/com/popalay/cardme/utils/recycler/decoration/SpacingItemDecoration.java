@@ -1,4 +1,4 @@
-package com.popalay.cardme.utils.recycler;
+package com.popalay.cardme.utils.recycler.decoration;
 
 import android.content.Context;
 import android.graphics.Rect;
