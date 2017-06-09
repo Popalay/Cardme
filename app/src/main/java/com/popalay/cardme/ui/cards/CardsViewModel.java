@@ -6,13 +6,14 @@ import android.databinding.ObservableField;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.utils.BindingObservable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 
 public class CardsViewModel {
 
-    public final ObservableField<List<Card>> cards = new ObservableField<>();
+    public final ObservableField<List<Card>> cards = new ObservableField<>(new ArrayList<>());
     public final ObservableBoolean showImage = new ObservableBoolean();
 
     public void setShowImage(Boolean show) {

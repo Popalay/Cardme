@@ -14,6 +14,10 @@ public class CardsAdapter extends BaseDataBoundAdapter<ItemCardBinding, Card> {
     private boolean showBackgrounds;
     private ItemClickListener<Card> itemClickListener;
 
+    public CardsAdapter() {
+        super();
+    }
+
     public void setShowBackgrounds(boolean showBackgrounds) {
         if (this.showBackgrounds == showBackgrounds) return;
         this.showBackgrounds = showBackgrounds;

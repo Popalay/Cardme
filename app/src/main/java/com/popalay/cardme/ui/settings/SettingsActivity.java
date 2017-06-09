@@ -10,6 +10,8 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.databinding.ActivitySettingsBinding;
 import com.popalay.cardme.ui.base.BaseActivity;
 
+import rx.android.schedulers.AndroidSchedulers;
+
 public class SettingsActivity extends BaseActivity implements SettingView {
 
     @InjectPresenter SettingPresenter presenter;
@@ -28,11 +30,10 @@ public class SettingsActivity extends BaseActivity implements SettingView {
 
     @Override public void setSettings(SettingsViewModel vm) {
         b.setVm(vm);
-    }
 
-    @Override protected void onDestroy() {
-        presenter.onClose();
-        super.onDestroy();
+        vm.getShowImagesObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(presenter::showImageChanged);
     }
 
     private void initUI() {

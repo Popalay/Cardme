@@ -28,7 +28,10 @@ public class DefaultSettingsRepository implements SettingsRepository {
     }
 
     @Override public Completable save(Settings settings) {
-        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> realm.copyToRealmOrUpdate(settings)));
+        return Completable.fromAction(() -> RxRealm.doTransactional(realm -> {
+            realm.where(Settings.class).findAll().deleteAllFromRealm();
+            realm.copyToRealmOrUpdate(settings);
+        }));
     }
 
     private Settings createDefault() {

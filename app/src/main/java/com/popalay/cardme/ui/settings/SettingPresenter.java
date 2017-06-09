@@ -26,7 +26,8 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                 .subscribe(viewModel::setSettings, this::handleBaseError);
     }
 
-    public void onClose() {
+    public void showImageChanged(boolean checked) {
+        viewModel.getSettings().setCardBackground(checked);
         settingsInteractor.saveSettings(viewModel.getSettings())
                 .compose(bindToLifecycle().forCompletable())
                 .observeOn(AndroidSchedulers.mainThread())
