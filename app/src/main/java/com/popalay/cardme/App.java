@@ -7,6 +7,7 @@ import com.github.tamir7.contacts.Contacts;
 import com.popalay.cardme.injection.AppComponent;
 import com.popalay.cardme.injection.AppModule;
 import com.popalay.cardme.injection.DaggerAppComponent;
+import com.squareup.leakcanary.LeakCanary;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.realm.Realm;
@@ -22,8 +23,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) return;
         app = this;
-
+        LeakCanary.install(this);
         Realm.init(this);
         final RealmConfiguration config = new RealmConfiguration.Builder()
                 .schemaVersion(0)

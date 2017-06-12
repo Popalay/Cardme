@@ -3,6 +3,7 @@ package com.popalay.cardme.injection;
 import com.popalay.cardme.ui.addcard.AddCardPresenter;
 import com.popalay.cardme.ui.adddebt.AddDebtPresenter;
 import com.popalay.cardme.ui.cards.CardsPresenter;
+import com.popalay.cardme.ui.cards.CardsViewModel;
 import com.popalay.cardme.ui.debts.DebtsPresenter;
 import com.popalay.cardme.ui.holderdetails.HolderDetailsPresenter;
 import com.popalay.cardme.ui.holders.HoldersPresenter;
@@ -31,4 +32,6 @@ public interface AppComponent {
     void inject(DebtsPresenter presenter);
 
     void inject(SettingPresenter presenter);
+
+    void inject(CardsViewModel viewModel);
 }

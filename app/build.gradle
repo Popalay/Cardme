@@ -64,14 +64,14 @@ android {
 
     dataBinding.enabled true
 
-    splits {
+/*    splits {
         abi {
             enable true
             reset()
             include "x86", "armeabi-v7a", "mips", "x86_64", "arm64-v8a", "armeabi"
             universalApk false
         }
-    }
+    }*/
 
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
@@ -79,10 +79,11 @@ android {
 }
 
 ext {
-    supportLibrary = '25.3.1'
+    supportLibrary = '25.4.0'
     playServices = '11.0.0'
     dagger = '2.9'
     moxy = '1.5.3'
+    leakCanary = '1.5.1'
 }
 
 dependencies {
@@ -128,7 +129,6 @@ dependencies {
     annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
 
     // Widgets
-    //compile 'com.github.Popalay:LandscapeView:master-fbcd6c9a61-1'
     implementation 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2'
 
     // Firebase
@@ -138,6 +138,12 @@ dependencies {
     // Proguard rules
     implementation 'com.github.yongjhih.android-proguards:android-proguards:2.0.0'
 
+    // Debug utils
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
+
+    // Testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.7.22'
     testImplementation "org.assertj:assertj-core:3.0.0"
