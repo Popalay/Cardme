@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.ui.settings.SettingsViewModel" />
+            type="com.popalay.cardme.ui.screens.settings.SettingsViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -32,7 +32,7 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.popalay.cardme.ui.base.widgets.SettingTextView
+            <com.popalay.cardme.ui.widget.SettingTextView
                 style="@style/Cardme.SettingItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:text="@string/theme"
                 app:settingText="@{vm.settings.theme}" />
 
-            <com.popalay.cardme.ui.base.widgets.SettingTextView
+            <com.popalay.cardme.ui.widget.SettingTextView
                 style="@style/Cardme.SettingItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

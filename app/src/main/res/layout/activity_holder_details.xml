@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.popalay.cardme.ui.holderdetails.HolderDetailsViewModel" />
+            type="com.popalay.cardme.ui.screens.holderdetails.HolderDetailsViewModel" />
 
         <variable
             name="listener"

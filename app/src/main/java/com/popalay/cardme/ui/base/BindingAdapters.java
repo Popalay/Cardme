@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.popalay.cardme.ui.base.widgets.OnOneOffClickListener;
+import com.popalay.cardme.ui.widget.OnOneOffClickListener;
 
 import java.util.List;
 

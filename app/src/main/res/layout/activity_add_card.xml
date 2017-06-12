@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.popalay.cardme.ui.addcard.AddCardViewModel" />
+            type="com.popalay.cardme.ui.screens.addcard.AddCardViewModel" />
 
     </data>
 
@@ -26,7 +26,7 @@
                 android:theme="@style/Cardme.Toolbar"
                 app:navigationIcon="@drawable/ic_back" />
 
-            <com.popalay.cardme.ui.base.widgets.CreditCardView
+            <com.popalay.cardme.ui.widget.CreditCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
@@ -57,7 +57,7 @@
                         android:gravity="center_vertical"
                         android:text="@={model.title}" />
 
-                    <com.popalay.cardme.ui.base.widgets.CharacterWrapTextView
+                    <com.popalay.cardme.ui.widget.CharacterWrapTextView
                         android:id="@+id/text_number"
                         style="@style/Cardme.CardNumber"
                         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
 
                 </RelativeLayout>
 
-            </com.popalay.cardme.ui.base.widgets.CreditCardView>
+            </com.popalay.cardme.ui.widget.CreditCardView>
 
         </android.support.design.widget.AppBarLayout>
 

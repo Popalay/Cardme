@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.popalay.cardme.ui.debts.DebtsViewModel" />
+            type="com.popalay.cardme.ui.screens.debts.DebtsViewModel" />
 
         <variable
             name="listener"

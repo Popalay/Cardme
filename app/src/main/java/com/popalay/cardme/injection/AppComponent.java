@@ -1,13 +1,13 @@
 package com.popalay.cardme.injection;
 
-import com.popalay.cardme.ui.addcard.AddCardPresenter;
-import com.popalay.cardme.ui.adddebt.AddDebtPresenter;
-import com.popalay.cardme.ui.cards.CardsPresenter;
-import com.popalay.cardme.ui.cards.CardsViewModel;
-import com.popalay.cardme.ui.debts.DebtsPresenter;
-import com.popalay.cardme.ui.holderdetails.HolderDetailsPresenter;
-import com.popalay.cardme.ui.holders.HoldersPresenter;
-import com.popalay.cardme.ui.settings.SettingPresenter;
+import com.popalay.cardme.ui.screens.addcard.AddCardPresenter;
+import com.popalay.cardme.ui.screens.adddebt.AddDebtPresenter;
+import com.popalay.cardme.ui.screens.cards.CardsPresenter;
+import com.popalay.cardme.ui.screens.cards.CardsViewModel;
+import com.popalay.cardme.ui.screens.debts.DebtsPresenter;
+import com.popalay.cardme.ui.screens.holderdetails.HolderDetailsPresenter;
+import com.popalay.cardme.ui.screens.holders.HoldersPresenter;
+import com.popalay.cardme.ui.screens.settings.SettingPresenter;
 
 import javax.inject.Singleton;
 
