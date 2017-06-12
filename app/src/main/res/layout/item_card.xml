@@ -28,12 +28,12 @@
         android:stateListAnimator="@anim/lift_on_touch"
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
-        app:contentPadding="@dimen/normal"
         app:withImage="@{withImage}"
         bind:onClickDebounced="@{() -> listener.onItemClick(item)}">
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:padding="@dimen/normal"
             android:layout_height="wrap_content">
 
             <ImageView

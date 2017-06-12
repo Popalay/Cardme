@@ -47,7 +47,8 @@ public class CreditCardView extends CardView {
     }
 
     private void updateBackground() {
-        setBackground(PatternBackgroundUtils.generateBackground(getContext(), seed, withImage));
+        if (getChildCount() == 0) throw new RuntimeException("Credit card view must has a least one child");
+        getChildAt(0).setBackground(PatternBackgroundUtils.generateBackground(getContext(), seed, withImage));
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
