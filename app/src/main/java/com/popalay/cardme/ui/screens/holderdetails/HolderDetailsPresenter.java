@@ -1,52 +1,55 @@
 package com.popalay.cardme.ui.screens.holderdetails;
 
-import android.content.Context;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.debts.DebtsInteractor;
 import com.popalay.cardme.business.holders.HolderInteractor;
+import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.ui.base.BasePresenter;
+import com.popalay.cardme.data.models.Settings;
+import com.popalay.cardme.ui.base.ViewModelPresenter;
 
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
-public class HolderDetailsPresenter extends BasePresenter<HolderDetailsView> {
+public class HolderDetailsPresenter extends ViewModelPresenter<HolderDetailsView, HolderDetailsViewModel> {
 
-    @Inject CardInteractor mCardInteractor;
-    @Inject HolderInteractor mHolderInteractor;
+    @Inject CardInteractor cardInteractor;
+    @Inject HolderInteractor holderInteractor;
     @Inject DebtsInteractor debtsInteractor;
-    @Inject Context context;
-
-    private long holderId;
+    @Inject SettingsInteractor settingsInteractor;
 
     public HolderDetailsPresenter(long holderId) {
-        this.holderId = holderId;
+        super();
         App.appComponent().inject(this);
-    }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        mCardInteractor.getCardsByHolder(holderId)
+        cardInteractor.getCardsByHolder(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setCards, this::handleBaseError);
+                .subscribe(viewModel::setCards, this::handleBaseError);
 
         debtsInteractor.getDebtsByHolder(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setDebts, this::handleBaseError);
+                .subscribe(viewModel::setDebts, this::handleBaseError);
 
-        mHolderInteractor.getHolderName(holderId)
+        holderInteractor.getHolderName(holderId)
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setHolderName, this::handleBaseError);
+                .subscribe(viewModel::setHolderName, this::handleBaseError);
+
+        settingsInteractor.listenSettings()
+                .compose(bindToLifecycle())
+                .map(Settings::isCardBackground)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(viewModel::setShowImage, this::handleBaseError);
+    }
+
+    @Override protected HolderDetailsViewModel createViewModel() {
+        return new HolderDetailsViewModel();
     }
 
     public void onCardClick(Card card) {

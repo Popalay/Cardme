@@ -9,10 +9,6 @@
         <variable
             name="model"
             type="com.popalay.cardme.ui.screens.holderdetails.HolderDetailsViewModel" />
-
-        <variable
-            name="listener"
-            type="com.popalay.cardme.ui.base.ItemClickListener" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -32,6 +28,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
+                    android:id="@+id/list_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="?actionBarSize"
@@ -42,9 +39,6 @@
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
                     app:rvp_singlePageFling="true"
-                    bind:holderCards="@{model.cards}"
-                    bind:itemClickListener="@{listener}"
-                    bind:showImage="@{model.showImage}"
                     tools:listitem="@layout/item_card" />
 
                 <android.support.v7.widget.Toolbar
@@ -52,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="pin"
+                    app:title="@{model.holderName}"
                     app:navigationIcon="@drawable/ic_back"
                     app:theme="@style/Cardme.Toolbar" />
 
@@ -70,12 +65,12 @@
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_debts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager"
-                    bind:holderDebts="@{model.debts}"
                     tools:listitem="@layout/item_debt" />
 
                 <TextView

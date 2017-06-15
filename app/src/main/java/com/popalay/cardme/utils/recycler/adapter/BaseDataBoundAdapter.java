@@ -52,13 +52,14 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding, M extends 
     private static final Object DB_PAYLOAD = new Object();
     @Nullable
     private RecyclerView mRecyclerView;
-    private List<M> items;
+    private final List<M> items;
 
     protected BaseDataBoundAdapter() {
         this.items = new ArrayList<>();
     }
 
     public void setItems(List<M> items) {
+        if (items == null) items = new ArrayList<>();
         final List<M> oldItems = new ArrayList<>(this.items);
         this.items.clear();
         this.items.addAll(items);
@@ -101,7 +102,7 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding, M extends 
     @Override
     @CallSuper
     public DataBoundViewHolder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
-        DataBoundViewHolder<T> vh = DataBoundViewHolder.create(parent, viewType);
+        final DataBoundViewHolder<T> vh = DataBoundViewHolder.create(parent, viewType);
         vh.binding.addOnRebindCallback(mOnRebindCallback);
         return vh;
     }
@@ -110,6 +111,7 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding, M extends 
     public final void onBindViewHolder(DataBoundViewHolder<T> holder, int position,
             List<Object> payloads) {
         // when a VH is rebound to the same item, we don't have to call the setters
+        // FIXME: 15.06.17
         if (payloads.isEmpty() || hasNonDataBindingInvalidate(payloads)) {
             bindItem(holder, position, payloads);
         }
@@ -137,7 +139,9 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding, M extends 
 
     @Override
     public final void onBindViewHolder(DataBoundViewHolder<T> holder, int position) {
-        throw new IllegalArgumentException("just overridden to make final.");
+        // when a VH is rebound to the same item, we don't have to call the setters
+        bindItem(holder, position, null);
+        holder.binding.executePendingBindings();
     }
 
     @Override
