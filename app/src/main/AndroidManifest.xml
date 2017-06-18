@@ -16,7 +16,7 @@
         android:theme="@style/Cardme">
 
         <activity
-            android:name="com.popalay.cardme.ui.screens.splash.SplashActivity"
+            android:name="com.popalay.cardme.presentation.screens.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Splash">
             <intent-filter>
@@ -27,25 +27,25 @@
         </activity>
 
         <activity
-            android:name="com.popalay.cardme.ui.screens.home.HomeActivity"
+            android:name="com.popalay.cardme.presentation.screens.home.HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.popalay.cardme.ui.screens.addcard.AddCardActivity"
+            android:name="com.popalay.cardme.presentation.screens.addcard.AddCardActivity"
             android:label="@string/card_details"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.popalay.cardme.ui.screens.holderdetails.HolderDetailsActivity"
+            android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.popalay.cardme.ui.screens.adddebt.AddDebtActivity"
+            android:name="com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Translucent.DialogActivity" />
 
         <activity
-            android:name=".ui.screens.settings.SettingsActivity"
+            android:name=".presentation.screens.settings.SettingsActivity"
             android:label="@string/settings"
             android:screenOrientation="portrait" />
 

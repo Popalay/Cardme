@@ -16,7 +16,7 @@
 
         <variable
             name="listener"
-            type="com.popalay.cardme.ui.base.ItemClickListener" />
+            type="com.popalay.cardme.presentation.base.ItemClickListener" />
     </data>
 
     <com.popalay.cardme.ui.widget.CreditCardView
@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:text="@={item.title}" />
 
-            <com.popalay.cardme.ui.widget.CharacterWrapTextView
+            <com.popalay.cardme.presentation.widget.CharacterWrapTextView
                 android:id="@+id/text_number"
                 style="@style/Cardme.CardNumber"
                 android:layout_width="match_parent"

@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.popalay.cardme.ui.screens.holderdetails.HolderDetailsViewModel" />
+            type="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
