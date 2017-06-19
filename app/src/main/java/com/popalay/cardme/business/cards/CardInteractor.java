@@ -37,6 +37,7 @@ public class CardInteractor {
 
     public Completable save(Card card) {
         return cardRepository.save(card)
+                .andThen(holderRepository.updateCounts(card.getHolder()))
                 .subscribeOn(Schedulers.io());
     }
 

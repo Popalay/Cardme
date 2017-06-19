@@ -26,6 +26,7 @@ public class DebtsInteractor {
 
     public Completable save(Debt debt) {
         return debtRepository.save(debt)
+                .andThen(holderRepository.updateCounts(debt.getHolder()))
                 .subscribeOn(Schedulers.io());
     }
 

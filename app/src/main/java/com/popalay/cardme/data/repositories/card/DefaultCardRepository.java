@@ -27,7 +27,6 @@ public class DefaultCardRepository implements CardRepository {
                 final long nextID = num != null ? num.longValue() + 1L : 0L;
                 card.getHolder().setId(nextID);
             }
-            card.getHolder().setCardsCount(card.getHolder().getCardsCount() + 1);
             realm.copyToRealmOrUpdate(card);
         }));
     }

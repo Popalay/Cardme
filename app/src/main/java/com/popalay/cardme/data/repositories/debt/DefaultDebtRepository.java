@@ -25,7 +25,6 @@ public class DefaultDebtRepository implements DebtRepository {
                 final long nextID = num != null ? num.longValue() + 1L : 0L;
                 debt.getHolder().setId(nextID);
             }
-            debt.getHolder().setDebtCount(debt.getHolder().getDebtCount() + 1);
             if (debt.getCreatedAt() == 0L) {
                 debt.setCreatedAt(System.currentTimeMillis());
             }
