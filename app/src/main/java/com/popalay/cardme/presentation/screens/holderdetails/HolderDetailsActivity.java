@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.PagerSnapHelper;
+import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -15,15 +16,15 @@ import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding;
 import com.popalay.cardme.presentation.adapter.CardsAdapter;
 import com.popalay.cardme.presentation.adapter.DebtsAdapter;
-import com.popalay.cardme.presentation.base.BaseActivity;
 import com.popalay.cardme.presentation.base.ItemClickListener;
+import com.popalay.cardme.presentation.base.SlidingActivity;
 import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import rx.android.schedulers.AndroidSchedulers;
 
-public class HolderDetailsActivity extends BaseActivity implements HolderDetailsView, ItemClickListener<Card> {
+public class HolderDetailsActivity extends SlidingActivity implements HolderDetailsView, ItemClickListener<Card> {
 
     private static final String KEY_HOLDER_ID = "HOLDER_ID";
 
@@ -32,6 +33,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
     private ActivityHolderDetailsBinding b;
     private DebtsAdapter debtsAdapter;
     private CardsAdapter cardsAdapter;
+    private boolean isExpanded;
 
     public static Intent getIntent(Context context, Holder holder) {
         final Intent intent = new Intent(context, HolderDetailsActivity.class);
@@ -73,6 +75,22 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
         ShareUtils.shareText(this, R.string.share_card, cardNumber);
     }
 
+    @Override protected View getRootView() {
+        return b.getRoot();
+    }
+
+    @Override protected void onSlidingFinished() {
+
+    }
+
+    @Override protected void onSlidingStarted() {
+
+    }
+
+    @Override protected boolean canSlideDown() {
+        return isExpanded && b.listDebts.getScrollY() == 0;
+    }
+
     private void initUI() {
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
@@ -91,6 +109,7 @@ public class HolderDetailsActivity extends BaseActivity implements HolderDetails
         b.listDebts.setAdapter(debtsAdapter);
 
         b.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            isExpanded = verticalOffset == 0;
             if (appBarLayout.getTotalScrollRange() == 0) {
                 return;
             }

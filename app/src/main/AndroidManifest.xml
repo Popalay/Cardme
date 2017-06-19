@@ -37,7 +37,8 @@
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Cardme.Sliding" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity"
