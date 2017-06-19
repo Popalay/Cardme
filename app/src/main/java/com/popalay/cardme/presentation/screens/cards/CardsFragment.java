@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,9 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.FragmentCardsBinding;
 import com.popalay.cardme.presentation.adapter.CardsAdapter;
-import com.popalay.cardme.presentation.screens.addcard.AddCardActivity;
 import com.popalay.cardme.presentation.base.BaseFragment;
 import com.popalay.cardme.presentation.base.ItemClickListener;
+import com.popalay.cardme.presentation.screens.addcard.AddCardActivity;
 import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
 import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
@@ -130,6 +131,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
         adapter = new CardsAdapter();
         adapter.setItemClickListener(this);
         b.listCards.setAdapter(adapter);
+        b.listCards.setItemAnimator(new DefaultItemAnimator());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this))
                 .attachToRecyclerView(b.listCards);
         b.buttonAdd.setOnClickListener(new OnOneOffClickListener() {

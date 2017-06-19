@@ -29,6 +29,7 @@
             android:background="@color/white"
             app:layoutManager="LinearLayoutManager"
             bind:debts="@{model.debts}"
+            bind:hasFixedSize="true"
             tools:listitem="@layout/item_debt" />
 
         <android.support.design.widget.FloatingActionButton

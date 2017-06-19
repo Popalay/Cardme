@@ -1,6 +1,7 @@
 package com.popalay.cardme.presentation.base;
 
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -35,5 +36,10 @@ public class BindingAdapters {
                 action.call();
             }
         });
+    }
+
+    @BindingAdapter("hasFixedSize")
+    public static void setHasFixedSize(RecyclerView view, boolean hasFixedSize) {
+        view.setHasFixedSize(hasFixedSize);
     }
 }

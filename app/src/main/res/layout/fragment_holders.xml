@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             app:layoutManager="LinearLayoutManager"
+            bind:hasFixedSize="true"
             bind:holders="@{model.holders}"
             bind:itemClickListener="@{listener}" />
 
