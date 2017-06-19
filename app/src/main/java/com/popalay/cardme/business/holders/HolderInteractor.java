@@ -10,7 +10,6 @@ import com.popalay.cardme.data.repositories.device.DeviceRepository;
 import com.popalay.cardme.data.repositories.holder.HolderRepository;
 import com.popalay.cardme.utils.PermissionChecker;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,7 +49,6 @@ public class HolderInteractor {
                 .subscribeOn(Schedulers.io());
     }
 
-    //TODO simplify
     public Observable<List<String>> getHolderNames() {
         return PermissionChecker.check(context, Manifest.permission.READ_CONTACTS)
                 .flatMap(granted -> holderRepository.getAll(), (granted, holders) -> transform(holders, granted))
@@ -62,7 +60,6 @@ public class HolderInteractor {
         if (withContacts) {
             Stream.of(deviceRepository.getContacts()).map(Contact::getDisplayName).forEach(names::add);
         }
-        Collections.sort(names);
-        return names;
+        return Stream.of(names).distinct().sorted().toList();
     }
 }
