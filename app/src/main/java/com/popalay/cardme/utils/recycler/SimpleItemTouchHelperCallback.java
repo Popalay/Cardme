@@ -32,13 +32,22 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
-            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
-                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            int dragFlags = 0;
+            if (dragCallback != null && recyclerView.getChildCount() > 1) {
+                dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            }
             final int swipeFlags = 0;
             return makeMovementFlags(dragFlags, swipeFlags);
         } else {
-            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            int dragFlags = 0;
+            if (dragCallback != null && recyclerView.getChildCount() > 1) {
+                dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            }
+            int swipeFlags = 0;
+            if (swipeCallback != null) {
+                swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            }
             return makeMovementFlags(dragFlags, swipeFlags);
         }
     }
@@ -47,6 +56,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public boolean onMove(RecyclerView recyclerView,
             RecyclerView.ViewHolder viewHolder,
             RecyclerView.ViewHolder target) {
+        if (recyclerView.getChildCount() == 0) return false;
         final int from = viewHolder.getAdapterPosition();
         final int to = target.getAdapterPosition();
         if (dragCallback == null || from == to) {
