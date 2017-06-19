@@ -82,11 +82,17 @@ public abstract class SlidingActivity extends BaseActivity {
 
     protected abstract View getRootView();
 
-    protected abstract void onSlidingFinished();
+    protected void onSlidingFinished() {
+        //override to add logic
+    }
 
-    protected abstract void onSlidingStarted();
+    protected void onSlidingStarted() {
+        //override to add logic
+    }
 
-    protected abstract boolean canSlideDown();
+    protected boolean canSlideDown() {
+        return true;
+    }
 
     private boolean shouldClose(float delta) {
         return delta > screenSize.y / 3;

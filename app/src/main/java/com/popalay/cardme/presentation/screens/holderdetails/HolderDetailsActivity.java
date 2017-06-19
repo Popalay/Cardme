@@ -79,14 +79,6 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
         return b.getRoot();
     }
 
-    @Override protected void onSlidingFinished() {
-
-    }
-
-    @Override protected void onSlidingStarted() {
-
-    }
-
     @Override protected boolean canSlideDown() {
         return isExpanded && b.listDebts.getScrollY() == 0;
     }
