@@ -12,17 +12,21 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
+    <style name="DownUpActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_down_up_enter</item>
+    </style>
+
     <style name="Cardme.Splash">
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="android:windowBackground">@color/primary_dark</item>
     </style>
 
     <style name="Cardme.Sliding">
+        <item name="android:windowAnimationStyle">@style/DownUpActivity</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>

@@ -86,7 +86,7 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
     private void initUI() {
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
-        b.toolbar.setNavigationOnClickListener(v -> finish());
+        b.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(this, R.color.grey, 1,
                 this.getResources().getDimensionPixelSize(R.dimen.title_offset), 0));

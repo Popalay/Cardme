@@ -10,12 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.popalay.cardme.R;
 
 public abstract class SlidingActivity extends BaseActivity {
 
     private static final int GESTURE_THRESHOLD = 10;
+    private static final long ANIMATION_DURATION = 200L;
 
     private View root;
     private float startX = 0f;
@@ -80,6 +82,10 @@ public abstract class SlidingActivity extends BaseActivity {
         return handled || super.dispatchTouchEvent(ev);
     }
 
+    @Override public void onBackPressed() {
+        closeDownAndDismiss();
+    }
+
     protected abstract View getRootView();
 
     protected void onSlidingFinished() {
@@ -109,7 +115,8 @@ public abstract class SlidingActivity extends BaseActivity {
         final float start = root.getY();
         final float finish = (float) screenSize.y;
         final ObjectAnimator positionAnimator = ObjectAnimator.ofFloat(root, "y", start, finish);
-        positionAnimator.setDuration(100L);
+        positionAnimator.setDuration(ANIMATION_DURATION);
+        positionAnimator.setInterpolator(new DecelerateInterpolator());
         positionAnimator.addListener(new Animator.AnimatorListener() {
             @Override public void onAnimationStart(Animator animator) {
 
@@ -137,7 +144,8 @@ public abstract class SlidingActivity extends BaseActivity {
         final float start = root.getY();
         final float finish = 0f;
         final ObjectAnimator positionAnimator = ObjectAnimator.ofFloat(root, "y", start, finish);
-        positionAnimator.setDuration(100L);
+        positionAnimator.setDuration(ANIMATION_DURATION);
+        positionAnimator.setInterpolator(new DecelerateInterpolator());
         positionAnimator.addListener(new Animator.AnimatorListener() {
             @Override public void onAnimationStart(Animator animator) {
 
