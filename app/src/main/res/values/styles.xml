@@ -10,6 +10,7 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="DownUpActivity" parent="@android:style/Animation.Activity">
@@ -66,9 +67,16 @@
         <item name="itemTextColor">@color/bottom_bar_item</item>
     </style>
 
+    <style name="Cardme.Button" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:tint">?colorAccent</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
     <style name="Cardme.FloatingButton">
-        <item name="android:layout_margin">@dimen/normal</item>
-        <item name="android:tint">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/normal</item>
+        <item name="android:layout_marginEnd">@dimen/normal</item>
+        <item name="android:tint">?colorPrimary</item>
+        <item name="layout_behavior">@string/fab_hide_behavior</item>
     </style>
 
     <style name="Cardme.CardNumber">
@@ -111,7 +119,9 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
-    <style name="Cardme.SettingItem">
+    <style name="Cardme.Setting" />
+
+    <style name="Cardme.Setting.Item">
         <item name="android:padding">@dimen/normal</item>
         <item name="android:drawablePadding">@dimen/larger</item>
         <item name="android:focusable">true</item>
@@ -119,6 +129,14 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Subhead</item>
+    </style>
+
+    <style name="Cardme.Setting.Title" parent="Base.TextAppearance.AppCompat.Caption">
+        <item name="android:paddingTop">@dimen/normal</item>
+        <item name="android:paddingStart">@dimen/normal</item>
+        <item name="android:paddingEnd">@dimen/normal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">?colorAccent</item>
     </style>
 
 </resources>

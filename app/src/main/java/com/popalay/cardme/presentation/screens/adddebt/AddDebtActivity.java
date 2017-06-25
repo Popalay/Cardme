@@ -19,8 +19,6 @@ import java.util.List;
 
 public class AddDebtActivity extends BaseActivity implements AddDebtView {
 
-    private static final String TAG = "AddDebtActivity";
-
     @InjectPresenter AddDebtPresenter presenter;
 
     private ActivityAddDebtBinding b;

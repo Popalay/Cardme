@@ -27,6 +27,7 @@ public class CreditCardView extends CardView {
     }
 
     public void setWithImage(boolean withImage) {
+        if (this.withImage == withImage) return;
         this.withImage = withImage;
         updateBackground();
     }
@@ -52,6 +53,6 @@ public class CreditCardView extends CardView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
-        //ignored
+        //no-op
     }
 }

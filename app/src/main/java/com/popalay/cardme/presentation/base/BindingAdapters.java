@@ -1,6 +1,8 @@
 package com.popalay.cardme.presentation.base;
 
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,7 +32,7 @@ public class BindingAdapters {
 
     @BindingAdapter("onClickDebounced")
     public static void setDebouncedOnClickListener(View view, ActionN action) {
-        view.setOnClickListener(new OnOneOffClickListener(){
+        view.setOnClickListener(new OnOneOffClickListener() {
             @Override
             public void onSingleClick(View v) {
                 action.call();
@@ -41,5 +43,13 @@ public class BindingAdapters {
     @BindingAdapter("hasFixedSize")
     public static void setHasFixedSize(RecyclerView view, boolean hasFixedSize) {
         view.setHasFixedSize(hasFixedSize);
+    }
+
+    @BindingAdapter("defaultList")
+    public static void setDefaultList(RecyclerView view, boolean defaultList) {
+        if (!defaultList) return;
+        view.setHasFixedSize(true);
+        view.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        view.setItemAnimator(new DefaultItemAnimator());
     }
 }

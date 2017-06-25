@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.popalay.cardme.utils;
+package com.popalay.cardme.utils.animation;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;

@@ -15,7 +15,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.FragmentCardsBinding;
-import com.popalay.cardme.presentation.adapter.CardsAdapter;
 import com.popalay.cardme.presentation.base.BaseFragment;
 import com.popalay.cardme.presentation.base.ItemClickListener;
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity;
@@ -26,7 +25,6 @@ import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class CardsFragment extends BaseFragment implements CardsView,
         SimpleItemTouchHelperCallback.SwipeCallback, ItemClickListener<Card>,
@@ -37,7 +35,6 @@ public class CardsFragment extends BaseFragment implements CardsView,
     @InjectPresenter CardsPresenter presenter;
 
     private FragmentCardsBinding b;
-    private CardsAdapter adapter;
 
     public static CardsFragment newInstance() {
         return new CardsFragment();
@@ -49,13 +46,8 @@ public class CardsFragment extends BaseFragment implements CardsView,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater, R.layout.fragment_cards, container, false);
-        return b.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         initUI();
+        return b.getRoot();
     }
 
     @Override
@@ -89,31 +81,23 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     @Override
     public void setViewModel(CardsViewModel viewModel) {
-        b.setModel(viewModel);
-
-        addSubscription(viewModel.getCardsObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter::setItems));
-
-        addSubscription(viewModel.getShowImageObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter::setShowBackgrounds));
+        b.setWm(viewModel);
     }
 
     @Override
     public void onSwiped(int position) {
-        final Card card = b.getModel().get(position);
+        final Card card = b.getWm().get(position);
         presenter.onItemSwiped(card);
     }
 
     @Override
     public void onDragged(int from, int to) {
-        presenter.onItemDragged(b.getModel().cards.get(), from, to);
+        presenter.onItemDragged(b.getWm().cards, from, to);
     }
 
     @Override
     public void onDropped() {
-        presenter.onItemDropped(b.getModel().cards.get());
+        presenter.onItemDropped(b.getWm().cards);
     }
 
     @Override
@@ -127,10 +111,8 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     private void initUI() {
+        b.setListener(this);
         b.listCards.addItemDecoration(new SpacingItemDecoration(getContext(), true, true, true, true));
-        adapter = new CardsAdapter();
-        adapter.setItemClickListener(this);
-        b.listCards.setAdapter(adapter);
         b.listCards.setItemAnimator(new DefaultItemAnimator());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this))
                 .attachToRecyclerView(b.listCards);

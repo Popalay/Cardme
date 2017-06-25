@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    >
 
     <data>
 
         <variable
-            name="model"
-            type="com.popalay.cardme.presentation.screens.cards.CardsViewModel" />
+            name="wm"
+            type="com.popalay.cardme.presentation.screens.cards.CardsViewModel"
+            />
+
+        <variable
+            name="listener"
+            type="com.popalay.cardme.presentation.base.ItemClickListener"
+            />
+
 
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/window_background">
+        android:background="@color/window_background"
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            bind:hasFixedSize="true" />
+            bind:cardsAdapter="@{wm.cards}"
+            bind:defaultList="@{true}"
+            bind:itemClickListener="@{listener}"
+            bind:showImage="@{wm.showImage}"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_add"
@@ -30,8 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:src="@drawable/ic_add"
-            app:layout_behavior="@string/fab_hide_behavior"
-            app:rippleColor="@color/primary" />
+            />
 
         <TextView
             style="@style/Cardme.ListPlaceholderText"
@@ -39,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_cards_placeholder"
-            bind:listPlaceholder="@{model.cards}" />
+            bind:listPlaceholder="@{wm.cards}"
+            />
 
     </android.support.design.widget.CoordinatorLayout>
 

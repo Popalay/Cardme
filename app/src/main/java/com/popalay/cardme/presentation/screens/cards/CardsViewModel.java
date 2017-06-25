@@ -1,40 +1,68 @@
 package com.popalay.cardme.presentation.screens.cards;
 
+import android.databinding.BindingAdapter;
+import android.databinding.Observable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import android.databinding.ObservableList;
+import android.support.v7.widget.RecyclerView;
 
+import com.github.nitrico.lastadapter.Holder;
+import com.github.nitrico.lastadapter.ItemType;
+import com.github.nitrico.lastadapter.LastAdapter;
+import com.popalay.cardme.BR;
+import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.utils.BindingObservable;
+import com.popalay.cardme.databinding.ItemCardBinding;
+import com.popalay.cardme.presentation.base.ItemClickListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
 
 public class CardsViewModel {
 
-    public final ObservableField<List<Card>> cards = new ObservableField<>();
+    public final ObservableList<Card> cards = new ObservableArrayList<>();
     public final ObservableBoolean showImage = new ObservableBoolean();
 
-    public void setShowImage(Boolean show) {
+    public void setShowImage(boolean show) {
         showImage.set(show);
-        cards.notifyChange();
     }
 
     public void setCards(List<Card> items) {
-        cards.set(items);
-        cards.notifyChange();
-    }
-
-    public Observable<List<Card>> getCardsObservable() {
-        return BindingObservable.create(cards);
-    }
-
-    public Observable<Boolean> getShowImageObservable() {
-        return BindingObservable.create(showImage);
+        final List<Card> newList = new ArrayList<>(items);
+        cards.clear();
+        cards.addAll(newList);
     }
 
     public Card get(int position) {
-        return cards.get().get(position);
+        return cards.get(position);
+    }
+
+    @BindingAdapter(value = {"cardsAdapter", "itemClickListener", "showImage"}, requireAll = false)
+    public static void cardsAdapter(RecyclerView recyclerView, List<Card> items,
+            ItemClickListener listener, ObservableBoolean showImage) {
+        if (recyclerView.getAdapter() != null) return;
+        new LastAdapter(items, BR.item, true)
+                .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
+                    @Override public void onBind(Holder<ItemCardBinding> holder) {
+                        super.onBind(holder);
+                        holder.getBinding().setListener(listener);
+                    }
+
+                    @Override public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
+                        super.onCreate(holder);
+                        holder.getBinding().cardView.setWithImage(showImage.get());
+                        showImage.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                            @Override
+                            public void onPropertyChanged(Observable observable, int i) {
+                                holder.getBinding().cardView.setWithImage(showImage.get());
+                            }
+                        });
+
+                    }
+                }).into(recyclerView);
     }
 
 }

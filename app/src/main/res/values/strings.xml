@@ -55,5 +55,9 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
+    <string name="user_interface">User interface</string>
+    <string name="about">About</string>
+    <string name="about_the_app">About the app</string>
+    <string name="rate_the_app">Rate the app</string>
 
 </resources>

@@ -56,7 +56,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
         FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
         final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
                 getString(R.string.transition_add_debt));
-        startActivity(AddDebtActivity.getIntent(getActivity()), options.toBundle());
+        startActivity(intent, options.toBundle());
     }
 
     @Override

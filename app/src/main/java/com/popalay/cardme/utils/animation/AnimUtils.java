@@ -1,4 +1,4 @@
-package com.popalay.cardme.utils;
+package com.popalay.cardme.utils.animation;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;

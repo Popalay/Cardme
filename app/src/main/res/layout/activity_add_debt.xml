@@ -7,19 +7,23 @@
 
         <variable
             name="model"
-            type="com.popalay.cardme.presentation.screens.adddebt.AddDebtViewModel" />
+            type="com.popalay.cardme.presentation.screens.adddebt.AddDebtViewModel"
+            />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        >
 
-        <android.support.design.widget.CoordinatorLayout
+        <FrameLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:id="@+id/container"
@@ -31,7 +35,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical"
-                android:transitionName="@string/transition_add_debt">
+                android:transitionName="@string/transition_add_debt"
+                >
 
                 <AutoCompleteTextView
                     android:id="@+id/input_to"
@@ -45,12 +50,14 @@
                     android:inputType="textCapSentences|textAutoCorrect"
                     android:padding="@dimen/small"
                     android:text="@={model.to}"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/grey" />
+                    android:background="@color/grey"
+                    />
 
                 <EditText
                     android:id="@+id/input_message"
@@ -61,11 +68,12 @@
                     android:layout_marginTop="@dimen/small"
                     android:hint="@string/debt_information"
                     android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-                    android:text="@={model.message}" />
+                    android:text="@={model.message}"
+                    />
 
                 <Button
                     android:id="@+id/button_save"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    style="@style/Cardme.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -73,11 +81,12 @@
                     android:layout_marginEnd="@dimen/small"
                     android:layout_marginTop="@dimen/small"
                     android:enabled="@{model.canSave}"
-                    android:text="@string/action_save" />
+                    android:text="@string/action_save"
+                    />
 
             </LinearLayout>
 
-        </android.support.design.widget.CoordinatorLayout>
+        </FrameLayout>
 
     </ScrollView>
 

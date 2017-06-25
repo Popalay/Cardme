@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.popalay.cardme.R;
+import com.popalay.cardme.utils.animation.EndAnimatorListener;
 
 public abstract class SlidingActivity extends BaseActivity {
 
@@ -26,6 +27,7 @@ public abstract class SlidingActivity extends BaseActivity {
     private Point screenSize;
     private ColorDrawable windowScrim;
     private int statusBarColor;
+    private float lastPos;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public abstract class SlidingActivity extends BaseActivity {
             case MotionEvent.ACTION_DOWN:
                 startX = ev.getX();
                 startY = ev.getY();
+                lastPos = startY;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if ((isSlidingDown(startX, startY, ev) && canSlideDown()) || isSliding) {
@@ -59,8 +62,9 @@ public abstract class SlidingActivity extends BaseActivity {
                         super.dispatchTouchEvent(ev);
                     }
                     root.setY(Math.max((ev.getY() - startY), 0));
-                    updateScrim();
+                    updateScrim(lastPos > ev.getY());
                     handled = true;
+                    lastPos = ev.getY();
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -72,7 +76,7 @@ public abstract class SlidingActivity extends BaseActivity {
                     if (shouldClose(ev.getY() - startY)) {
                         closeDownAndDismiss();
                     } else {
-                        getUp();
+                        toUp();
                     }
                 }
                 startX = 0f;
@@ -117,59 +121,35 @@ public abstract class SlidingActivity extends BaseActivity {
         final ObjectAnimator positionAnimator = ObjectAnimator.ofFloat(root, "y", start, finish);
         positionAnimator.setDuration(ANIMATION_DURATION);
         positionAnimator.setInterpolator(new DecelerateInterpolator());
-        positionAnimator.addListener(new Animator.AnimatorListener() {
-            @Override public void onAnimationStart(Animator animator) {
-
-            }
-
+        positionAnimator.addListener(new EndAnimatorListener() {
             @Override public void onAnimationEnd(Animator animator) {
                 root.setY(screenSize.y);
-                updateScrim();
+                updateScrim(false);
                 finish();
             }
-
-            @Override public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override public void onAnimationRepeat(Animator animator) {
-
-            }
         });
-        positionAnimator.addUpdateListener(valueAnimator -> updateScrim());
+        positionAnimator.addUpdateListener(valueAnimator -> updateScrim(false));
         positionAnimator.start();
     }
 
-    private void getUp() {
+    private void toUp() {
         final float start = root.getY();
         final float finish = 0f;
         final ObjectAnimator positionAnimator = ObjectAnimator.ofFloat(root, "y", start, finish);
         positionAnimator.setDuration(ANIMATION_DURATION);
         positionAnimator.setInterpolator(new DecelerateInterpolator());
-        positionAnimator.addListener(new Animator.AnimatorListener() {
-            @Override public void onAnimationStart(Animator animator) {
-
-            }
-
+        positionAnimator.addListener(new EndAnimatorListener() {
             @Override public void onAnimationEnd(Animator animator) {
                 getWindow().setStatusBarColor(statusBarColor);
             }
-
-            @Override public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override public void onAnimationRepeat(Animator animator) {
-
-            }
         });
-        positionAnimator.addUpdateListener(valueAnimator -> updateScrim());
+        positionAnimator.addUpdateListener(valueAnimator -> updateScrim(true));
         positionAnimator.start();
     }
 
-    private void updateScrim() {
+    private void updateScrim(boolean toTop) {
         final float progress = root.getY() / screenSize.y;
-        if (progress == 0) getWindow().setStatusBarColor(statusBarColor);
+        if (progress == 0) getWindow().setStatusBarColor(toTop ? statusBarColor : Color.TRANSPARENT);
         final int alpha = (int) (progress * 255f);
         windowScrim.setAlpha(255 - alpha);
         getWindow().setBackgroundDrawable(windowScrim);
