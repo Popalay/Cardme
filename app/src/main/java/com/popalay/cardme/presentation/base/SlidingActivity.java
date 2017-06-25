@@ -61,7 +61,7 @@ public abstract class SlidingActivity extends BaseActivity {
                         ev.setAction(MotionEvent.ACTION_CANCEL);
                         super.dispatchTouchEvent(ev);
                     }
-                    root.setY(Math.max((ev.getY() - startY), 0));
+                    root.setY(Math.max((ev.getY() / 1.5f - startY), 0));
                     updateScrim(lastPos > ev.getY());
                     handled = true;
                     lastPos = ev.getY();

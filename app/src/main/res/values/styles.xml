@@ -2,7 +2,7 @@
 
     <style name="Cardme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:textColorPrimary">@color/primary_text</item>
@@ -69,7 +69,7 @@
 
     <style name="Cardme.Button" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="android:tint">?colorAccent</item>
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">@color/selector_button_text</item>
     </style>
 
     <style name="Cardme.FloatingButton">
