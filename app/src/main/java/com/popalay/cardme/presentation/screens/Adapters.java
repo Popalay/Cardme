@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
+import com.jakewharton.rxrelay.PublishRelay;
 import com.popalay.cardme.BR;
 import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
@@ -26,14 +27,14 @@ public class Adapters {
 
     @BindingAdapter(value = {"cardsAdapter", "cardClick", "showImage"}, requireAll = false)
     public static void cardsAdapter(RecyclerView recyclerView, List<Card> items,
-            ItemClickListener listener, ObservableBoolean showImage) {
+            PublishRelay<Card> publisher, ObservableBoolean showImage) {
         if (recyclerView.getAdapter() != null || items == null || items.isEmpty()) return;
         new LastAdapter(items, BR.item, true)
                 .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
                     @Override
                     public void onCreate(@NotNull com.github.nitrico.lastadapter.Holder<ItemCardBinding> holder) {
                         super.onCreate(holder);
-                        holder.getBinding().setListener(listener);
+                        holder.getBinding().setPublisher(publisher);
                         holder.getBinding().cardView.setWithImage(showImage.get());
                         showImage.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                             @Override

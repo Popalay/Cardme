@@ -47,7 +47,7 @@
                     app:rvp_singlePageFling="true"
                     bind:cardsAdapter="@{wm.cards}"
                     bind:hasFixedSize="@{true}"
-                    bind:cardClick="@{wm.itemClickListener}"
+                    bind:cardClick="@{wm.cardClickPublisher}"
                     bind:showImage="@{wm.showImage}"
                     bind:snap="@{true}"
                     tools:listitem="@layout/item_card" />

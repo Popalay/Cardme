@@ -114,6 +114,7 @@ dependencies {
     // Rx
     implementation "io.reactivex:rxjava:$rxJava"
     implementation "io.reactivex:rxandroid:$rxAndroid"
+    implementation 'com.jakewharton.rxrelay:rxrelay:1.2.0'
     implementation 'com.trello:rxlifecycle:1.0'
 
     // DB

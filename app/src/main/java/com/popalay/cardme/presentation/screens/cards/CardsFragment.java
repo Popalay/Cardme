@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.jakewharton.rxrelay.PublishRelay;
 import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.databinding.FragmentCardsBinding;
@@ -110,7 +111,10 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     private void initUI() {
-        b.setListener(this);
+        final PublishRelay<Card> publisher = PublishRelay.create();
+        publisher.subscribe(presenter::onCardClick);
+        b.setPublisher(publisher);
+
         b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(getContext())
                 .firstDivider(true)
                 .lastDivider(true)

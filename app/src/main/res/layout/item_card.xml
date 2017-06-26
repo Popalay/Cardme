@@ -18,8 +18,8 @@
             />
 
         <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener"
+            name="publisher"
+            type="com.jakewharton.rxrelay.PublishRelay&lt;com.popalay.cardme.data.models.Card>"
             />
     </data>
 
@@ -33,7 +33,7 @@
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
         app:withImage="@{withImage}"
-        bind:onClickDebounced="@{() -> listener.onItemClick(item)}"
+        bind:onClickDebounced="@{() -> publisher.call(item)}"
         >
 
         <RelativeLayout

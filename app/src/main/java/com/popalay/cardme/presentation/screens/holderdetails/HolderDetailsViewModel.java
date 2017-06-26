@@ -6,8 +6,8 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
-import android.widget.Toast;
 
+import com.jakewharton.rxrelay.PublishRelay;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.debts.DebtsInteractor;
@@ -16,13 +16,13 @@ import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.data.models.Settings;
-import com.popalay.cardme.presentation.base.ItemClickListener;
 import com.popalay.cardme.utils.BindingUtils;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -40,11 +40,7 @@ public class HolderDetailsViewModel extends AndroidViewModel {
 
     private final CompositeSubscription subscriptions = new CompositeSubscription();
 
-    private final ItemClickListener<Card> itemClickListener = this::shareCard;
-
-    public ItemClickListener getItemClickListener() {
-        return itemClickListener;
-    }
+    public final PublishRelay<Card> cardClickPublisher = PublishRelay.create();
 
     public HolderDetailsViewModel(Application application, long holderId) {
         super(application);
@@ -60,25 +56,21 @@ public class HolderDetailsViewModel extends AndroidViewModel {
 
         subscriptions.add(holderInteractor.getHolderName(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setHolderName, Throwable::printStackTrace));
+                .subscribe(holderName::set, Throwable::printStackTrace));
 
         subscriptions.add(settingsInteractor.listenSettings()
                 .map(Settings::isCardBackground)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setShowImage, Throwable::printStackTrace));
+                .subscribe(showImage::set, Throwable::printStackTrace));
+    }
+
+    public Observable<String> doOnShareCard() {
+        return cardClickPublisher.map(Card::getNumber);
     }
 
     @Override protected void onCleared() {
         super.onCleared();
         subscriptions.clear();
-    }
-
-    private void setShowImage(boolean show) {
-        showImage.set(show);
-    }
-
-    private void setHolderName(String name) {
-        holderName.set(name);
     }
 
     private void setDebts(List<Debt> items) {
@@ -87,10 +79,5 @@ public class HolderDetailsViewModel extends AndroidViewModel {
 
     private void setCards(List<Card> items) {
         BindingUtils.setItems(cards, items);
-    }
-
-    private void shareCard(Card card) {
-        Toast.makeText(getApplication(), "Share " + card.getNumber(), Toast.LENGTH_SHORT).show();
-        //ShareUtils.shareText(this, R.string.share_card, card.getNumber());
     }
 }

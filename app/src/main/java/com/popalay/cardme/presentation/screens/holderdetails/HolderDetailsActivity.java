@@ -13,6 +13,7 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding;
 import com.popalay.cardme.presentation.base.CustomFactory;
 import com.popalay.cardme.presentation.base.SlidingActivity;
+import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import javax.inject.Inject;
@@ -49,6 +50,7 @@ public class HolderDetailsActivity extends SlidingActivity {
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
         b.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        b.getWm().doOnShareCard().subscribe(number -> ShareUtils.shareText(this, R.string.share_card, number));
 
         b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(this)
                 .onSides(true)
@@ -66,5 +68,6 @@ public class HolderDetailsActivity extends SlidingActivity {
             b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255));
             b.toolbar.getNavigationIcon().setAlpha(alpha);
         });
+
     }
 }
