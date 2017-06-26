@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.PagerSnapHelper;
 import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -14,13 +13,10 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding;
-import com.popalay.cardme.presentation.adapter.DebtsAdapter;
 import com.popalay.cardme.presentation.base.ItemClickListener;
 import com.popalay.cardme.presentation.base.SlidingActivity;
 import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
-
-import rx.android.schedulers.AndroidSchedulers;
 
 public class HolderDetailsActivity extends SlidingActivity implements HolderDetailsView, ItemClickListener<Card> {
 
@@ -29,7 +25,6 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
     @InjectPresenter HolderDetailsPresenter presenter;
 
     private ActivityHolderDetailsBinding b;
-    private DebtsAdapter debtsAdapter;
     private boolean isExpanded;
 
     public static Intent getIntent(Context context, Holder holder) {
@@ -50,10 +45,6 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
 
     @Override public void setViewModel(HolderDetailsViewModel viewModel) {
         b.setWm(viewModel);
-
-        addSubscription(viewModel.debtsObservable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(debtsAdapter::setItems));
     }
 
     @Override public void onItemClick(Card item) {
@@ -77,14 +68,11 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
         b.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(this)
                 .onSides(true)
                 .betweenItems(true)
                 .build());
-        new PagerSnapHelper().attachToRecyclerView(b.listCards);
-
-        debtsAdapter = new DebtsAdapter();
-        b.listDebts.setAdapter(debtsAdapter);
 
         assert b.toolbar.getNavigationIcon() != null;
         b.toolbar.getNavigationIcon().setAlpha(255);

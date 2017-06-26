@@ -37,11 +37,13 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
 
         cardInteractor.getCards()
                 .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewModel::setCards, this::handleBaseError);
 
         settingsInteractor.listenSettings()
                 .compose(bindToLifecycle())
                 .map(Settings::isCardBackground)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewModel::setShowImage, this::handleBaseError);
     }
 

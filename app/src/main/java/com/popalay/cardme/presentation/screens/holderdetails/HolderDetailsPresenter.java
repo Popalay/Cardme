@@ -28,6 +28,7 @@ public class HolderDetailsPresenter extends ViewModelPresenter<HolderDetailsView
 
         cardInteractor.getCardsByHolder(holderId)
                 .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewModel::setCards, this::handleBaseError);
 
         debtsInteractor.getDebtsByHolder(holderId)
@@ -43,6 +44,7 @@ public class HolderDetailsPresenter extends ViewModelPresenter<HolderDetailsView
         settingsInteractor.listenSettings()
                 .compose(bindToLifecycle())
                 .map(Settings::isCardBackground)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewModel::setShowImage, this::handleBaseError);
     }
 

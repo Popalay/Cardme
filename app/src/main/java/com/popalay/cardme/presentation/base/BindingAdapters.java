@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -67,4 +68,11 @@ public class BindingAdapters {
                     .build());
         }
     }
+
+    @BindingAdapter("snap")
+    public static void snap(RecyclerView view, boolean apply) {
+        if (!apply) return;
+        new PagerSnapHelper().attachToRecyclerView(view);
+    }
+
 }

@@ -59,6 +59,7 @@
                     bind:hasFixedSize="@{true}"
                     bind:itemClickListener="@{listener}"
                     bind:showImage="@{wm.showImage}"
+                    bind:snap="@{true}"
                     tools:listitem="@layout/item_card"
                     />
 
@@ -95,6 +96,7 @@
                     android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     bind:applyDivider="@{orientation.VERTICAL}"
+                    bind:debtsAdapter="@{wm.debts}"
                     bind:defaultList="@{true}"
                     tools:listitem="@layout/item_debt"
                     />

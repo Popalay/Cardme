@@ -4,7 +4,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import com.popalay.cardme.data.models.Settings;
-import com.popalay.cardme.utils.BindingObservable;
+import com.popalay.cardme.utils.BindingUtils;
 
 import rx.Observable;
 
@@ -23,6 +23,6 @@ public class SettingsViewModel {
     }
 
     public Observable<Boolean> getShowImagesObservable() {
-        return BindingObservable.create(showImages);
+        return BindingUtils.create(showImages);
     }
 }
