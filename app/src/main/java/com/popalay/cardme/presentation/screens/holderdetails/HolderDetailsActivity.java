@@ -1,5 +1,6 @@
 package com.popalay.cardme.presentation.screens.holderdetails;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -7,52 +8,33 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.popalay.cardme.App;
 import com.popalay.cardme.R;
-import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding;
-import com.popalay.cardme.presentation.base.ItemClickListener;
+import com.popalay.cardme.presentation.base.CustomFactory;
 import com.popalay.cardme.presentation.base.SlidingActivity;
-import com.popalay.cardme.utils.ShareUtils;
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
-public class HolderDetailsActivity extends SlidingActivity implements HolderDetailsView, ItemClickListener<Card> {
+import javax.inject.Inject;
 
-    private static final String KEY_HOLDER_ID = "HOLDER_ID";
+public class HolderDetailsActivity extends SlidingActivity {
 
-    @InjectPresenter HolderDetailsPresenter presenter;
+    @Inject CustomFactory factory;
 
     private ActivityHolderDetailsBinding b;
     private boolean isExpanded;
 
-    public static Intent getIntent(Context context, Holder holder) {
-        final Intent intent = new Intent(context, HolderDetailsActivity.class);
-        intent.putExtra(KEY_HOLDER_ID, holder.getId());
-        return intent;
-    }
-
-    @ProvidePresenter HolderDetailsPresenter providePresenter() {
-        return new HolderDetailsPresenter(getIntent().getLongExtra(KEY_HOLDER_ID, -1));
+    public static Intent getIntent(Context context) {
+        return new Intent(context, HolderDetailsActivity.class);
     }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.appComponent().inject(this);
         b = DataBindingUtil.setContentView(this, R.layout.activity_holder_details);
+        final HolderDetailsViewModel wm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel.class);
+        b.setWm(wm);
         initUI();
-    }
-
-    @Override public void setViewModel(HolderDetailsViewModel viewModel) {
-        b.setWm(viewModel);
-    }
-
-    @Override public void onItemClick(Card item) {
-        presenter.onCardClick(item);
-    }
-
-    @Override public void shareCardNumber(String cardNumber) {
-        ShareUtils.shareText(this, R.string.share_card, cardNumber);
     }
 
     @Override protected View getRootView() {
@@ -64,7 +46,6 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
     }
 
     private void initUI() {
-        b.setListener(this);
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
         b.toolbar.setNavigationOnClickListener(v -> onBackPressed());

@@ -49,17 +49,20 @@ public class SpacingItemDecoration extends RecyclerView.ItemDecoration {
         if (betweenItems) {
             outRect.top = dividerSize / 2;
             outRect.bottom = dividerSize / 2;
+
+            if (count == 1) {
+                outRect.top = showFirstDivider ? dividerSize : 0;
+                outRect.bottom = showLastDivider ? dividerSize : 0;
+            } else if (position == 0) {
+                outRect.top = showFirstDivider ? dividerSize : 0;
+            } else if (position == count - 1) {
+                outRect.bottom = showLastDivider ? dividerSize : 0;
+            }
         }
 
         if (onSides) {
             outRect.left = dividerSize;
             outRect.right = dividerSize;
-        }
-
-        if (position == 0) {
-            outRect.top = showFirstDivider ? dividerSize : 0;
-        } else if (position == count - 1) {
-            outRect.bottom = showLastDivider ? dividerSize : 0;
         }
     }
 
@@ -67,17 +70,20 @@ public class SpacingItemDecoration extends RecyclerView.ItemDecoration {
         if (betweenItems) {
             outRect.left = dividerSize / 2;
             outRect.right = dividerSize / 2;
+
+            if (count == 1) {
+                outRect.left = showFirstDivider ? dividerSize : 0;
+                outRect.right = showLastDivider ? dividerSize : 0;
+            } else if (position == 0) {
+                outRect.left = showFirstDivider ? dividerSize : 0;
+            } else if (position == count - 1) {
+                outRect.right = showLastDivider ? dividerSize : 0;
+            }
         }
 
         if (onSides) {
             outRect.top = dividerSize;
             outRect.bottom = dividerSize;
-        }
-
-        if (position == 0) {
-            outRect.left = showFirstDivider ? dividerSize : 0;
-        } else if (position == count - 1) {
-            outRect.right = showLastDivider ? dividerSize : 0;
         }
     }
 

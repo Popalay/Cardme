@@ -2,53 +2,43 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="wm"
-            type="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel"
-            />
-
-        <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener"
-            />
+            type="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel" />
 
         <variable
             name="orientation"
-            type="android.support.v7.widget.OrientationHelper"
-            />
+            type="android.support.v7.widget.OrientationHelper" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                >
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                     android:id="@+id/list_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/normal"
                     android:paddingStart="@dimen/normal"
@@ -57,11 +47,10 @@
                     app:rvp_singlePageFling="true"
                     bind:cardsAdapter="@{wm.cards}"
                     bind:hasFixedSize="@{true}"
-                    bind:itemClickListener="@{listener}"
+                    bind:cardClick="@{wm.itemClickListener}"
                     bind:showImage="@{wm.showImage}"
                     bind:snap="@{true}"
-                    tools:listitem="@layout/item_card"
-                    />
+                    tools:listitem="@layout/item_card" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -70,8 +59,7 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_cross"
                     app:theme="@style/Cardme.Toolbar"
-                    app:title="@{wm.holderName}"
-                    />
+                    app:title="@{wm.holderName}" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -81,13 +69,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_debts"
@@ -98,8 +84,7 @@
                     bind:applyDivider="@{orientation.VERTICAL}"
                     bind:debtsAdapter="@{wm.debts}"
                     bind:defaultList="@{true}"
-                    tools:listitem="@layout/item_debt"
-                    />
+                    tools:listitem="@layout/item_debt" />
 
                 <TextView
                     style="@style/Cardme.ListPlaceholderText"
@@ -107,8 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/list_debts_placeholder_holder_details"
-                    bind:listPlaceholder="@{wm.debts}"
-                    />
+                    bind:listPlaceholder="@{wm.debts}" />
 
             </FrameLayout>
 

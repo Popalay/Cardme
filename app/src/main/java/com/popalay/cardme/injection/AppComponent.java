@@ -5,7 +5,8 @@ import com.popalay.cardme.presentation.screens.adddebt.AddDebtPresenter;
 import com.popalay.cardme.presentation.screens.cards.CardsPresenter;
 import com.popalay.cardme.presentation.screens.cards.CardsViewModel;
 import com.popalay.cardme.presentation.screens.debts.DebtsPresenter;
-import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsPresenter;
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity;
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel;
 import com.popalay.cardme.presentation.screens.holders.HoldersPresenter;
 import com.popalay.cardme.presentation.screens.settings.SettingPresenter;
 
@@ -14,9 +15,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {
-        AppModule.class
-})
+@Component(modules = {AppModule.class})
 public interface AppComponent {
 
     void inject(AddCardPresenter presenter);
@@ -25,8 +24,6 @@ public interface AppComponent {
 
     void inject(HoldersPresenter presenter);
 
-    void inject(HolderDetailsPresenter presenter);
-
     void inject(AddDebtPresenter presenter);
 
     void inject(DebtsPresenter presenter);
@@ -34,4 +31,8 @@ public interface AppComponent {
     void inject(SettingPresenter presenter);
 
     void inject(CardsViewModel viewModel);
+
+    void inject(HolderDetailsViewModel viewModel);
+
+    void inject(HolderDetailsActivity activity);
 }

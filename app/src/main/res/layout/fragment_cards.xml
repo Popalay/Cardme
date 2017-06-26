@@ -28,9 +28,9 @@
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            bind:cardClick="@{listener}"
             bind:cardsAdapter="@{wm.cards}"
             bind:defaultList="@{true}"
-            bind:itemClickListener="@{listener}"
             bind:showImage="@{wm.showImage}"
             />
 

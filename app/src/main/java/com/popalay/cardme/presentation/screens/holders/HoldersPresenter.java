@@ -6,6 +6,7 @@ import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.data.events.FavoriteHolderEvent;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.presentation.base.BasePresenter;
+import com.popalay.cardme.presentation.base.NavigationExtrasHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -17,7 +18,8 @@ import rx.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class HoldersPresenter extends BasePresenter<HoldersView> {
 
-    @Inject HolderInteractor mHolderInteractor;
+    @Inject HolderInteractor holderInteractor;
+    @Inject NavigationExtrasHolder navigationExtras;
 
     private boolean openFavoriteHolder;
 
@@ -42,7 +44,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        mHolderInteractor.getHolders()
+        holderInteractor.getHolders()
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(holders -> {
@@ -55,6 +57,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     }
 
     public void onHolderClick(Holder holder) {
-        getViewState().openHolderDetails(holder);
+        navigationExtras.setHolderId(holder.getId());
+        getViewState().openHolderDetails();
     }
 }
