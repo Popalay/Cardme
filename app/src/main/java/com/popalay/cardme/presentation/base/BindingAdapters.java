@@ -3,11 +3,14 @@ package com.popalay.cardme.presentation.base;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.popalay.cardme.R;
 import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
+import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -51,5 +54,17 @@ public class BindingAdapters {
         view.setHasFixedSize(true);
         view.setLayoutManager(new LinearLayoutManager(view.getContext()));
         view.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    @BindingAdapter("applyDivider")
+    public static void applyDivider(RecyclerView view, int orientation) {
+        if (orientation == OrientationHelper.VERTICAL) {
+            view.addItemDecoration(new HorizontalDividerItemDecoration.Builder(view.getContext())
+                    .color(R.color.grey)
+                    .size(R.dimen.list_divider_size)
+                    .leftOffset(R.dimen.title_offset)
+                    .rightOffset(R.dimen.zero_offset)
+                    .build());
+        }
     }
 }

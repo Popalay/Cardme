@@ -7,7 +7,6 @@ import com.popalay.cardme.data.models.Holder;
 
 import java.util.List;
 
-import io.realm.Sort;
 import rx.Completable;
 import rx.Observable;
 
@@ -15,8 +14,7 @@ public class DefaultHolderRepository implements HolderRepository {
 
     @Override public Observable<List<Holder>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Holder.class)
-                .findAllSorted(Holder.NAME)
-                .sort(Holder.DEBTS_COUNT, Sort.DESCENDING, Holder.CARDS_COUNT, Sort.DESCENDING));
+                .findAllSorted(Holder.NAME));
     }
 
     @Override public Observable<Holder> get(long holderId) {

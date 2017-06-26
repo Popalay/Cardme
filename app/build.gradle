@@ -130,6 +130,7 @@ dependencies {
     // Widgets
     implementation 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2'
     implementation 'jp.wasabeef:recyclerview-animators:2.2.6'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     // Firebase
     implementation "com.google.firebase:firebase-core:$playServices"

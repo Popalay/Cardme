@@ -14,12 +14,10 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding;
-import com.popalay.cardme.presentation.adapter.CardsAdapter;
 import com.popalay.cardme.presentation.adapter.DebtsAdapter;
 import com.popalay.cardme.presentation.base.ItemClickListener;
 import com.popalay.cardme.presentation.base.SlidingActivity;
 import com.popalay.cardme.utils.ShareUtils;
-import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,7 +30,6 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
 
     private ActivityHolderDetailsBinding b;
     private DebtsAdapter debtsAdapter;
-    private CardsAdapter cardsAdapter;
     private boolean isExpanded;
 
     public static Intent getIntent(Context context, Holder holder) {
@@ -52,19 +49,11 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
     }
 
     @Override public void setViewModel(HolderDetailsViewModel viewModel) {
-        b.setModel(viewModel);
-
-        addSubscription(viewModel.cardsObservable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cardsAdapter::setItems));
+        b.setWm(viewModel);
 
         addSubscription(viewModel.debtsObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(debtsAdapter::setItems));
-
-        addSubscription(viewModel.showImageObservable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cardsAdapter::setShowBackgrounds));
     }
 
     @Override public void onItemClick(Card item) {
@@ -84,22 +73,21 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
     }
 
     private void initUI() {
+        b.setListener(this);
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
         b.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
-        b.listDebts.addItemDecoration(new HorizontalDividerItemDecoration(this, R.color.grey, 1,
-                this.getResources().getDimensionPixelSize(R.dimen.title_offset), 0));
-        b.listCards.addItemDecoration(new SpacingItemDecoration(this, true, true, true, true));
+        b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(this)
+                .onSides(true)
+                .betweenItems(true)
+                .build());
         new PagerSnapHelper().attachToRecyclerView(b.listCards);
-
-        cardsAdapter = new CardsAdapter();
-        cardsAdapter.setItemClickListener(this);
-        b.listCards.setAdapter(cardsAdapter);
 
         debtsAdapter = new DebtsAdapter();
         b.listDebts.setAdapter(debtsAdapter);
 
+        assert b.toolbar.getNavigationIcon() != null;
+        b.toolbar.getNavigationIcon().setAlpha(255);
         b.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             isExpanded = verticalOffset == 0;
             if (appBarLayout.getTotalScrollRange() == 0) {
@@ -107,6 +95,7 @@ public class HolderDetailsActivity extends SlidingActivity implements HolderDeta
             }
             final int alpha = Math.min(-verticalOffset, 255);
             b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255));
+            b.toolbar.getNavigationIcon().setAlpha(alpha);
         });
     }
 }

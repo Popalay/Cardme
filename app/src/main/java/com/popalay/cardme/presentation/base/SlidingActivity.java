@@ -64,7 +64,7 @@ public abstract class SlidingActivity extends BaseActivity {
                     root.setY(Math.max((ev.getY() / 1.5f - startY), 0));
                     updateScrim(lastPos > ev.getY());
                     handled = true;
-                    lastPos = ev.getY();
+                    lastPos = root.getY();
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -73,7 +73,7 @@ public abstract class SlidingActivity extends BaseActivity {
                     isSliding = false;
                     onSlidingFinished();
                     handled = true;
-                    if (shouldClose(ev.getY() - startY)) {
+                    if (shouldClose(root.getY() - startY)) {
                         closeDownAndDismiss();
                     } else {
                         toUp();

@@ -16,7 +16,6 @@
             type="com.popalay.cardme.presentation.base.ItemClickListener"
             />
 
-
     </data>
 
     <android.support.design.widget.CoordinatorLayout

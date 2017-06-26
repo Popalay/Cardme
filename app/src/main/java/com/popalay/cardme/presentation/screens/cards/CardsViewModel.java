@@ -43,16 +43,12 @@ public class CardsViewModel {
     @BindingAdapter(value = {"cardsAdapter", "itemClickListener", "showImage"}, requireAll = false)
     public static void cardsAdapter(RecyclerView recyclerView, List<Card> items,
             ItemClickListener listener, ObservableBoolean showImage) {
-        if (recyclerView.getAdapter() != null) return;
+        if (recyclerView.getAdapter() != null || items == null) return;
         new LastAdapter(items, BR.item, true)
                 .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
-                    @Override public void onBind(Holder<ItemCardBinding> holder) {
-                        super.onBind(holder);
-                        holder.getBinding().setListener(listener);
-                    }
-
                     @Override public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
                         super.onCreate(holder);
+                        holder.getBinding().setListener(listener);
                         holder.getBinding().cardView.setWithImage(showImage.get());
                         showImage.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                             @Override

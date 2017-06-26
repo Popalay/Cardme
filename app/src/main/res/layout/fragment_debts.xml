@@ -16,6 +16,11 @@
             name="listener"
             type="com.popalay.cardme.presentation.base.ItemClickListener"
             />
+
+        <variable
+            name="orientation"
+            type="android.support.v7.widget.OrientationHelper"
+            />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -31,9 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:layoutManager="LinearLayoutManager"
+            bind:applyDivider="@{orientation.VERTICAL}"
             bind:debts="@{model.debts}"
-            bind:hasFixedSize="true"
+            bind:defaultList="@{true}"
             tools:listitem="@layout/item_debt"
             />
 

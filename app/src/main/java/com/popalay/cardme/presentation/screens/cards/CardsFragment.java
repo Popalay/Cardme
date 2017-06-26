@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,8 +111,12 @@ public class CardsFragment extends BaseFragment implements CardsView,
 
     private void initUI() {
         b.setListener(this);
-        b.listCards.addItemDecoration(new SpacingItemDecoration(getContext(), true, true, true, true));
-        b.listCards.setItemAnimator(new DefaultItemAnimator());
+        b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(getContext())
+                .firstDivider(true)
+                .lastDivider(true)
+                .betweenItems(true)
+                .onSides(true)
+                .build());
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(this, this))
                 .attachToRecyclerView(b.listCards);
         b.buttonAdd.setOnClickListener(new OnOneOffClickListener() {
