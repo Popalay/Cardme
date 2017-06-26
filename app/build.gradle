@@ -82,6 +82,7 @@ ext {
     playServices = '11.0.1'
     dagger = '2.9'
     moxy = '1.5.3'
+    archComponents = '1.0.0-alpha3'
     leakCanary = '1.5.1'
 }
 
@@ -100,6 +101,11 @@ dependencies {
     implementation "com.arello-mobile:moxy-app-compat:$moxy"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxy"
     implementation 'com.github.popalay:rx-lifecycle-moxy:1.0.0'
+
+    // Google Architecture Components
+    implementation "android.arch.lifecycle:runtime:$archComponents"
+    implementation "android.arch.lifecycle:extensions:$archComponents"
+    annotationProcessor "android.arch.lifecycle:compiler:$archComponents"
 
     // DI
     implementation "com.google.dagger:dagger:$dagger"
