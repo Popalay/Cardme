@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'realm-android'
 apply from: "$project.rootDir/tools/script-git-version.gradle"
@@ -61,10 +63,14 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        incremental false
     }
 
     dataBinding.enabled true
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 //    splits {
 //        abi {
 //            enable true
@@ -99,17 +105,17 @@ dependencies {
 
     // MVP
     implementation "com.arello-mobile:moxy-app-compat:$moxy"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy"
+    kapt "com.arello-mobile:moxy-compiler:$moxy"
     implementation 'com.github.popalay:rx-lifecycle-moxy:1.0.0'
 
     // Google Architecture Components
     implementation "android.arch.lifecycle:runtime:$archComponents"
     implementation "android.arch.lifecycle:extensions:$archComponents"
-    annotationProcessor "android.arch.lifecycle:compiler:$archComponents"
+    kapt "android.arch.lifecycle:compiler:$archComponents"
 
     // DI
     implementation "com.google.dagger:dagger:$dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
 
     // Rx
     implementation "io.reactivex:rxjava:$rxJava"
@@ -122,7 +128,10 @@ dependencies {
 
     // Utils
     implementation 'io.card:android-sdk:5.5.1'
+
     implementation 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
+    kapt "com.android.databinding:compiler:$gradlePlugin"
+
     implementation 'com.facebook.stetho:stetho:1.4.1'
     implementation 'com.uphyca:stetho_realm:2.0.0'
     implementation 'com.annimon:stream:1.1.6'
@@ -132,7 +141,7 @@ dependencies {
 
     // Shortcuts
     implementation 'com.github.matthiasrobbers:shortbread:1.0.1'
-    annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
+    kapt 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
 
     // Widgets
     implementation 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2'
