@@ -9,28 +9,26 @@ import com.popalay.cardme.presentation.base.BasePresenter;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class AddDebtPresenter extends BasePresenter<AddDebtView> {
 
     @Inject DebtsInteractor debtsInteractor;
-    @Inject HolderInteractor mHolderInteractor;
+    @Inject HolderInteractor holderInteractor;
 
     public AddDebtPresenter() {
         App.appComponent().inject(this);
 
         getViewState().setViewModel(new AddDebtViewModel());
-        mHolderInteractor.getHolderNames()
-                .compose(bindToLifecycle())
+        addDisposable(holderInteractor.getHolderNames()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError);
+                .subscribe(getViewState()::setCompletedCardHolders, this::handleBaseError));
     }
 
     public void onSaveClick(Debt debt) {
-        debtsInteractor.save(debt)
-                .compose(bindToLifecycle().forCompletable())
+        addDisposable(debtsInteractor.save(debt)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::close, this::handleBaseError);
+                .subscribe(getViewState()::close, this::handleBaseError));
     }
 }

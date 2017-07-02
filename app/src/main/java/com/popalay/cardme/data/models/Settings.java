@@ -85,4 +85,24 @@ public class Settings extends RealmObject {
             return this;
         }
     }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Settings settings = (Settings) o;
+
+        if (cardBackground != settings.cardBackground) return false;
+        if (id != null ? !id.equals(settings.id) : settings.id != null) return false;
+        if (language != null ? !language.equals(settings.language) : settings.language != null) return false;
+        return theme != null ? theme.equals(settings.theme) : settings.theme == null;
+    }
+
+    @Override public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (theme != null ? theme.hashCode() : 0);
+        result = 31 * result + (cardBackground ? 1 : 0);
+        return result;
+    }
 }

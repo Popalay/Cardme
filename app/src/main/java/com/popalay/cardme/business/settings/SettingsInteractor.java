@@ -6,10 +6,9 @@ import com.popalay.cardme.data.repositories.settings.SettingsRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
-import rx.schedulers.Schedulers;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class SettingsInteractor {
@@ -21,11 +20,16 @@ public class SettingsInteractor {
     }
 
     public Observable<Settings> listenSettings() {
-        return settingsRepository.listen().subscribeOn(Schedulers.io());
+        return Observable.concat(Observable.just(settingsRepository.createDefault()),
+                settingsRepository.listen())
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.io());
     }
 
-    public Single<Settings> getSettings() {
-        return settingsRepository.get().subscribeOn(Schedulers.io());
+    public Observable<Boolean> listenShowCardsBackground() {
+        return listenSettings()
+                .map(Settings::isCardBackground)
+                .distinctUntilChanged();
     }
 
     public Completable saveSettings(Settings settings) {

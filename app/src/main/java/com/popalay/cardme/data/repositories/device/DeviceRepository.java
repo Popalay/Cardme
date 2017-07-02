@@ -1,10 +1,19 @@
 package com.popalay.cardme.data.repositories.device;
 
 import com.github.tamir7.contacts.Contact;
+import com.github.tamir7.contacts.Contacts;
 
 import java.util.List;
 
-public interface DeviceRepository {
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-    List<Contact> getContacts();
+@Singleton
+public class DeviceRepository {
+
+    @Inject public DeviceRepository() {}
+
+    public List<Contact> getContacts(){
+        return Contacts.getQuery().find();
+    }
 }

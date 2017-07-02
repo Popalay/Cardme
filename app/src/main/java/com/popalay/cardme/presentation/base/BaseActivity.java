@@ -9,13 +9,13 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.utils.DialogFactory;
 import com.popalay.cardme.utils.ViewUtil;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private ProgressDialog mProgressDialog;
-    private final CompositeSubscription subscriptions = new CompositeSubscription();
+    private final CompositeDisposable subscriptions = new CompositeDisposable();
 
     public void showLoadingDialog() {
         if (mProgressDialog != null) {
@@ -27,9 +27,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         mProgressDialog.show();
     }
 
-    public void addSubscription(Subscription subscription) {
-        if (subscription.isUnsubscribed()) return;
-        subscriptions.add(subscription);
+    public void addDisposable(Disposable disposable) {
+        if (disposable.isDisposed()) return;
+        subscriptions.add(disposable);
     }
 
     public void hideLoadingDialog() {

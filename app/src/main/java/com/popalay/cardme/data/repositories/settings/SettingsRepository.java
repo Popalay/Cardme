@@ -1,16 +1,38 @@
 package com.popalay.cardme.data.repositories.settings;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.popalay.cardme.data.models.Settings;
+import com.popalay.cardme.utils.RxRealm;
 
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public interface SettingsRepository {
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
-    Observable<Settings> listen();
+@Singleton
+public class SettingsRepository {
 
-    Single<Settings> get();
+    private final Context context;
 
-    Completable save(Settings settings);
+    @Inject SettingsRepository(Context context) {this.context = context;}
+
+    public Observable<Settings> listen() {
+        return RxRealm.listenElement(realm -> realm.where(Settings.class).findAll())
+                .defaultIfEmpty(createDefault());
+    }
+
+    public Completable save(@NonNull Settings settings) {
+        return RxRealm.doTransactional(realm -> realm.copyToRealmOrUpdate(settings));
+    }
+
+    public Settings createDefault() {
+        return new Settings.Builder()
+                .theme("Default")
+                .language(context.getResources().getConfiguration().locale.getDisplayLanguage())
+                .cardBackground(true)
+                .build();
+    }
 }

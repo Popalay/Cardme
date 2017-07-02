@@ -6,12 +6,12 @@ import android.support.annotation.StringRes;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment extends MvpAppCompatFragment implements BaseView {
 
-    private final CompositeSubscription subscriptions = new CompositeSubscription();
+    private final CompositeDisposable subscriptions = new CompositeDisposable();
 
     @NonNull public BaseActivity getBaseActivity() {
         final Activity activity = getActivity();
@@ -26,9 +26,9 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements BaseV
         super.onDestroyView();
     }
 
-    public void addSubscription(Subscription subscription) {
-        if (subscription.isUnsubscribed()) return;
-        subscriptions.add(subscription);
+    public void addDisposable(Disposable disposable) {
+        if (disposable.isDisposed()) return;
+        subscriptions.add(disposable);
     }
 
     protected void showLoadingDialog() {

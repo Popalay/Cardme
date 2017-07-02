@@ -6,7 +6,7 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableList
-import com.jakewharton.rxrelay.PublishRelay
+import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.debts.DebtsInteractor
@@ -16,9 +16,10 @@ import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.bindSubscribe
 import com.popalay.cardme.presentation.base.setTo
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.subscriptions.CompositeSubscription
+import com.stepango.rxdatabindings.setTo
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class HolderDetailsViewModel(application: Application, holderId: Long) : AndroidViewModel(application) {
@@ -33,7 +34,7 @@ class HolderDetailsViewModel(application: Application, holderId: Long) : Android
     val holderName = ObservableField<String>()
     val showImage = ObservableBoolean()
 
-    private val subscriptions = CompositeSubscription()
+    private val subscriptions = CompositeDisposable()
 
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
 
@@ -55,15 +56,14 @@ class HolderDetailsViewModel(application: Application, holderId: Long) : Android
                 .setTo(holderName)
                 .bindSubscribe(subscriptions)
 
-        settingsInteractor.listenSettings()
-                .map { it.isCardBackground }
+        settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(showImage)
                 .bindSubscribe(subscriptions)
     }
 
     fun doOnShareCard(): Observable<String> {
-        return cardClickPublisher.map<String>({ it.getNumber() })
+        return cardClickPublisher.map<String>({ it.number })
     }
 
     override fun onCleared() {

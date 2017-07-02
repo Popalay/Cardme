@@ -15,7 +15,7 @@ import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecorat
 
 import java.util.List;
 
-import rx.functions.ActionN;
+import io.reactivex.functions.Action;
 
 public class BindingAdapters {
 
@@ -35,11 +35,15 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("onClickDebounced")
-    public static void setDebouncedOnClickListener(View view, ActionN action) {
+    public static void setDebouncedOnClickListener(View view, Action action) {
         view.setOnClickListener(new OnOneOffClickListener() {
             @Override
             public void onSingleClick(View v) {
-                action.call();
+                try {
+                    action.run();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

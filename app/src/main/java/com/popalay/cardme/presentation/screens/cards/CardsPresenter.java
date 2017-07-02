@@ -6,7 +6,6 @@ import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.events.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.data.models.Settings;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,8 +17,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.card.payment.CreditCard;
-import rx.Completable;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> {
@@ -35,16 +34,13 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
         viewModel = new CardsViewModel();
         getViewState().setViewModel(viewModel);
 
-        cardInteractor.getCards()
-                .compose(bindToLifecycle())
+        addDisposable(cardInteractor.getCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(viewModel::setCards, this::handleBaseError);
+                .subscribe(viewModel::setCards, this::handleBaseError));
 
-        settingsInteractor.listenSettings()
-                .compose(bindToLifecycle())
-                .map(Settings::isCardBackground)
+        addDisposable(settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(viewModel::setShowImage, this::handleBaseError);
+                .subscribe(viewModel::setShowImage, this::handleBaseError));
     }
 
     @Override
@@ -77,10 +73,9 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onItemDropped(List<Card> items) {
-        cardInteractor.updateCards(items)
-                .compose(bindToLifecycle().forCompletable())
+        addDisposable(cardInteractor.updateCards(items)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {}, this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError));
     }
 
     @Override

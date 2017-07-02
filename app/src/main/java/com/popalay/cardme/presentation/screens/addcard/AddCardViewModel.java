@@ -13,28 +13,32 @@ public class AddCardViewModel {
     public final ObservableField<String> title = new ObservableField<>();
     public final ObservableBoolean canSave = new ObservableBoolean();
     public final ObservableBoolean showImage = new ObservableBoolean();
+    public final ObservableField<Card> card = new ObservableField<>();
 
-    public final Card card;
-
-    public AddCardViewModel(Card card) {
-        this.card = card;
+    public AddCardViewModel() {
         holderName.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                card.getHolder().setName(holderName.get());
+                if (card.get() == null) return;
+                card.get().getHolder().setName(holderName.get());
                 updateCanSave();
             }
         });
         title.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                card.setTitle(title.get());
+                if (card.get() == null) return;
+                card.get().setTitle(title.get());
             }
         });
     }
 
-    public void setShowImage(boolean show){
+    public void setShowImage(boolean show) {
         showImage.set(show);
+    }
+
+    public void setCard(Card card) {
+        this.card.set(card);
     }
 
     private void updateCanSave() {

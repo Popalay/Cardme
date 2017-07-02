@@ -20,19 +20,14 @@ public class Card extends RealmObject implements StableId {
     public static final String FORMATTED_NUMBER = "number";
     public static final String USAGE = "usage";
 
-    @PrimaryKey private long id;
+    @PrimaryKey private String id;
 
     private String number;
     private String title;
-
     private String redactedNumber;
-
     private Holder holder;
-
     @CardType private int type;
-
     private long generatedBackgroundSeed;
-
     private int usage;
 
     public Card() {
@@ -61,11 +56,11 @@ public class Card extends RealmObject implements StableId {
         this.type = type;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -150,7 +145,7 @@ public class Card extends RealmObject implements StableId {
 
     @Override
     public long getStableId() {
-        return id;
+        return id.hashCode();
     }
 
     @Override public boolean equals(Object o) {
@@ -159,10 +154,10 @@ public class Card extends RealmObject implements StableId {
 
         Card card = (Card) o;
 
-        if (id != card.id) return false;
         if (type != card.type) return false;
         if (generatedBackgroundSeed != card.generatedBackgroundSeed) return false;
         if (usage != card.usage) return false;
+        if (id != null ? !id.equals(card.id) : card.id != null) return false;
         if (number != null ? !number.equals(card.number) : card.number != null) return false;
         if (title != null ? !title.equals(card.title) : card.title != null) return false;
         if (redactedNumber != null ? !redactedNumber.equals(card.redactedNumber) : card.redactedNumber != null) {
@@ -172,7 +167,7 @@ public class Card extends RealmObject implements StableId {
     }
 
     @Override public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (redactedNumber != null ? redactedNumber.hashCode() : 0);

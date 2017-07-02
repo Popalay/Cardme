@@ -8,13 +8,12 @@ import com.popalay.cardme.business.exception.ExceptionFactory;
 import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.data.models.Settings;
 import com.popalay.cardme.presentation.base.BasePresenter;
 
 import javax.inject.Inject;
 
 import io.card.payment.CreditCard;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class AddCardPresenter extends BasePresenter<AddCardView> {
@@ -23,34 +22,31 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
     @Inject HolderInteractor holderInteractor;
     @Inject SettingsInteractor settingsInteractor;
 
-    private AddCardViewModel viewModel;
+    private final AddCardViewModel viewModel;
 
     public AddCardPresenter(CreditCard creditCard) {
         App.appComponent().inject(this);
 
-        cardInteractor.transformCard(creditCard)
-                .compose(bindToLifecycle().forSingle())
-                .map(card -> viewModel = new AddCardViewModel(card))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::showCardDetails, this::handleLocalError);
+        viewModel = new AddCardViewModel();
 
-        settingsInteractor.listenSettings()
-                .compose(bindToLifecycle())
-                .map(Settings::isCardBackground)
+        addDisposable(cardInteractor.transformCard(creditCard)
+                .doOnSuccess(viewModel::setCard)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(show -> viewModel.setShowImage(show), this::handleBaseError);
+                .subscribe(card -> getViewState().showCardDetails(viewModel), this::handleLocalError));
 
-        holderInteractor.getHolderNames()
-                .compose(bindToLifecycle())
+        addDisposable(settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setCompletedCardHolders, this::handleLocalError);
+                .subscribe(viewModel::setShowImage, this::handleBaseError));
+
+        addDisposable(holderInteractor.getHolderNames()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::setCompletedCardHolders, this::handleLocalError));
     }
 
     public void onAcceptClick(Card card) {
-        cardInteractor.save(card)
-                .compose(bindToLifecycle().forCompletable())
+        addDisposable(cardInteractor.save(card)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::close, this::handleLocalError);
+                .subscribe(getViewState()::close, this::handleLocalError));
     }
 
     public void onErrorDialogDismiss() {

@@ -15,8 +15,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class HolderInteractor {
@@ -33,29 +34,29 @@ public class HolderInteractor {
         this.holderRepository = holderRepository;
     }
 
-    public Observable<List<Holder>> getHolders() {
+    public Flowable<List<Holder>> getHolders() {
         return holderRepository.getAll()
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<Holder> getHolder(long holderId) {
+    public Flowable<Holder> getHolder(long holderId) {
         return holderRepository.get(holderId)
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<String> getHolderName(long holderId) {
+    public Flowable<String> getHolderName(long holderId) {
         return getHolder(holderId)
                 .map(Holder::getName)
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<String>> getHolderNames() {
+    public Flowable<List<String>> getHolderNames() {
         return PermissionChecker.check(context, Manifest.permission.READ_CONTACTS)
-                .flatMap(granted -> holderRepository.getAll(), (granted, holders) -> transform(holders, granted))
+                .flatMap(granted -> holderRepository.getAll(), this::transform)
                 .subscribeOn(Schedulers.io());
     }
 
-    private List<String> transform(List<Holder> holders, boolean withContacts) {
+    private List<String> transform(boolean withContacts, List<Holder> holders) {
         final List<String> names = Stream.of(holders).map(Holder::getName).toList();
         if (withContacts) {
             Stream.of(deviceRepository.getContacts()).map(Contact::getDisplayName).forEach(names::add);

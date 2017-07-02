@@ -8,15 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Emitter;
-import rx.Observable;
-
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 public class BindingUtils {
 
     private BindingUtils() {}
 
-    public static <M> Observable<M> create(ObservableField<M> observableField) {
-        return Observable.create(emitter -> {
+    public static <M> Flowable<M> create(ObservableField<M> observableField) {
+        return Flowable.create(emitter -> {
             emitter.onNext(observableField.get());
             final android.databinding.Observable.OnPropertyChangedCallback callback
                     = new android.databinding.Observable.OnPropertyChangedCallback() {
@@ -25,12 +24,12 @@ public class BindingUtils {
                 }
             };
             observableField.addOnPropertyChangedCallback(callback);
-            emitter.setCancellation(() -> observableField.removeOnPropertyChangedCallback(callback));
-        }, Emitter.BackpressureMode.LATEST);
+            emitter.setCancellable(() -> observableField.removeOnPropertyChangedCallback(callback));
+        }, BackpressureStrategy.LATEST);
     }
 
-    public static Observable<Boolean> create(ObservableBoolean observableField) {
-        return Observable.create(emitter -> {
+    public static Flowable<Boolean> create(ObservableBoolean observableField) {
+        return Flowable.create(emitter -> {
             emitter.onNext(observableField.get());
             final android.databinding.Observable.OnPropertyChangedCallback callback
                     = new android.databinding.Observable.OnPropertyChangedCallback() {
@@ -39,8 +38,8 @@ public class BindingUtils {
                 }
             };
             observableField.addOnPropertyChangedCallback(callback);
-            emitter.setCancellation(() -> observableField.removeOnPropertyChangedCallback(callback));
-        }, Emitter.BackpressureMode.LATEST);
+            emitter.setCancellable(() -> observableField.removeOnPropertyChangedCallback(callback));
+        }, BackpressureStrategy.LATEST);
     }
 
     public static <M> void setItems(ObservableList<M> current, List<M> items) {

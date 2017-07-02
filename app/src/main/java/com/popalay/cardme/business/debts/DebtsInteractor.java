@@ -9,9 +9,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Completable;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class DebtsInteractor {
@@ -30,12 +30,12 @@ public class DebtsInteractor {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<Debt>> getDebts() {
+    public Flowable<List<Debt>> getDebts() {
         return debtRepository.getAll()
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<Debt>> getDebtsByHolder(long holderId) {
+    public Flowable<List<Debt>> getDebtsByHolder(long holderId) {
         return debtRepository.getAllByHolder(holderId)
                 .subscribeOn(Schedulers.io());
     }

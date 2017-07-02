@@ -2,24 +2,22 @@ package com.popalay.cardme.presentation.screens.removablelistitem;
 
 import com.popalay.cardme.presentation.base.BasePresenter;
 
-import rx.Completable;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public abstract class RemovableListItemPresenter<T, V extends RemovableListItemView<T>> extends BasePresenter<V> {
 
     public void onItemSwiped(T item) {
         getViewState().showRemoveUndoAction(item);
-        removeItem(item)
-                .compose(bindToLifecycle().forCompletable())
+        addDisposable(removeItem(item)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {}, this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError));
     }
 
     public void onRemoveUndo(T item) {
-        saveItem(item)
-                .compose(bindToLifecycle().forCompletable())
+        addDisposable(saveItem(item)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {}, this::handleBaseError);
+                .subscribe(() -> {}, this::handleBaseError));
     }
 
     protected abstract Completable removeItem(T item);

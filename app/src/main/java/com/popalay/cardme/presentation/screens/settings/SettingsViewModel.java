@@ -6,7 +6,7 @@ import android.databinding.ObservableField;
 import com.popalay.cardme.data.models.Settings;
 import com.popalay.cardme.utils.BindingUtils;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 public class SettingsViewModel {
 
@@ -22,7 +22,13 @@ public class SettingsViewModel {
         return settings.get();
     }
 
-    public Observable<Boolean> getShowImagesObservable() {
-        return BindingUtils.create(showImages);
+    public Flowable<Boolean> getShowImagesObservable() {
+        return BindingUtils.create(showImages)
+                .distinctUntilChanged();
+    }
+
+    public void onShowImageChecked(boolean checked) {
+        settings.get().setCardBackground(checked);
+        showImages.set(checked);
     }
 }

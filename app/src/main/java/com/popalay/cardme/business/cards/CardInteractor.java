@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.card.payment.CreditCard;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
-import rx.schedulers.Schedulers;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class CardInteractor {
@@ -30,8 +30,8 @@ public class CardInteractor {
 
     public Single<Card> transformCard(CreditCard creditCard) {
         final Card card = transform(creditCard);
-        return cardRepository.isCardExist(card)
-                .flatMap(exist -> exist ? Single.error(createCardExistError()) : Single.just(card))
+        return cardRepository.cardIsNew(card)
+                .flatMap(isNew -> isNew ? Single.just(card) : Single.error(createCardExistError()))
                 .subscribeOn(Schedulers.io());
     }
 
@@ -41,11 +41,11 @@ public class CardInteractor {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<Card>> getCards() {
+    public Flowable<List<Card>> getCards() {
         return cardRepository.getAll().subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<Card>> getCardsByHolder(long holderId) {
+    public Flowable<List<Card>> getCardsByHolder(long holderId) {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 

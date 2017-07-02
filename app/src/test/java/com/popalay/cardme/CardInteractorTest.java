@@ -9,10 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.card.payment.CreditCard;
-import rx.Single;
-import rx.observers.TestSubscriber;
+import io.reactivex.Single;
+import io.reactivex.observers.TestObserver;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,19 +31,16 @@ public class CardInteractorTest {
     public void transformCard_Success() {
         final CreditCard creditCard = new CreditCard("8876437654376548", 12, 2018, "234", null, null);
         final Card card = new Card(creditCard);
-        when(cardRepository.isCardExist(card)).thenReturn(Single.just(false));
+        when(cardRepository.cardIsNew(card)).thenReturn(Single.just(true));
 
-        final TestSubscriber<Card> testSubscriber = TestSubscriber.create();
-        // call method and get result
-        cardInteractor.transformCard(creditCard).subscribe(testSubscriber);
-        testSubscriber.awaitTerminalEvent();
-        // test no errors was not occurred
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
+        final TestObserver<Card> testObserver =
+                cardInteractor.transformCard(creditCard).test();
 
-        final Card result = testSubscriber.getOnNextEvents().get(0);
-        assertThat(result.getNumber()).isEqualTo(creditCard.getFormattedCardNumber());
-        assertThat(result.getRedactedNumber()).isEqualTo(creditCard.getRedactedCardNumber());
+        testObserver.awaitTerminalEvent();
+
+        testObserver
+                .assertNoErrors()
+                .assertValue(result -> result.getNumber().equals(creditCard.getFormattedCardNumber())
+                        && result.getRedactedNumber().equals(creditCard.getRedactedCardNumber()));
     }
-
 }

@@ -19,7 +19,7 @@
 
         <variable
             name="publisher"
-            type="com.jakewharton.rxrelay.PublishRelay&lt;com.popalay.cardme.data.models.Card>"
+            type="com.jakewharton.rxrelay2.PublishRelay&lt;com.popalay.cardme.data.models.Card>"
             />
     </data>
 
@@ -33,7 +33,7 @@
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
         app:withImage="@{withImage}"
-        bind:onClickDebounced="@{() -> publisher.call(item)}"
+        bind:onClickDebounced="@{() -> publisher.accept(item)}"
         >
 
         <RelativeLayout

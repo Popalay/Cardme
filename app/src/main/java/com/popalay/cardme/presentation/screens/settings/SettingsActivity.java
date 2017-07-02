@@ -10,7 +10,7 @@ import com.popalay.cardme.R;
 import com.popalay.cardme.databinding.ActivitySettingsBinding;
 import com.popalay.cardme.presentation.base.BaseActivity;
 
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class SettingsActivity extends BaseActivity implements SettingView {
 
@@ -30,14 +30,14 @@ public class SettingsActivity extends BaseActivity implements SettingView {
 
     @Override public void setSettings(SettingsViewModel vm) {
         b.setVm(vm);
-
-        addSubscription(vm.getShowImagesObservable()
+        addDisposable(vm.getShowImagesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(presenter::showImageChanged));
     }
 
     private void initUI() {
         setSupportActionBar(b.toolbar);
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         b.toolbar.setNavigationOnClickListener(v -> finish());
     }

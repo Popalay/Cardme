@@ -12,7 +12,7 @@ public class Debt extends RealmObject implements StableId {
     public static final String HOLDER_ID = "holder.id";
 
     @PrimaryKey
-    private long id;
+    private String id;
 
     private Holder holder;
 
@@ -28,11 +28,11 @@ public class Debt extends RealmObject implements StableId {
         this.message = message;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,36 +62,23 @@ public class Debt extends RealmObject implements StableId {
 
     @Override
     public long getStableId() {
-        return id;
+        return id.hashCode();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Debt debt = (Debt) o;
 
-        if (id != debt.id) {
-            return false;
-        }
-        if (createdAt != debt.createdAt) {
-            return false;
-        }
-        if (holder != null ? !holder.equals(debt.holder) : debt.holder != null) {
-            return false;
-        }
+        if (createdAt != debt.createdAt) return false;
+        if (id != null ? !id.equals(debt.id) : debt.id != null) return false;
+        if (holder != null ? !holder.equals(debt.holder) : debt.holder != null) return false;
         return message != null ? message.equals(debt.message) : debt.message == null;
-
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+    @Override public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (holder != null ? holder.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         result = 31 * result + (int) (createdAt ^ (createdAt >>> 32));

@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class HoldersPresenter extends BasePresenter<HoldersView> {
@@ -44,8 +44,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        holderInteractor.getHolders()
-                .compose(bindToLifecycle())
+        addDisposable(holderInteractor.getHolders()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(holders -> {
                     if (!holders.isEmpty() && openFavoriteHolder) {
@@ -53,7 +52,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
                         openFavoriteHolder = false;
                     }
                     getViewState().setHolders(holders);
-                }, this::handleBaseError);
+                }, this::handleBaseError));
     }
 
     public void onHolderClick(Holder holder) {

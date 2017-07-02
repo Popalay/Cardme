@@ -10,8 +10,8 @@ import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListIt
 
 import javax.inject.Inject;
 
-import rx.Completable;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
 public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> {
@@ -27,10 +27,9 @@ public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> 
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        debtsInteractor.getDebts()
-                .compose(bindToLifecycle())
+        addDisposable(debtsInteractor.getDebts()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::setItems, this::handleBaseError);
+                .subscribe(getViewState()::setItems, this::handleBaseError));
     }
 
     public void onAddClick() {
