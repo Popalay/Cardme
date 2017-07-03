@@ -1,8 +1,8 @@
 package com.popalay.cardme.data.repositories.card;
 
+import com.github.popalay.rxrealm.RxRealm;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Holder;
-import com.popalay.cardme.utils.RxRealm;
 
 import java.util.List;
 import java.util.UUID;

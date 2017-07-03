@@ -20,8 +20,7 @@ public class SettingsInteractor {
     }
 
     public Flowable<Settings> listenSettings() {
-        return Flowable.concat(Flowable.just(settingsRepository.createDefault()),
-                settingsRepository.listen())
+        return settingsRepository.listen()
                 .distinctUntilChanged()
                 .subscribeOn(Schedulers.io());
     }

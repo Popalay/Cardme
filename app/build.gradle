@@ -127,7 +127,7 @@ dependencies {
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
 
     // DB
-    //implementation 'com.github.popalay:rx2-realm:1.0.5'
+    implementation 'com.github.popalay:rx2-realm:1.0.6'
 
     // Utils
     implementation 'io.card:android-sdk:5.5.1'

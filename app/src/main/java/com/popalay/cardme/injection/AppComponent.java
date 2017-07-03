@@ -9,6 +9,7 @@ import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivi
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel;
 import com.popalay.cardme.presentation.screens.holders.HoldersPresenter;
 import com.popalay.cardme.presentation.screens.settings.SettingPresenter;
+import com.popalay.cardme.presentation.screens.splash.SplashPresenter;
 
 import javax.inject.Singleton;
 
@@ -35,4 +36,6 @@ public interface AppComponent {
     void inject(HolderDetailsViewModel viewModel);
 
     void inject(HolderDetailsActivity activity);
+
+    void inject(SplashPresenter presenter);
 }

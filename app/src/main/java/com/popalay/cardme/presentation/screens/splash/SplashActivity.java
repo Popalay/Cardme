@@ -1,15 +1,14 @@
 package com.popalay.cardme.presentation.screens.splash;
 
-import android.os.Bundle;
-
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.popalay.cardme.presentation.base.BaseActivity;
 import com.popalay.cardme.presentation.screens.home.HomeActivity;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements SplashView {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @InjectPresenter SplashPresenter presenter;
+
+    @Override public void openHome() {
         startActivity(HomeActivity.getIntent(this));
         finish();
     }
