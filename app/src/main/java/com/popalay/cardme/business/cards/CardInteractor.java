@@ -45,13 +45,13 @@ public class CardInteractor {
         return cardRepository.getAll().subscribeOn(Schedulers.io());
     }
 
-    public Flowable<List<Card>> getCardsByHolder(long holderId) {
+    public Flowable<List<Card>> getCardsByHolder(String holderId) {
         return cardRepository.getAllByHolder(holderId).subscribeOn(Schedulers.io());
     }
 
     public Completable updateCards(List<Card> items) {
         for (int i = 0; i < items.size(); i++) {
-            items.get(i).setUsage(i);
+            items.get(i).setPosition(i);
         }
         return cardRepository.save(items)
                 .subscribeOn(Schedulers.io());

@@ -35,7 +35,7 @@ public class DebtsInteractor {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Flowable<List<Debt>> getDebtsByHolder(long holderId) {
+    public Flowable<List<Debt>> getDebtsByHolder(String holderId) {
         return debtRepository.getAllByHolder(holderId)
                 .subscribeOn(Schedulers.io());
     }

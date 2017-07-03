@@ -22,7 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class HolderDetailsViewModel(application: Application, holderId: Long) : AndroidViewModel(application) {
+class HolderDetailsViewModel(application: Application, holderId: String) : AndroidViewModel(application) {
 
     @Inject lateinit var cardInteractor: CardInteractor
     @Inject lateinit var holderInteractor: HolderInteractor
@@ -63,7 +63,7 @@ class HolderDetailsViewModel(application: Application, holderId: Long) : Android
     }
 
     fun doOnShareCard(): Observable<String> {
-        return cardClickPublisher.map<String>({ it.number })
+        return cardClickPublisher.map({ it.number })
     }
 
     override fun onCleared() {

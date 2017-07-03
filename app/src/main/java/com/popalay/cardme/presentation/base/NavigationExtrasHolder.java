@@ -2,13 +2,13 @@ package com.popalay.cardme.presentation.base;
 
 public class NavigationExtrasHolder {
 
-    private long holderId;
+    private String holderId;
 
-    public long getHolderId() {
+    public String getHolderId() {
         return holderId;
     }
 
-    public void setHolderId(long holderId) {
+    public void setHolderId(String holderId) {
         this.holderId = holderId;
     }
 }

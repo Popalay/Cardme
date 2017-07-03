@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 @Singleton
@@ -39,12 +38,12 @@ public class HolderInteractor {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Flowable<Holder> getHolder(long holderId) {
+    public Flowable<Holder> getHolder(String holderId) {
         return holderRepository.get(holderId)
                 .subscribeOn(Schedulers.io());
     }
 
-    public Flowable<String> getHolderName(long holderId) {
+    public Flowable<String> getHolderName(String holderId) {
         return getHolder(holderId)
                 .map(Holder::getName)
                 .subscribeOn(Schedulers.io());

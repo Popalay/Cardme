@@ -16,7 +16,7 @@ import io.reactivex.Flowable;
 @Singleton
 public class DebtRepository {
 
-    @Inject public DebtRepository() {}
+    @Inject DebtRepository() {}
 
     public Completable save(Debt debt) {
         return RxRealm.doTransactional(realm -> {
@@ -28,9 +28,7 @@ public class DebtRepository {
             if (realmHolder != null) {
                 debt.setHolder(realmHolder);
             } else {
-                final Number num = realm.where(Holder.class).max(Holder.ID);
-                final long nextID = num != null ? num.longValue() + 1L : 0L;
-                debt.getHolder().setId(nextID);
+                debt.getHolder().setId(UUID.randomUUID().toString());
             }
             if (debt.getCreatedAt() == 0L) {
                 debt.setCreatedAt(System.currentTimeMillis());
@@ -44,7 +42,7 @@ public class DebtRepository {
                 .findAllSorted(Debt.CREATED_AT));
     }
 
-    public Flowable<List<Debt>> getAllByHolder(long holderId) {
+    public Flowable<List<Debt>> getAllByHolder(String holderId) {
         return RxRealm.listenList(realm -> realm.where(Debt.class)
                 .equalTo(Debt.HOLDER_ID, holderId)
                 .findAllSorted(Debt.CREATED_AT));

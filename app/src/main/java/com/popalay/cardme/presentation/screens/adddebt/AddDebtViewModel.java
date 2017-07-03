@@ -6,7 +6,6 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 
 import com.popalay.cardme.data.models.Debt;
-import com.popalay.cardme.data.models.Holder;
 
 public class AddDebtViewModel {
 
@@ -38,7 +37,6 @@ public class AddDebtViewModel {
 
     public AddDebtViewModel() {
         this(new Debt());
-        debt.setHolder(new Holder());
     }
 
     private void updateCanSave() {

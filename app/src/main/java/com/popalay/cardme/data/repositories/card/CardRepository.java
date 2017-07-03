@@ -30,9 +30,7 @@ public class CardRepository {
             if (realmHolder != null) {
                 card.setHolder(realmHolder);
             } else {
-                final Number num = realm.where(Holder.class).max(Holder.ID);
-                final long nextID = num != null ? num.longValue() + 1L : 0L;
-                card.getHolder().setId(nextID);
+                card.getHolder().setId(UUID.randomUUID().toString());
             }
             realm.copyToRealmOrUpdate(card);
         });
@@ -45,14 +43,14 @@ public class CardRepository {
     public Flowable<List<Card>> getAll() {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
-                .sort(Card.USAGE));
+                .sort(Card.POSITION));
     }
 
-    public Flowable<List<Card>> getAllByHolder(long holderId) {
+    public Flowable<List<Card>> getAllByHolder(String holderId) {
         return RxRealm.listenList(realm -> realm.where(Card.class)
                 .equalTo(Card.HOLDER_ID, holderId)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
-                .sort(Card.USAGE));
+                .sort(Card.POSITION));
     }
 
     public Completable remove(final Card card) {

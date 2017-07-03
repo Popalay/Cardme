@@ -23,7 +23,7 @@ public class HolderRepository {
                 .findAllSorted(Holder.NAME));
     }
 
-    public Flowable<Holder> get(long holderId) {
+    public Flowable<Holder> get(String holderId) {
         return RxRealm.listenElement(realm -> realm.where(Holder.class)
                 .equalTo(Holder.ID, holderId).findAll());
     }

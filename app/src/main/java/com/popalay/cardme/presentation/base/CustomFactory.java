@@ -26,7 +26,7 @@ public class CustomFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         try {
             if (modelClass.isAssignableFrom(HolderDetailsViewModel.class)) {
-                return modelClass.getConstructor(Application.class, long.class)
+                return modelClass.getConstructor(Application.class, String.class)
                         .newInstance(application, navigationExtras.getHolderId());
             } else if (AndroidViewModel.class.isAssignableFrom(modelClass)) {
                 return modelClass.getConstructor(Application.class).newInstance(application);
