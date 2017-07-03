@@ -3,7 +3,7 @@ package com.popalay.cardme.presentation.screens.holders;
 import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.holders.HolderInteractor;
-import com.popalay.cardme.data.events.FavoriteHolderEvent;
+import com.popalay.cardme.data.FavoriteHolderEvent;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.presentation.base.BasePresenter;
 import com.popalay.cardme.presentation.base.NavigationExtrasHolder;

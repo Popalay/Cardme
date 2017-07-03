@@ -6,7 +6,6 @@ import com.github.nitrico.lastadapter.StableId
 import com.popalay.cardme.R
 import io.card.payment.CreditCard
 import io.realm.RealmObject
-import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 
 
@@ -16,7 +15,7 @@ open class Card(
         open var number: String = "",
         open var redactedNumber: String = "",
         open var holder: Holder = Holder(),
-        @CardType open var cardType: Long = 0L,
+        @field:CardType open var cardType: Long = 0L,
         open var generatedBackgroundSeed: Long = 0L,
         open var position: Int = 0
 ) : RealmObject(), StableId {

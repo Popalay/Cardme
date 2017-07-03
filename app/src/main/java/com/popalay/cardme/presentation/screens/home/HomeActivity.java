@@ -12,10 +12,9 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.popalay.cardme.Constants;
 import com.popalay.cardme.R;
-import com.popalay.cardme.data.events.AddCardEvent;
-import com.popalay.cardme.data.events.FavoriteHolderEvent;
+import com.popalay.cardme.data.AddCardEvent;
+import com.popalay.cardme.data.FavoriteHolderEvent;
 import com.popalay.cardme.databinding.ActivityHomeBinding;
 import com.popalay.cardme.presentation.base.BaseActivity;
 import com.popalay.cardme.presentation.screens.cards.CardsFragment;
@@ -27,6 +26,8 @@ import com.popalay.cardme.utils.BrowserUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import shortbread.Shortcut;
+
+import static com.popalay.cardme.ConstantsKt.PRIVACY_POLICY_LINK;
 
 public class HomeActivity extends BaseActivity implements HomeView {
 
@@ -109,7 +110,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
     }
 
     @Override public void openPolicy() {
-        BrowserUtils.openLink(this, Constants.PRIVACY_POLICY_LINK);
+        BrowserUtils.openLink(this, PRIVACY_POLICY_LINK);
     }
 
     private boolean onNavigationClick(MenuItem item) {

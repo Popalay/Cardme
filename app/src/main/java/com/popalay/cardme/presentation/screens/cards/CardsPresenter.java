@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.popalay.cardme.App;
 import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
-import com.popalay.cardme.data.events.AddCardEvent;
+import com.popalay.cardme.data.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
 

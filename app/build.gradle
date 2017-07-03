@@ -85,7 +85,7 @@ ext {
     supportLibrary = '25.4.0'
     rxJava = '2.1.1'
     rxAndroid = '2.0.1'
-    playServices = '11.0.1'
+    playServices = '11.0.2'
     dagger = '2.9'
     moxy = '1.5.3'
     archComponents = '1.0.0-alpha3'

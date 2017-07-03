@@ -58,7 +58,7 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
     }
 
     private void handleLocalError(Throwable throwable) {
-        if (ExceptionFactory.isAppException(throwable)) {
+        if (ExceptionFactory.INSTANCE.isAppException(throwable)) {
             handleAppError((AppException) throwable);
         } else {
             handleBaseError(throwable);
