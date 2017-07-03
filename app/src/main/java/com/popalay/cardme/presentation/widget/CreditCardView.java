@@ -26,6 +26,10 @@ public class CreditCardView extends CardView {
         init(context, attrs, defStyleAttr);
     }
 
+    public boolean isWithImage() {
+        return withImage;
+    }
+
     public void setWithImage(boolean withImage) {
         if (this.withImage == withImage) return;
         this.withImage = withImage;

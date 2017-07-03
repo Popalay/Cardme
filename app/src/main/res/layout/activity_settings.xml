@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_color"
                             android:text="@string/theme"
-                            app:settingText="@{vm.settings.theme}"
+                            app:settingText="@{vm.theme}"
                             />
 
                         <com.popalay.cardme.presentation.widget.SettingTextView
@@ -79,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_language"
                             android:text="@string/language"
-                            app:settingText="@{vm.settings.language}"
+                            app:settingText="@{vm.language}"
                             />
 
                         <android.support.v7.widget.SwitchCompat
@@ -87,9 +87,8 @@
                             style="@style/Cardme.Setting.Item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:checked="@{vm.showImages}"
+                            android:checked="@={vm.showImages}"
                             android:drawableStart="@drawable/ic_image"
-                            android:onCheckedChanged="@{(switch, checked) -> vm.onShowImageChecked(checked)}"
                             android:text="@string/card_background"
                             />
 

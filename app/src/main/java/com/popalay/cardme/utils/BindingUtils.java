@@ -10,12 +10,14 @@ import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+
 public class BindingUtils {
 
     private BindingUtils() {}
 
     public static <M> Flowable<M> create(ObservableField<M> observableField) {
         return Flowable.create(emitter -> {
+            if (observableField.get() == null) return;
             emitter.onNext(observableField.get());
             final android.databinding.Observable.OnPropertyChangedCallback callback
                     = new android.databinding.Observable.OnPropertyChangedCallback() {

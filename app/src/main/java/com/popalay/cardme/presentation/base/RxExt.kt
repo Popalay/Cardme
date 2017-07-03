@@ -5,8 +5,8 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
-fun <T : Any> Observable<List<T>?>.setTo(list: ObservableList<in T>
-): Observable<List<T>?> = doOnNext {
+fun <T : Any> Flowable<List<T>?>.setTo(list: ObservableList<in T>
+): Flowable<List<T>?> = doOnNext {
     val newList = if (it != null) ArrayList<T>(it) else (emptyList<T>() as ArrayList<T>)
     list.clear()
     list.addAll(newList)

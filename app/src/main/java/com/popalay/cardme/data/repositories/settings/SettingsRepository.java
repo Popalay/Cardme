@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
 @Singleton
 public class SettingsRepository {
@@ -19,7 +19,7 @@ public class SettingsRepository {
 
     @Inject SettingsRepository(Context context) {this.context = context;}
 
-    public Observable<Settings> listen() {
+    public Flowable<Settings> listen() {
         return RxRealm.listenElement(realm -> realm.where(Settings.class).findAll())
                 .defaultIfEmpty(createDefault());
     }

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 @Singleton
@@ -19,14 +19,14 @@ public class SettingsInteractor {
         this.settingsRepository = settingsRepository;
     }
 
-    public Observable<Settings> listenSettings() {
-        return Observable.concat(Observable.just(settingsRepository.createDefault()),
+    public Flowable<Settings> listenSettings() {
+        return Flowable.concat(Flowable.just(settingsRepository.createDefault()),
                 settingsRepository.listen())
                 .distinctUntilChanged()
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<Boolean> listenShowCardsBackground() {
+    public Flowable<Boolean> listenShowCardsBackground() {
         return listenSettings()
                 .map(Settings::isCardBackground)
                 .distinctUntilChanged();
