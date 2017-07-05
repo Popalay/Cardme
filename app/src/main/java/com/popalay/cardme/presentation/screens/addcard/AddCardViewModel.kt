@@ -22,11 +22,16 @@ import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
 import io.card.payment.CreditCard
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseViewModel(application) {
+
+class AddCardViewModel(
+        application: Application,
+        creditCard: CreditCard
+) : BaseViewModel(application), AddCardViewModelFacade {
 
     @Inject lateinit var cardInteractor: CardInteractor
     @Inject lateinit var holderInteractor: HolderInteractor
@@ -92,6 +97,15 @@ class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseV
                 .subscribeBy {
                     router.exit()
                 }.addTo(disposables)
+    }
+
+    override fun doOnShowCardExistsDialog(body: () -> Unit): Disposable {
+        return errorDialogState.filter { it }.subscribe { body() }
+    }
+
+    override fun onShowCardExistsDialogDismiss() {
+        errorDialogState.accept(false)
+        router.exit()
     }
 
     private fun saveCard(card: Card) = cardInteractor.save(card)

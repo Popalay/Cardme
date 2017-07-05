@@ -13,7 +13,6 @@ import com.popalay.cardme.presentation.base.navigation.CustomFactory
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.DialogFactory
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class AddCardActivity : BaseActivity() {
@@ -21,6 +20,7 @@ class AddCardActivity : BaseActivity() {
     @Inject lateinit var factory: CustomFactory
 
     private lateinit var b: ActivityAddCardBinding
+    private lateinit var viewModelFacade: AddCardViewModelFacade
 
     companion object {
         fun getIntent(context: Context) = Intent(context, AddCardActivity::class.java)
@@ -34,7 +34,10 @@ class AddCardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         App.appComponent.inject(this)
         b = DataBindingUtil.setContentView<ActivityAddCardBinding>(this, R.layout.activity_add_card)
-
+        ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java).let {
+            viewModelFacade = it
+            b.vm = it
+        }
         initUI()
     }
 
@@ -51,19 +54,11 @@ class AddCardActivity : BaseActivity() {
     private fun initUI() {
         setSupportActionBar(b.toolbar)
 
-        val vm = ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java)
-        b.vm = vm
-
-        //FIXME avoid this
-        vm.errorDialogState
-                .filter { it }
-                .subscribeBy {
-                    DialogFactory.createCustomButtonsDialog(this@AddCardActivity,
-                            R.string.error_card_exist, R.string.action_close, onDismiss = {
-                        vm.errorDialogState.accept(false)
-                    })
-                            .apply { setCancelable(false) }
-                            .show()
-                }.addTo(disposables)
+        viewModelFacade.doOnShowCardExistsDialog {
+            DialogFactory.createCustomButtonsDialog(this@AddCardActivity,
+                    R.string.error_card_exist, R.string.action_close,
+                    onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
+                    .apply { setCancelable(false) }
+        }.addTo(disposables)
     }
 }

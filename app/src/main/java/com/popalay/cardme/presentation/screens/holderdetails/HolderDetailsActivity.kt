@@ -7,15 +7,14 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-
 import com.popalay.cardme.App
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
-import com.popalay.cardme.presentation.base.navigation.CustomFactory
 import com.popalay.cardme.presentation.base.SlidingActivity
+import com.popalay.cardme.presentation.base.navigation.CustomFactory
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
-
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class HolderDetailsActivity : SlidingActivity() {
@@ -29,8 +28,7 @@ class HolderDetailsActivity : SlidingActivity() {
         super.onCreate(savedInstanceState)
         App.appComponent.inject(this)
         b = DataBindingUtil.setContentView<ActivityHolderDetailsBinding>(this, R.layout.activity_holder_details)
-        val vm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java)
-        b.vm = vm
+
         initUI()
     }
 
@@ -39,16 +37,16 @@ class HolderDetailsActivity : SlidingActivity() {
     override fun canSlideDown() = isExpanded && b.listDebts.scrollY == 0
 
     private fun initUI() {
+        val vm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java)
+        b.vm = vm
+
         setSupportActionBar(b.toolbar)
         b.collapsingToolbar.isTitleEnabled = false
         b.toolbar.setNavigationOnClickListener { v -> onBackPressed() }
 
-        b.vm?.let {
-            it.doOnShareCard()
-                    .subscribe {
-                        ShareUtils.shareText(this, R.string.share_card, it)
-                    }
-        }
+        vm.doOnShareCard()
+                .subscribe { ShareUtils.shareText(this, R.string.share_card, it) }
+                .addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.Builder(this)
                 .onSides(true)
