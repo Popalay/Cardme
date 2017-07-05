@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     >
 
     <data>
 
         <variable
-            name="model"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.addcard.AddCardViewModel"
             />
 
@@ -30,14 +31,15 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/Cardme.Toolbar"
                 app:navigationIcon="@drawable/ic_back"
+                bind:backByArrow="@{true}"
                 />
 
             <com.popalay.cardme.presentation.widget.CreditCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
-                app:backgroundGeneratorSeed="@{model.card.generatedBackgroundSeed}"
-                app:withImage="@{model.showImage}"
+                app:backgroundGeneratorSeed="@{vm.card.generatedBackgroundSeed}"
+                app:withImage="@{vm.showImage}"
                 >
 
                 <RelativeLayout
@@ -51,7 +53,7 @@
                         android:layout_width="@dimen/card_type_icon_size"
                         android:layout_height="@dimen/card_type_icon_size"
                         android:layout_alignParentEnd="true"
-                        android:src="@{model.card.iconRes}"
+                        android:src="@{vm.card.iconRes}"
                         />
 
                     <TextView
@@ -63,7 +65,7 @@
                         android:layout_marginEnd="@dimen/normal"
                         android:layout_toStartOf="@id/image_card_type"
                         android:gravity="center_vertical"
-                        android:text="@={model.title}"
+                        android:text="@={vm.title}"
                         />
 
                     <com.popalay.cardme.presentation.widget.CharacterWrapTextView
@@ -72,7 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="@{model.card.number}"
+                        android:text="@{vm.card.number}"
                         />
 
                     <TextView
@@ -82,7 +84,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/normal"
                         android:layout_marginTop="@dimen/smallest"
-                        android:text="@={model.holderName}"
+                        android:text="@={vm.holderName}"
                         />
 
                 </RelativeLayout>
@@ -119,9 +121,10 @@
                         android:layout_marginBottom="@dimen/normal"
                         android:layout_marginTop="@dimen/smallest"
                         android:imeOptions="actionNext"
-                        android:inputType="textCapSentences|textAutoCorrect"
-                        android:text="@={model.holderName}"
+                        android:inputType="text|textCapSentences|textAutoCorrect"
+                        android:text="@={vm.holderName}"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                        bind:stringAdapter="@{vm.holderNames}"
                         />
 
                 </android.support.design.widget.TextInputLayout>
@@ -142,8 +145,9 @@
                         android:layout_marginTop="@dimen/smallest"
                         android:imeOptions="actionDone"
                         android:inputType="textCapSentences|textAutoCorrect"
-                        android:text="@={model.title}"
+                        android:text="@={vm.title}"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                        bind:onEditorAction="@{vm.editorActionListener}"
                         />
 
                 </android.support.design.widget.TextInputLayout>
@@ -159,8 +163,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/normal"
-            android:enabled="@{model.canSave}"
+            android:enabled="@{vm.canSave}"
             android:text="@string/action_save"
+            bind:onClick="@{vm.acceptClickListener}"
             />
 
     </android.support.design.widget.CoordinatorLayout>

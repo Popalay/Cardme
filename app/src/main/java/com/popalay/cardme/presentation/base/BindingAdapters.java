@@ -6,9 +6,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.jakewharton.rxrelay2.PublishRelay;
+import com.popalay.cardme.App;
 import com.popalay.cardme.R;
 import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
 import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
@@ -79,4 +85,32 @@ public class BindingAdapters {
         new PagerSnapHelper().attachToRecyclerView(view);
     }
 
+    @BindingAdapter("backByArrow")
+    public static void backByArrow(Toolbar toolbar, boolean use) {
+        if (!use) return;
+        toolbar.setNavigationOnClickListener(v -> App.Companion.getRouter().exit());
+    }
+
+    @BindingAdapter("stringAdapter")
+    public static void stringAdapter(AutoCompleteTextView view, List<String> values) {
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_list_item_1, values);
+        view.setAdapter(adapter);
+    }
+
+    @BindingAdapter("onClick")
+    public static void onClick(View view, PublishRelay<Boolean> listener) {
+        view.setOnClickListener(v -> {
+            if (!view.isEnabled()) return;
+            listener.accept(true);
+        });
+    }
+
+    @BindingAdapter("onEditorAction")
+    public static void onEditorAction(EditText view, PublishRelay<Integer> listener) {
+        view.setOnEditorActionListener((v, actionId, event) -> {
+            listener.accept(actionId);
+            return true;
+        });
+    }
 }

@@ -6,8 +6,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemView;
 
-import io.card.payment.CreditCard;
-
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CardsView extends RemovableListItemView<Card> {
 
@@ -15,7 +13,7 @@ public interface CardsView extends RemovableListItemView<Card> {
     void startCardScanning();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void addCardDetails(CreditCard card);
+    void addCardDetails();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void shareCardNumber(String cardNumber);

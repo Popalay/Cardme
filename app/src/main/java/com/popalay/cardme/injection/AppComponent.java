@@ -1,6 +1,7 @@
 package com.popalay.cardme.injection;
 
-import com.popalay.cardme.presentation.screens.addcard.AddCardPresenter;
+import com.popalay.cardme.presentation.screens.addcard.AddCardActivity;
+import com.popalay.cardme.presentation.screens.addcard.AddCardViewModel;
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtPresenter;
 import com.popalay.cardme.presentation.screens.cards.CardsPresenter;
 import com.popalay.cardme.presentation.screens.cards.CardsViewModel;
@@ -19,8 +20,6 @@ import dagger.Component;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
 
-    void inject(AddCardPresenter presenter);
-
     void inject(CardsPresenter presenter);
 
     void inject(HoldersPresenter presenter);
@@ -38,4 +37,8 @@ public interface AppComponent {
     void inject(HolderDetailsActivity activity);
 
     void inject(SplashPresenter presenter);
+
+    void inject(AddCardViewModel viewModel);
+
+    void inject(AddCardActivity activity);
 }

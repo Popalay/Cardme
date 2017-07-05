@@ -24,7 +24,7 @@ abstract class SlidingActivity : BaseActivity() {
     private var startX = 0f
     private var startY = 0f
     private var isSliding = false
-    private var root: View by Delegates.notNull<View>()
+    private lateinit var root: View
     private var screenSize: Point by Delegates.notNull<Point>()
     private var windowScrim: ColorDrawable by Delegates.notNull<ColorDrawable>()
     private var statusBarColor: Int = 0
@@ -42,7 +42,7 @@ abstract class SlidingActivity : BaseActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        root = rootView
+        root = getRootView()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -86,7 +86,7 @@ abstract class SlidingActivity : BaseActivity() {
 
     override fun onBackPressed() = closeDownAndDismiss()
 
-    protected abstract val rootView: View
+    protected abstract fun getRootView(): View
 
     protected fun onSlidingFinished() {
         //override to add logic

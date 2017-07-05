@@ -12,6 +12,8 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Router
 import shortbread.Shortbread
 
 class App : Application() {
@@ -40,12 +42,16 @@ class App : Application() {
     companion object {
 
         private lateinit var app: App
+        private val cicerone: Cicerone<Router> by lazy { Cicerone.create(); }
 
         val appComponent: AppComponent by lazy {
             DaggerAppComponent.builder()
                     .appModule(AppModule(app))
                     .build()
         }
+
+        fun getRouter() = App.cicerone.router
+        fun getNavigatorHolder() = App.cicerone.navigatorHolder
 
     }
 }

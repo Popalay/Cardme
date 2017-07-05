@@ -68,8 +68,8 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void addCardDetails(CreditCard card) {
-        startActivity(AddCardActivity.getIntent(getActivity(), card));
+    public void addCardDetails() {
+        startActivity(AddCardActivity.Companion.getIntent(getActivity()));
     }
 
     @Override

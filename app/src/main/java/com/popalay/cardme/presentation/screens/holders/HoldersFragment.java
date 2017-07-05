@@ -51,7 +51,7 @@ public class HoldersFragment extends BaseFragment implements HoldersView, ItemCl
 
     @Override
     public void openHolderDetails() {
-        startActivity(HolderDetailsActivity.getIntent(getContext()));
+        startActivity(HolderDetailsActivity.Companion.getIntent(getContext()));
     }
 
     @Override

@@ -87,10 +87,11 @@ ext {
     rxAndroid = '2.0.1'
     rxKotlin = '2.1.0'
     playServices = '11.0.2'
-    dagger = '2.9'
+    dagger = '2.11'
     moxy = '1.5.3'
     archComponents = '1.0.0-alpha3'
     leakCanary = '1.5.1'
+    cicerone = '1.2.1'
 }
 
 dependencies {
@@ -112,6 +113,8 @@ dependencies {
     // MVP
     implementation "com.arello-mobile:moxy-app-compat:$moxy"
     kapt "com.arello-mobile:moxy-compiler:$moxy"
+
+    implementation "ru.terrakok.cicerone:cicerone:$cicerone"
 
     // Google Architecture Components
     implementation "android.arch.lifecycle:runtime:$archComponents"

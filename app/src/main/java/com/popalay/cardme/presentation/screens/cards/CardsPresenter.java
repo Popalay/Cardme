@@ -6,6 +6,7 @@ import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
+import com.popalay.cardme.presentation.base.NavigationExtrasHolder;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,6 +26,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
 
     @Inject CardInteractor cardInteractor;
     @Inject SettingsInteractor settingsInteractor;
+    @Inject NavigationExtrasHolder navigationExtras;
 
     private final CardsViewModel viewModel;
 
@@ -60,7 +62,8 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardScanned(CreditCard card) {
-        getViewState().addCardDetails(card);
+        navigationExtras.setCreditCard(card);
+        getViewState().addCardDetails();
     }
 
     public void onCardClick(Card card) {
