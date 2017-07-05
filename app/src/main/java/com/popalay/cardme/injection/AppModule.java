@@ -3,8 +3,8 @@ package com.popalay.cardme.injection;
 import android.content.Context;
 
 import com.popalay.cardme.App;
-import com.popalay.cardme.presentation.base.CustomFactory;
-import com.popalay.cardme.presentation.base.NavigationExtrasHolder;
+import com.popalay.cardme.presentation.base.navigation.CustomFactory;
+import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
 
 import javax.inject.Singleton;
 

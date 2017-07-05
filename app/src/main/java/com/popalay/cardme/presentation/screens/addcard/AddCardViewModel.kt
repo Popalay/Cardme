@@ -9,7 +9,6 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.exception.AppException
-import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
@@ -94,11 +93,6 @@ class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseV
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)
         if (throwable !is AppException) return
-        when (throwable.errorType) {
-            ExceptionFactory.ErrorType.CARD_EXIST ->
-                router.showSystemMessage(context.getString(throwable.messageRes))
-            else -> {
-            }
-        }
+        router.showError(throwable)
     }
 }

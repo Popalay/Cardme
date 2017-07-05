@@ -1,19 +1,18 @@
 package com.popalay.cardme
 
 import android.app.Application
-
 import com.facebook.stetho.Stetho
 import com.github.tamir7.contacts.Contacts
 import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.AppModule
 import com.popalay.cardme.injection.DaggerAppComponent
+import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.squareup.leakcanary.LeakCanary
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
-
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.NavigatorHolder
 import shortbread.Shortbread
 
 class App : Application() {
@@ -42,7 +41,7 @@ class App : Application() {
     companion object {
 
         private lateinit var app: App
-        private val cicerone: Cicerone<Router> by lazy { Cicerone.create(); }
+        private val cicerone: Cicerone<CustomRouter> by lazy { Cicerone.create(CustomRouter()); }
 
         val appComponent: AppComponent by lazy {
             DaggerAppComponent.builder()
@@ -50,8 +49,8 @@ class App : Application() {
                     .build()
         }
 
-        fun getRouter() = App.cicerone.router
-        fun getNavigatorHolder() = App.cicerone.navigatorHolder
+        fun getRouter(): CustomRouter = App.cicerone.router
+        fun getNavigatorHolder(): NavigatorHolder = App.cicerone.navigatorHolder
 
     }
 }

@@ -6,7 +6,7 @@ import com.popalay.cardme.business.holders.HolderInteractor;
 import com.popalay.cardme.data.FavoriteHolderEvent;
 import com.popalay.cardme.data.models.Holder;
 import com.popalay.cardme.presentation.base.BasePresenter;
-import com.popalay.cardme.presentation.base.NavigationExtrasHolder;
+import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

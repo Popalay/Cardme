@@ -6,7 +6,7 @@ import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.presentation.base.NavigationExtrasHolder;
+import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
 
 import org.greenrobot.eventbus.EventBus;

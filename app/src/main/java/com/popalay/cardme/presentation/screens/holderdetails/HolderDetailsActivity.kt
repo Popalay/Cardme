@@ -11,7 +11,7 @@ import android.view.View
 import com.popalay.cardme.App
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
-import com.popalay.cardme.presentation.base.CustomFactory
+import com.popalay.cardme.presentation.base.navigation.CustomFactory
 import com.popalay.cardme.presentation.base.SlidingActivity
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration

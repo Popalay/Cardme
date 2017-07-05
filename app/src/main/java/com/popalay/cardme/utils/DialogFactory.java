@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 
 import com.popalay.cardme.R;
@@ -49,6 +50,16 @@ public final class DialogFactory {
                 .setOnDismissListener(onDismissListener)
                 .setNegativeButton(negativeButton, null);
         return alertDialog.create();
+    }
+
+    public static Dialog createCustomButtonsDialog(Context context, @StringRes int message,
+            @StringRes int positiveButton, @StringRes int negativeButton,
+            @Nullable DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable DialogInterface.OnDismissListener onDismissListener) {
+        return createCustomButtonsDialog(context, context.getString(message),
+                positiveButton > 0 ? context.getString(positiveButton) : null,
+                negativeButton > 0 ? context.getString(negativeButton) : null,
+                positiveButtonClickListener, onDismissListener);
     }
 
     public static ProgressDialog createProgressDialog(Context context, String message) {

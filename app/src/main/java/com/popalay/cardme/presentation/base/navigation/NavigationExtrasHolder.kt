@@ -1,4 +1,4 @@
-package com.popalay.cardme.presentation.base
+package com.popalay.cardme.presentation.base.navigation
 
 import io.card.payment.CreditCard
 
