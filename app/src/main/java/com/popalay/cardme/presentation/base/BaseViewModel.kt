@@ -11,7 +11,7 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
 
     protected val context: Context by lazy { app }
     protected val router: CustomRouter by lazy { App.getRouter() }
-    protected val disposables = CompositeDisposable()
+    protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
     fun handleBaseError(throwable: Throwable) = throwable.printStackTrace()
 

@@ -14,8 +14,10 @@ import io.reactivex.disposables.Disposable
 
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
+    protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
+
     private val progressDialog: ProgressDialog by lazy {
-        DialogFactory.createProgressDialog(this, getString(R.string.please_wait))
+        DialogFactory.createProgressDialog(this, R.string.please_wait)
     }
 
     private val subscriptions = CompositeDisposable()

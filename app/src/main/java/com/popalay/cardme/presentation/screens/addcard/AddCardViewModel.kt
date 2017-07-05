@@ -5,10 +5,12 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.view.inputmethod.EditorInfo
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.exception.AppException
+import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
@@ -39,6 +41,8 @@ class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseV
 
     val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
+
+    val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
     init {
         App.appComponent.inject(this)
@@ -82,6 +86,12 @@ class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseV
                 .doOnNext { acceptClickListener.accept(true) }
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
+
+        errorDialogState
+                .filter { !it }
+                .subscribeBy {
+                    router.exit()
+                }.addTo(disposables)
     }
 
     private fun saveCard(card: Card) = cardInteractor.save(card)
@@ -93,6 +103,11 @@ class AddCardViewModel(application: Application, creditCard: CreditCard) : BaseV
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)
         if (throwable !is AppException) return
-        router.showError(throwable)
+        when (throwable.errorType) {
+            ExceptionFactory.ErrorType.CARD_EXIST -> errorDialogState.accept(true)
+            else -> {
+            }
+        }
     }
+
 }
