@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.popalay.cardme.App;
@@ -33,12 +34,12 @@ public class HolderDetailsActivity extends SlidingActivity {
         super.onCreate(savedInstanceState);
         App.appComponent().inject(this);
         b = DataBindingUtil.setContentView(this, R.layout.activity_holder_details);
-        final HolderDetailsViewModel wm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel.class);
-        b.setWm(wm);
+        final HolderDetailsViewModel vm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel.class);
+        b.setVm(vm);
         initUI();
     }
 
-    @Override protected View getRootView() {
+    @NonNull @Override protected View getRootView() {
         return b.getRoot();
     }
 
@@ -50,7 +51,7 @@ public class HolderDetailsActivity extends SlidingActivity {
         setSupportActionBar(b.toolbar);
         b.collapsingToolbar.setTitleEnabled(false);
         b.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        b.getWm().doOnShareCard().subscribe(number -> ShareUtils.shareText(this, R.string.share_card, number));
+        b.getVm().doOnShareCard().subscribe(number -> ShareUtils.shareText(this, R.string.share_card, number));
 
         b.listCards.addItemDecoration(new SpacingItemDecoration.Builder(this)
                 .onSides(true)

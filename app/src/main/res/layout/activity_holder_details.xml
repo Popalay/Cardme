@@ -7,7 +7,7 @@
     <data>
 
         <variable
-            name="wm"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel" />
 
         <variable
@@ -45,10 +45,10 @@
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
                     app:rvp_singlePageFling="true"
-                    bind:cardsAdapter="@{wm.cards}"
+                    bind:cardsAdapter="@{vm.cards}"
                     bind:hasFixedSize="@{true}"
-                    bind:cardClick="@{wm.cardClickPublisher}"
-                    bind:showImage="@{wm.showImage}"
+                    bind:cardClick="@{vm.cardClickPublisher}"
+                    bind:showImage="@{vm.showImage}"
                     bind:snap="@{true}"
                     tools:listitem="@layout/item_card" />
 
@@ -59,7 +59,7 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_cross"
                     app:theme="@style/Cardme.Toolbar"
-                    app:title="@{wm.holderName}" />
+                    app:title="@{vm.holderName}" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -82,7 +82,7 @@
                     android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     bind:applyDivider="@{orientation.VERTICAL}"
-                    bind:debtsAdapter="@{wm.debts}"
+                    bind:debtsAdapter="@{vm.debts}"
                     bind:defaultList="@{true}"
                     tools:listitem="@layout/item_debt" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/list_debts_placeholder_holder_details"
-                    bind:listPlaceholder="@{wm.debts}" />
+                    bind:listPlaceholder="@{vm.debts}" />
 
             </FrameLayout>
 

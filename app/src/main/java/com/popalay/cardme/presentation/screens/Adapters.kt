@@ -1,22 +1,6 @@
 package com.popalay.cardme.presentation.screens
 
-import android.databinding.BindingAdapter
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.support.v7.widget.RecyclerView
-
-import com.github.nitrico.lastadapter.ItemType
-import com.github.nitrico.lastadapter.LastAdapter
-import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.BR
-import com.popalay.cardme.R
-import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.models.Holder
-import com.popalay.cardme.databinding.ItemCardBinding
-import com.popalay.cardme.databinding.ItemHolderBinding
-import com.popalay.cardme.presentation.base.ItemClickListener
-
+/*
 @BindingAdapter(value = *arrayOf("cardsAdapter", "cardClick", "showImage"), requireAll = false)
 fun cardsAdapter(recyclerView: RecyclerView, items: List<Card>?,
                  publisher: PublishRelay<Card>, showImage: ObservableBoolean) {
@@ -55,4 +39,4 @@ fun holdersAdapter(recyclerView: RecyclerView, items: List<Holder>?, listener: I
                     holder.binding.listener = listener
                 }
             }).into(recyclerView)
-}
+}*/

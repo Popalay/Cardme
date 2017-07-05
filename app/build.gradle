@@ -85,6 +85,7 @@ ext {
     supportLibrary = '25.4.0'
     rxJava = '2.1.1'
     rxAndroid = '2.0.1'
+    rxKotlin = '2.1.0'
     playServices = '11.0.2'
     dagger = '2.9'
     moxy = '1.5.3'
@@ -124,6 +125,7 @@ dependencies {
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxJava"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin"
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
 
     // DB
@@ -134,7 +136,7 @@ dependencies {
 
     implementation 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
 
-    implementation 'com.facebook.stetho:stetho:1.4.1'
+    implementation 'com.facebook.stetho:stetho:1.4.2'
     implementation 'com.uphyca:stetho_realm:2.0.0'
     implementation 'com.annimon:stream:1.1.6'
     implementation 'com.github.tamir7.contacts:contacts:1.1.4'

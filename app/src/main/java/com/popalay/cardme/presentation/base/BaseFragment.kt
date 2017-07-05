@@ -47,6 +47,6 @@ abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
 
     override fun hideKeyboard() = baseActivity().hideKeyboard()
 
-    override fun close() = throw UnsupportedOperationException("You can not close the fragment")
+    override fun close(): Unit = throw UnsupportedOperationException("You can not close the fragment")
 
 }

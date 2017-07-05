@@ -4,7 +4,6 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.databinding.ObservableList
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.App
@@ -14,12 +13,14 @@ import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.presentation.base.bindSubscribe
 import com.popalay.cardme.presentation.base.setTo
+import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class HolderDetailsViewModel(application: Application, holderId: String) : AndroidViewModel(application) {
@@ -31,7 +32,7 @@ class HolderDetailsViewModel(application: Application, holderId: String) : Andro
 
     val debts: ObservableList<Debt> = ObservableArrayList()
     val cards: ObservableList<Card> = ObservableArrayList()
-    val holderName = ObservableField<String>()
+    val holderName = ObservableString()
     val showImage = ObservableBoolean()
 
     private val subscriptions = CompositeDisposable()
@@ -44,22 +45,26 @@ class HolderDetailsViewModel(application: Application, holderId: String) : Andro
         cardInteractor.getCardsByHolder(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
-                .bindSubscribe(subscriptions)
+                .subscribeBy()
+                .addTo(subscriptions)
 
         debtsInteractor.getDebtsByHolder(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(debts)
-                .bindSubscribe(subscriptions)
+                .subscribeBy()
+                .addTo(subscriptions)
 
         holderInteractor.getHolderName(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holderName)
-                .bindSubscribe(subscriptions)
+                .subscribeBy()
+                .addTo(subscriptions)
 
         settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(showImage)
-                .bindSubscribe(subscriptions)
+                .subscribeBy()
+                .addTo(subscriptions)
     }
 
     fun doOnShareCard(): Observable<String> {
