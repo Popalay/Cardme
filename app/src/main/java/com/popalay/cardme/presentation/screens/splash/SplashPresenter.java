@@ -15,7 +15,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     @Inject SplashInteractor splashInteractor;
 
     public SplashPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
 
         addDisposable(splashInteractor.start()
                 .observeOn(AndroidSchedulers.mainThread())

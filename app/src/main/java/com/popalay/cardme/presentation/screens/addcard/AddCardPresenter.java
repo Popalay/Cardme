@@ -25,7 +25,7 @@ public class AddCardPresenter extends BasePresenter<AddCardView> {
     private final AddCardViewModel viewModel;
 
     public AddCardPresenter(CreditCard creditCard) {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
 
         viewModel = new AddCardViewModel();
 

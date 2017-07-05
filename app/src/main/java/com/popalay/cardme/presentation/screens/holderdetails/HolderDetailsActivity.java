@@ -32,7 +32,7 @@ public class HolderDetailsActivity extends SlidingActivity {
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
         b = DataBindingUtil.setContentView(this, R.layout.activity_holder_details);
         final HolderDetailsViewModel vm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel.class);
         b.setVm(vm);

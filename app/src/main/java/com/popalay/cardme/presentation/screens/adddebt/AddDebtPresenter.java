@@ -18,7 +18,7 @@ public class AddDebtPresenter extends BasePresenter<AddDebtView> {
     @Inject HolderInteractor holderInteractor;
 
     public AddDebtPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
 
         getViewState().setViewModel(new AddDebtViewModel());
         addDisposable(holderInteractor.getHolderNames()

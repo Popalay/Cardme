@@ -40,7 +40,7 @@ class HolderDetailsViewModel(application: Application, holderId: String) : Andro
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
 
     init {
-        App.appComponent().inject(this)
+        App.appComponent.inject(this)
 
         cardInteractor.getCardsByHolder(holderId)
                 .observeOn(AndroidSchedulers.mainThread())

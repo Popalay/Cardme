@@ -18,7 +18,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
     private final SettingsViewModel viewModel;
 
     public SettingPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
         viewModel = new SettingsViewModel();
         getViewState().setSettings(viewModel);
 

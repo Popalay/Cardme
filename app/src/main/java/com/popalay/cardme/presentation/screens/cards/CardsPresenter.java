@@ -29,7 +29,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     private final CardsViewModel viewModel;
 
     public CardsPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
         EventBus.getDefault().register(this);
         viewModel = new CardsViewModel();
         getViewState().setViewModel(viewModel);

@@ -24,7 +24,7 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     private boolean openFavoriteHolder;
 
     public HoldersPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
         EventBus.getDefault().register(this);
     }
 

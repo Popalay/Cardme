@@ -20,7 +20,7 @@ public class DebtsPresenter extends RemovableListItemPresenter<Debt, DebtsView> 
     @Inject Context context;
 
     public DebtsPresenter() {
-        App.appComponent().inject(this);
+        App.Companion.getAppComponent().inject(this);
     }
 
     @Override
