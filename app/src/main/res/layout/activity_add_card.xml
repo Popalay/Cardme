@@ -154,7 +154,7 @@
 
         <Button
             android:id="@+id/button_save"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
+            style="@style/Cardme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
