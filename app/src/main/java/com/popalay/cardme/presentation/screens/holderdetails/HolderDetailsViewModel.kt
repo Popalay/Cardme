@@ -16,13 +16,16 @@ import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class HolderDetailsViewModel(application: Application, holderId: String) : BaseViewModel(application) {
+class HolderDetailsViewModel(
+        application: Application,
+        holderId: String
+) : BaseViewModel(application), HolderDetailsViewModelFacade {
 
     @Inject lateinit var cardInteractor: CardInteractor
     @Inject lateinit var holderInteractor: HolderInteractor
@@ -71,7 +74,7 @@ class HolderDetailsViewModel(application: Application, holderId: String) : BaseV
                 .addTo(disposables)
     }
 
-    fun doOnShareCard(): Observable<String> {
-        return cardClickPublisher.map { it.number }
+    override fun doOnShareCard(body: (String) -> Unit): Disposable {
+        return cardClickPublisher.map { it.number }.subscribe(body::invoke)
     }
 }

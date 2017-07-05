@@ -22,13 +22,18 @@ class HolderDetailsActivity : SlidingActivity() {
     @Inject lateinit var factory: CustomFactory
 
     private lateinit var b: ActivityHolderDetailsBinding
+    private lateinit var viewModelFacade: HolderDetailsViewModelFacade
+
     private var isExpanded: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent.inject(this)
         b = DataBindingUtil.setContentView<ActivityHolderDetailsBinding>(this, R.layout.activity_holder_details)
-
+        ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java).let {
+            b.vm = it
+            viewModelFacade = it
+        }
         initUI()
     }
 
@@ -37,15 +42,13 @@ class HolderDetailsActivity : SlidingActivity() {
     override fun canSlideDown() = isExpanded && b.listDebts.scrollY == 0
 
     private fun initUI() {
-        val vm = ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java)
-        b.vm = vm
-
         setSupportActionBar(b.toolbar)
         b.collapsingToolbar.isTitleEnabled = false
         b.toolbar.setNavigationOnClickListener { v -> onBackPressed() }
 
-        vm.doOnShareCard()
-                .subscribe { ShareUtils.shareText(this, R.string.share_card, it) }
+        viewModelFacade.doOnShareCard {
+            ShareUtils.shareText(this, R.string.share_card, it)
+        }
                 .addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.Builder(this)
