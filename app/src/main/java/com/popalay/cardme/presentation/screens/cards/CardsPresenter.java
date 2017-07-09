@@ -31,7 +31,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     private final CardsViewModel viewModel;
 
     public CardsPresenter() {
-        App.Companion.getAppComponent().inject(this);
+        App.getAppComponent().inject(this);
         EventBus.getDefault().register(this);
         viewModel = new CardsViewModel();
         getViewState().setViewModel(viewModel);
@@ -62,8 +62,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardScanned(CreditCard card) {
-        navigationExtras.setCreditCard(card);
-        getViewState().addCardDetails();
+        getViewState().addCardDetails(card);
     }
 
     public void onCardClick(Card card) {

@@ -1,24 +1,8 @@
 package com.popalay.cardme.presentation.screens.holders;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.popalay.cardme.App;
-import com.popalay.cardme.business.holders.HolderInteractor;
-import com.popalay.cardme.data.FavoriteHolderEvent;
-import com.popalay.cardme.data.models.Holder;
-import com.popalay.cardme.presentation.base.BasePresenter;
-import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
+public class HoldersPresenter {
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-
-@InjectViewState
-public class HoldersPresenter extends BasePresenter<HoldersView> {
-
-    @Inject HolderInteractor holderInteractor;
+/*    @Inject HolderInteractor holderInteractor;
     @Inject NavigationExtrasHolder navigationExtras;
 
     private boolean openFavoriteHolder;
@@ -58,5 +42,5 @@ public class HoldersPresenter extends BasePresenter<HoldersView> {
     public void onHolderClick(Holder holder) {
         navigationExtras.setHolderId(holder.getId());
         getViewState().openHolderDetails();
-    }
+    }*/
 }

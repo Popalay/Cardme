@@ -1,26 +1,24 @@
 package com.popalay.cardme
 
-import android.app.Application
 import com.facebook.stetho.Stetho
 import com.github.tamir7.contacts.Contacts
 import com.popalay.cardme.injection.AppComponent
-import com.popalay.cardme.injection.AppModule
 import com.popalay.cardme.injection.DaggerAppComponent
-import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.squareup.leakcanary.LeakCanary
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.NavigatorHolder
 import shortbread.Shortbread
 
-class App : Application() {
+class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
         if (LeakCanary.isInAnalyzerProcess(this)) return
         app = this
+
         LeakCanary.install(this)
         Realm.init(this)
         val config = RealmConfiguration.Builder()
@@ -38,19 +36,14 @@ class App : Application() {
                         .build())
     }
 
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerAppComponent.builder()
+            .application(this)
+            .build().apply { appComponent = this }
+
     companion object {
 
-        private lateinit var app: App
-        private val cicerone: Cicerone<CustomRouter> by lazy { Cicerone.create(CustomRouter()); }
-
-        val appComponent: AppComponent by lazy {
-            DaggerAppComponent.builder()
-                    .appModule(AppModule(app))
-                    .build()
-        }
-
-        fun getRouter(): CustomRouter = App.cicerone.router
-        fun getNavigatorHolder(): NavigatorHolder = App.cicerone.navigatorHolder
+        lateinit var app: App
+        @JvmStatic lateinit var appComponent: AppComponent
 
     }
 }

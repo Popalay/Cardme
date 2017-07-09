@@ -1,9 +1,7 @@
 package com.popalay.cardme.presentation.screens.holderdetails
 
-import android.app.Application
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
-import android.databinding.ObservableList
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
@@ -22,19 +20,18 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class HolderDetailsViewModel(
-        application: Application,
-        holderId: String
-) : BaseViewModel(application), HolderDetailsViewModelFacade {
+class HolderDetailsViewModel @Inject constructor() : BaseViewModel(), HolderDetailsViewModelFacade {
+
+    val holderId: String = ""
 
     @Inject lateinit var cardInteractor: CardInteractor
     @Inject lateinit var holderInteractor: HolderInteractor
     @Inject lateinit var debtsInteractor: DebtsInteractor
     @Inject lateinit var settingsInteractor: SettingsInteractor
 
-    val debts: ObservableList<Debt> = ObservableArrayList<Debt>()
-    val cards: ObservableList<Card> = ObservableArrayList<Card>()
-    val holderNames: ObservableList<String> = ObservableArrayList<String>()
+    val debts = ObservableArrayList<Debt>()
+    val cards = ObservableArrayList<Card>()
+    val holderNames = ObservableArrayList<String>()
     val holderName = ObservableString()
     val showImage = ObservableBoolean()
 

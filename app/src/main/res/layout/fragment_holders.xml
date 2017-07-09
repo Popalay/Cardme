@@ -7,7 +7,7 @@
     <data>
 
         <variable
-            name="model"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.holders.HoldersViewModel"
             />
 
@@ -38,7 +38,7 @@
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:defaultList="@{true}"
             bind:holderClick="@{listener}"
-            bind:holdersAdapter="@{model.holders}"
+            bind:holdersAdapter="@{vm.holders}"
             />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_holders_placeholder"
-            bind:listPlaceholder="@{model.holders}"
+            bind:listPlaceholder="@{vm.holders}"
             />
 
     </android.support.design.widget.CoordinatorLayout>

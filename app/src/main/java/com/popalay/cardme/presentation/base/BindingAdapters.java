@@ -88,7 +88,7 @@ public class BindingAdapters {
     @BindingAdapter("backByArrow")
     public static void backByArrow(Toolbar toolbar, boolean use) {
         if (!use) return;
-        toolbar.setNavigationOnClickListener(v -> App.Companion.getRouter().exit());
+        toolbar.setNavigationOnClickListener(v -> App.Companion.getAppComponent().getRouter().exit());
     }
 
     @BindingAdapter("stringAdapter")

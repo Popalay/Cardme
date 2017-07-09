@@ -1,13 +1,11 @@
 package com.popalay.cardme.presentation.screens.addcard
 
-import android.app.Application
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.view.inputmethod.EditorInfo
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.business.exception.ExceptionFactory
@@ -25,17 +23,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-
-class AddCardViewModel(
-        application: Application,
-        creditCard: CreditCard
-) : BaseViewModel(application), AddCardViewModelFacade {
-
-    @Inject lateinit var cardInteractor: CardInteractor
-    @Inject lateinit var holderInteractor: HolderInteractor
-    @Inject lateinit var settingsInteractor: SettingsInteractor
+class AddCardViewModel @Inject constructor(
+        private val router: Router,
+        private val cardInteractor: CardInteractor,
+        creditCard: CreditCard,
+        holderInteractor: HolderInteractor,
+        settingsInteractor: SettingsInteractor
+) : BaseViewModel(), AddCardViewModelFacade {
 
     val holderName = ObservableString()
     val holderNames = ObservableArrayList<String>()
@@ -46,12 +43,9 @@ class AddCardViewModel(
 
     val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
-
     val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
     init {
-        App.appComponent.inject(this)
-
         cardInteractor.transformCard(creditCard)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(card)

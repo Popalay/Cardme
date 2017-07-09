@@ -17,21 +17,37 @@ import com.popalay.cardme.data.AddCardEvent;
 import com.popalay.cardme.data.FavoriteHolderEvent;
 import com.popalay.cardme.databinding.ActivityHomeBinding;
 import com.popalay.cardme.presentation.base.BaseActivity;
+import com.popalay.cardme.presentation.base.navigation.CustomNavigator;
 import com.popalay.cardme.presentation.screens.cards.CardsFragment;
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment;
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity;
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment;
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity;
 import com.popalay.cardme.utils.BrowserUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
 import shortbread.Shortcut;
 
 import static com.popalay.cardme.ConstantsKt.PRIVACY_POLICY_LINK;
+import static com.popalay.cardme.presentation.ScreensKt.SCREEN_HOLDER_DETAILS;
 
-public class HomeActivity extends BaseActivity implements HomeView {
+public class HomeActivity extends BaseActivity implements HomeView, HasSupportFragmentInjector {
 
     private static final int MENU_SETTINGS = Menu.FIRST;
+
+    @Inject DispatchingAndroidInjector<Fragment> androidInjector;
+    @Inject NavigatorHolder navigationHolder;
 
     @InjectPresenter HomePresenter presenter;
 
@@ -50,6 +66,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
     }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_home);
         initUI();
@@ -91,7 +108,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
                 fragment = CardsFragment.newInstance();
                 break;
             case R.id.holders:
-                fragment = HoldersFragment.newInstance();
+                fragment = HoldersFragment.Companion.newInstance();
                 break;
             case R.id.debts:
                 fragment = DebtsFragment.newInstance();
@@ -112,6 +129,31 @@ public class HomeActivity extends BaseActivity implements HomeView {
     @Override public void openPolicy() {
         BrowserUtils.openLink(this, PRIVACY_POLICY_LINK);
     }
+
+    @Override protected void onResumeFragments() {
+        super.onResumeFragments();
+        navigationHolder.setNavigator(navigator);
+    }
+
+    @Override protected void onPause() {
+        navigationHolder.removeNavigator();
+        super.onPause();
+    }
+
+    @Override public AndroidInjector<Fragment> supportFragmentInjector() {
+        return androidInjector;
+    }
+
+    private final Navigator navigator = new CustomNavigator(this, 0) {
+        @Nullable @Override protected Intent createActivityIntent(@NotNull String screenKey, @NotNull Object data) {
+            switch (screenKey) {
+                case SCREEN_HOLDER_DETAILS:
+                    return HolderDetailsActivity.Companion.getIntent(HomeActivity.this);
+                default:
+                    return null;
+            }
+        }
+    };
 
     private boolean onNavigationClick(MenuItem item) {
         presenter.onBottomNavigationItemClick(item.getItemId());

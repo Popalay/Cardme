@@ -1,5 +1,6 @@
 package com.popalay.cardme.presentation.screens.holderdetails
 
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
@@ -11,7 +12,6 @@ import com.popalay.cardme.App
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.SlidingActivity
-import com.popalay.cardme.presentation.base.navigation.CustomFactory
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import io.reactivex.rxkotlin.addTo
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class HolderDetailsActivity : SlidingActivity() {
 
-    @Inject lateinit var factory: CustomFactory
+    @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityHolderDetailsBinding
     private lateinit var viewModelFacade: HolderDetailsViewModelFacade
@@ -48,8 +48,7 @@ class HolderDetailsActivity : SlidingActivity() {
 
         viewModelFacade.doOnShareCard {
             ShareUtils.shareText(this, R.string.share_card, it)
-        }
-                .addTo(disposables)
+        }.addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.Builder(this)
                 .onSides(true)
