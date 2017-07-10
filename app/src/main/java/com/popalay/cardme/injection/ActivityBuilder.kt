@@ -14,7 +14,7 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class ScreenModule {
+abstract class ActivityBuilder {
 
     @Binds
     abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

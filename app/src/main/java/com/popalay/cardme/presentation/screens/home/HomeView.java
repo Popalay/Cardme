@@ -9,11 +9,5 @@ import com.popalay.cardme.presentation.base.BaseView;
 public interface HomeView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openPage(int pageId);
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openSettings();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
     void openPolicy();
 }

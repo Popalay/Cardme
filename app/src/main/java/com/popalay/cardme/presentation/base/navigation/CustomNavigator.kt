@@ -8,7 +8,10 @@ import com.popalay.cardme.presentation.base.BaseActivity
 import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 
-abstract class CustomNavigator(val activity: BaseActivity, container: Int = 0) : SupportAppNavigator(activity, container) {
+abstract class CustomNavigator(
+        val activity: BaseActivity,
+        container: Int = 0
+) : SupportAppNavigator(activity, container) {
 
     override fun applyCommand(command: Command?) {
         if (command is Error) {
@@ -19,11 +22,11 @@ abstract class CustomNavigator(val activity: BaseActivity, container: Int = 0) :
         super.applyCommand(command)
     }
 
-    override fun createFragment(screenKey: String, data: Any): Fragment? {
+    override fun createFragment(screenKey: String, data: Any?): Fragment? {
         return null
     }
 
-    override fun createActivityIntent(screenKey: String, data: Any): Intent? {
+    override fun createActivityIntent(screenKey: String, data: Any?): Intent? {
         return null
     }
 

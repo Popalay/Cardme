@@ -12,6 +12,7 @@ import com.popalay.cardme.presentation.screens.holders.HoldersFragment
 import com.popalay.cardme.presentation.screens.holders.HoldersPresenter
 import com.popalay.cardme.presentation.screens.holders.HoldersViewModel
 import com.popalay.cardme.presentation.screens.home.HomeActivity
+import com.popalay.cardme.presentation.screens.home.HomePresenter
 import com.popalay.cardme.presentation.screens.settings.SettingPresenter
 import com.popalay.cardme.presentation.screens.splash.SplashPresenter
 import dagger.BindsInstance
@@ -25,7 +26,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
-        ScreenModule::class,
+        ActivityBuilder::class,
         AppModule::class)
 )
 interface AppComponent : AndroidInjector<App> {
@@ -64,4 +65,5 @@ interface AppComponent : AndroidInjector<App> {
 
     fun inject(activity: HomeActivity)
 
+    fun inject(presenter: HomePresenter)
 }

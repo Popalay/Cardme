@@ -3,6 +3,7 @@ package com.popalay.cardme.presentation.screens.cards;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -68,11 +69,6 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void addCardDetails(CreditCard card) {
-        startActivity(AddCardActivity.Companion.getIntent(getActivity(), card));
-    }
-
-    @Override
     public void showRemoveUndoAction(Card card) {
         Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, view -> presenter.onRemoveUndo(card))
@@ -101,7 +97,7 @@ public class CardsFragment extends BaseFragment implements CardsView,
     }
 
     @Override
-    public void onItemClick(Card item) {
+    public void onItemClick(@NonNull Card item) {
         presenter.onCardClick(item);
     }
 

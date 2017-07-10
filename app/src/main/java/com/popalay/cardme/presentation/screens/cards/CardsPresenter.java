@@ -6,6 +6,7 @@ import com.popalay.cardme.business.cards.CardInteractor;
 import com.popalay.cardme.business.settings.SettingsInteractor;
 import com.popalay.cardme.data.AddCardEvent;
 import com.popalay.cardme.data.models.Card;
+import com.popalay.cardme.presentation.ScreensKt;
 import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
 import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
 
@@ -20,10 +21,12 @@ import javax.inject.Inject;
 import io.card.payment.CreditCard;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> {
 
+    @Inject Router router;
     @Inject CardInteractor cardInteractor;
     @Inject SettingsInteractor settingsInteractor;
     @Inject NavigationExtrasHolder navigationExtras;
@@ -62,7 +65,7 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     }
 
     public void onCardScanned(CreditCard card) {
-        getViewState().addCardDetails(card);
+        router.navigateTo(ScreensKt.SCREEN_ADD_CARD, card);
     }
 
     public void onCardClick(Card card) {

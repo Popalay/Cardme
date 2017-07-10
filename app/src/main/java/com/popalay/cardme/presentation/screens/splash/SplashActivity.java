@@ -9,7 +9,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @InjectPresenter SplashPresenter presenter;
 
     @Override public void openHome() {
-        startActivity(HomeActivity.getIntent(this));
+        startActivity(HomeActivity.Companion.getIntent(this));
         finish();
     }
 }

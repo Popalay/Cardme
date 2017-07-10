@@ -1,3 +1,8 @@
 package com.popalay.cardme.presentation
 
 const val SCREEN_HOLDER_DETAILS = "SCREEN_HOLDER_DETAILS"
+const val SCREEN_SETTINGS = "SCREEN_SETTINGS"
+const val SCREEN_ADD_CARD = "SCREEN_ADD_CARD"
+const val SCREEN_CARDS = "SCREEN_CARDS"
+const val SCREEN_DEBTS = "SCREEN_DEBTS"
+const val SCREEN_HOLDERS = "SCREEN_HOLDERS"
