@@ -5,7 +5,9 @@ import android.arch.lifecycle.ViewModelProvider
 import com.popalay.cardme.presentation.base.navigation.ViewModelFactory
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.addcard.AddCardModule
-import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsModule
+import com.popalay.cardme.presentation.screens.holders.HoldersViewModel
 import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.home.HomeModule
 import dagger.Binds
@@ -14,20 +16,24 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class ActivityBuilder {
+abstract class UiModule {
+
+    //FIXME move to HoldersModule when fix dagger issue
+    @Binds
+    @IntoMap
+    @ViewModelKey(HoldersViewModel::class)
+    abstract fun bindsHoldersViewModel(viewModel: HoldersViewModel): ViewModel
 
     @Binds
     abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(HolderDetailsViewModel::class)
-    abstract fun bindsHolderDetailsViewModel(holderDetailsViewModel: HolderDetailsViewModel): ViewModel
 
     @ContributesAndroidInjector(modules = arrayOf(AddCardModule::class))
     abstract fun contributeAddCardActivity(): AddCardActivity
 
     @ContributesAndroidInjector(modules = arrayOf(HomeModule::class))
     abstract fun contributeHomeActivity(): HomeActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(HolderDetailsModule::class))
+    abstract fun contributeHolderDetailsActivity(): HolderDetailsActivity
 
 }

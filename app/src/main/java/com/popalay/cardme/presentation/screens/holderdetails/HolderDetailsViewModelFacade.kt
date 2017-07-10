@@ -1,9 +1,9 @@
 package com.popalay.cardme.presentation.screens.holderdetails
 
-import io.reactivex.disposables.Disposable
+import io.reactivex.Observable
 
 interface HolderDetailsViewModelFacade {
 
-    fun doOnShareCard(body: (String) -> Unit): Disposable
+    fun doOnShareCard(): Observable<String>
 
 }

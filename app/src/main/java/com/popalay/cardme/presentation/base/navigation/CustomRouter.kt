@@ -9,4 +9,8 @@ class CustomRouter : Router() {
         this.executeCommand(Error(exception))
     }
 
+    fun navigateToForResult(screenKey: String, data: Any? = null, requestCode: Int) {
+        executeCommand(ForwardForResult(screenKey, data, requestCode))
+    }
+
 }

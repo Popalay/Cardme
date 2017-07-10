@@ -15,7 +15,6 @@ import com.popalay.cardme.data.models.Card;
 import com.popalay.cardme.data.models.Debt;
 import com.popalay.cardme.databinding.ItemCardBinding;
 import com.popalay.cardme.databinding.ItemHolderBinding;
-import com.popalay.cardme.presentation.base.ItemClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,14 +55,14 @@ public class Adapters {
 
     @BindingAdapter(value = {"holdersAdapter", "holderClick"}, requireAll = false)
     public static void holdersAdapter(RecyclerView recyclerView, List<com.popalay.cardme.data.models.Holder> items,
-            ItemClickListener listener) {
+            PublishRelay<com.popalay.cardme.data.models.Holder> publisher) {
         if (recyclerView.getAdapter() != null || items == null || items.isEmpty()) return;
         new LastAdapter(items, BR.item, true)
                 .map(com.popalay.cardme.data.models.Holder.class, new ItemType<ItemHolderBinding>(R.layout.item_holder) {
                     @Override
                     public void onCreate(@NotNull com.github.nitrico.lastadapter.Holder<ItemHolderBinding> holder) {
                         super.onCreate(holder);
-                        holder.getBinding().setListener(listener);
+                        holder.getBinding().setPublisher(publisher);
                     }
                 })
                 .into(recyclerView);

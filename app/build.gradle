@@ -10,13 +10,17 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "com.popalay.cardme"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
+
+        ndk {
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a"
+        }
     }
 
     signingConfigs {
@@ -71,18 +75,10 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include "x86", "armeabi-v7a", "mips", "x86_64", "arm64-v8a", "armeabi"
-//            universalApk false
-//        }
-//    }
 }
 
 ext {
-    supportLibrary = '25.4.0'
+    supportLibrary = '26.0.0-beta2'
     rxJava = '2.1.1'
     rxAndroid = '2.0.1'
     rxKotlin = '2.1.0'
@@ -126,6 +122,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger"
     kapt "com.google.dagger:dagger-android-processor:$dagger"
     kapt "com.google.dagger:dagger-compiler:$dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxJava"

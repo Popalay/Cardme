@@ -29,11 +29,11 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="@{() -> publisher.accept(item)}"
         android:stateListAnimator="@anim/lift_on_touch"
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
         app:withImage="@{withImage}"
-        bind:onClickDebounced="@{() -> publisher.accept(item)}"
         >
 
         <RelativeLayout

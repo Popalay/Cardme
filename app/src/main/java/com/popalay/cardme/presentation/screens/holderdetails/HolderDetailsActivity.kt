@@ -8,12 +8,12 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import com.popalay.cardme.App
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.SlidingActivity
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
+import dagger.android.AndroidInjection
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
@@ -26,9 +26,20 @@ class HolderDetailsActivity : SlidingActivity() {
 
     private var isExpanded: Boolean = false
 
+    companion object {
+
+        const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
+
+        fun getIntent(context: Context, id: String): Intent {
+            val intent = Intent(context, HolderDetailsActivity::class.java)
+            intent.putExtra(KEY_HOLDER_DETAILS, id)
+            return intent
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        App.appComponent.inject(this)
         b = DataBindingUtil.setContentView<ActivityHolderDetailsBinding>(this, R.layout.activity_holder_details)
         ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java).let {
             b.vm = it
@@ -46,9 +57,10 @@ class HolderDetailsActivity : SlidingActivity() {
         b.collapsingToolbar.isTitleEnabled = false
         b.toolbar.setNavigationOnClickListener { v -> onBackPressed() }
 
-        viewModelFacade.doOnShareCard {
-            ShareUtils.shareText(this, R.string.share_card, it)
-        }.addTo(disposables)
+        viewModelFacade.doOnShareCard()
+                .subscribe{
+                    ShareUtils.shareText(this, R.string.share_card, it)
+                }.addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.Builder(this)
                 .onSides(true)
@@ -68,10 +80,4 @@ class HolderDetailsActivity : SlidingActivity() {
 
     }
 
-    companion object {
-
-        fun getIntent(context: Context): Intent {
-            return Intent(context, HolderDetailsActivity::class.java)
-        }
-    }
 }

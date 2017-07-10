@@ -12,8 +12,8 @@
             />
 
         <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener"
+            name="publisher"
+            type="com.jakewharton.rxrelay2.PublishRelay&lt;com.popalay.cardme.data.models.Holder>"
             />
     </data>
 
@@ -25,7 +25,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:minHeight="@dimen/holder_height"
-        android:onClick="@{() -> listener.onItemClick(item)}"
+        android:onClick="@{() -> publisher.accept(item)}"
         android:padding="@dimen/normal"
         >
 

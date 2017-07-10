@@ -10,14 +10,12 @@ import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentHoldersBinding
 import com.popalay.cardme.presentation.base.BaseFragment
-import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class HoldersFragment : BaseFragment() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject lateinit var navigationExtras: NavigationExtrasHolder
 
     companion object {
         fun newInstance() = HoldersFragment()

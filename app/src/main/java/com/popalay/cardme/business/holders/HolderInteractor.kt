@@ -7,6 +7,7 @@ import com.popalay.cardme.data.repositories.device.DeviceRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import com.popalay.cardme.utils.PermissionChecker
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,6 +23,9 @@ class HolderInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun getHolder(holderId: String): Flowable<Holder> = holderRepository.get(holderId)
+            .subscribeOn(Schedulers.io())
+
+    fun getFavoriteHolder(): Maybe<Holder> = holderRepository.getWithMaxCounters()
             .subscribeOn(Schedulers.io())
 
     fun getHolderName(holderId: String): Flowable<String> = getHolder(holderId)

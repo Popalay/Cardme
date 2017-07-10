@@ -3,11 +3,10 @@ package com.popalay.cardme.presentation.base
 import android.support.annotation.StringRes
 import com.arellomobile.mvp.MvpAppCompatFragment
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
 
-    private val subscriptions = CompositeDisposable()
+    protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
     fun baseActivity(): BaseActivity {
         val activity = activity
@@ -18,13 +17,8 @@ abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
     }
 
     override fun onDestroyView() {
-        subscriptions.clear()
+        disposables.clear()
         super.onDestroyView()
-    }
-
-    fun addDisposable(disposable: Disposable) {
-        if (disposable.isDisposed) return
-        subscriptions.add(disposable)
     }
 
     protected fun showLoadingDialog() = baseActivity().showLoadingDialog()

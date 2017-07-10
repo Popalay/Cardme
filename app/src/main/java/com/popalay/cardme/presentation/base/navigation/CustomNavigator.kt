@@ -18,6 +18,15 @@ abstract class CustomNavigator(
             showError(command.exception)
             return
         }
+        if (command is ForwardForResult) {
+            val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
+
+            // Start activity
+            if (activityIntent != null) {
+                activity.startActivityForResult(activityIntent, command.requestCode)
+                return
+            }
+        }
 
         super.applyCommand(command)
     }

@@ -3,7 +3,6 @@ package com.popalay.cardme.presentation.screens.holderdetails
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.App
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.debts.DebtsInteractor
 import com.popalay.cardme.business.holders.HolderInteractor
@@ -11,23 +10,24 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
+import com.popalay.cardme.presentation.base.applyThrottling
 import com.popalay.cardme.presentation.base.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+import javax.inject.Named
 
-class HolderDetailsViewModel @Inject constructor() : BaseViewModel(), HolderDetailsViewModelFacade {
-
-    val holderId: String = ""
-
-    @Inject lateinit var cardInteractor: CardInteractor
-    @Inject lateinit var holderInteractor: HolderInteractor
-    @Inject lateinit var debtsInteractor: DebtsInteractor
-    @Inject lateinit var settingsInteractor: SettingsInteractor
+class HolderDetailsViewModel @Inject constructor(
+        @Named(HolderDetailsActivity.KEY_HOLDER_DETAILS) holderId: String,
+        cardInteractor: CardInteractor,
+        holderInteractor: HolderInteractor,
+        debtsInteractor: DebtsInteractor,
+        settingsInteractor: SettingsInteractor
+) : BaseViewModel(), HolderDetailsViewModelFacade {
 
     val debts = ObservableArrayList<Debt>()
     val cards = ObservableArrayList<Card>()
@@ -38,8 +38,6 @@ class HolderDetailsViewModel @Inject constructor() : BaseViewModel(), HolderDeta
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
 
     init {
-        App.appComponent.inject(this)
-
         cardInteractor.getCardsByHolder(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
@@ -71,7 +69,8 @@ class HolderDetailsViewModel @Inject constructor() : BaseViewModel(), HolderDeta
                 .addTo(disposables)
     }
 
-    override fun doOnShareCard(body: (String) -> Unit): Disposable {
-        return cardClickPublisher.map { it.number }.subscribe(body::invoke)
-    }
+    override fun doOnShareCard(): Observable<String> = cardClickPublisher
+            .applyThrottling()
+            .map { it.number }
+
 }

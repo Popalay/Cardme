@@ -14,6 +14,7 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.applyThrottling
+import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.base.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
@@ -27,7 +28,7 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class AddCardViewModel @Inject constructor(
-        private val router: Router,
+        private val router: CustomRouter,
         private val cardInteractor: CardInteractor,
         creditCard: CreditCard,
         holderInteractor: HolderInteractor,

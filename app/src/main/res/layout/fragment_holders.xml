@@ -12,11 +12,6 @@
             />
 
         <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener"
-            />
-
-        <variable
             name="orientation"
             type="android.support.v7.widget.OrientationHelper"
             />
@@ -37,7 +32,7 @@
             android:background="@color/white"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:defaultList="@{true}"
-            bind:holderClick="@{listener}"
+            bind:holderClick="@{vm.holderClickListener}"
             bind:holdersAdapter="@{vm.holders}"
             />
 

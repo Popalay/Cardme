@@ -1,35 +1,10 @@
 package com.popalay.cardme.presentation.screens.cards;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.popalay.cardme.App;
-import com.popalay.cardme.business.cards.CardInteractor;
-import com.popalay.cardme.business.settings.SettingsInteractor;
-import com.popalay.cardme.data.AddCardEvent;
-import com.popalay.cardme.data.models.Card;
-import com.popalay.cardme.presentation.ScreensKt;
-import com.popalay.cardme.presentation.base.navigation.NavigationExtrasHolder;
-import com.popalay.cardme.presentation.screens.removablelistitem.RemovableListItemPresenter;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.Collections;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.card.payment.CreditCard;
-import io.reactivex.Completable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.terrakok.cicerone.Router;
-
-@InjectViewState
-public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> {
-
+public class CardsPresenter {
+/*
     @Inject Router router;
     @Inject CardInteractor cardInteractor;
     @Inject SettingsInteractor settingsInteractor;
-    @Inject NavigationExtrasHolder navigationExtras;
 
     private final CardsViewModel viewModel;
 
@@ -91,5 +66,5 @@ public class CardsPresenter extends RemovableListItemPresenter<Card, CardsView> 
     @Override
     protected Completable saveItem(Card item) {
         return cardInteractor.save(item);
-    }
+    }*/
 }

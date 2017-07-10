@@ -6,6 +6,9 @@ import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Single
+import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,6 +21,12 @@ class HolderRepository @Inject constructor() {
 
     fun get(holderId: String): Flowable<Holder> = RxRealm.listenElement { realm ->
         realm.where(Holder::class.java).equalTo(Holder.ID, holderId).findAll()
+    }
+
+    fun getWithMaxCounters(): Maybe<Holder> = RxRealm.getElement { realm ->
+        realm.where(Holder::class.java)
+                .findAllSorted(Holder.CARDS_COUNT, Sort.DESCENDING, Holder.DEBTS_COUNT, Sort.DESCENDING)
+                .first()
     }
 
     fun updateCounts(holder: Holder): Completable = RxRealm.doTransactional {

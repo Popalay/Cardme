@@ -16,9 +16,9 @@ import com.popalay.cardme.R
 import com.popalay.cardme.data.AddCardEvent
 import com.popalay.cardme.data.FavoriteHolderEvent
 import com.popalay.cardme.databinding.ActivityHomeBinding
-import com.popalay.cardme.presentation.*
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment
@@ -30,6 +30,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import org.greenrobot.eventbus.EventBus
 import ru.terrakok.cicerone.NavigatorHolder
@@ -43,19 +44,20 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
     @InjectPresenter lateinit var presenter: HomePresenter
 
-    private var startPage = R.id.cards
-
     private lateinit var b: ActivityHomeBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
-    @ProvidePresenter fun providePresenter() = HomePresenter(startPage)
+    private var startPage = R.id.cards
 
     companion object {
 
         private val MENU_SETTINGS = Menu.FIRST
 
         fun getIntent(context: Context) = Intent(context, HomeActivity::class.java)
+
     }
+
+    @ProvidePresenter fun providePresenter() = HomePresenter(startPage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -120,8 +122,9 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
         override fun createActivityIntent(screenKey: String, data: Any?): Intent? {
             return when (screenKey) {
-                SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(this@HomeActivity)
+                SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(this@HomeActivity, data as String)
                 SCREEN_ADD_CARD -> AddCardActivity.getIntent(this@HomeActivity, data as CreditCard)
+                SCREEN_SCAN_CARD -> Intent(this@HomeActivity, CardIOActivity::class.java)
                 SCREEN_SETTINGS -> SettingsActivity.getIntent(this@HomeActivity)
                 else -> null
             }
@@ -153,19 +156,19 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
     }
 
     // Shortcuts
-    @Shortcut(id = "shortcut_add_card", icon = R.drawable.ic_shortcut_add_card, shortLabelRes = R.string.shortcut_add_card)
+    @Shortcut(id = "SHORTCUT_ADD_CARD", icon = R.drawable.ic_shortcut_add_card, shortLabelRes = R.string.shortcut_add_card)
     fun addCardShortcut() {
         startPage = R.id.cards
         EventBus.getDefault().postSticky(AddCardEvent())
     }
 
-    @Shortcut(id = "shortcut_favorite_holder", icon = R.drawable.ic_shortcut_favorite_holder, rank = 1, shortLabelRes = R.string.shortcut_favorite_holder)
+    @Shortcut(id = "SHORTCUT_FAVORITE_HOLDER", icon = R.drawable.ic_shortcut_favorite_holder, rank = 1, shortLabelRes = R.string.shortcut_favorite_holder)
     fun favoriteHolderShortcut() {
         startPage = R.id.holders
         EventBus.getDefault().postSticky(FavoriteHolderEvent())
     }
 
-    @Shortcut(id = "shortcut_debts", icon = R.drawable.ic_shortcut_debts, rank = 2, shortLabelRes = R.string.shortcut_debts)
+    @Shortcut(id = "SHORTCUT_DEBTS", icon = R.drawable.ic_shortcut_debts, rank = 2, shortLabelRes = R.string.shortcut_debts)
     fun debtsShortcut() {
         startPage = R.id.debts
     }

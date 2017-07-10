@@ -3,18 +3,19 @@ package com.popalay.cardme.presentation.screens.home
 import com.arellomobile.mvp.InjectViewState
 import com.popalay.cardme.App
 import com.popalay.cardme.R
-import com.popalay.cardme.presentation.SCREEN_CARDS
-import com.popalay.cardme.presentation.SCREEN_DEBTS
-import com.popalay.cardme.presentation.SCREEN_HOLDERS
-import com.popalay.cardme.presentation.SCREEN_SETTINGS
+import com.popalay.cardme.presentation.screens.SCREEN_CARDS
+import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
+import com.popalay.cardme.presentation.screens.SCREEN_HOLDERS
+import com.popalay.cardme.presentation.screens.SCREEN_SETTINGS
 import com.popalay.cardme.presentation.base.BasePresenter
+import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
 class HomePresenter(startPageId: Int) : BasePresenter<HomeView>() {
 
-    @Inject lateinit var router: Router
+    @Inject lateinit var router: CustomRouter
 
     init {
         App.appComponent.inject(this)

@@ -7,13 +7,8 @@
     <data>
 
         <variable
-            name="wm"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.cards.CardsViewModel"
-            />
-
-        <variable
-            name="publisher"
-            type="com.jakewharton.rxrelay2.PublishRelay&lt;com.popalay.cardme.data.models.Card>"
             />
 
     </data>
@@ -28,10 +23,10 @@
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:cardClick="@{publisher}"
-            bind:cardsAdapter="@{wm.cards}"
+            bind:cardClick="@{vm.cardClickPublisher}"
+            bind:cardsAdapter="@{vm.cards}"
             bind:defaultList="@{true}"
-            bind:showImage="@{wm.showImage}"
+            bind:showImage="@{vm.showImage}"
             />
 
         <android.support.design.widget.FloatingActionButton
@@ -41,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:src="@drawable/ic_add"
+            bind:onClick="@{vm.addCardClickPublisher}"
             />
 
         <TextView
@@ -49,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_cards_placeholder"
-            bind:listPlaceholder="@{wm.cards}"
+            bind:listPlaceholder="@{vm.cards}"
             />
 
     </android.support.design.widget.CoordinatorLayout>
