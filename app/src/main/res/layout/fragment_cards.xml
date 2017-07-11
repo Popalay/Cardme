@@ -26,6 +26,9 @@
             bind:cardClick="@{vm.cardClickPublisher}"
             bind:cardsAdapter="@{vm.cards}"
             bind:defaultList="@{true}"
+            bind:onDragged="@{vm.onDragged}"
+            bind:onDropped="@{vm.onDropped}"
+            bind:onSwiped="@{vm.onSwiped}"
             bind:showImage="@{vm.showImage}"
             />
 

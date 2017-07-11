@@ -7,6 +7,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -17,11 +18,13 @@ import com.jakewharton.rxrelay2.PublishRelay;
 import com.popalay.cardme.App;
 import com.popalay.cardme.R;
 import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
+import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
 import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
 import io.reactivex.functions.Action;
+import kotlin.Pair;
 
 public class BindingAdapters {
 
@@ -112,5 +115,26 @@ public class BindingAdapters {
             listener.accept(actionId);
             return true;
         });
+    }
+
+    @BindingAdapter(value = {"onSwiped", "onDragged", "onDropped"}, requireAll = false)
+    public static void setItemTouchHelper(RecyclerView view,
+            PublishRelay<Integer> onSwiped,
+            PublishRelay<Pair<Integer, Integer>> onDragged,
+            PublishRelay<Boolean> onDropped) {
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(position -> {
+            if (onSwiped == null) return;
+            onSwiped.accept(position);
+        }, new SimpleItemTouchHelperCallback.DragCallback() {
+            @Override public void onDragged(int from, int to) {
+                if (onDragged == null) return;
+                onDragged.accept(new Pair<>(from, to));
+            }
+
+            @Override public void onDropped() {
+                if (onDropped == null) return;
+                onDropped.accept(true);
+            }
+        })).attachToRecyclerView(view);
     }
 }

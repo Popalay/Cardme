@@ -30,6 +30,10 @@ class CardsViewModel @Inject constructor(
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
     val addCardClickPublisher: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
 
+    val onSwiped: PublishRelay<Int> = PublishRelay.create()
+    val onDragged: PublishRelay<Pair<Int, Int>> = PublishRelay.create()
+    val onDropped: PublishRelay<Boolean> = PublishRelay.create()
+
     init {
         cardInteractor.getCards()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +49,7 @@ class CardsViewModel @Inject constructor(
 
         addCardClickPublisher
                 .applyThrottling()
-                .subscribe{router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE)}
+                .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE) }
                 .addTo(disposables)
     }
 

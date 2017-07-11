@@ -33,9 +33,7 @@ class CardsFragment : BaseFragment(), SimpleItemTouchHelperCallback.SwipeCallbac
 
         const val SCAN_REQUEST_CODE = 121
 
-        fun newInstance(): CardsFragment {
-            return CardsFragment()
-        }
+        fun newInstance() = CardsFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
