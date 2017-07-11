@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.popalay.cardme.R
-import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.utils.ShareUtils
-import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import io.card.payment.CardIOActivity
@@ -57,15 +55,9 @@ class CardsFragment : BaseFragment() {
         if (requestCode == SCAN_REQUEST_CODE) {
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
                 val scanResult = data.getParcelableExtra<CreditCard>(CardIOActivity.EXTRA_SCAN_RESULT)
-                //presenter.onCardScanned(scanResult)
+                viewModelFacade.onCardScanned(scanResult)
             }
         }
-    }
-
-    fun showRemoveUndoAction(card: Card) {
-/*        Snackbar.make(b.listCards, R.string.card_removed, Snackbar.LENGTH_LONG)
-                .setAction(R.string.action_undo) { presenter.onRemoveUndo(card) }
-                .show()*/
     }
 
     private fun initUI() {

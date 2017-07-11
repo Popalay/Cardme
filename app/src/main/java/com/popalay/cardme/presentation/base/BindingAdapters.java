@@ -1,6 +1,7 @@
 package com.popalay.cardme.presentation.base;
 
 import android.databinding.BindingAdapter;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -14,7 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.jakewharton.rxrelay2.PublishRelay;
+import com.jakewharton.rxrelay2.Relay;
 import com.popalay.cardme.App;
 import com.popalay.cardme.R;
 import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
@@ -102,7 +103,7 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("onClick")
-    public static void onClick(View view, PublishRelay<Boolean> listener) {
+    public static void onClick(View view, Relay<Boolean> listener) {
         view.setOnClickListener(v -> {
             if (!view.isEnabled()) return;
             listener.accept(true);
@@ -110,21 +111,27 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("onEditorAction")
-    public static void onEditorAction(EditText view, PublishRelay<Integer> listener) {
+    public static void onEditorAction(EditText view, Relay<Integer> listener) {
         view.setOnEditorActionListener((v, actionId, event) -> {
             listener.accept(actionId);
             return true;
         });
     }
 
-    @BindingAdapter(value = {"onSwiped", "onDragged", "onDropped"}, requireAll = false)
+    @BindingAdapter(value = {"onSwiped", "onDragged", "onDropped", "undoMessage", "onUndoSwipe"}, requireAll = false)
     public static void setItemTouchHelper(RecyclerView view,
-            PublishRelay<Integer> onSwiped,
-            PublishRelay<Pair<Integer, Integer>> onDragged,
-            PublishRelay<Boolean> onDropped) {
+            Relay<Integer> onSwiped,
+            Relay<Pair<Integer, Integer>> onDragged,
+            Relay<Boolean> onDropped,
+            String undoMessage, Relay<Boolean> onUndoSwipe) {
         new ItemTouchHelper(new SimpleItemTouchHelperCallback(position -> {
             if (onSwiped == null) return;
             onSwiped.accept(position);
+
+            if (onUndoSwipe == null) return;
+            Snackbar.make(view, undoMessage, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_undo, ignored -> onUndoSwipe.accept(true))
+                    .show();
         }, new SimpleItemTouchHelperCallback.DragCallback() {
             @Override public void onDragged(int from, int to) {
                 if (onDragged == null) return;

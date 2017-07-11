@@ -13,8 +13,8 @@ import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
-import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
@@ -76,8 +76,10 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         acceptClickListener.applyThrottling()
-                .doOnNext { saveCard(card.get()) }
-                .subscribeBy(this::handleLocalError)
+                .map { card.get() }
+                .flatMapCompletable(cardInteractor::save)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onError = this::handleLocalError, onComplete = router::exit)
                 .addTo(disposables)
 
         editorActionListener.applyThrottling()
@@ -101,12 +103,6 @@ class AddCardViewModel @Inject constructor(
         errorDialogState.accept(false)
         router.exit()
     }
-
-    private fun saveCard(card: Card) = cardInteractor.save(card)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete { router.exit() }
-            .subscribeBy(this::handleLocalError)
-            .addTo(disposables)
 
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)

@@ -7,13 +7,23 @@ import android.widget.Toast
 import com.popalay.cardme.R
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
+import com.popalay.cardme.presentation.screens.SCREEN_HOLDER_DETAILS
+import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
+import com.popalay.cardme.presentation.screens.SCREEN_SETTINGS
+import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
+import com.popalay.cardme.presentation.screens.settings.SettingsActivity
+import com.popalay.cardme.utils.extensions.currentFragment
+import io.card.payment.CardIOActivity
+import io.card.payment.CreditCard
 import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Back
 import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Forward
 import ru.terrakok.cicerone.commands.Replace
 
-abstract class CustomNavigator(
+open class CustomNavigator(
         val activity: BaseActivity,
         val containerId: Int = 0
 ) : SupportAppNavigator(activity, containerId) {
@@ -30,7 +40,12 @@ abstract class CustomNavigator(
 
             // Start activity
             if (activityIntent != null) {
-                activity.startActivityForResult(activityIntent, command.requestCode)
+                val currentFragment = fragmentManager.currentFragment()
+                if (currentFragment != null) {
+                    currentFragment.startActivityForResult(activityIntent, command.requestCode)
+                } else {
+                    activity.startActivityForResult(activityIntent, command.requestCode)
+                }
                 return
             }
         }
@@ -109,7 +124,13 @@ abstract class CustomNavigator(
 
     override fun createFragment(screenKey: String, data: Any?): Fragment? = null
 
-    override fun createActivityIntent(screenKey: String, data: Any?): Intent? = null
+    override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
+        SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
+        SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as CreditCard)
+        SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
+        SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
+        else -> null
+    }
 
     open fun showError(exception: AppException) {
         Toast.makeText(activity, exception.messageRes, Toast.LENGTH_LONG).show()

@@ -8,11 +8,13 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.extensions.swap
 import com.stepango.rxdatabindings.setTo
+import io.card.payment.CreditCard
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -34,6 +36,7 @@ class CardsViewModel @Inject constructor(
     val onSwiped: PublishRelay<Int> = PublishRelay.create()
     val onDragged: PublishRelay<Pair<Int, Int>> = PublishRelay.create()
     val onDropped: PublishRelay<Boolean> = PublishRelay.create()
+    val onUndoSwipe: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
         cardInteractor.getCards()
@@ -68,10 +71,16 @@ class CardsViewModel @Inject constructor(
 
         onSwiped
                 .map(cards::get)
-                .flatMapCompletable(cardInteractor::removeCard)
+                .flatMapSingle { card -> cardInteractor.removeCard(card).toSingle { card } }
+                .flatMap { card -> onUndoSwipe.filter { it }.map { card } }
+                .flatMapCompletable(cardInteractor::save)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
                 .addTo(disposables)
+    }
+
+    override fun onCardScanned(creditCard: CreditCard) {
+        router.navigateTo(SCREEN_ADD_CARD, creditCard)
     }
 
     override fun doOnShareCard(): Observable<String> = cardClickPublisher

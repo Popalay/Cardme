@@ -17,21 +17,18 @@ import com.popalay.cardme.business.ShortcutInteractor
 import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
-import com.popalay.cardme.presentation.screens.*
-import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
+import com.popalay.cardme.presentation.screens.SCREEN_CARDS
+import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
+import com.popalay.cardme.presentation.screens.SCREEN_HOLDERS
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment
-import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
-import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import io.card.payment.CardIOActivity
-import io.card.payment.CreditCard
 import ru.terrakok.cicerone.NavigatorHolder
 import shortbread.Shortcut
 import javax.inject.Inject
@@ -125,16 +122,6 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
                     b.bottomBar.setSelectedItem(R.id.debts, false)
                     DebtsFragment.newInstance()
                 }
-                else -> null
-            }
-        }
-
-        override fun createActivityIntent(screenKey: String, data: Any?): Intent? {
-            return when (screenKey) {
-                SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(this@HomeActivity, data as String)
-                SCREEN_ADD_CARD -> AddCardActivity.getIntent(this@HomeActivity, data as CreditCard)
-                SCREEN_SCAN_CARD -> Intent(this@HomeActivity, CardIOActivity::class.java)
-                SCREEN_SETTINGS -> SettingsActivity.getIntent(this@HomeActivity)
                 else -> null
             }
         }

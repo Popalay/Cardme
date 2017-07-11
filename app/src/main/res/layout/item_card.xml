@@ -19,7 +19,7 @@
 
         <variable
             name="publisher"
-            type="com.jakewharton.rxrelay2.PublishRelay&lt;com.popalay.cardme.data.models.Card>"
+            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.data.models.Card>"
             />
     </data>
 

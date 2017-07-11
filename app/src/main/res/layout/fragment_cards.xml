@@ -29,7 +29,9 @@
             bind:onDragged="@{vm.onDragged}"
             bind:onDropped="@{vm.onDropped}"
             bind:onSwiped="@{vm.onSwiped}"
+            bind:onUndoSwipe="@{vm.onUndoSwipe}"
             bind:showImage="@{vm.showImage}"
+            bind:undoMessage="@{@string/card_removed}"
             />
 
         <android.support.design.widget.FloatingActionButton

@@ -25,6 +25,8 @@ class AddCardActivity : BaseActivity() {
     private lateinit var b: ActivityAddCardBinding
     private lateinit var viewModelFacade: AddCardViewModelFacade
 
+    private val navigator = CustomNavigator(this)
+
     companion object {
         val KEY_CREDIT_CARD = "KEY_CREDIT_CARD"
 
@@ -44,6 +46,16 @@ class AddCardActivity : BaseActivity() {
             viewModelFacade = it
         }
         initUI()
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigationHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        navigationHolder.removeNavigator()
+        super.onPause()
     }
 
     private fun initUI() {
