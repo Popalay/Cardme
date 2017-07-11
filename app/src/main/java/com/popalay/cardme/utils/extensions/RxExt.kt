@@ -1,4 +1,4 @@
-package com.popalay.cardme.presentation.base
+package com.popalay.cardme.utils.extensions
 
 import android.databinding.ObservableList
 import com.popalay.cardme.DEBOUNCE_DELAY_MS

@@ -10,8 +10,8 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
-import com.popalay.cardme.presentation.base.applyThrottling
-import com.popalay.cardme.presentation.base.setTo
+import com.popalay.cardme.utils.extensions.applyThrottling
+import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable

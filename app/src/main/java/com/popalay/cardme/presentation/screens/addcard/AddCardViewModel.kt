@@ -13,9 +13,9 @@ import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
-import com.popalay.cardme.presentation.base.applyThrottling
+import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.presentation.base.setTo
+import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
@@ -24,7 +24,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class AddCardViewModel @Inject constructor(

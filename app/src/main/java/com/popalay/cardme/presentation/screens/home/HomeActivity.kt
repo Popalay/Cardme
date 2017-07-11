@@ -13,8 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
-import com.popalay.cardme.data.AddCardEvent
-import com.popalay.cardme.data.FavoriteHolderEvent
+import com.popalay.cardme.business.ShortcutInteractor
 import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
@@ -26,13 +25,13 @@ import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivi
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.utils.BrowserUtils
+import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
-import org.greenrobot.eventbus.EventBus
 import ru.terrakok.cicerone.NavigatorHolder
 import shortbread.Shortcut
 import javax.inject.Inject
@@ -41,6 +40,7 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var navigationHolder: NavigatorHolder
+    @Inject lateinit var shortcutInteractor: ShortcutInteractor
 
     @InjectPresenter lateinit var presenter: HomePresenter
 
@@ -113,9 +113,18 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
         override fun createFragment(screenKey: String, data: Any?): Fragment? {
             return when (screenKey) {
-                SCREEN_CARDS -> CardsFragment.newInstance()
-                SCREEN_HOLDERS -> HoldersFragment.newInstance()
-                SCREEN_DEBTS -> DebtsFragment.newInstance()
+                SCREEN_CARDS -> {
+                    b.bottomBar.setSelectedItem(R.id.cards, false)
+                    CardsFragment.newInstance()
+                }
+                SCREEN_HOLDERS -> {
+                    b.bottomBar.setSelectedItem(R.id.holders, false)
+                    HoldersFragment.newInstance()
+                }
+                SCREEN_DEBTS -> {
+                    b.bottomBar.setSelectedItem(R.id.debts, false)
+                    DebtsFragment.newInstance()
+                }
                 else -> null
             }
         }
@@ -151,25 +160,22 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
         toggle.isDrawerIndicatorEnabled = true
         b.drawerLayout.addDrawerListener(toggle)
         b.navigationView.setNavigationItemSelectedListener(this::onDrawerItemClick)
-        b.bottomBar.selectedItemId = startPage
         b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick)
     }
 
     // Shortcuts
     @Shortcut(id = "SHORTCUT_ADD_CARD", icon = R.drawable.ic_shortcut_add_card, shortLabelRes = R.string.shortcut_add_card)
     fun addCardShortcut() {
-        startPage = R.id.cards
-        EventBus.getDefault().postSticky(AddCardEvent())
+        shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_CARD)
     }
 
     @Shortcut(id = "SHORTCUT_FAVORITE_HOLDER", icon = R.drawable.ic_shortcut_favorite_holder, rank = 1, shortLabelRes = R.string.shortcut_favorite_holder)
     fun favoriteHolderShortcut() {
-        startPage = R.id.holders
-        EventBus.getDefault().postSticky(FavoriteHolderEvent())
+        shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.FAVORITE_HOLDER)
     }
 
     @Shortcut(id = "SHORTCUT_DEBTS", icon = R.drawable.ic_shortcut_debts, rank = 2, shortLabelRes = R.string.shortcut_debts)
     fun debtsShortcut() {
-        startPage = R.id.debts
+        shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.DEBTS)
     }
 }

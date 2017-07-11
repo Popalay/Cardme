@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BasePresenter<T : BaseView> : MvpPresenter<T>() {
 
-    private val disposables = CompositeDisposable()
+    protected val disposables = CompositeDisposable()
 
     fun handleBaseError(throwable: Throwable) = throwable.printStackTrace()
 
