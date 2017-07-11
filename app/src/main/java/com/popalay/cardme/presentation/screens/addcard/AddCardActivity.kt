@@ -46,16 +46,6 @@ class AddCardActivity : BaseActivity() {
         initUI()
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
-    }
-
     private fun initUI() {
         setSupportActionBar(b.toolbar)
 
@@ -66,9 +56,5 @@ class AddCardActivity : BaseActivity() {
                     onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
                     .apply { setCancelable(false) }
         }.addTo(disposables)
-    }
-
-    private val navigator = object : CustomNavigator(this) {
-
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     >
 
     <data>
@@ -28,6 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Cardme.Toolbar"
+                app:navigationIcon="@drawable/ic_back"
+                bind:backByArrow="@{true}"
                 />
 
         </android.support.design.widget.AppBarLayout>
@@ -70,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_color"
                             android:text="@string/theme"
-                            app:settingText="@{vm.theme}"
+                            app:settingText="@{vm.settings.theme}"
                             />
 
                         <com.popalay.cardme.presentation.widget.SettingTextView
@@ -79,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_language"
                             android:text="@string/language"
-                            app:settingText="@{vm.language}"
+                            app:settingText="@{vm.settings.language}"
                             />
 
                         <android.support.v7.widget.SwitchCompat

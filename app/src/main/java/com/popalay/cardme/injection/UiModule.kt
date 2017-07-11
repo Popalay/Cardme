@@ -10,6 +10,8 @@ import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsModule
 import com.popalay.cardme.presentation.screens.holders.HoldersViewModel
 import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.home.HomeModule
+import com.popalay.cardme.presentation.screens.settings.SettingsActivity
+import com.popalay.cardme.presentation.screens.settings.SettingsModule
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -35,5 +37,8 @@ abstract class UiModule {
 
     @ContributesAndroidInjector(modules = arrayOf(HolderDetailsModule::class))
     abstract fun contributeHolderDetailsActivity(): HolderDetailsActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(SettingsModule::class))
+    abstract fun contributeSettingsActivity(): SettingsActivity
 
 }
