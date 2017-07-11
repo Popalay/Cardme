@@ -1,20 +1,28 @@
 package com.popalay.cardme.presentation.base
 
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.widget.Toast
 
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.popalay.cardme.R
+import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.ViewUtil
+import dagger.android.AndroidInjection
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import ru.terrakok.cicerone.NavigatorHolder
+import javax.inject.Inject
 
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
+    @Inject lateinit var navigationHolder: NavigatorHolder
+
     protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
+    protected open val navigator = CustomNavigator(this)
 
     private val progressDialog: ProgressDialog by lazy {
         DialogFactory.createProgressDialog(this, R.string.please_wait)
@@ -30,6 +38,21 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     fun hideLoadingDialog() = progressDialog.dismiss()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigationHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        navigationHolder.removeNavigator()
+        super.onPause()
+    }
 
     override fun onDestroy() {
         subscriptions.clear()

@@ -29,14 +29,12 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import ru.terrakok.cicerone.NavigatorHolder
 import shortbread.Shortcut
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
-    @Inject lateinit var navigationHolder: NavigatorHolder
     @Inject lateinit var shortcutInteractor: ShortcutInteractor
 
     @InjectPresenter lateinit var presenter: HomePresenter
@@ -45,6 +43,27 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
     private lateinit var toggle: ActionBarDrawerToggle
 
     private var startPage = R.id.cards
+
+    override val navigator = object : CustomNavigator(this, R.id.host) {
+
+        override fun createFragment(screenKey: String, data: Any?): Fragment? {
+            return when (screenKey) {
+                SCREEN_CARDS -> {
+                    b.bottomBar.setSelectedItem(R.id.cards, false)
+                    CardsFragment.newInstance()
+                }
+                SCREEN_HOLDERS -> {
+                    b.bottomBar.setSelectedItem(R.id.holders, false)
+                    HoldersFragment.newInstance()
+                }
+                SCREEN_DEBTS -> {
+                    b.bottomBar.setSelectedItem(R.id.debts, false)
+                    DebtsFragment.newInstance()
+                }
+                else -> null
+            }
+        }
+    }
 
     companion object {
 
@@ -92,39 +111,8 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
         BrowserUtils.openLink(this, PRIVACY_POLICY_LINK)
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
-    }
-
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return androidInjector
-    }
-
-    private val navigator = object : CustomNavigator(this, R.id.host) {
-
-        override fun createFragment(screenKey: String, data: Any?): Fragment? {
-            return when (screenKey) {
-                SCREEN_CARDS -> {
-                    b.bottomBar.setSelectedItem(R.id.cards, false)
-                    CardsFragment.newInstance()
-                }
-                SCREEN_HOLDERS -> {
-                    b.bottomBar.setSelectedItem(R.id.holders, false)
-                    HoldersFragment.newInstance()
-                }
-                SCREEN_DEBTS -> {
-                    b.bottomBar.setSelectedItem(R.id.debts, false)
-                    DebtsFragment.newInstance()
-                }
-                else -> null
-            }
-        }
     }
 
     private fun onNavigationClick(item: MenuItem): Boolean {

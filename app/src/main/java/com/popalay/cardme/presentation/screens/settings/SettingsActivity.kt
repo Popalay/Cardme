@@ -9,19 +9,14 @@ import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivitySettingsBinding
 import com.popalay.cardme.presentation.base.BaseActivity
-import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import dagger.android.AndroidInjection
-import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject lateinit var navigationHolder: NavigatorHolder
 
     private lateinit var b: ActivitySettingsBinding
-
-    private val navigator = CustomNavigator(this)
 
     companion object {
 
@@ -38,15 +33,6 @@ class SettingsActivity : BaseActivity() {
         initUI()
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
-    }
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)

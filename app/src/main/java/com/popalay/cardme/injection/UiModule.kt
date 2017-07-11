@@ -12,6 +12,7 @@ import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.home.HomeModule
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsModule
+import com.popalay.cardme.presentation.screens.splash.SplashActivity
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -40,5 +41,8 @@ abstract class UiModule {
 
     @ContributesAndroidInjector(modules = arrayOf(SettingsModule::class))
     abstract fun contributeSettingsActivity(): SettingsActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeSplashActivity(): SplashActivity
 
 }

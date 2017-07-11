@@ -11,28 +11,25 @@ import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.SlidingActivity
-import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import dagger.android.AndroidInjection
 import io.reactivex.rxkotlin.addTo
-import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
 class HolderDetailsActivity : SlidingActivity() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject lateinit var navigationHolder: NavigatorHolder
 
     private lateinit var b: ActivityHolderDetailsBinding
     private lateinit var viewModelFacade: HolderDetailsViewModelFacade
 
-    private val navigator = CustomNavigator(this)
     private var isExpanded: Boolean = false
 
     companion object {
 
         const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
+
         fun getIntent(context: Context, id: String): Intent {
             val intent = Intent(context, HolderDetailsActivity::class.java)
             intent.putExtra(KEY_HOLDER_DETAILS, id)
@@ -50,16 +47,6 @@ class HolderDetailsActivity : SlidingActivity() {
             viewModelFacade = it
         }
         initUI()
-    }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
     }
 
     override fun getRootView(): View = b.root

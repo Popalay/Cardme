@@ -9,23 +9,18 @@ import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddCardBinding
 import com.popalay.cardme.presentation.base.BaseActivity
-import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.DialogFactory
 import dagger.android.AndroidInjection
 import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo
-import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
 class AddCardActivity : BaseActivity() {
 
-    @Inject lateinit var navigationHolder: NavigatorHolder
     @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityAddCardBinding
     private lateinit var viewModelFacade: AddCardViewModelFacade
-
-    private val navigator = CustomNavigator(this)
 
     companion object {
         val KEY_CREDIT_CARD = "KEY_CREDIT_CARD"
@@ -46,16 +41,6 @@ class AddCardActivity : BaseActivity() {
             viewModelFacade = it
         }
         initUI()
-    }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
     }
 
     private fun initUI() {
