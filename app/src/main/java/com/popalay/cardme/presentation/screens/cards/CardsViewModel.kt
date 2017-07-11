@@ -11,6 +11,7 @@ import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
+import com.popalay.cardme.utils.extensions.swap
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -50,6 +51,26 @@ class CardsViewModel @Inject constructor(
         addCardClickPublisher
                 .applyThrottling()
                 .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE) }
+                .addTo(disposables)
+
+        onDragged
+                .map { cards.swap(it); cards as List<Card> }
+                .setTo(cards)
+                .subscribeBy()
+                .addTo(disposables)
+
+        onDropped
+                .map { cards }
+                .flatMapCompletable(cardInteractor::updateCards)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy()
+                .addTo(disposables)
+
+        onSwiped
+                .map(cards::get)
+                .flatMapCompletable(cardInteractor::removeCard)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy()
                 .addTo(disposables)
     }
 

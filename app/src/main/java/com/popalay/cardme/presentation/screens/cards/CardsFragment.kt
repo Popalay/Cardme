@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
-class CardsFragment : BaseFragment(), SimpleItemTouchHelperCallback.SwipeCallback, SimpleItemTouchHelperCallback.DragCallback {
+class CardsFragment : BaseFragment() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
 
@@ -69,19 +68,6 @@ class CardsFragment : BaseFragment(), SimpleItemTouchHelperCallback.SwipeCallbac
                 .show()*/
     }
 
-    override fun onSwiped(position: Int) {
-/*        val card = b.vm.get(position)
-        presenter.onItemSwiped(card)*/
-    }
-
-    override fun onDragged(from: Int, to: Int) {
-        //presenter.onItemDragged(b.vm.cards, from, to)
-    }
-
-    override fun onDropped() {
-        //presenter.onItemDropped(b.vm.cards)
-    }
-
     private fun initUI() {
         b.listCards.addItemDecoration(SpacingItemDecoration.Builder(context)
                 .firstDivider(true)
@@ -90,12 +76,8 @@ class CardsFragment : BaseFragment(), SimpleItemTouchHelperCallback.SwipeCallbac
                 .onSides(true)
                 .build())
 
-        ItemTouchHelper(SimpleItemTouchHelperCallback(this, this))
-                .attachToRecyclerView(b.listCards)
-
         viewModelFacade.doOnShareCard()
-                .subscribe {
-                    ShareUtils.shareText(activity, R.string.share_card, it)
-                }.addTo(disposables)
+                .subscribe { ShareUtils.shareText(activity, R.string.share_card, it) }
+                .addTo(disposables)
     }
 }

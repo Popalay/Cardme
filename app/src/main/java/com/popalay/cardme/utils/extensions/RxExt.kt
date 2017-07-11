@@ -15,6 +15,13 @@ fun <T : Any> Flowable<List<T>>.setTo(list: ObservableList<in T>
     list.addAll(newList)
 }
 
+fun <T : Any> Observable<List<T>>.setTo(list: ObservableList<in T>
+): Observable<List<T>> = doOnNext {
+    val newList = ArrayList<T>(it)
+    list.clear()
+    list.addAll(newList)
+}
+
 fun <T : Any> Flowable<T>.applyThrottling(): Flowable<T> = compose(applyThrottlingFlowable<T>())
 
 fun <T : Any> Observable<T>.applyThrottling(): Observable<T> = compose(applyThrottlingObservable<T>())
