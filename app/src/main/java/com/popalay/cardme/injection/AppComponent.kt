@@ -5,7 +5,6 @@ import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtPresenter
 import com.popalay.cardme.presentation.screens.debts.DebtsPresenter
 import com.popalay.cardme.presentation.screens.home.HomePresenter
-import com.popalay.cardme.presentation.screens.splash.SplashPresenter
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -32,8 +31,6 @@ interface AppComponent : AndroidInjector<App> {
     fun inject(presenter: AddDebtPresenter)
 
     fun inject(presenter: DebtsPresenter)
-
-    fun inject(presenter: SplashPresenter)
 
     fun inject(presenter: HomePresenter)
 }

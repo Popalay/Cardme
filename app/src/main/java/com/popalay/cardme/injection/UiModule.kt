@@ -13,6 +13,7 @@ import com.popalay.cardme.presentation.screens.home.HomeModule
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsModule
 import com.popalay.cardme.presentation.screens.splash.SplashActivity
+import com.popalay.cardme.presentation.screens.splash.SplashModule
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -42,7 +43,7 @@ abstract class UiModule {
     @ContributesAndroidInjector(modules = arrayOf(SettingsModule::class))
     abstract fun contributeSettingsActivity(): SettingsActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = arrayOf(SplashModule::class))
     abstract fun contributeSplashActivity(): SplashActivity
 
 }

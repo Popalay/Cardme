@@ -1,15 +1,17 @@
 package com.popalay.cardme.presentation.screens.splash
 
-import com.arellomobile.mvp.presenter.InjectPresenter
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import com.popalay.cardme.presentation.base.BaseActivity
-import com.popalay.cardme.presentation.screens.home.HomeActivity
+import javax.inject.Inject
 
-class SplashActivity : BaseActivity(), SplashView {
+class SplashActivity : BaseActivity() {
 
-    @InjectPresenter lateinit var presenter: SplashPresenter
+    @Inject lateinit var factory: ViewModelProvider.Factory
 
-    override fun openHome() {
-        startActivity(HomeActivity.getIntent(this))
-        finish()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ViewModelProviders.of(this, factory).get(SplashViewModel::class.java)
     }
 }

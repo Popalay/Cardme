@@ -7,12 +7,10 @@ import android.widget.Toast
 import com.popalay.cardme.R
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.presentation.base.BaseActivity
-import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
-import com.popalay.cardme.presentation.screens.SCREEN_HOLDER_DETAILS
-import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
-import com.popalay.cardme.presentation.screens.SCREEN_SETTINGS
+import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
+import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.utils.extensions.currentFragment
 import io.card.payment.CardIOActivity
@@ -125,6 +123,7 @@ open class CustomNavigator(
     override fun createFragment(screenKey: String, data: Any?): Fragment? = null
 
     override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
+        SCREEN_HOME -> HomeActivity.getIntent(activity)
         SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
         SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as CreditCard)
         SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
