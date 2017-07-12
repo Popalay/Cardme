@@ -9,7 +9,6 @@ import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivitySettingsBinding
 import com.popalay.cardme.presentation.base.BaseActivity
-import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
@@ -24,7 +23,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         ViewModelProviders.of(this, factory).get(SettingsViewModel::class.java).let {

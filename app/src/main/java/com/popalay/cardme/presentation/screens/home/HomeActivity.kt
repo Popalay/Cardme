@@ -25,7 +25,6 @@ import com.popalay.cardme.presentation.screens.debts.DebtsFragment
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
 import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.setSelectedItem
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -76,7 +75,6 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
     @ProvidePresenter fun providePresenter() = HomePresenter(startPage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
         initUI()

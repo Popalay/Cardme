@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentHoldersBinding
 import com.popalay.cardme.presentation.base.BaseFragment
-import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class HoldersFragment : BaseFragment() {
@@ -22,11 +21,6 @@ class HoldersFragment : BaseFragment() {
     }
 
     private lateinit var b: FragmentHoldersBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,

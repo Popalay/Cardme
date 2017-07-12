@@ -13,7 +13,6 @@ import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
-import dagger.android.support.AndroidSupportInjection
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo
@@ -31,11 +30,6 @@ class CardsFragment : BaseFragment() {
         const val SCAN_REQUEST_CODE = 121
 
         fun newInstance() = CardsFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater?,

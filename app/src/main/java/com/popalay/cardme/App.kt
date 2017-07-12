@@ -4,9 +4,9 @@ import com.facebook.stetho.Stetho
 import com.github.tamir7.contacts.Contacts
 import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.DaggerAppComponent
+import com.popalay.cardme.injection.applyAutoInjector
 import com.squareup.leakcanary.LeakCanary
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
-import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -19,6 +19,7 @@ class App : DaggerApplication() {
         if (LeakCanary.isInAnalyzerProcess(this)) return
         app = this
 
+        applyAutoInjector()
         LeakCanary.install(this)
         Realm.init(this)
         val config = RealmConfiguration.Builder()
@@ -36,7 +37,7 @@ class App : DaggerApplication() {
                         .build())
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerAppComponent.builder()
+    override fun applicationInjector() = DaggerAppComponent.builder()
             .application(this)
             .build().apply { appComponent = this }
 

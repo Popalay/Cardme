@@ -10,7 +10,6 @@ import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddCardBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.utils.DialogFactory
-import dagger.android.AndroidInjection
 import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -33,7 +32,6 @@ class AddCardActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityAddCardBinding>(this, R.layout.activity_add_card)
         ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java).let {

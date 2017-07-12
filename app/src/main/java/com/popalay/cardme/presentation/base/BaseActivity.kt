@@ -1,23 +1,20 @@
 package com.popalay.cardme.presentation.base
 
 import android.app.ProgressDialog
-import android.os.Bundle
 import android.support.annotation.StringRes
 import android.widget.Toast
-
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.popalay.cardme.R
+import com.popalay.cardme.injection.Injectable
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.ViewUtil
-import dagger.android.AndroidInjection
-
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
-abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
+abstract class BaseActivity : MvpAppCompatActivity(), BaseView, Injectable{
 
     @Inject lateinit var navigationHolder: NavigatorHolder
 
@@ -38,11 +35,6 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     fun hideLoadingDialog() = progressDialog.dismiss()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResumeFragments() {
         super.onResumeFragments()

@@ -13,7 +13,6 @@ import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.SlidingActivity
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
-import dagger.android.AndroidInjection
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
@@ -39,7 +38,6 @@ class HolderDetailsActivity : SlidingActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHolderDetailsBinding>(this, R.layout.activity_holder_details)
         ViewModelProviders.of(this, factory).get(HolderDetailsViewModel::class.java).let {

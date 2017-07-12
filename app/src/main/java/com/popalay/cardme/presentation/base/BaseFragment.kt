@@ -2,9 +2,10 @@ package com.popalay.cardme.presentation.base
 
 import android.support.annotation.StringRes
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.popalay.cardme.injection.Injectable
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
+abstract class BaseFragment : MvpAppCompatFragment(), BaseView, Injectable {
 
     protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
