@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
 
     <data>
 
-        <import type="android.text.TextUtils" />
-
         <variable
-            name="model"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.adddebt.AddDebtViewModel"
             />
     </data>
@@ -49,8 +49,9 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences|textAutoCorrect"
                     android:padding="@dimen/small"
-                    android:text="@={model.to}"
+                    android:text="@={vm.to}"
                     android:textStyle="bold"
+                    bind:stringAdapter="@{vm.holderNames}"
                     />
 
                 <View
@@ -68,7 +69,7 @@
                     android:layout_marginTop="@dimen/small"
                     android:hint="@string/debt_information"
                     android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-                    android:text="@={model.message}"
+                    android:text="@={vm.message}"
                     />
 
                 <Button
@@ -80,8 +81,9 @@
                     android:layout_marginBottom="@dimen/normal"
                     android:layout_marginEnd="@dimen/small"
                     android:layout_marginTop="@dimen/small"
-                    android:enabled="@{model.canSave}"
+                    android:enabled="@{vm.canSave}"
                     android:text="@string/action_save"
+                    bind:onClick="@{vm.addClick}"
                     />
 
             </LinearLayout>

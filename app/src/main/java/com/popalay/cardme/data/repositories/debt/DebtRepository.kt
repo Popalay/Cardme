@@ -16,8 +16,7 @@ class DebtRepository @Inject internal constructor() {
         if (debt.id == null) {
             debt.id = UUID.randomUUID().toString()
         }
-        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name)
-                .findFirst()
+        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name).findFirst()
         if (realmHolder != null) {
             debt.holder = realmHolder
         } else {

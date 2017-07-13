@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 class AddCardViewModel @Inject constructor(
         private val router: CustomRouter,
-        private val cardInteractor: CardInteractor,
+        cardInteractor: CardInteractor,
         creditCard: CreditCard,
         holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
@@ -66,8 +66,9 @@ class AddCardViewModel @Inject constructor(
 
         holderName.observe()
                 .doOnNext { card.get()?.holder?.name = it.trim() }
-                .doOnNext { canSave.set(!it.isNullOrBlank()) }
-                .subscribeBy(onError = this::handleLocalError)
+                .map { !it.isNullOrBlank() }
+                .setTo(canSave)
+                .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 
         title.observe()
@@ -76,10 +77,15 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         acceptClickListener.applyThrottling()
+                .filter { it }
                 .map { card.get() }
-                .flatMapCompletable(cardInteractor::save)
+                .doOnNext {
+                    cardInteractor.save(it)
+                            .subscribeBy(onComplete = router::exit, onError = this::handleLocalError)
+                            .addTo(disposables)
+                }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(onError = this::handleLocalError, onComplete = router::exit)
+                .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 
         editorActionListener.applyThrottling()
@@ -90,9 +96,9 @@ class AddCardViewModel @Inject constructor(
 
         errorDialogState
                 .filter { !it }
-                .subscribeBy {
-                    router.exit()
-                }.addTo(disposables)
+                .doOnNext { router.exit() }
+                .subscribeBy(this::handleLocalError)
+                .addTo(disposables)
     }
 
     override fun doOnShowCardExistsDialog(body: () -> Unit): Disposable {

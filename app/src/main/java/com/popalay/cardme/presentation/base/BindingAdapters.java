@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.jakewharton.rxrelay2.PublishRelay;
 import com.jakewharton.rxrelay2.Relay;
 import com.popalay.cardme.App;
 import com.popalay.cardme.R;
@@ -103,7 +104,7 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("onClick")
-    public static void onClick(View view, Relay<Boolean> listener) {
+    public static void onClick(View view, PublishRelay<Boolean> listener) {
         view.setOnClickListener(v -> {
             if (!view.isEnabled()) return;
             listener.accept(true);

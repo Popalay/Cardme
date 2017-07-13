@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import com.popalay.cardme.presentation.base.navigation.ViewModelFactory
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.addcard.AddCardModule
+import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
+import com.popalay.cardme.presentation.screens.adddebt.AddDebtModule
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsModule
 import com.popalay.cardme.presentation.screens.holders.HoldersViewModel
@@ -45,5 +47,8 @@ abstract class UiModule {
 
     @ContributesAndroidInjector(modules = arrayOf(SplashModule::class))
     abstract fun contributeSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(AddDebtModule::class))
+    abstract fun contributeAddDebtActivity(): AddDebtActivity
 
 }

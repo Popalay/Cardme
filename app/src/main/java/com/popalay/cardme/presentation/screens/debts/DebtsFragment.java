@@ -52,7 +52,7 @@ public class DebtsFragment extends BaseFragment implements DebtsView, SimpleItem
 
     @Override
     public void showAddDialog() {
-        final Intent intent = AddDebtActivity.getIntent(getActivity());
+        final Intent intent = AddDebtActivity.Companion.getIntent(getActivity());
         FabTransform.addExtras(intent, ContextCompat.getColor(getActivity(), R.color.accent), R.drawable.ic_write);
         final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), b.buttonWrite,
                 getString(R.string.transition_add_debt));
