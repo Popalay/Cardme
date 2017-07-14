@@ -44,7 +44,7 @@ import android.view.ViewOutlineProvider;
 import android.view.animation.Interpolator;
 
 import com.popalay.cardme.R;
-import com.popalay.cardme.utils.AnimUtils;
+import com.popalay.cardme.utils.animation.AnimUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class FabTransform extends Transition {
     private static final String EXTRA_FAB_COLOR = "EXTRA_FAB_COLOR";
     private static final String EXTRA_FAB_ICON_RES_ID = "EXTRA_FAB_ICON_RES_ID";
     private static final long DEFAULT_DURATION = 240L;
-    private static final String PROP_BOUNDS = "plaid:fabTransform:bounds";
+    private static final String PROP_BOUNDS = "cardme:fabTransform:bounds";
     private static final String[] TRANSITION_PROPERTIES = {
             PROP_BOUNDS
     };
@@ -144,9 +144,7 @@ public class FabTransform extends Transition {
     public Animator createAnimator(final ViewGroup sceneRoot,
             final TransitionValues startValues,
             final TransitionValues endValues) {
-        if (startValues == null || endValues == null) {
-            return null;
-        }
+             if (startValues == null || endValues == null)  return null;
 
         final Rect startBounds = (Rect) startValues.values.get(PROP_BOUNDS);
         final Rect endBounds = (Rect) endValues.values.get(PROP_BOUNDS);
@@ -179,9 +177,7 @@ public class FabTransform extends Transition {
         // Add a color overlay to fake appearance of the FAB
         final ColorDrawable fabColor = new ColorDrawable(color);
         fabColor.setBounds(0, 0, dialogBounds.width(), dialogBounds.height());
-        if (!fromFab) {
-            fabColor.setAlpha(0);
-        }
+        if (!fromFab) fabColor.setAlpha(0);
         view.getOverlay().add(fabColor);
 
         // Add an icon overlay again to fake the appearance of the FAB
@@ -192,9 +188,7 @@ public class FabTransform extends Transition {
         fabIcon.setBounds(iconLeft, iconTop,
                 iconLeft + fabIcon.getIntrinsicWidth(),
                 iconTop + fabIcon.getIntrinsicHeight());
-        if (!fromFab) {
-            fabIcon.setAlpha(0);
-        }
+        if (!fromFab) fabIcon.setAlpha(0);
         view.getOverlay().add(fabIcon);
 
         // Circular clip from/to the FAB size
@@ -289,9 +283,7 @@ public class FabTransform extends Transition {
         final AnimatorSet transition = new AnimatorSet();
         transition.playTogether(circularReveal, translate, colorFade, iconFade);
         transition.playTogether(fadeContents);
-        if (elevation != null) {
-            transition.play(elevation);
-        }
+        if (elevation != null) transition.play(elevation);
         if (fromFab) {
             transition.addListener(new AnimatorListenerAdapter() {
                 @Override

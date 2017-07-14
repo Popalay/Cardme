@@ -3,11 +3,11 @@ package com.popalay.cardme.utils.behaviors;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageButton;
 
 public class FabScrollBehavior extends SnackbarFabBehavior {
 
@@ -18,7 +18,7 @@ public class FabScrollBehavior extends SnackbarFabBehavior {
     }
 
     @Override
-    public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, final FloatingActionButton child, View target) {
+    public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, final ImageButton child, View target) {
         super.onStopNestedScroll(coordinatorLayout, child, target);
         if (handler == null) handler = new Handler();
         handler.postDelayed(() -> show(child), 500L);
@@ -26,7 +26,7 @@ public class FabScrollBehavior extends SnackbarFabBehavior {
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout,
-            FloatingActionButton child,
+            ImageButton child,
             View target,
             int dxConsumed,
             int dyConsumed,
@@ -39,14 +39,14 @@ public class FabScrollBehavior extends SnackbarFabBehavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,
-            FloatingActionButton child,
+            ImageButton child,
             View directTargetChild,
             View target,
             int nestedScrollAxes) {
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
-    private void show(FloatingActionButton child) {
+    private void show(ImageButton child) {
         child.animate()
                 .alpha(1)
                 .scaleX(1)
@@ -56,7 +56,7 @@ public class FabScrollBehavior extends SnackbarFabBehavior {
                 .start();
     }
 
-    private void hide(FloatingActionButton child) {
+    private void hide(ImageButton child) {
         child.animate()
                 .alpha(0)
                 .scaleX(0)

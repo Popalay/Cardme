@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
 
     <data>
 
         <variable
-            name="model"
-            type="com.popalay.cardme.presentation.screens.addcard.AddCardViewModel" />
+            name="vm"
+            type="com.popalay.cardme.presentation.screens.addcard.AddCardViewModel"
+            />
 
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Cardme.Toolbar"
-                app:navigationIcon="@drawable/ic_back" />
+                app:navigationIcon="@drawable/ic_back"
+                bind:backByArrow="@{true}"
+                />
 
             <com.popalay.cardme.presentation.widget.CreditCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal"
-                app:backgroundGeneratorSeed="@{model.card.generatedBackgroundSeed}"
-                app:withImage="@{model.showImage}">
+                app:backgroundGeneratorSeed="@{vm.card.generatedBackgroundSeed}"
+                app:withImage="@{vm.showImage}"
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="@dimen/normal"
-                    android:layout_height="wrap_content">
+                    >
 
                     <ImageView
                         android:id="@+id/image_card_type"
                         android:layout_width="@dimen/card_type_icon_size"
                         android:layout_height="@dimen/card_type_icon_size"
                         android:layout_alignParentEnd="true"
-                        android:src="@{model.card.iconRes}" />
+                        android:src="@{vm.card.iconRes}"
+                        />
 
                     <TextView
                         style="@style/Cardme.CardText"
@@ -54,7 +65,8 @@
                         android:layout_marginEnd="@dimen/normal"
                         android:layout_toStartOf="@id/image_card_type"
                         android:gravity="center_vertical"
-                        android:text="@={model.title}" />
+                        android:text="@={vm.title}"
+                        />
 
                     <com.popalay.cardme.presentation.widget.CharacterWrapTextView
                         android:id="@+id/text_number"
@@ -62,7 +74,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="@{model.card.number}" />
+                        android:text="@{vm.card.number}"
+                        />
 
                     <TextView
                         style="@style/Cardme.CardText"
@@ -71,7 +84,8 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/normal"
                         android:layout_marginTop="@dimen/smallest"
-                        android:text="@={model.holderName}" />
+                        android:text="@={vm.holderName}"
+                        />
 
                 </RelativeLayout>
 
@@ -83,17 +97,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/normal"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/holder_name">
+                    android:hint="@string/holder_name"
+                    >
 
                     <AutoCompleteTextView
                         android:id="@+id/text_holder"
@@ -104,16 +121,19 @@
                         android:layout_marginBottom="@dimen/normal"
                         android:layout_marginTop="@dimen/smallest"
                         android:imeOptions="actionNext"
-                        android:inputType="textCapSentences|textAutoCorrect"
-                        android:text="@={model.holderName}"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
+                        android:inputType="text|textCapWords|textAutoCorrect"
+                        android:text="@={vm.holderName}"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                        bind:stringAdapter="@{vm.holderNames}"
+                        />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title">
+                    android:hint="@string/title"
+                    >
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/text_title"
@@ -124,9 +144,11 @@
                         android:layout_marginBottom="@dimen/normal"
                         android:layout_marginTop="@dimen/smallest"
                         android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect"
-                        android:text="@={model.title}"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
+                        android:inputType="textCapWords|textAutoCorrect"
+                        android:text="@={vm.title}"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                        bind:onEditorAction="@{vm.editorActionListener}"
+                        />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -136,13 +158,15 @@
 
         <Button
             android:id="@+id/button_save"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
+            style="@style/Cardme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/normal"
-            android:enabled="@{model.canSave}"
-            android:text="@string/action_save" />
+            android:enabled="@{vm.canSave}"
+            android:text="@string/action_save"
+            bind:onClick="@{vm.acceptClickListener}"
+            />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    >
 
     <data>
 
         <variable
-            name="model"
-            type="com.popalay.cardme.presentation.screens.holders.HoldersViewModel" />
+            name="vm"
+            type="com.popalay.cardme.presentation.screens.holders.HoldersViewModel"
+            />
 
         <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener" />
+            name="orientation"
+            type="android.support.v7.widget.OrientationHelper"
+            />
 
     </data>
 
@@ -19,17 +22,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/window_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_holders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:layoutManager="LinearLayoutManager"
-            bind:hasFixedSize="true"
-            bind:holders="@{model.holders}"
-            bind:itemClickListener="@{listener}" />
+            bind:applyDivider="@{orientation.VERTICAL}"
+            bind:defaultList="@{true}"
+            bind:holderClick="@{vm.holderClickListener}"
+            bind:holdersAdapter="@{vm.holders}"
+            />
 
         <TextView
             style="@style/Cardme.ListPlaceholderText"
@@ -37,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_holders_placeholder"
-            bind:listPlaceholder="@{model.holders}" />
+            bind:listPlaceholder="@{vm.holders}"
+            />
 
     </android.support.design.widget.CoordinatorLayout>
 

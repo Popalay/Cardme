@@ -2,7 +2,6 @@
 
 #Models
 -keep class com.popalay.cardme.data.models.** { *; }
--keep class com.popalay.yocard.data.events.** { *; }
 
 #RecyclerViewPager
 -keep class com.lsjwzh.widget.recyclerviewpager.**

@@ -1,63 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
+    >
 
     <data>
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.settings.SettingsViewModel" />
+            type="com.popalay.cardme.presentation.screens.settings.SettingsViewModel"
+            />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/Cardme.Toolbar" />
+                android:theme="@style/Cardme.Toolbar"
+                app:navigationIcon="@drawable/ic_back"
+                bind:backByArrow="@{true}"
+                />
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
 
-            <com.popalay.cardme.presentation.widget.SettingTextView
-                style="@style/Cardme.SettingItem"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_color"
-                android:text="@string/theme"
-                app:settingText="@{vm.settings.theme}" />
+                android:orientation="vertical"
+                >
 
-            <com.popalay.cardme.presentation.widget.SettingTextView
-                style="@style/Cardme.SettingItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_language"
-                android:text="@string/language"
-                app:settingText="@{vm.settings.language}" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal"
+                    android:background="@color/white"
+                    >
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/switch_show_background"
-                style="@style/Cardme.SettingItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_image"
-                android:checked="@={vm.showImages}"
-                android:text="@string/card_background" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
 
-        </LinearLayout>
+                        <TextView
+                            style="@style/Cardme.Setting.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/user_interface"
+                            />
+
+                        <com.popalay.cardme.presentation.widget.SettingTextView
+                            style="@style/Cardme.Setting.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_color"
+                            android:text="@string/theme"
+                            app:settingText="@{vm.settings.theme}"
+                            />
+
+                        <com.popalay.cardme.presentation.widget.SettingTextView
+                            style="@style/Cardme.Setting.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_language"
+                            android:text="@string/language"
+                            app:settingText="@{vm.settings.language}"
+                            />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_show_background"
+                            style="@style/Cardme.Setting.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="@={vm.showImages}"
+                            android:drawableStart="@drawable/ic_image"
+                            android:text="@string/card_background"
+                            />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/normal"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            style="@style/Cardme.Setting.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about"
+                            />
+
+                        <com.popalay.cardme.presentation.widget.SettingTextView
+                            style="@style/Cardme.Setting.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_info"
+                            android:text="@string/about_the_app"
+                            />
+
+                        <com.popalay.cardme.presentation.widget.SettingTextView
+                            style="@style/Cardme.Setting.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_rate"
+                            android:text="@string/rate_the_app"
+                            />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

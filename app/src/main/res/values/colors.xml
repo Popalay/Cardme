@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#49525D</color>
-    <color name="primary_dark">#444D58</color>
-    <color name="accent">#4ED4B8</color>
-    <color name="primary_text">#3a4149</color>
+    <color name="primary">#282F37</color>
+    <color name="primary_dark">@color/primary</color>
+    <color name="accent">#3CCAAA</color>
+    <color name="primary_text">#282828</color>
     <color name="primary_text_invert">@color/white</color>
     <color name="secondary_text">#7A8189</color>
     <color name="window_background">@color/light_grey</color>
@@ -11,12 +11,9 @@
 
     <color name="white">#FFF</color>
     <color name="black">#111</color>
-    <color name="light_grey">#FCFCFC</color>
+    <color name="light_grey">#F2F2F2</color>
     <color name="grey">#cfcfcf</color>
     <color name="scrim">#99323232</color>
-
-    <color name="orange">#DC8744</color>
-    <color name="yellow">#F6C358</color>
 
     <!--card colors-->
     <color name="deep_grey">#FF3699d4</color>

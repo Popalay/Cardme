@@ -32,7 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.popalay.cardme.presentation.widget.MorphDrawable;
-import com.popalay.cardme.utils.AnimUtils;
+import com.popalay.cardme.utils.animation.AnimUtils;
 
 /**
  * An extension to {@link ChangeBounds} that also morphs the views background (color & corner

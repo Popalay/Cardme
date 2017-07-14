@@ -2,17 +2,20 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
         <variable
-            name="model"
-            type="com.popalay.cardme.presentation.screens.debts.DebtsViewModel" />
+            name="vm"
+            type="com.popalay.cardme.presentation.screens.debts.DebtsViewModel"
+            />
 
         <variable
-            name="listener"
-            type="com.popalay.cardme.presentation.base.ItemClickListener" />
+            name="orientation"
+            type="android.support.v7.widget.OrientationHelper"
+            />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -20,17 +23,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/window_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_debts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:layoutManager="LinearLayoutManager"
-            bind:debts="@{model.debts}"
-            bind:hasFixedSize="true"
-            tools:listitem="@layout/item_debt" />
+            bind:applyDivider="@{orientation.VERTICAL}"
+            bind:debtsAdapter="@{vm.debts}"
+            bind:defaultList="@{true}"
+            bind:onSwiped="@{vm.onSwiped}"
+            bind:onUndoSwipe="@{vm.onUndoSwipe}"
+            bind:undoMessage="@{@string/debt_removed}"
+            tools:listitem="@layout/item_debt"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_write"
@@ -40,7 +48,9 @@
             android:layout_gravity="bottom|end"
             android:src="@drawable/ic_write"
             app:fabSize="normal"
-            app:layout_behavior="@string/fab_hide_behavior" />
+            app:layout_behavior="@string/fab_hide_behavior"
+            bind:onClick="@{vm.addDebtClickPublisher}"
+            />
 
         <TextView
             style="@style/Cardme.ListPlaceholderText"
@@ -48,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_debts_placeholder"
-            bind:listPlaceholder="@{model.debts}" />
+            bind:listPlaceholder="@{vm.debts}"
+            />
 
     </android.support.design.widget.CoordinatorLayout>
 

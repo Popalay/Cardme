@@ -7,14 +7,19 @@
     <data>
 
         <variable
-            name="model"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsViewModel" />
+
+        <variable
+            name="orientation"
+            type="android.support.v7.widget.OrientationHelper" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -32,14 +37,19 @@
                     android:id="@+id/list_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="?actionBarSize"
                     android:clipToPadding="false"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/normal"
                     android:paddingStart="@dimen/normal"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_collapseMode="parallax"
                     app:rvp_singlePageFling="true"
+                    bind:cardsAdapter="@{vm.cards}"
+                    bind:hasFixedSize="@{true}"
+                    bind:cardClick="@{vm.cardClickPublisher}"
+                    bind:showImage="@{vm.showImage}"
+                    bind:snap="@{true}"
                     tools:listitem="@layout/item_card" />
 
                 <android.support.v7.widget.Toolbar
@@ -47,9 +57,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="pin"
-                    app:title="@{model.holderName}"
                     app:navigationIcon="@drawable/ic_cross"
-                    app:theme="@style/Cardme.Toolbar" />
+                    app:theme="@style/Cardme.Toolbar"
+                    app:title="@{vm.holderName}" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -71,7 +81,9 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:nestedScrollingEnabled="false"
-                    app:layoutManager="LinearLayoutManager"
+                    bind:applyDivider="@{orientation.VERTICAL}"
+                    bind:debtsAdapter="@{vm.debts}"
+                    bind:defaultList="@{true}"
                     tools:listitem="@layout/item_debt" />
 
                 <TextView
@@ -80,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/list_debts_placeholder_holder_details"
-                    bind:listPlaceholder="@{model.debts}" />
+                    bind:listPlaceholder="@{vm.debts}" />
 
             </FrameLayout>
 
