@@ -5,7 +5,6 @@ import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.repositories.card.CardRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
-import io.card.payment.CreditCard
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -19,7 +18,7 @@ class CardInteractor @Inject constructor(
         private val holderRepository: HolderRepository
 ) {
 
-    fun transformCard(creditCard: CreditCard): Single<Card> {
+    fun validateCard(creditCard: Card): Single<Card> {
         val card = transform(creditCard)
         return cardRepository.cardIsNew(card)
                 .flatMap { if (it) Single.just(card) else Single.error<Card>(createCardExistError()) }
@@ -45,7 +44,7 @@ class CardInteractor @Inject constructor(
             .andThen(holderRepository.updateCounts(card.holder))
             .subscribeOn(Schedulers.io())
 
-    private fun transform(creditCard: CreditCard): Card = Card(creditCard).apply {
+    private fun transform(card: Card): Card = card.apply {
         generatedBackgroundSeed = System.nanoTime()
     }
 

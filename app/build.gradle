@@ -74,6 +74,8 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 }
 
@@ -165,6 +167,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.7.22'
     testImplementation "org.assertj:assertj-core:3.0.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith("test")) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}

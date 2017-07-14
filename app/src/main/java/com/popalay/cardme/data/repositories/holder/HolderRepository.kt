@@ -13,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HolderRepository @Inject constructor() {
+open class HolderRepository @Inject constructor() {
 
     fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
         it.where(Holder::class.java).findAllSorted(Holder.NAME)

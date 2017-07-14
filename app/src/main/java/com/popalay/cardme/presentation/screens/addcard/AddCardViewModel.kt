@@ -46,7 +46,7 @@ class AddCardViewModel @Inject constructor(
     val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
     init {
-        cardInteractor.transformCard(creditCard)
+        cardInteractor.validateCard(Card(creditCard))
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(card)
                 .subscribeBy(this::handleLocalError)
