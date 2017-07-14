@@ -54,7 +54,7 @@ class HolderDetailsActivity : SlidingActivity() {
     private fun initUI() {
         setSupportActionBar(b.toolbar)
         b.collapsingToolbar.isTitleEnabled = false
-        b.toolbar.setNavigationOnClickListener { v -> onBackPressed() }
+        b.toolbar.setNavigationOnClickListener { onBackPressed() }
 
         viewModelFacade.doOnShareCard()
                 .subscribe {

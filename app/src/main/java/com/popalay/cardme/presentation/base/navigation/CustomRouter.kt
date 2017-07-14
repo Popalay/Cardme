@@ -18,4 +18,8 @@ class CustomRouter : Router() {
         executeCommand(ForwardWithTransition(screenKey, data, transition))
     }
 
+    fun navigateToUrl(url: String) {
+        executeCommand(ForwardToUrl(url))
+    }
+
 }

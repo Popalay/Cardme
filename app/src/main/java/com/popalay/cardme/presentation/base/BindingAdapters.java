@@ -1,7 +1,10 @@
 package com.popalay.cardme.presentation.base;
 
 import android.databinding.BindingAdapter;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -114,6 +117,23 @@ public class BindingAdapters {
     public static void onEditorAction(EditText view, Relay<Integer> listener) {
         view.setOnEditorActionListener((v, actionId, event) -> {
             listener.accept(actionId);
+            return true;
+        });
+    }
+
+    @BindingAdapter("bottomNavigationListener")
+    public static void bottomNavigationListener(BottomNavigationView view, Relay<Integer> listener) {
+        view.setOnNavigationItemSelectedListener(item -> {
+            listener.accept(item.getItemId());
+            return true;
+        });
+    }
+
+    @BindingAdapter("drawerNavigationListener")
+    public static void drawerNavigationListener(NavigationView view, Relay<Integer> listener) {
+        view.setNavigationItemSelectedListener(item -> {
+            listener.accept(item.getItemId());
+            ((DrawerLayout) view.getParent()).closeDrawers();
             return true;
         });
     }

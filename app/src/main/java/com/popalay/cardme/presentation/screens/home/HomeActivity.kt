@@ -1,5 +1,7 @@
 package com.popalay.cardme.presentation.screens.home
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -9,9 +11,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
 import com.popalay.cardme.business.ShortcutInteractor
 import com.popalay.cardme.databinding.ActivityHomeBinding
@@ -23,7 +22,6 @@ import com.popalay.cardme.presentation.screens.SCREEN_HOLDERS
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
-import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -31,17 +29,14 @@ import dagger.android.support.HasSupportFragmentInjector
 import shortbread.Shortcut
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
+class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
+    @Inject lateinit var factory: ViewModelProvider.Factory
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var shortcutInteractor: ShortcutInteractor
 
-    @InjectPresenter lateinit var presenter: HomePresenter
-
     private lateinit var b: ActivityHomeBinding
     private lateinit var toggle: ActionBarDrawerToggle
-
-    private var startPage = R.id.cards
 
     override val navigator = object : CustomNavigator(this, R.id.host) {
 
@@ -72,11 +67,12 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
 
     }
 
-    @ProvidePresenter fun providePresenter() = HomePresenter(startPage)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
+        ViewModelProviders.of(this, factory).get(HomeViewModel::class.java).let {
+            b.vm = it
+        }
         initUI()
     }
 
@@ -100,30 +96,13 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) return true
         when (item.itemId) {
-            MENU_SETTINGS -> presenter.onSettingsClick()
+            MENU_SETTINGS -> b.vm?.settingClick?.accept(true)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun openPolicy() {
-        BrowserUtils.openLink(this, PRIVACY_POLICY_LINK)
-    }
-
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return androidInjector
-    }
-
-    private fun onNavigationClick(item: MenuItem): Boolean {
-        presenter.onBottomNavigationItemClick(item.itemId)
-        return true
-    }
-
-    private fun onDrawerItemClick(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.navigation_privacy_policy -> presenter.onPolicyClick()
-        }
-        b.drawerLayout.closeDrawers()
-        return true
     }
 
     private fun initUI() {
@@ -132,8 +111,6 @@ class HomeActivity : BaseActivity(), HomeView, HasSupportFragmentInjector {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.isDrawerIndicatorEnabled = true
         b.drawerLayout.addDrawerListener(toggle)
-        b.navigationView.setNavigationItemSelectedListener(this::onDrawerItemClick)
-        b.bottomBar.setOnNavigationItemSelectedListener(this::onNavigationClick)
     }
 
     // Shortcuts

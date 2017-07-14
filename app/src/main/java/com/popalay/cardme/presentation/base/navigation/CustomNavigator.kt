@@ -14,6 +14,7 @@ import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
+import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.currentFragment
 import com.popalay.cardme.utils.transitions.FabTransform
 import io.card.payment.CardIOActivity
@@ -36,6 +37,12 @@ open class CustomNavigator(
             showError(command.exception)
             return
         }
+
+        if (command is ForwardToUrl) {
+            BrowserUtils.openLink(activity, command.url)
+            return
+        }
+
         if (command is ForwardForResult) {
             val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
 

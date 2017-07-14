@@ -28,17 +28,17 @@ class ShortcutInteractor @Inject constructor(
         appliedShortcut = shortcut
         when (shortcut) {
             Shortcut.ADD_CARD -> {
-                router.replaceScreen(SCREEN_CARDS)
+                router.newRootScreen(SCREEN_CARDS)
                 router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE)
             }
             Shortcut.FAVORITE_HOLDER -> {
-                router.replaceScreen(SCREEN_HOLDERS)
+                router.newRootScreen(SCREEN_HOLDERS)
                 holderInteractor.getFavoriteHolder()
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSuccess { router.navigateTo(SCREEN_HOLDER_DETAILS, it.id) }
                         .subscribeBy(Throwable::printStackTrace)
             }
-            Shortcut.DEBTS -> router.replaceScreen(SCREEN_DEBTS)
+            Shortcut.DEBTS -> router.newRootScreen(SCREEN_DEBTS)
             else -> {
             }
         }
