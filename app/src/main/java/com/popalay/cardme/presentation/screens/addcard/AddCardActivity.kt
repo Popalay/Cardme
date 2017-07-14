@@ -44,12 +44,12 @@ class AddCardActivity : BaseActivity() {
     private fun initUI() {
         setSupportActionBar(b.toolbar)
 
-        //TODO
-        viewModelFacade.doOnShowCardExistsDialog {
-            DialogFactory.createCustomButtonsDialog(this@AddCardActivity,
-                    R.string.error_card_exist, R.string.action_close,
-                    onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
-                    .apply { setCancelable(false) }
-        }.addTo(disposables)
+        viewModelFacade.doOnShowCardExistsDialog()
+                .subscribe {
+                    DialogFactory.createCustomButtonsDialog(this@AddCardActivity,
+                            R.string.error_card_exist, R.string.action_close,
+                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
+                            .apply { setCancelable(false) }
+                }.addTo(disposables)
     }
 }

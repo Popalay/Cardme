@@ -12,5 +12,4 @@ abstract class BaseFragment : Fragment(), Injectable {
         disposables.clear()
         super.onDestroyView()
     }
-
 }

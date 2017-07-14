@@ -20,8 +20,8 @@ import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
 import io.card.payment.CreditCard
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
@@ -98,8 +98,8 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
     }
 
-    override fun doOnShowCardExistsDialog(body: () -> Unit): Disposable {
-        return errorDialogState.filter { it }.subscribe { body() }
+    override fun doOnShowCardExistsDialog(): Observable<Boolean> {
+        return errorDialogState.filter { it }
     }
 
     override fun onShowCardExistsDialogDismiss() {

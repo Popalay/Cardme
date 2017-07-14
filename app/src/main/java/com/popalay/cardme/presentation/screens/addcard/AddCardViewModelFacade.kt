@@ -1,11 +1,10 @@
 package com.popalay.cardme.presentation.screens.addcard
 
-import io.reactivex.disposables.Disposable
+import io.reactivex.Observable
 
 interface AddCardViewModelFacade {
 
     fun onShowCardExistsDialogDismiss()
 
-    fun doOnShowCardExistsDialog(body: () -> Unit): Disposable
-
+    fun doOnShowCardExistsDialog(): Observable<Boolean>
 }
