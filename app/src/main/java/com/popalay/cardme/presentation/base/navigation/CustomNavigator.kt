@@ -100,6 +100,7 @@ open class CustomNavigator(
                     .beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .replace(containerId, fragment)
+                    .setReorderingAllowed(true)
                     .addToBackStack(forward.screenKey)
                     .commit()
             return
@@ -124,6 +125,7 @@ open class CustomNavigator(
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                         .replace(containerId, fragment)
+                        .setReorderingAllowed(true)
                         .addToBackStack(replace.screenKey)
                         .commit()
                 return
@@ -131,6 +133,7 @@ open class CustomNavigator(
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                        .setReorderingAllowed(true)
                         .replace(containerId, fragment)
                         .commit()
                 return
