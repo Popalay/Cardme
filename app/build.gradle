@@ -84,8 +84,7 @@ ext {
     rxKotlin = '2.1.0'
     playServices = '11.0.2'
     dagger = '2.11'
-    moxy = '1.5.3'
-    archComponents = '1.0.0-alpha3'
+    archComponents = '1.0.0-alpha4'
     leakCanary = '1.5.1'
     cicerone = '1.2.1'
 }
@@ -103,27 +102,23 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
+    // Data binding
     kapt "com.android.databinding:compiler:$gradlePlugin"
     implementation "com.stepango.rxdatabindings:rxdatabindings:1.1.1"
-
-    // MVP
-    implementation "com.arello-mobile:moxy-app-compat:$moxy"
-    kapt "com.arello-mobile:moxy-compiler:$moxy"
-
-    implementation "ru.terrakok.cicerone:cicerone:$cicerone"
 
     // Google Architecture Components
     implementation "android.arch.lifecycle:runtime:$archComponents"
     implementation "android.arch.lifecycle:extensions:$archComponents"
     kapt "android.arch.lifecycle:compiler:$archComponents"
 
+    // Router
+    implementation "ru.terrakok.cicerone:cicerone:$cicerone"
+
     // DI
     implementation "com.google.dagger:dagger:$dagger"
     implementation "com.google.dagger:dagger-android-support:$dagger"
     kapt "com.google.dagger:dagger-android-processor:$dagger"
     kapt "com.google.dagger:dagger-compiler:$dagger"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxJava"
