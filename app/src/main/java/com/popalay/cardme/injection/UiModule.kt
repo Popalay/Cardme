@@ -2,7 +2,7 @@ package com.popalay.cardme.injection
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.popalay.cardme.presentation.base.navigation.ViewModelFactory
+import com.popalay.cardme.presentation.base.ViewModelFactory
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.addcard.AddCardModule
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity

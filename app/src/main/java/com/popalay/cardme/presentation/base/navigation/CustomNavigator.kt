@@ -4,10 +4,11 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
-import android.widget.Toast
 import com.popalay.cardme.R
-import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardToUrl
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardWithTransition
 import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
@@ -33,11 +34,6 @@ open class CustomNavigator(
     val fragmentManager: FragmentManager = activity.supportFragmentManager
 
     override fun applyCommand(command: Command?) {
-        if (command is Error) {
-            showError(command.exception)
-            return
-        }
-
         if (command is ForwardToUrl) {
             BrowserUtils.openLink(activity, command.url)
             return
@@ -60,10 +56,14 @@ open class CustomNavigator(
 
         if (command is ForwardWithTransition) {
             val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
-
             // Start activity
             if (activityIntent != null) {
-                activity.startActivity(activityIntent, command.transition)
+                val currentFragment = fragmentManager.currentFragment()
+                if (currentFragment != null) {
+                    currentFragment.startActivity(activityIntent, command.transition)
+                } else {
+                    activity.startActivity(activityIntent, command.transition)
+                }
                 return
             }
         }
@@ -152,9 +152,5 @@ open class CustomNavigator(
             FabTransform.addExtras(this, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
         }
         else -> null
-    }
-
-    open fun showError(exception: AppException) {
-        Toast.makeText(activity, exception.messageRes, Toast.LENGTH_LONG).show()
     }
 }

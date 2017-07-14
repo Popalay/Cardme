@@ -32,7 +32,6 @@ class AddDebtActivity : BaseActivity() {
     }
 
     companion object {
-
         fun getIntent(context: Context) = Intent(context, AddDebtActivity::class.java)
     }
 

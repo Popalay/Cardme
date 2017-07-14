@@ -1,4 +1,4 @@
-package com.popalay.cardme.presentation.base.navigation
+package com.popalay.cardme.presentation.base.navigation.commands
 
 import ru.terrakok.cicerone.commands.Command
 

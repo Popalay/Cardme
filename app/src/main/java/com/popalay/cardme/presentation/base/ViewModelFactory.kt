@@ -1,4 +1,4 @@
-package com.popalay.cardme.presentation.base.navigation
+package com.popalay.cardme.presentation.base
 
 
 import android.arch.lifecycle.ViewModel

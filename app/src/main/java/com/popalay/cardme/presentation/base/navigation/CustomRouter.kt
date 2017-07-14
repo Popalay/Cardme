@@ -1,14 +1,12 @@
 package com.popalay.cardme.presentation.base.navigation
 
 import android.os.Bundle
-import com.popalay.cardme.business.exception.AppException
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardToUrl
+import com.popalay.cardme.presentation.base.navigation.commands.ForwardWithTransition
 import ru.terrakok.cicerone.Router
 
 class CustomRouter : Router() {
-
-    fun showError(exception: AppException) {
-        this.executeCommand(Error(exception))
-    }
 
     fun navigateToForResult(screenKey: String, data: Any? = null, requestCode: Int) {
         executeCommand(ForwardForResult(screenKey, data, requestCode))
