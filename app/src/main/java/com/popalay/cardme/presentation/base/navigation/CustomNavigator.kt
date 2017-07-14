@@ -3,16 +3,19 @@ package com.popalay.cardme.presentation.base.navigation
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import com.popalay.cardme.R
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
+import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.home.HomeActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.utils.extensions.currentFragment
+import com.popalay.cardme.utils.transitions.FabTransform
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import ru.terrakok.cicerone.android.SupportAppNavigator
@@ -44,6 +47,16 @@ open class CustomNavigator(
                 } else {
                     activity.startActivityForResult(activityIntent, command.requestCode)
                 }
+                return
+            }
+        }
+
+        if (command is ForwardWithTransition) {
+            val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
+
+            // Start activity
+            if (activityIntent != null) {
+                activity.startActivity(activityIntent, command.transition)
                 return
             }
         }
@@ -128,6 +141,9 @@ open class CustomNavigator(
         SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as CreditCard)
         SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
         SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
+        SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity).apply {
+            FabTransform.addExtras(this, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
+        }
         else -> null
     }
 

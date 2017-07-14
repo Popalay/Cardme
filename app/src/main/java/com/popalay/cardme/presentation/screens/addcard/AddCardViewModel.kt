@@ -79,11 +79,8 @@ class AddCardViewModel @Inject constructor(
         acceptClickListener.applyThrottling()
                 .filter { it }
                 .map { card.get() }
-                .doOnNext {
-                    cardInteractor.save(it)
-                            .subscribeBy(onComplete = router::exit, onError = this::handleLocalError)
-                            .addTo(disposables)
-                }
+                .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
+                .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
@@ -95,7 +92,7 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         errorDialogState
-                .filter { !it }
+                .filter { it }
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)

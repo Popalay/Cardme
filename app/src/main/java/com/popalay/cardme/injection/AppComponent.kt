@@ -2,7 +2,6 @@ package com.popalay.cardme.injection
 
 import com.popalay.cardme.App
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.presentation.screens.debts.DebtsPresenter
 import com.popalay.cardme.presentation.screens.home.HomePresenter
 import dagger.BindsInstance
 import dagger.Component
@@ -26,8 +25,6 @@ interface AppComponent : AndroidInjector<App> {
     }
 
     fun getRouter(): CustomRouter
-
-    fun inject(presenter: DebtsPresenter)
 
     fun inject(presenter: HomePresenter)
 }

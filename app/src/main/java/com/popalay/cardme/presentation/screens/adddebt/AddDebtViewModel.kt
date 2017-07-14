@@ -54,11 +54,8 @@ class AddDebtViewModel @Inject constructor(
         addClick.applyThrottling()
                 .filter { it }
                 .map { debt.get() }
-                .doOnNext {
-                    debtsInteractor.save(it)
-                            .subscribeBy(onComplete = router::exit, onError = this::handleBaseError)
-                            .addTo(disposables)
-                }
+                .switchMapSingle { debtsInteractor.save(it).toSingleDefault(true) }
+                .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

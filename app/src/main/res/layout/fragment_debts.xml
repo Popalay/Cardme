@@ -8,7 +8,7 @@
     <data>
 
         <variable
-            name="model"
+            name="vm"
             type="com.popalay.cardme.presentation.screens.debts.DebtsViewModel"
             />
 
@@ -32,8 +32,11 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             bind:applyDivider="@{orientation.VERTICAL}"
-            bind:debtsAdapter="@{model.debts}"
+            bind:debtsAdapter="@{vm.debts}"
             bind:defaultList="@{true}"
+            bind:onSwiped="@{vm.onSwiped}"
+            bind:onUndoSwipe="@{vm.onUndoSwipe}"
+            bind:undoMessage="@{@string/debt_removed}"
             tools:listitem="@layout/item_debt"
             />
 
@@ -46,6 +49,7 @@
             android:src="@drawable/ic_write"
             app:fabSize="normal"
             app:layout_behavior="@string/fab_hide_behavior"
+            bind:onClick="@{vm.addDebtClickPublisher}"
             />
 
         <TextView
@@ -54,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/list_debts_placeholder"
-            bind:listPlaceholder="@{model.debts}"
+            bind:listPlaceholder="@{vm.debts}"
             />
 
     </android.support.design.widget.CoordinatorLayout>
