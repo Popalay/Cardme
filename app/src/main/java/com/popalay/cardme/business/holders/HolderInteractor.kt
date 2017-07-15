@@ -38,9 +38,7 @@ class HolderInteractor @Inject constructor(
 
     private fun transform(withContacts: Boolean, holders: List<Holder>): List<String> {
         val names = holders.map { it.name }.toMutableList()
-        if (withContacts) {
-            deviceRepository.getContacts().map { it.displayName }.forEach { names.add(it) }
-        }
-        return names.sorted()
+        if (withContacts) names.addAll(deviceRepository.getContacts().map { it.displayName })
+        return names.distinct().sorted()
     }
 }
