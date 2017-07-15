@@ -33,12 +33,14 @@ class HomeViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        bottomNavigationClick.applyThrottling()
+        bottomNavigationClick
+                .distinctUntilChanged()
                 .doOnNext(this::openByPage)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        drawerNavigationClick.applyThrottling()
+        drawerNavigationClick
+                .distinctUntilChanged()
                 .doOnNext(this::openByPage)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
@@ -46,9 +48,9 @@ class HomeViewModel @Inject constructor(
 
     private fun openByPage(pageId: Int) {
         when (pageId) {
-            R.id.cards -> router.newRootScreen(SCREEN_CARDS)
-            R.id.holders -> router.newRootScreen(SCREEN_HOLDERS)
-            R.id.debts -> router.newRootScreen(SCREEN_DEBTS)
+            R.id.cards -> router.replaceScreen(SCREEN_CARDS)
+            R.id.holders -> router.replaceScreen(SCREEN_HOLDERS)
+            R.id.debts -> router.replaceScreen(SCREEN_DEBTS)
             R.id.navigation_privacy_policy -> router.navigateToUrl(PRIVACY_POLICY_LINK)
         }
     }
