@@ -21,13 +21,11 @@ import android.widget.ImageView;
 import com.jakewharton.rxrelay2.Relay;
 import com.popalay.cardme.App;
 import com.popalay.cardme.R;
-import com.popalay.cardme.presentation.widget.OnOneOffClickListener;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
 import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
-import io.reactivex.functions.Action;
 import kotlin.Pair;
 
 public class BindingAdapters {
@@ -45,20 +43,6 @@ public class BindingAdapters {
     @BindingAdapter("listPlaceholder")
     public static void setListPlaceholder(View view, List list) {
         view.setVisibility(list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-
-    @BindingAdapter("onClickDebounced")
-    public static void setDebouncedOnClickListener(View view, Action action) {
-        view.setOnClickListener(new OnOneOffClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                try {
-                    action.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     @BindingAdapter("hasFixedSize")

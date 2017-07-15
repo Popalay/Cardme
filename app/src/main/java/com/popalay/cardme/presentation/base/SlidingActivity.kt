@@ -19,16 +19,18 @@ abstract class SlidingActivity : BaseActivity() {
     companion object {
         private val GESTURE_THRESHOLD = 10
         private val ANIMATION_DURATION = 200L
+        private val SWIPE_INDEX = 1.5F
+        private val SWIPE_START_PART= 2.5F
     }
 
-    private var startX = 0f
-    private var startY = 0f
+    private var startX = 0F
+    private var startY = 0F
     private var isSliding = false
     private lateinit var root: View
     private var screenSize: Point by Delegates.notNull<Point>()
     private var windowScrim: ColorDrawable by Delegates.notNull<ColorDrawable>()
-    private var statusBarColor: Int = 0
-    private var lastPos: Float = 0F
+    private var statusBarColor = 0
+    private var lastPos = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,7 @@ abstract class SlidingActivity : BaseActivity() {
                     ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
                 }
-                root.y = Math.max(ev.y / 1.5f - startY, 0f)
+                root.y = Math.max(ev.y / SWIPE_INDEX - startY, 0f)
                 updateScrim(lastPos > ev.y)
                 handled = true
                 lastPos = root.y
@@ -88,17 +90,13 @@ abstract class SlidingActivity : BaseActivity() {
 
     protected abstract fun getRootView(): View
 
-    protected fun onSlidingFinished() {
-        //override to add logic
-    }
+    protected open fun onSlidingFinished() = Unit
 
-    protected fun onSlidingStarted() {
-        //override to add logic
-    }
+    protected open fun onSlidingStarted() = Unit
 
     protected open fun canSlideDown() = true
 
-    private fun shouldClose(delta: Float): Boolean = delta > screenSize.y / 3
+    private fun shouldClose(delta: Float): Boolean = delta > screenSize.y / SWIPE_START_PART
 
     private fun isSlidingDown(startX: Float, startY: Float, ev: MotionEvent): Boolean {
         val deltaX = Math.abs(startX - ev.x)
