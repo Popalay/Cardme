@@ -85,7 +85,6 @@ open class Card(
         return true
     }
 
-
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
         result = 31 * result + title.hashCode()
@@ -97,4 +96,9 @@ open class Card(
         result = 31 * result + position
         return result
     }
+
+    override fun toString(): String {
+        return "Card(id=$id, title='$title', number='$number', redactedNumber='$redactedNumber', holder=$holder, cardType=$cardType, generatedBackgroundSeed=$generatedBackgroundSeed, position=$position)"
+    }
+
 }

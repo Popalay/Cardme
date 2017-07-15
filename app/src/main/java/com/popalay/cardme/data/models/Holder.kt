@@ -39,4 +39,9 @@ open class Holder(
         result = 31 * result + debtCount
         return result
     }
+
+    override fun toString(): String {
+        return "Holder(id=$id, name='$name', cardsCount=$cardsCount, debtCount=$debtCount)"
+    }
+
 }

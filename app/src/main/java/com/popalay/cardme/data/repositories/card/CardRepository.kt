@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class CardRepository @Inject internal constructor() {
+class CardRepository @Inject internal constructor() {
 
     fun save(card: Card): Completable = RxRealm.doTransactional {
         if (card.id == null) {
@@ -47,7 +47,7 @@ open class CardRepository @Inject internal constructor() {
         it.where(Card::class.java).equalTo(Card.ID, card.id).findAll().deleteAllFromRealm()
     }
 
-    open fun cardIsNew(card: Card): Single<Boolean> = RxRealm.getElement {
+    fun cardIsNew(card: Card): Single<Boolean> = RxRealm.getElement {
         it.where(Card::class.java).equalTo(Card.FORMATTED_NUMBER, card.number).findFirst()
     }.isEmpty
 }

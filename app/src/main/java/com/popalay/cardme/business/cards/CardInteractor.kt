@@ -35,7 +35,7 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun updateCards(items: List<Card>): Completable {
-        items.forEachIndexed { index, card -> card.position = index }
+        items.mapIndexed { index, card -> card.position = index }
         return cardRepository.save(items)
                 .subscribeOn(Schedulers.io())
     }
