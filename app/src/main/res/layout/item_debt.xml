@@ -31,7 +31,6 @@
             style="@style/Cardme.SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/small"
             android:layout_toEndOf="@id/image_coin"
             android:text="@{item.message}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"

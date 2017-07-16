@@ -128,24 +128,27 @@ public class BindingAdapters {
             Relay<Pair<Integer, Integer>> onDragged,
             Relay<Boolean> onDropped,
             String undoMessage, Relay<Boolean> onUndoSwipe) {
-        new ItemTouchHelper(new SimpleItemTouchHelperCallback(position -> {
-            if (onSwiped == null) return;
+        final SimpleItemTouchHelperCallback.SwipeCallback swipeCallback = onSwiped == null ? null : position -> {
             onSwiped.accept(position);
 
             if (onUndoSwipe == null) return;
             Snackbar.make(view, undoMessage, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action_undo, ignored -> onUndoSwipe.accept(true))
                     .show();
-        }, new SimpleItemTouchHelperCallback.DragCallback() {
-            @Override public void onDragged(int from, int to) {
-                if (onDragged == null) return;
-                onDragged.accept(new Pair<>(from, to));
-            }
+        };
 
-            @Override public void onDropped() {
-                if (onDropped == null) return;
-                onDropped.accept(true);
-            }
-        })).attachToRecyclerView(view);
+        final SimpleItemTouchHelperCallback.DragCallback dragCallback = onDragged == null ? null :
+                new SimpleItemTouchHelperCallback.DragCallback() {
+                    @Override public void onDragged(int from, int to) {
+                        onDragged.accept(new Pair<>(from, to));
+                    }
+
+                    @Override public void onDropped() {
+                        onDropped.accept(true);
+                    }
+                };
+
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(swipeCallback, dragCallback))
+                .attachToRecyclerView(view);
     }
 }

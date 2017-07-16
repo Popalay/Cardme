@@ -7,13 +7,12 @@ import com.popalay.cardme.data.models.Holder
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
-import io.reactivex.Single
 import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class HolderRepository @Inject constructor() {
+class HolderRepository @Inject constructor() {
 
     fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
         it.where(Holder::class.java).findAllSorted(Holder.NAME)
