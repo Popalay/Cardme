@@ -26,7 +26,7 @@ class DebtRepository @Inject internal constructor() {
         if (debt.createdAt == 0L) {
             debt.createdAt = System.currentTimeMillis()
         }
-        it.copyToRealmOrUpdate(debt)
+        it.insertOrUpdate(debt)
     }.toSingleDefault(debt)
 
     fun getAll(): Flowable<List<Debt>> = RxRealm.listenList {

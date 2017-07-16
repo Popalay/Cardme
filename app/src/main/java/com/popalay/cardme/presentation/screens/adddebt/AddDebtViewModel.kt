@@ -44,8 +44,8 @@ class AddDebtViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        Observables.combineLatest(to.observe().doOnNext { debt.get().holder.name = it },
-                message.observe().doOnNext { debt.get().message = it })
+        Observables.combineLatest(to.observe().doOnNext { debt.get().holder.name = it.trim() },
+                message.observe().doOnNext { debt.get().message = it.trim() })
                 .map { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() }
                 .setTo(canSave)
                 .subscribeBy(this::handleBaseError)
