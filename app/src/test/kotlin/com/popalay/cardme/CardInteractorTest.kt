@@ -61,7 +61,7 @@ class CardInteractorTest {
     @Test fun saveCard_Success() {
         val card = Card()
 
-        whenever(cardRepository.save(card)).thenReturn(Completable.complete())
+        whenever(cardRepository.save(card)).thenReturn(Single.just(card))
         whenever(holderRepository.updateCounts(Holder())).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.save(card).test()
@@ -114,14 +114,14 @@ class CardInteractorTest {
         val cards = (1..5).map { Card(position = it * 3) }.toMutableList()
         val cardsRePositioned = (1..5).map { Card(position = it - 1) }.toMutableList()
 
-        whenever(cardRepository.save(cards)).thenReturn(Completable.complete())
+        whenever(cardRepository.update(cards)).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.updateCards(cards).test()
 
         testObserver.awaitTerminalEvent()
 
         argumentCaptor<List<Card>>().apply {
-            verify(cardRepository).save(capture())
+            verify(cardRepository).update(capture())
             assertEquals(cardsRePositioned, firstValue)
         }
 

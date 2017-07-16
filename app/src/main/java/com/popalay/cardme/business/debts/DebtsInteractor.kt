@@ -16,7 +16,7 @@ class DebtsInteractor @Inject constructor(
 ) {
 
     fun save(debt: Debt): Completable = debtRepository.save(debt)
-            .andThen(holderRepository.updateCounts(debt.holder))
+            .flatMapCompletable { holderRepository.updateCounts(it.holder) }
             .subscribeOn(Schedulers.io())
 
     fun getDebts(): Flowable<List<Debt>> = debtRepository.getAll()

@@ -5,6 +5,7 @@ import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,13 +13,13 @@ import javax.inject.Singleton
 @Singleton
 class DebtRepository @Inject internal constructor() {
 
-    fun save(debt: Debt): Completable = RxRealm.doTransactional {
+    fun save(debt: Debt): Single<Debt> = RxRealm.doTransactional {
         if (debt.id == null) {
             debt.id = UUID.randomUUID().toString()
         }
         val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name).findFirst()
         if (realmHolder != null) {
-            debt.holder = realmHolder
+            debt.holder = it.copyFromRealm(realmHolder)
         } else {
             debt.holder.id = UUID.randomUUID().toString()
         }
@@ -26,7 +27,7 @@ class DebtRepository @Inject internal constructor() {
             debt.createdAt = System.currentTimeMillis()
         }
         it.copyToRealmOrUpdate(debt)
-    }
+    }.toSingleDefault(debt)
 
     fun getAll(): Flowable<List<Debt>> = RxRealm.listenList {
         it.where(Debt::class.java).findAllSorted(Debt.CREATED_AT)

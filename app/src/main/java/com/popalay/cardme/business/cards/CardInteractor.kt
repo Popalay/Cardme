@@ -26,7 +26,7 @@ class CardInteractor @Inject constructor(
     }
 
     fun save(card: Card): Completable = cardRepository.save(card)
-            .andThen(holderRepository.updateCounts(card.holder))
+            .flatMapCompletable { holderRepository.updateCounts(it.holder) }
             .subscribeOn(Schedulers.io())
 
     fun getCards(): Flowable<List<Card>> = cardRepository.getAll().subscribeOn(Schedulers.io())
@@ -36,7 +36,7 @@ class CardInteractor @Inject constructor(
 
     fun updateCards(items: List<Card>): Completable {
         items.mapIndexed { index, card -> card.position = index }
-        return cardRepository.save(items)
+        return cardRepository.update(items)
                 .subscribeOn(Schedulers.io())
     }
 

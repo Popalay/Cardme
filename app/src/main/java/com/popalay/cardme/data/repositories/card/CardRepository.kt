@@ -14,21 +14,20 @@ import javax.inject.Singleton
 @Singleton
 class CardRepository @Inject internal constructor() {
 
-    fun save(card: Card): Completable = RxRealm.doTransactional {
+    fun save(card: Card): Single<Card> = RxRealm.doTransactional {
         if (card.id == null) {
             card.id = UUID.randomUUID().toString()
         }
-        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holder.name)
-                .findFirst()
+        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holder.name).findFirst()
         if (realmHolder != null) {
-            card.holder = realmHolder
+            card.holder = it.copyFromRealm(realmHolder)
         } else {
             card.holder.id = UUID.randomUUID().toString()
         }
         it.copyToRealmOrUpdate(card)
-    }
+    }.toSingleDefault(card)
 
-    fun save(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
+    fun update(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
 
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
