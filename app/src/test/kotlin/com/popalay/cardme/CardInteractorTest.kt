@@ -129,4 +129,20 @@ class CardInteractorTest {
                 .assertNoErrors()
                 .assertComplete()
     }
+
+    @Test fun removeCard_Success() {
+        val card = Card()
+
+        whenever(cardRepository.remove(card)).thenReturn(Completable.complete())
+
+        val testObserver = cardInteractor.removeCard(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).remove(card)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
 }
