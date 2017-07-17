@@ -31,7 +31,6 @@ class HolderDetailsViewModel @Inject constructor(
 
     val debts = ObservableArrayList<Debt>()
     val cards = ObservableArrayList<Card>()
-    val holderNames = ObservableArrayList<String>()
     val holderName = ObservableString()
     val showImage = ObservableBoolean()
 
@@ -53,12 +52,6 @@ class HolderDetailsViewModel @Inject constructor(
         holderInteractor.getHolderName(holderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holderName)
-                .subscribeBy()
-                .addTo(disposables)
-
-        holderInteractor.getHolderNames()
-                .observeOn(AndroidSchedulers.mainThread())
-                .setTo(holderNames)
                 .subscribeBy()
                 .addTo(disposables)
 
