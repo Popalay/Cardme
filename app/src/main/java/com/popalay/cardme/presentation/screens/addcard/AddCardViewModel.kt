@@ -14,6 +14,7 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.utils.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
@@ -65,14 +66,14 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         holderName.observe()
-                .doOnNext { card.get()?.holder?.name = it.trim() }
+                .doOnNext { card.get()?.holder?.name = it.clean() }
                 .map { !it.isNullOrBlank() }
                 .setTo(canSave)
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 
         title.observe()
-                .doOnNext { card.get()?.title = it.trim() }
+                .doOnNext { card.get()?.title = it.clean() }
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 

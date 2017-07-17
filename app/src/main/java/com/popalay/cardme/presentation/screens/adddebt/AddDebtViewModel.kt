@@ -9,6 +9,7 @@ import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.utils.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
@@ -44,8 +45,8 @@ class AddDebtViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        Observables.combineLatest(to.observe().doOnNext { debt.get().holder.name = it.trim() },
-                message.observe().doOnNext { debt.get().message = it.trim() })
+        Observables.combineLatest(to.observe().doOnNext { debt.get().holder.name = it.clean() },
+                message.observe().doOnNext { debt.get().message = it.clean() })
                 .map { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() }
                 .setTo(canSave)
                 .subscribeBy(this::handleBaseError)

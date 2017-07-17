@@ -6,3 +6,7 @@ fun String.firstLetters(maxLetters: Int = 2): String {
             .map { it[0].toString() }
             .reduce { acc, s -> acc + s }
 }
+
+fun String.clean(): String {
+    return this.trim().replace(Regex("\\s+"), " ")
+}
