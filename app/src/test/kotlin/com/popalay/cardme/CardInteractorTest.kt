@@ -6,7 +6,6 @@ import com.nhaarman.mockito_kotlin.whenever
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.card.CardRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
@@ -62,13 +61,14 @@ class CardInteractorTest {
         val card = Card()
 
         whenever(cardRepository.save(card)).thenReturn(Single.just(card))
-        whenever(holderRepository.updateCounts(Holder())).thenReturn(Completable.complete())
+        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.save(card).test()
 
         testObserver.awaitTerminalEvent()
 
         verify(cardRepository).save(card)
+        verify(holderRepository).updateCounts(card.holder)
 
         testObserver
                 .assertNoErrors()
@@ -134,12 +134,14 @@ class CardInteractorTest {
         val card = Card()
 
         whenever(cardRepository.remove(card)).thenReturn(Completable.complete())
+        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.removeCard(card).test()
 
         testObserver.awaitTerminalEvent()
 
         verify(cardRepository).remove(card)
+        verify(holderRepository).updateCounts(card.holder)
 
         testObserver
                 .assertNoErrors()
