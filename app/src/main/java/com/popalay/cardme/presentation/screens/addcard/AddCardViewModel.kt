@@ -3,6 +3,7 @@ package com.popalay.cardme.presentation.screens.addcard
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import android.databinding.ObservableList
 import android.view.inputmethod.EditorInfo
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
@@ -14,7 +15,7 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.utils.clean
+import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
@@ -36,7 +37,7 @@ class AddCardViewModel @Inject constructor(
 ) : BaseViewModel(), AddCardViewModelFacade {
 
     val holderName = ObservableString()
-    val holderNames = ObservableArrayList<String>()
+    val holderNames: ObservableList<String> = ObservableArrayList<String>()
     val title = ObservableString()
     val canSave = ObservableBoolean()
     val showImage = ObservableBoolean()
