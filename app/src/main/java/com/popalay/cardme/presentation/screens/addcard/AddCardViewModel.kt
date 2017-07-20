@@ -15,8 +15,8 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
+import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
@@ -68,7 +68,8 @@ class AddCardViewModel @Inject constructor(
 
         holderName.observe()
                 .doOnNext { card.get()?.holder?.name = it.clean() }
-                .map { !it.isNullOrBlank() }
+                .flatMapSingle { cardInteractor.hasAllData(card.get()) }
+                .map { it }
                 .setTo(canSave)
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
@@ -94,7 +95,7 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         errorDialogState
-                .filter { it }
+                .filter { !it }
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
@@ -106,7 +107,6 @@ class AddCardViewModel @Inject constructor(
 
     override fun onShowCardExistsDialogDismiss() {
         errorDialogState.accept(false)
-        router.exit()
     }
 
     private fun handleLocalError(throwable: Throwable) {

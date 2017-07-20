@@ -51,7 +51,8 @@ class CardsViewModel @Inject constructor(
                 .subscribeBy()
                 .addTo(disposables)
 
-        addCardClickPublisher.applyThrottling()
+        addCardClickPublisher
+                .applyThrottling()
                 .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE) }
                 .addTo(disposables)
 
