@@ -9,7 +9,7 @@ import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.utils.clean
+import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString

@@ -1,4 +1,4 @@
-package com.popalay.cardme.utils
+package com.popalay.cardme.utils.extensions
 
 fun String.firstLetters(maxLetters: Int = 2): String {
     return if (this.isBlank()) "" else split(" ")

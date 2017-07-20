@@ -50,6 +50,7 @@ class AddCardActivity : BaseActivity() {
                             R.string.error_card_exist, R.string.action_close,
                             onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
                             .apply { setCancelable(false) }
+                            .show()
                 }.addTo(disposables)
     }
 }

@@ -134,6 +134,7 @@ dependencies {
     // Utils
     implementation 'io.card:android-sdk:5.5.1'
 
+    // Adapter
     implementation 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
 
     implementation 'com.facebook.stetho:stetho:1.4.2'

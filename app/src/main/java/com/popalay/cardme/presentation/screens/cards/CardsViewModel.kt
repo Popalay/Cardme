@@ -1,6 +1,5 @@
 package com.popalay.cardme.presentation.screens.cards
 
-import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
@@ -13,6 +12,7 @@ import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.extensions.swap
+import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.stepango.rxdatabindings.setTo
 import io.card.payment.CreditCard
 import io.reactivex.Observable
@@ -27,7 +27,7 @@ class CardsViewModel @Inject constructor(
         private val settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), CardsViewModelFacade {
 
-    val cards = ObservableArrayList<Card>()
+    val cards = DiffObservableList<Card>()
     val showImage = ObservableBoolean()
 
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
@@ -51,13 +51,13 @@ class CardsViewModel @Inject constructor(
                 .subscribeBy()
                 .addTo(disposables)
 
-        addCardClickPublisher.applyThrottling()
+        addCardClickPublisher
+                .applyThrottling()
                 .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE) }
                 .addTo(disposables)
 
         onDragged
-                .map { cards.swap(it); cards as List<Card> }
-                .setTo(cards)
+                .map(cards::swap)
                 .subscribeBy()
                 .addTo(disposables)
 

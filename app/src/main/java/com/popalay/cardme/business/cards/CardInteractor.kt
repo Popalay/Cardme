@@ -29,6 +29,9 @@ class CardInteractor @Inject constructor(
             .flatMapCompletable { holderRepository.updateCounts(it.holder) }
             .subscribeOn(Schedulers.io())
 
+    fun hasAllData(card: Card): Single<Boolean> = Single.just(card)
+            .map { it.holder.name.isNotBlank() }
+
     fun getCards(): Flowable<List<Card>> = cardRepository.getAll().subscribeOn(Schedulers.io())
 
     fun getCardsByHolder(holderId: String): Flowable<List<Card>> = cardRepository.getAllByHolder(holderId)

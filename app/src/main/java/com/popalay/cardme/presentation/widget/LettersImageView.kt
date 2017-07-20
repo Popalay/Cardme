@@ -7,7 +7,7 @@ import android.util.AttributeSet
 
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.popalay.cardme.utils.firstLetters
+import com.popalay.cardme.utils.extensions.firstLetters
 
 class LettersImageView : AppCompatImageView {
 

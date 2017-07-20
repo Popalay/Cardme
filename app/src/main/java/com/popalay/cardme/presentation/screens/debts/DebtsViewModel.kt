@@ -1,12 +1,12 @@
 package com.popalay.cardme.presentation.screens.debts
 
-import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.debts.DebtsInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.popalay.cardme.utils.extensions.setTo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -18,7 +18,7 @@ class DebtsViewModel @Inject constructor(
         debtsInteractor: DebtsInteractor
 ) : BaseViewModel() {
 
-    val debts: ObservableList<Debt> = ObservableArrayList()
+    var debts = DiffObservableList<Debt>()
 
     val addDebtClickPublisher: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
 

@@ -1,6 +1,5 @@
 package com.popalay.cardme.presentation.screens.holderdetails
 
-import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
@@ -12,6 +11,7 @@ import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
+import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
@@ -29,8 +29,8 @@ class HolderDetailsViewModel @Inject constructor(
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), HolderDetailsViewModelFacade {
 
-    val debts = ObservableArrayList<Debt>()
-    val cards = ObservableArrayList<Card>()
+    val debts = DiffObservableList<Debt>()
+    val cards = DiffObservableList<Card>()
     val holderName = ObservableString()
     val showImage = ObservableBoolean()
 
