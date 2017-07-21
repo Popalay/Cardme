@@ -1,9 +1,11 @@
 package com.popalay.cardme.presentation.base.navigation
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
+import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult

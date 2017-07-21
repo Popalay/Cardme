@@ -86,9 +86,9 @@ ext {
     rxKotlin = '2.1.0'
     playServices = '11.0.2'
     dagger = '2.11'
-    archComponents = '1.0.0-alpha4'
+    archComponents = '1.0.0-alpha5'
     leakCanary = '1.5.1'
-    cicerone = '1.2.1'
+    cicerone = '2.0.0'
 }
 
 dependencies {

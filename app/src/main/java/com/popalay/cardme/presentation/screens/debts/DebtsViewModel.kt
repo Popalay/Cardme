@@ -10,7 +10,6 @@ import com.popalay.cardme.utils.recycler.DiffObservableList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DebtsViewModel @Inject constructor(
@@ -35,8 +34,7 @@ class DebtsViewModel @Inject constructor(
         onSwiped
                 .map(debts::get)
                 .flatMapSingle { debtsInteractor.remove(it).toSingle { it } }
-                .flatMap { debt -> onUndoSwipe.filter { it }.map { debt } }
-                .debounce(1L, TimeUnit.MILLISECONDS)
+                .switchMap { debt -> onUndoSwipe.filter { it }.map { debt } }
                 .flatMapCompletable(debtsInteractor::save)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)

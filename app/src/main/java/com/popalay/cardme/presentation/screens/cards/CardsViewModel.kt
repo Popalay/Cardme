@@ -19,7 +19,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CardsViewModel @Inject constructor(
@@ -72,8 +71,7 @@ class CardsViewModel @Inject constructor(
         onSwiped
                 .map(cards::get)
                 .flatMapSingle { cardInteractor.removeCard(it).toSingle { it } }
-                .flatMap { card -> onUndoSwipe.filter { it }.map { card } }
-                .debounce(1L, TimeUnit.MILLISECONDS)
+                .switchMap { card -> onUndoSwipe.filter { it }.map { card } }
                 .flatMapCompletable(cardInteractor::save)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
