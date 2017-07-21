@@ -1,11 +1,10 @@
 package com.popalay.cardme.presentation.base.navigation
 
 import android.content.Intent
-import android.net.Uri
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
-import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult
@@ -23,10 +22,7 @@ import com.popalay.cardme.utils.transitions.FabTransform
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import ru.terrakok.cicerone.android.SupportAppNavigator
-import ru.terrakok.cicerone.commands.Back
 import ru.terrakok.cicerone.commands.Command
-import ru.terrakok.cicerone.commands.Forward
-import ru.terrakok.cicerone.commands.Replace
 
 open class CustomNavigator(
         val activity: BaseActivity,
@@ -38,10 +34,7 @@ open class CustomNavigator(
     override fun applyCommand(command: Command?) {
         if (command is ForwardToUrl) {
             BrowserUtils.openLink(activity, command.url)
-            return
-        }
-
-        if (command is ForwardForResult) {
+        } else if (command is ForwardForResult) {
             val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
 
             // Start activity
@@ -52,11 +45,8 @@ open class CustomNavigator(
                 } else {
                     activity.startActivityForResult(activityIntent, command.requestCode)
                 }
-                return
             }
-        }
-
-        if (command is ForwardWithTransition) {
+        } else if (command is ForwardWithTransition) {
             val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
             // Start activity
             if (activityIntent != null) {
@@ -66,76 +56,6 @@ open class CustomNavigator(
                 } else {
                     activity.startActivity(activityIntent, command.transition)
                 }
-                return
-            }
-        }
-
-        if (command is Forward) {
-            val forward = command
-            val activityIntent = createActivityIntent(forward.screenKey, forward.transitionData)
-
-            // Start activity
-            if (activityIntent != null) {
-                activity.startActivity(activityIntent)
-                return
-            }
-        } else if (command is Replace) {
-            val replace = command
-            val activityIntent = createActivityIntent(replace.screenKey, replace.transitionData)
-
-            // Replace activity
-            if (activityIntent != null) {
-                activity.startActivity(activityIntent)
-                activity.finish()
-                return
-            }
-        }
-
-        if (command is Forward) {
-            val forward = command
-            val fragment = createFragment(forward.screenKey, forward.transitionData)
-            if (fragment == null) {
-                unknownScreen(command)
-                return
-            }
-            fragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .replace(containerId, fragment)
-                    .addToBackStack(forward.screenKey)
-                    .commit()
-            return
-        } else if (command is Back) {
-            if (fragmentManager.backStackEntryCount > 0) {
-                fragmentManager.popBackStackImmediate()
-                return
-            } else {
-                exit()
-                return
-            }
-        } else if (command is Replace) {
-            val replace = command
-            val fragment = createFragment(replace.screenKey, replace.transitionData)
-            if (fragment == null) {
-                unknownScreen(command)
-                return
-            }
-            if (fragmentManager.backStackEntryCount > 0) {
-                fragmentManager.popBackStackImmediate()
-                fragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(containerId, fragment)
-                        .addToBackStack(replace.screenKey)
-                        .commit()
-                return
-            } else {
-                fragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(containerId, fragment)
-                        .commit()
-                return
             }
         }
 
@@ -154,5 +74,12 @@ open class CustomNavigator(
             FabTransform.addExtras(this, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
         }
         else -> null
+    }
+
+    override fun setupFragmentTransactionAnimation(command: Command?,
+                                                   currentFragment: Fragment?,
+                                                   nextFragment: Fragment?,
+                                                   fragmentTransaction: FragmentTransaction?) {
+        fragmentTransaction?.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
     }
 }
