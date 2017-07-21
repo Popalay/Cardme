@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.jakewharton.rxrelay2.Relay;
 import com.popalay.cardme.App;
+import com.popalay.cardme.ConstantsKt;
 import com.popalay.cardme.R;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
 import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
@@ -132,7 +133,8 @@ public class BindingAdapters {
             onSwiped.accept(position);
 
             if (onUndoSwipe == null) return;
-            Snackbar.make(view, undoMessage, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(view, undoMessage, Snackbar.LENGTH_LONG)
+                    .setDuration(ConstantsKt.UNDO_MESSAGE_DURATION)
                     .setAction(R.string.action_undo, ignored -> onUndoSwipe.accept(true))
                     .show();
         };

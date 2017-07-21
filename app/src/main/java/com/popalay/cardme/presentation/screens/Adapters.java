@@ -28,7 +28,7 @@ public class Adapters {
     public static void cardsAdapter(RecyclerView recyclerView, List<Card> items,
             Relay<Card> publisher, ObservableBoolean showImage) {
         if (recyclerView.getAdapter() != null || items == null || items.isEmpty()) return;
-        new LastAdapter(items, BR.item, true)
+        new LastAdapter(items, BR.item)
                 .map(Card.class, new ItemType<ItemCardBinding>(R.layout.item_card) {
                     @Override public void onCreate(@NotNull Holder<ItemCardBinding> holder) {
                         super.onCreate(holder);
@@ -48,7 +48,7 @@ public class Adapters {
     @BindingAdapter("debtsAdapter")
     public static void debtsAdapter(RecyclerView recyclerView, List<Debt> items) {
         if (recyclerView.getAdapter() != null || items == null || items.isEmpty()) return;
-        new LastAdapter(items, BR.item, true)
+        new LastAdapter(items, BR.item)
                 .map(Debt.class, R.layout.item_debt)
                 .into(recyclerView);
     }
@@ -57,7 +57,7 @@ public class Adapters {
     public static void holdersAdapter(RecyclerView recyclerView, List<com.popalay.cardme.data.models.Holder> items,
             Relay<com.popalay.cardme.data.models.Holder> publisher) {
         if (recyclerView.getAdapter() != null || items == null || items.isEmpty()) return;
-        new LastAdapter(items, BR.item, true)
+        new LastAdapter(items, BR.item)
                 .map(com.popalay.cardme.data.models.Holder.class, new ItemType<ItemHolderBinding>(R.layout.item_holder) {
                     @Override
                     public void onCreate(@NotNull com.github.nitrico.lastadapter.Holder<ItemHolderBinding> holder) {
