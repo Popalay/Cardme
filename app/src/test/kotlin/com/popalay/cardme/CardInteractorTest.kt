@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.card.CardRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
@@ -43,6 +44,34 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
+    @Test fun hasAllData_True() {
+        val holder = Holder(name = "Denis")
+        val card = Card(holder = holder)
+
+        val testObserver = cardInteractor.hasAllData(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        testObserver
+                .assertNoErrors()
+                .assertValue { it }
+                .assertComplete()
+    }
+
+    @Test fun hasAllData_False() {
+        val holder = Holder(name = "")
+        val card = Card(holder = holder)
+
+        val testObserver = cardInteractor.hasAllData(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        testObserver
+                .assertNoErrors()
+                .assertValue { !it }
+                .assertComplete()
+    }
+
     @Test fun validateCard_Failed() {
         val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
 
@@ -76,9 +105,14 @@ class CardInteractorTest {
     }
 
     @Test fun getCards_Success() {
-        val cards = (1..5).map { Card() }.toList()
+        val cards = (1..5).map { Card() }.toMutableList()
+        val trashedCard = Card(isTrash = true)
+        cards.add(trashedCard)
 
-        whenever(cardRepository.getAll()).thenReturn(Flowable.just(cards))
+        whenever(cardRepository.getAll()).thenReturn(Flowable.fromCallable {
+            cards.remove(trashedCard)
+            cards
+        })
 
         val testObserver = cardInteractor.getCards().test()
 
@@ -93,10 +127,15 @@ class CardInteractorTest {
     }
 
     @Test fun getCardsByHolder_Success() {
-        val cards = (1..5).map { Card() }.toList()
+        val cards = (1..5).map { Card() }.toMutableList()
+        val trashedCard = Card(isTrash = true)
+        cards.add(trashedCard)
         val holderId = "0"
 
-        whenever(cardRepository.getAllByHolder(holderId)).thenReturn(Flowable.just(cards))
+        whenever(cardRepository.getAllByHolder(holderId)).thenReturn(Flowable.fromCallable {
+            cards.remove(trashedCard)
+            cards
+        })
 
         val testObserver = cardInteractor.getCardsByHolder(holderId).test()
 
@@ -141,6 +180,24 @@ class CardInteractorTest {
         testObserver.awaitTerminalEvent()
 
         verify(cardRepository).remove(card)
+        verify(holderRepository).updateCounts(card.holder)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
+
+    @Test fun restartCard_Success() {
+        val card = Card(isTrash = true)
+
+        whenever(cardRepository.restore(card)).thenReturn(Completable.complete())
+        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
+
+        val testObserver = cardInteractor.restore(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).restore(card)
         verify(holderRepository).updateCounts(card.holder)
 
         testObserver
