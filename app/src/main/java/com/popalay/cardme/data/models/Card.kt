@@ -17,7 +17,8 @@ open class Card(
         open var holder: Holder = Holder(),
         @field:CardType open var cardType: Long = 0L,
         open var generatedBackgroundSeed: Long = 0L,
-        open var position: Int = 0
+        open var position: Int = 0,
+        open var isTrash: Boolean = false
 ) : RealmObject(), StableId {
 
     companion object {
@@ -25,6 +26,7 @@ open class Card(
         const val HOLDER_ID = "holder.id"
         const val FORMATTED_NUMBER = "number"
         const val POSITION = "position"
+        const val IS_TRASH = "isTrash"
 
         @Retention(AnnotationRetention.SOURCE)
         @IntDef(CARD_TYPE_MAESTRO, CARD_TYPE_MASTERCARD, CARD_TYPE_VISA, CARD_TYPE_AMEX,
@@ -73,7 +75,9 @@ open class Card(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
+
         other as Card
+
         if (id != other.id) return false
         if (title != other.title) return false
         if (number != other.number) return false
@@ -82,6 +86,8 @@ open class Card(
         if (cardType != other.cardType) return false
         if (generatedBackgroundSeed != other.generatedBackgroundSeed) return false
         if (position != other.position) return false
+        if (isTrash != other.isTrash) return false
+
         return true
     }
 
@@ -94,11 +100,12 @@ open class Card(
         result = 31 * result + cardType.hashCode()
         result = 31 * result + generatedBackgroundSeed.hashCode()
         result = 31 * result + position
+        result = 31 * result + isTrash.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "Card(id=$id, title='$title', number='$number', redactedNumber='$redactedNumber', holder=$holder, cardType=$cardType, generatedBackgroundSeed=$generatedBackgroundSeed, position=$position)"
+        return "Card(id=$id, title='$title', number='$number', redactedNumber='$redactedNumber', holder=$holder, cardType=$cardType, generatedBackgroundSeed=$generatedBackgroundSeed, position=$position, isTrash=$isTrash)"
     }
 
 }

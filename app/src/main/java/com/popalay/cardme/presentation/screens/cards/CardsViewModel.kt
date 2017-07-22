@@ -63,16 +63,16 @@ class CardsViewModel @Inject constructor(
 
         onDropped
                 .map { cards }
-                .flatMapCompletable(cardInteractor::updateCards)
+                .flatMapCompletable(cardInteractor::update)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
                 .addTo(disposables)
 
         onSwiped
                 .map(cards::get)
-                .flatMapSingle { cardInteractor.removeCard(it).toSingle { it } }
+                .flatMapSingle { cardInteractor.remove(it).toSingle { it } }
                 .switchMap { card -> onUndoSwipe.filter { it }.map { card } }
-                .flatMapCompletable(cardInteractor::save)
+                .flatMapCompletable(cardInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
                 .addTo(disposables)

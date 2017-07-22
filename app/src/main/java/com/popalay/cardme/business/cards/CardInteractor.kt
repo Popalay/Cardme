@@ -29,21 +29,26 @@ class CardInteractor @Inject constructor(
             .flatMapCompletable { holderRepository.updateCounts(it.holder) }
             .subscribeOn(Schedulers.io())
 
-    fun hasAllData(card: Card): Single<Boolean> = Single.just(card)
-            .map { it.holder.name.isNotBlank() }
+    fun hasAllData(card: Card?): Single<Boolean> = Single.fromCallable {
+        card?.holder?.name?.isNotBlank() ?: false
+    }
 
     fun getCards(): Flowable<List<Card>> = cardRepository.getAll().subscribeOn(Schedulers.io())
 
     fun getCardsByHolder(holderId: String): Flowable<List<Card>> = cardRepository.getAllByHolder(holderId)
             .subscribeOn(Schedulers.io())
 
-    fun updateCards(items: List<Card>): Completable {
+    fun update(items: List<Card>): Completable {
         items.mapIndexed { index, card -> card.position = index }
         return cardRepository.update(items)
                 .subscribeOn(Schedulers.io())
     }
 
-    fun removeCard(card: Card): Completable = cardRepository.remove(card)
+    fun remove(card: Card): Completable = cardRepository.remove(card)
+            .andThen(holderRepository.updateCounts(card.holder))
+            .subscribeOn(Schedulers.io())
+
+    fun restore(card: Card): Completable = cardRepository.restore(card)
             .andThen(holderRepository.updateCounts(card.holder))
             .subscribeOn(Schedulers.io())
 

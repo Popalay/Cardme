@@ -28,4 +28,8 @@ class DebtsInteractor @Inject constructor(
     fun remove(debt: Debt): Completable = debtRepository.remove(debt)
             .andThen(holderRepository.updateCounts(debt.holder))
             .subscribeOn(Schedulers.io())
+
+    fun restore(debt: Debt): Completable = debtRepository.restore(debt)
+            .andThen(holderRepository.updateCounts(debt.holder))
+            .subscribeOn(Schedulers.io())
 }

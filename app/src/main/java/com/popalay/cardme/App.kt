@@ -2,6 +2,7 @@ package com.popalay.cardme
 
 import com.facebook.stetho.Stetho
 import com.github.tamir7.contacts.Contacts
+import com.popalay.cardme.data.DataBaseMigration
 import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.DaggerAppComponent
 import com.popalay.cardme.injection.applyAutoInjector
@@ -23,8 +24,8 @@ class App : DaggerApplication() {
         LeakCanary.install(this)
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(1)
+                .migration(DataBaseMigration())
                 .build()
         Realm.setDefaultConfiguration(config)
         Contacts.initialize(this)

@@ -8,7 +8,8 @@ open class Holder(
         @PrimaryKey open var id: String? = null,
         open var name: String = "",
         open var cardsCount: Int = 0,
-        open var debtCount: Int = 0
+        open var debtCount: Int = 0,
+        open var isTrash: Boolean = false
 ) : RealmObject(), StableId {
 
     companion object {
@@ -16,6 +17,7 @@ open class Holder(
         const val NAME = "name"
         const val CARDS_COUNT = "cardsCount"
         const val DEBTS_COUNT = "debtCount"
+        const val IS_TRASH = "isTrash"
     }
 
     override val stableId: Long
@@ -24,11 +26,15 @@ open class Holder(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
+
         other as Holder
+
         if (id != other.id) return false
         if (name != other.name) return false
         if (cardsCount != other.cardsCount) return false
         if (debtCount != other.debtCount) return false
+        if (isTrash != other.isTrash) return false
+
         return true
     }
 
@@ -37,11 +43,12 @@ open class Holder(
         result = 31 * result + name.hashCode()
         result = 31 * result + cardsCount
         result = 31 * result + debtCount
+        result = 31 * result + isTrash.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "Holder(id=$id, name='$name', cardsCount=$cardsCount, debtCount=$debtCount)"
+        return "Holder(id=$id, name='$name', cardsCount=$cardsCount, debtCount=$debtCount, isTrash=$isTrash)"
     }
 
 }

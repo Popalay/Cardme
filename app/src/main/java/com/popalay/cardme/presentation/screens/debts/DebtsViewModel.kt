@@ -35,7 +35,7 @@ class DebtsViewModel @Inject constructor(
                 .map(debts::get)
                 .flatMapSingle { debtsInteractor.remove(it).toSingle { it } }
                 .switchMap { debt -> onUndoSwipe.filter { it }.map { debt } }
-                .flatMapCompletable(debtsInteractor::save)
+                .flatMapCompletable(debtsInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)

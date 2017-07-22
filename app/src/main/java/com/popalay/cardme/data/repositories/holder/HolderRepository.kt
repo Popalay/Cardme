@@ -29,18 +29,17 @@ class HolderRepository @Inject constructor() {
     }
 
     fun updateCounts(holder: Holder): Completable = RxRealm.doTransactional {
-        val cardCount = it.where(Card::class.java).equalTo(Card.HOLDER_ID, holder.id).count()
-        val debtCount = it.where(Debt::class.java).equalTo(Debt.HOLDER_ID, holder.id).count()
+        val cardCount = it.where(Card::class.java).equalTo(Card.IS_TRASH, false)
+                .equalTo(Card.HOLDER_ID, holder.id).count()
+        val debtCount = it.where(Debt::class.java).equalTo(Debt.IS_TRASH, false)
+                .equalTo(Debt.HOLDER_ID, holder.id).count()
+        val realmHolder = it.where(Holder::class.java).equalTo(Holder.ID, holder.id).findFirst()
         if (cardCount <= 0 && debtCount <= 0) {
-            it.where(Holder::class.java).equalTo(Holder.ID, holder.id).findAll().deleteAllFromRealm()
+            realmHolder.isTrash = true
         } else {
+            realmHolder.isTrash = false
             holder.cardsCount = cardCount.toInt()
             holder.debtCount = debtCount.toInt()
-            it.copyToRealmOrUpdate(holder)
         }
-    }
-
-    fun remove(holder: Holder): Completable = RxRealm.doTransactional {
-        it.where(Holder::class.java).equalTo(Holder.ID, holder.id).findAll().deleteAllFromRealm()
     }
 }

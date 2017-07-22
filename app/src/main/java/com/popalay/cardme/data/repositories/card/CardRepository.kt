@@ -31,6 +31,7 @@ class CardRepository @Inject internal constructor() {
 
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
+                .equalTo(Card.IS_TRASH, false)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.POSITION)
     }
@@ -38,12 +39,17 @@ class CardRepository @Inject internal constructor() {
     fun getAllByHolder(holderId: String): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.HOLDER_ID, holderId)
+                .equalTo(Card.IS_TRASH, false)
                 .findAllSorted(Card.ID, Sort.DESCENDING)
                 .sort(Card.POSITION)
     }
 
     fun remove(card: Card): Completable = RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.ID, card.id).findAll().deleteAllFromRealm()
+        it.where(Card::class.java).equalTo(Card.ID, card.id).findFirst().isTrash = true
+    }
+
+    fun restore(card: Card): Completable = RxRealm.doTransactional {
+        it.where(Card::class.java).equalTo(Card.ID, card.id).findFirst().isTrash = false
     }
 
     fun cardIsNew(card: Card): Single<Boolean> = RxRealm.getElement {

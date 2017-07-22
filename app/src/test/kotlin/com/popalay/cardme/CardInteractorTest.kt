@@ -116,7 +116,7 @@ class CardInteractorTest {
 
         whenever(cardRepository.update(cards)).thenReturn(Completable.complete())
 
-        val testObserver = cardInteractor.updateCards(cards).test()
+        val testObserver = cardInteractor.update(cards).test()
 
         testObserver.awaitTerminalEvent()
 
@@ -136,7 +136,7 @@ class CardInteractorTest {
         whenever(cardRepository.remove(card)).thenReturn(Completable.complete())
         whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
 
-        val testObserver = cardInteractor.removeCard(card).test()
+        val testObserver = cardInteractor.remove(card).test()
 
         testObserver.awaitTerminalEvent()
 

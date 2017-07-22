@@ -30,16 +30,23 @@ class DebtRepository @Inject internal constructor() {
     }.toSingleDefault(debt)
 
     fun getAll(): Flowable<List<Debt>> = RxRealm.listenList {
-        it.where(Debt::class.java).findAllSorted(Debt.CREATED_AT)
+        it.where(Debt::class.java)
+                .equalTo(Debt.IS_TRASH, false)
+                .findAllSorted(Debt.CREATED_AT)
     }
 
     fun getAllByHolder(holderId: String): Flowable<List<Debt>> = RxRealm.listenList {
         it.where(Debt::class.java)
                 .equalTo(Debt.HOLDER_ID, holderId)
+                .equalTo(Debt.IS_TRASH, false)
                 .findAllSorted(Debt.CREATED_AT)
     }
 
     fun remove(debt: Debt): Completable = RxRealm.doTransactional {
-        it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findAll().deleteAllFromRealm()
+        it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = true
+    }
+
+    fun restore(debt: Debt): Completable = RxRealm.doTransactional {
+        it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = false
     }
 }

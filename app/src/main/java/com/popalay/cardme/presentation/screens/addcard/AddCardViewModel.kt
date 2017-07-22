@@ -68,8 +68,7 @@ class AddCardViewModel @Inject constructor(
 
         holderName.observe()
                 .doOnNext { card.get()?.holder?.name = it.clean() }
-                .flatMapSingle { cardInteractor.hasAllData(card.get()) }
-                .map { it }
+                .switchMapSingle { cardInteractor.hasAllData(card.get()) }
                 .setTo(canSave)
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
@@ -79,7 +78,8 @@ class AddCardViewModel @Inject constructor(
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 
-        acceptClickListener.applyThrottling()
+        acceptClickListener
+                .applyThrottling()
                 .filter { it }
                 .map { card.get() }
                 .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
@@ -88,7 +88,8 @@ class AddCardViewModel @Inject constructor(
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
 
-        editorActionListener.applyThrottling()
+        editorActionListener
+                .applyThrottling()
                 .filter { it == EditorInfo.IME_ACTION_DONE }
                 .doOnNext { acceptClickListener.accept(true) }
                 .subscribeBy(this::handleLocalError)
