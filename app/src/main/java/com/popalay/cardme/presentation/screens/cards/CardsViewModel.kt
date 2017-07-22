@@ -40,6 +40,7 @@ class CardsViewModel @Inject constructor(
 
     init {
         cardInteractor.getCards()
+                .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
                 .subscribeBy()

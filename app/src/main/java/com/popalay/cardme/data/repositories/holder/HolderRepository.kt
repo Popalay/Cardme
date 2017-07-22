@@ -38,8 +38,8 @@ class HolderRepository @Inject constructor() {
             realmHolder.isTrash = true
         } else {
             realmHolder.isTrash = false
-            holder.cardsCount = cardCount.toInt()
-            holder.debtCount = debtCount.toInt()
+            realmHolder.cardsCount = cardCount.toInt()
+            realmHolder.debtCount = debtCount.toInt()
         }
     }
 }

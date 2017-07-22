@@ -61,10 +61,11 @@ class HolderDetailsActivity : SlidingActivity() {
                     ShareUtils.shareText(this, R.string.share_card, it)
                 }.addTo(disposables)
 
-        b.listCards.addItemDecoration(SpacingItemDecoration.Builder(this)
-                .onSides(true)
-                .betweenItems(true)
-                .build())
+        b.listCards.addItemDecoration(SpacingItemDecoration.create {
+            dividerSize = resources.getDimension(R.dimen.normal).toInt()
+            showBetween = true
+            showOnSides = true
+        })
 
         b.toolbar.navigationIcon?.alpha = 255
         b.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->

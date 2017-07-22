@@ -55,12 +55,13 @@ class CardsFragment : BaseFragment() {
     }
 
     private fun initUI() {
-        b.listCards.addItemDecoration(SpacingItemDecoration.Builder(context)
-                .firstDivider(true)
-                .lastDivider(true)
-                .betweenItems(true)
-                .onSides(true)
-                .build())
+        b.listCards.addItemDecoration(SpacingItemDecoration.create {
+            dividerSize = resources.getDimension(R.dimen.normal).toInt()
+            showFirstDivider = true
+            showLastDivider = true
+            showBetween = true
+            showOnSides = true
+        })
 
         viewModelFacade.doOnShareCard()
                 .subscribe { ShareUtils.shareText(activity, R.string.share_card, it) }

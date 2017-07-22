@@ -7,6 +7,7 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.util.ListUpdateCallback
 import com.github.nitrico.lastadapter.StableId
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DiffObservableList<T : StableId> @JvmOverloads constructor(
         private val callback: Callback<T> = StableIdDiffListCallback<T>(),
