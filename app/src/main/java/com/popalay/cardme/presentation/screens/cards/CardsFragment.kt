@@ -57,8 +57,6 @@ class CardsFragment : BaseFragment() {
     private fun initUI() {
         b.listCards.addItemDecoration(SpacingItemDecoration.create {
             dividerSize = resources.getDimension(R.dimen.normal).toInt()
-            showFirstDivider = true
-            showLastDivider = true
             showBetween = true
             showOnSides = true
         })

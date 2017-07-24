@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 
 class SpacingItemDecoration private constructor(
-        private val showFirstDivider: Boolean,
-        private val showLastDivider: Boolean,
         private val betweenItems: Boolean,
         private val onSides: Boolean,
         private val dividerSize: Int
@@ -18,37 +16,30 @@ class SpacingItemDecoration private constructor(
         fun create(init: Builder.() -> Unit) = Builder(init).build()
     }
 
-    private constructor(builder: Builder) : this(builder.showFirstDivider, builder.showLastDivider,
-            builder.showBetween, builder.showOnSides, builder.dividerSize)
+    private constructor(builder: Builder) : this(builder.showBetween, builder.showOnSides,
+            builder.dividerSize)
 
     private var orientation = -1
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        val position = parent.getChildAdapterPosition(view)
+        val position = parent.getChildLayoutPosition(view)
         if (position == RecyclerView.NO_POSITION) return
 
         getOrientation(parent)
 
         if (orientation == OrientationHelper.HORIZONTAL) {
-            applyToHorizontalList(outRect, position, state.itemCount)
+            applyToHorizontalList(outRect)
         } else {
-            applyToVerticalList(outRect, position, state.itemCount)
+            applyToVerticalList(outRect)
         }
     }
 
-    private fun applyToVerticalList(outRect: Rect, position: Int, count: Int) {
+    private fun applyToVerticalList(outRect: Rect) {
         if (betweenItems) {
             outRect.top = dividerSize / 2
             outRect.bottom = dividerSize / 2
-
-            if (position == 0) {
-                outRect.top = if (showFirstDivider) dividerSize else 0
-            }
-            if (position == count - 1) {
-                outRect.bottom = if (showLastDivider) dividerSize else 0
-            }
         }
 
         if (onSides) {
@@ -57,17 +48,10 @@ class SpacingItemDecoration private constructor(
         }
     }
 
-    private fun applyToHorizontalList(outRect: Rect, position: Int, count: Int) {
+    private fun applyToHorizontalList(outRect: Rect) {
         if (betweenItems) {
             outRect.left = dividerSize / 2
             outRect.right = dividerSize / 2
-
-            if (position == 0) {
-                outRect.left = if (showFirstDivider) dividerSize else 0
-            }
-            if (position == count - 1) {
-                outRect.right = if (showLastDivider) dividerSize else 0
-            }
         }
 
         if (onSides) {
@@ -92,17 +76,11 @@ class SpacingItemDecoration private constructor(
             init()
         }
 
-        var showFirstDivider: Boolean = false
-        var showLastDivider: Boolean = false
         var showBetween: Boolean = false
         var showOnSides: Boolean = false
         var dividerSize: Int = 0
 
         fun dividerSize(init: Builder.() -> Int) = apply { dividerSize = init() }
-
-        fun showFirst(init: Builder.() -> Boolean) = apply { showFirstDivider = init() }
-
-        fun showLast(init: Builder.() -> Boolean) = apply { showLastDivider = init() }
 
         fun showBetween(init: Builder.() -> Boolean) = apply { showBetween = init() }
 
