@@ -71,7 +71,7 @@ class CardsViewModel @Inject constructor(
 
         onSwiped
                 .map(cards::get)
-                .flatMapSingle { cardInteractor.remove(it).toSingle { it } }
+                .flatMapSingle { cardInteractor.markAsTrash(it).toSingle { it } }
                 .switchMap { card -> onUndoSwipe.filter { it }.map { card } }
                 .flatMapCompletable(cardInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())

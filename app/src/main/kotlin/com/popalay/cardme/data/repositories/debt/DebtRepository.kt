@@ -42,7 +42,7 @@ class DebtRepository @Inject internal constructor() {
                 .findAllSorted(Debt.CREATED_AT)
     }
 
-    fun remove(debt: Debt): Completable = RxRealm.doTransactional {
+    fun markAsTrash(debt: Debt): Completable = RxRealm.doTransactional {
         it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = true
     }
 

@@ -51,7 +51,7 @@ class CardRepository @Inject internal constructor() {
                 .sort(Card.POSITION)
     }
 
-    fun remove(card: Card): Completable = RxRealm.doTransactional {
+    fun markAsTrash(card: Card): Completable = RxRealm.doTransactional {
         it.where(Card::class.java).equalTo(Card.ID, card.id).findFirst().isTrash = true
     }
 

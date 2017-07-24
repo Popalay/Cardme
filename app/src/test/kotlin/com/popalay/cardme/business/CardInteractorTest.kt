@@ -172,14 +172,14 @@ class CardInteractorTest {
     @Test fun removeCard_Success() {
         val card = Card()
 
-        whenever(cardRepository.remove(card)).thenReturn(Completable.complete())
+        whenever(cardRepository.markAsTrash(card)).thenReturn(Completable.complete())
         whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
 
-        val testObserver = cardInteractor.remove(card).test()
+        val testObserver = cardInteractor.markAsTrash(card).test()
 
         testObserver.awaitTerminalEvent()
 
-        verify(cardRepository).remove(card)
+        verify(cardRepository).markAsTrash(card)
         verify(holderRepository).updateCounts(card.holder)
 
         testObserver

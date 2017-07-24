@@ -46,7 +46,7 @@ class CardInteractor @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun remove(card: Card): Completable = cardRepository.remove(card)
+    fun markAsTrash(card: Card): Completable = cardRepository.markAsTrash(card)
             .andThen(holderRepository.updateCounts(card.holder))
             .subscribeOn(Schedulers.io())
 
