@@ -15,7 +15,9 @@ import javax.inject.Singleton
 class HolderRepository @Inject constructor() {
 
     fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
-        it.where(Holder::class.java).findAllSorted(Holder.NAME)
+        it.where(Holder::class.java)
+                .equalTo(Holder.IS_TRASH, false)
+                .findAllSorted(Holder.NAME)
     }
 
     fun get(holderId: String): Flowable<Holder> = RxRealm.listenElement { realm ->

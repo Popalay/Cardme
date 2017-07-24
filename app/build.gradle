@@ -102,7 +102,9 @@ dependencies {
     implementation "com.android.support:customtabs:$supportLibrary"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     // Data binding
     kapt "com.android.databinding:compiler:$gradlePlugin"

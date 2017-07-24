@@ -8,16 +8,9 @@ import io.reactivex.*
 
 object PermissionChecker {
 
-    fun <T> composeSingle(context: Context, permission: String): SingleTransformer<T, T> =
-            composeSingle(context, arrayOf(permission))
-
-
-    fun <T> compose(context: Context, permission: String): FlowableTransformer<T, T> =
-            compose(context, arrayOf(permission))
-
-    fun <T> composeSingle(context: Context, permissions: Array<String>): SingleTransformer<T, T> =
+    fun <T> composeSingle(context: Context, vararg permissions: String): SingleTransformer<T, T> =
             SingleTransformer {
-                checkSingle(context, permissions)
+                checkSingle(context, *permissions)
                         .flatMap { granted ->
                             if (granted) it
                             else Single.error<T>(ExceptionFactory
@@ -25,9 +18,9 @@ object PermissionChecker {
                         }
             }
 
-    fun <T> compose(context: Context, permissions: Array<String>): FlowableTransformer<T, T> =
+    fun <T> compose(context: Context, vararg permissions: String): FlowableTransformer<T, T> =
             FlowableTransformer {
-                check(context, permissions)
+                check(context, *permissions)
                         .flatMap { granted ->
                             if (granted) it
                             else Flowable.error<T>(ExceptionFactory
@@ -35,11 +28,7 @@ object PermissionChecker {
                         }
             }
 
-    fun check(context: Context, permission: String): Flowable<Boolean> = check(context, arrayOf(permission))
-
-    fun checkSingle(context: Context, permission: String): Single<Boolean> = checkSingle(context, arrayOf(permission))
-
-    fun check(context: Context, permissions: Array<String>): Flowable<Boolean> =
+    fun check(context: Context, vararg permissions: String): Flowable<Boolean> =
             Flowable.create<Boolean>({
                 PermissionCompat.Builder(context)
                         .addPermissions(permissions)
@@ -57,7 +46,7 @@ object PermissionChecker {
                         .request()
             }, BackpressureStrategy.LATEST)
 
-    fun checkSingle(context: Context, permissions: Array<String>): Single<Boolean> =
+    fun checkSingle(context: Context, vararg permissions: String): Single<Boolean> =
             Single.create<Boolean> {
                 PermissionCompat.Builder(context)
                         .addPermissions(permissions)
