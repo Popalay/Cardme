@@ -169,7 +169,7 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun removeCard_Success() {
+    @Test fun markAsTrash_Success() {
         val card = Card()
 
         whenever(cardRepository.markAsTrash(card)).thenReturn(Completable.complete())
@@ -187,7 +187,7 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun restartCard_Success() {
+    @Test fun restart_Success() {
         val card = Card(isTrash = true)
 
         whenever(cardRepository.restore(card)).thenReturn(Completable.complete())
@@ -199,6 +199,22 @@ class CardInteractorTest {
 
         verify(cardRepository).restore(card)
         verify(holderRepository).updateCounts(card.holder)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
+
+    @Test fun removeTrashed_Success() {
+        whenever(cardRepository.removeTrashed()).thenReturn(Completable.complete())
+        whenever(holderRepository.removeTrashed()).thenReturn(Completable.complete())
+
+        val testObserver = cardInteractor.emptyTrash().test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).removeTrashed()
+        verify(holderRepository).removeTrashed()
 
         testObserver
                 .assertNoErrors()
