@@ -1,17 +1,23 @@
 package com.popalay.cardme.presentation.screens.splash
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import com.popalay.cardme.business.splash.SplashInteractor
 import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.presentation.screens.home.HomeActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class SplashActivity : BaseActivity() {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
+    @Inject lateinit var splashInteractor: SplashInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ViewModelProviders.of(this, factory).get(SplashViewModel::class.java)
+
+        splashInteractor.start()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { startActivity(HomeActivity.getIntent(this))}
+                .subscribeBy()
     }
 }

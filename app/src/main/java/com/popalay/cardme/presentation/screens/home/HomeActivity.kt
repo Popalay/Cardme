@@ -16,16 +16,20 @@ import com.popalay.cardme.business.ShortcutInteractor
 import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
-import com.popalay.cardme.presentation.screens.SCREEN_CARDS
-import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
-import com.popalay.cardme.presentation.screens.SCREEN_HOLDERS
+import com.popalay.cardme.presentation.screens.*
+import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
+import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment
+import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
+import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.card.payment.CardIOActivity
+import io.card.payment.CreditCard
 import shortbread.Shortcut
 import javax.inject.Inject
 
@@ -40,22 +44,30 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
     override val navigator = object : CustomNavigator(this, R.id.host) {
 
-        override fun createFragment(screenKey: String, data: Any?): Fragment? {
-            return when (screenKey) {
-                SCREEN_CARDS -> {
-                    b.bottomBar.setSelectedItem(R.id.cards, false)
-                    CardsFragment.newInstance()
-                }
-                SCREEN_HOLDERS -> {
-                    b.bottomBar.setSelectedItem(R.id.holders, false)
-                    HoldersFragment.newInstance()
-                }
-                SCREEN_DEBTS -> {
-                    b.bottomBar.setSelectedItem(R.id.debts, false)
-                    DebtsFragment.newInstance()
-                }
-                else -> null
+        override fun createFragment(screenKey: String, data: Any?) = when (screenKey) {
+            SCREEN_CARDS -> {
+                b.bottomBar.setSelectedItem(R.id.cards, false)
+                CardsFragment.newInstance()
             }
+            SCREEN_HOLDERS -> {
+                b.bottomBar.setSelectedItem(R.id.holders, false)
+                HoldersFragment.newInstance()
+            }
+            SCREEN_DEBTS -> {
+                b.bottomBar.setSelectedItem(R.id.debts, false)
+                DebtsFragment.newInstance()
+            }
+            else -> null
+        }
+
+        override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
+            SCREEN_HOME -> HomeActivity.getIntent(activity)
+            SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
+            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as CreditCard)
+            SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
+            SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
+            SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
+            else -> null
         }
     }
 
