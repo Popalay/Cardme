@@ -9,6 +9,7 @@ import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import javax.inject.Inject
 
 class TrashActivity : BaseActivity() {
@@ -25,6 +26,17 @@ class TrashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityTrashBinding>(this, R.layout.activity_trash)
         b.vm = ViewModelProviders.of(this, factory).get(TrashViewModel::class.java)
+        initUI()
+    }
+
+    private fun initUI() {
+        setSupportActionBar(b.toolbar)
+
+        b.listCards.addItemDecoration(SpacingItemDecoration.create {
+            dividerSize = resources.getDimension(R.dimen.normal).toInt()
+            showBetween = true
+            showOnSides = true
+        })
     }
 
 }

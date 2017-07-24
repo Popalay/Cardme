@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools"
     >
 
@@ -15,7 +16,24 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         >
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Cardme.Toolbar"
+                app:navigationIcon="@drawable/ic_back"
+                bind:backByArrow="@{true}"
+                />
+
+        </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_cards"
@@ -24,6 +42,7 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/small"
             android:paddingTop="@dimen/small"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             bind:cardsAdapter="@{vm.cards}"
             bind:defaultList="@{true}"
             bind:onSwiped="@{vm.onSwiped}"
@@ -35,7 +54,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/list_cards_placeholder"
+            android:drawableTop="@drawable/ic_trash_48_primary"
+            android:text="@string/list_trash_placeholder"
             bind:listPlaceholder="@{vm.cards}"
             />
 

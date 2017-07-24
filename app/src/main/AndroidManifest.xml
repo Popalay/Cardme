@@ -47,6 +47,7 @@
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.trash.TrashActivity"
+            android:label="@string/trash"
             android:screenOrientation="portrait" />
 
         <activity

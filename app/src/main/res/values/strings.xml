@@ -41,6 +41,7 @@
     <string name="list_debts_placeholder_holder_details">You didn\'t borrow anything</string>
     <string name="list_holders_placeholder">There are no holders yet</string>
     <string name="list_cards_placeholder">There are no cards yet.\nTo add a card click on button below</string>
+    <string name="list_trash_placeholder">Nothing in trash</string>
 
     <!-- app shortcuts -->
     <string name="shortcut_add_card">Add card</string>

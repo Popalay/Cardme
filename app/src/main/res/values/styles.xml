@@ -114,8 +114,8 @@
         <item name="android:padding">@dimen/small</item>
     </style>
 
-    <style name="Cardme.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Caption">
-        <item name="android:gravity">center</item>
+    <style name="Cardme.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:drawablePadding">@dimen/small</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
