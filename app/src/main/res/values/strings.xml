@@ -59,5 +59,6 @@
     <string name="about">About</string>
     <string name="about_the_app">About the app</string>
     <string name="rate_the_app">Rate the app</string>
+    <string name="trash">Trash</string>
 
 </resources>

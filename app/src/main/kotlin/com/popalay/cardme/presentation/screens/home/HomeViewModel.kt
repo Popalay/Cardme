@@ -6,10 +6,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.business.ShortcutInteractor
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.presentation.screens.SCREEN_CARDS
-import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
-import com.popalay.cardme.presentation.screens.SCREEN_HOLDERS
-import com.popalay.cardme.presentation.screens.SCREEN_SETTINGS
+import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.utils.extensions.applyThrottling
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -51,6 +48,7 @@ class HomeViewModel @Inject constructor(
             R.id.cards -> router.replaceScreen(SCREEN_CARDS)
             R.id.holders -> router.replaceScreen(SCREEN_HOLDERS)
             R.id.debts -> router.replaceScreen(SCREEN_DEBTS)
+            R.id.navigation_trash -> router.navigateTo(SCREEN_TRASH)
             R.id.navigation_privacy_policy -> router.navigateToUrl(PRIVACY_POLICY_LINK)
         }
     }

@@ -32,9 +32,7 @@ class DebtsFragment : BaseFragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         b = DataBindingUtil.inflate<FragmentDebtsBinding>(inflater, R.layout.fragment_debts, container, false)
-        ViewModelProviders.of(this, factory).get(DebtsViewModel::class.java).let {
-            b.vm = it
-        }
+        b.vm = ViewModelProviders.of(this, factory).get(DebtsViewModel::class.java)
         initUI()
         return b.root
     }

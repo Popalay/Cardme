@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools"
     >
 
@@ -8,12 +7,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.holders.HoldersViewModel"
-            />
-
-        <variable
-            name="orientation"
-            type="android.support.v7.widget.OrientationHelper"
+            type="com.popalay.cardme.presentation.screens.trash.TrashViewModel"
             />
 
     </data>
@@ -24,14 +18,16 @@
         >
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_holders"
+            android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            bind:applyDivider="@{orientation.VERTICAL}"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/small"
+            android:paddingTop="@dimen/small"
+            bind:cardsAdapter="@{vm.cards}"
             bind:defaultList="@{true}"
-            bind:holderClick="@{vm.holderClickListener}"
-            bind:holdersAdapter="@{vm.holders}"
+            bind:onSwiped="@{vm.onSwiped}"
+            bind:showImage="@{vm.showImage}"
             />
 
         <TextView
@@ -39,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/list_holders_placeholder"
-            bind:listPlaceholder="@{vm.holders}"
+            android:text="@string/list_cards_placeholder"
+            bind:listPlaceholder="@{vm.cards}"
             />
 
     </android.support.design.widget.CoordinatorLayout>

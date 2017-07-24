@@ -46,6 +46,10 @@
             android:theme="@style/Cardme.Translucent.DialogActivity" />
 
         <activity
+            android:name="com.popalay.cardme.presentation.screens.trash.TrashActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".presentation.screens.settings.SettingsActivity"
             android:label="@string/settings"
             android:screenOrientation="portrait" />

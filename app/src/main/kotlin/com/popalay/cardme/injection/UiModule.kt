@@ -13,6 +13,8 @@ import com.popalay.cardme.presentation.screens.home.HomeModule
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.settings.SettingsModule
 import com.popalay.cardme.presentation.screens.splash.SplashActivity
+import com.popalay.cardme.presentation.screens.trash.TrashActivity
+import com.popalay.cardme.presentation.screens.trash.TrashModule
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -40,5 +42,8 @@ abstract class UiModule {
 
     @ContributesAndroidInjector(modules = arrayOf(AddDebtModule::class))
     abstract fun contributeAddDebtActivity(): AddDebtActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(TrashModule::class))
+    abstract fun contributeTrashActivity(): TrashActivity
 
 }

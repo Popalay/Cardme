@@ -24,6 +24,7 @@ import com.popalay.cardme.presentation.screens.debts.DebtsFragment
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
+import com.popalay.cardme.presentation.screens.trash.TrashActivity
 import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -67,6 +68,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
             SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
+            SCREEN_TRASH -> TrashActivity.getIntent(activity)
             else -> null
         }
     }
@@ -82,9 +84,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
-        ViewModelProviders.of(this, factory).get(HomeViewModel::class.java).let {
-            b.vm = it
-        }
+        b.vm = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
         initUI()
     }
 

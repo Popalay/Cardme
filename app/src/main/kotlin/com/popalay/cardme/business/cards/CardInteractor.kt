@@ -35,6 +35,8 @@ class CardInteractor @Inject constructor(
 
     fun getCards(): Flowable<List<Card>> = cardRepository.getAll().subscribeOn(Schedulers.io())
 
+    fun getTrashedCards(): Flowable<List<Card>> = cardRepository.getAllTrashed().subscribeOn(Schedulers.io())
+
     fun getCardsByHolder(holderId: String): Flowable<List<Card>> = cardRepository.getAllByHolder(holderId)
             .subscribeOn(Schedulers.io())
 

@@ -1,4 +1,4 @@
-package com.popalay.cardme
+package com.popalay.cardme.business
 
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
