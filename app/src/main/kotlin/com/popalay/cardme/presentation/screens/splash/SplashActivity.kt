@@ -17,7 +17,10 @@ class SplashActivity : BaseActivity() {
 
         splashInteractor.start()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { startActivity(HomeActivity.getIntent(this))}
+                .doOnComplete {
+                    finish()
+                    startActivity(HomeActivity.getIntent(this))
+                }
                 .subscribeBy()
     }
 }

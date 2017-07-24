@@ -18,8 +18,7 @@
     </style>
 
     <style name="Cardme.Splash">
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:windowBackground">@color/primary_dark</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
     </style>
 
     <style name="Cardme.Sliding">

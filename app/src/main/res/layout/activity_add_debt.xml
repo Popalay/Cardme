@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/large"
-                android:background="@drawable/dialog_background"
+                android:background="@drawable/bg_dialog"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical"
