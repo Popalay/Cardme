@@ -28,6 +28,10 @@ class HolderRepository @Inject constructor() {
                 .first()
     }
 
+    fun removeTrashed(): Completable = RxRealm.doTransactional {
+        it.where(Holder::class.java).equalTo(Holder.IS_TRASH, true).findAll().deleteAllFromRealm()
+    }
+
     fun updateCounts(holder: Holder): Completable = RxRealm.doTransactional {
         val cardCount = it.where(Card::class.java).equalTo(Card.IS_TRASH, false)
                 .equalTo(Card.HOLDER_ID, holder.id).count()

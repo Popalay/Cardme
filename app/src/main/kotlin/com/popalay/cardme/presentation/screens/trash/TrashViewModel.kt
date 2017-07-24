@@ -7,6 +7,7 @@ import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.stepango.rxdatabindings.setTo
@@ -25,6 +26,7 @@ class TrashViewModel @Inject constructor(
     val showImage = ObservableBoolean()
 
     val onSwiped: PublishRelay<Int> = PublishRelay.create()
+    val emptyTrashClick: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
         cardInteractor.getTrashedCards()
@@ -42,7 +44,14 @@ class TrashViewModel @Inject constructor(
 
         onSwiped
                 .map(cards::get)
-                .switchMapSingle { cardInteractor.restore(it).toSingle { it } }
+                .flatMapCompletable { cardInteractor.restore(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy()
+                .addTo(disposables)
+
+        emptyTrashClick
+                .applyThrottling()
+                .flatMapCompletable { cardInteractor.emptyTrash() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
                 .addTo(disposables)

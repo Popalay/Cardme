@@ -3,11 +3,13 @@
 
     <item
         android:id="@+id/navigation_trash"
+        android:checked="true"
         android:icon="@drawable/ic_trash"
         android:title="@string/trash" />
 
     <item
         android:id="@+id/navigation_privacy_policy"
+        android:checked="true"
         android:icon="@drawable/ic_lock"
         android:title="@string/privacy_policy" />
 

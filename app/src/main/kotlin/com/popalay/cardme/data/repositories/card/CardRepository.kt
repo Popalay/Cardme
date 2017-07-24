@@ -55,6 +55,10 @@ class CardRepository @Inject internal constructor() {
         it.where(Card::class.java).equalTo(Card.ID, card.id).findFirst().isTrash = true
     }
 
+    fun removeTrashed(): Completable = RxRealm.doTransactional {
+        it.where(Card::class.java).equalTo(Card.IS_TRASH, true).findAll().deleteAllFromRealm()
+    }
+
     fun restore(card: Card): Completable = RxRealm.doTransactional {
         it.where(Card::class.java).equalTo(Card.ID, card.id).findFirst().isTrash = false
     }

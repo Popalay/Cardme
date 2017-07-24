@@ -25,7 +25,8 @@ class HomeViewModel @Inject constructor(
         if (!shortcutInteractor.startedWithShortcut())
             router.newRootScreen(SCREEN_CARDS)
 
-        settingClick.applyThrottling()
+        settingClick
+                .applyThrottling()
                 .doOnNext { router.navigateTo(SCREEN_SETTINGS) }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
@@ -37,7 +38,7 @@ class HomeViewModel @Inject constructor(
                 .addTo(disposables)
 
         drawerNavigationClick
-                .distinctUntilChanged()
+                .applyThrottling()
                 .doOnNext(this::openByPage)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)

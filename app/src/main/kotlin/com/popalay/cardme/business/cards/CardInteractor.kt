@@ -54,6 +54,10 @@ class CardInteractor @Inject constructor(
             .andThen(holderRepository.updateCounts(card.holder))
             .subscribeOn(Schedulers.io())
 
+    fun emptyTrash(): Completable = cardRepository.removeTrashed()
+            .andThen(holderRepository.removeTrashed())
+            .subscribeOn(Schedulers.io())
+
     private fun transform(card: Card): Card = card.apply {
         generatedBackgroundSeed = System.nanoTime()
     }

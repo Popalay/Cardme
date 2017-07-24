@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.presentation.base.BaseActivity
@@ -28,6 +30,19 @@ class TrashActivity : BaseActivity() {
         b.vm = ViewModelProviders.of(this, factory).get(TrashViewModel::class.java)
         initUI()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.trash_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_empty_trash -> b.vm?.emptyTrashClick?.accept(true)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
