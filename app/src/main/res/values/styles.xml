@@ -115,6 +115,7 @@
     </style>
 
     <style name="Cardme.ListPlaceholderText" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:gravity">center_horizontal</item>
         <item name="android:drawablePadding">@dimen/small</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
