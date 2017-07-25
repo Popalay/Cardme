@@ -20,7 +20,7 @@ abstract class SlidingActivity : BaseActivity() {
         private val GESTURE_THRESHOLD = 10
         private val ANIMATION_DURATION = 200L
         private val SWIPE_INDEX = 1.5F
-        private val SWIPE_START_PART= 2.5F
+        private val SWIPE_START_PART = 2.5F
     }
 
     private var startX = 0F
@@ -111,7 +111,7 @@ abstract class SlidingActivity : BaseActivity() {
         ObjectAnimator.ofFloat(root, "y", start, finish).apply {
             duration = ANIMATION_DURATION
             interpolator = DecelerateInterpolator()
-            addListener(object : EndAnimatorListener() {
+            addListener(object : EndAnimatorListener {
                 override fun onAnimationEnd(animator: Animator) {
                     root.y = screenSize.y.toFloat()
                     updateScrim(false)
@@ -128,7 +128,7 @@ abstract class SlidingActivity : BaseActivity() {
         ObjectAnimator.ofFloat(root, "y", start, finish).apply {
             duration = ANIMATION_DURATION
             interpolator = DecelerateInterpolator()
-            addListener(object : EndAnimatorListener() {
+            addListener(object : EndAnimatorListener {
                 override fun onAnimationEnd(animator: Animator) {
                     window.statusBarColor = statusBarColor
                 }

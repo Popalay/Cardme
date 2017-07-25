@@ -1,5 +1,6 @@
 package com.popalay.cardme.presentation.screens.adddebt
 
+import android.animation.Animator
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddDebtBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.utils.animation.EndAnimatorListener
 import com.popalay.cardme.utils.transitions.FabTransform
 import com.popalay.cardme.utils.transitions.MorphTransform
 import javax.inject.Inject
@@ -25,8 +27,8 @@ class AddDebtActivity : BaseActivity() {
     override val navigator = object : CustomNavigator(this) {
 
         override fun exit() {
-            setResult(Activity.RESULT_CANCELED)
-            runOnUiThread { finishAfterTransition() }
+            //TODO implement start activity with transition command for Cicerone
+            this@AddDebtActivity.exit()
         }
 
     }
@@ -50,13 +52,31 @@ class AddDebtActivity : BaseActivity() {
         initUI()
     }
 
-    override fun onBackPressed() {
-        exit()
+    override fun onEnterAnimationComplete() {
+        super.onEnterAnimationComplete()
+        b.buttonSave.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(200L)
+                .start()
     }
+
+    override fun onBackPressed() = exit()
 
     fun exit() {
         setResult(Activity.RESULT_CANCELED)
-        finishAfterTransition()
+        runOnUiThread {
+            b.buttonSave.animate()
+                    .scaleX(0f)
+                    .scaleY(0f)
+                    .setDuration(200L)
+                    .setListener(object : EndAnimatorListener {
+                        override fun onAnimationEnd(animator: Animator) {
+                            finishAfterTransition()
+                        }
+                    })
+                    .start()
+        }
     }
 
     private fun initUI() {

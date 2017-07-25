@@ -9,8 +9,8 @@
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
 
-    <color name="error">#D44C40</color>
-    <color name="success">#1BA261</color>
+    <color name="error">@color/deep_red</color>
+    <color name="success">#64C893</color>
     <color name="disabled">#B5AFAE</color>
 
     <color name="white">#FFF</color>
