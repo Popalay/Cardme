@@ -1,6 +1,7 @@
 package com.popalay.cardme.presentation.base;
 
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -34,11 +35,6 @@ public class BindingAdapters {
     @BindingAdapter("android:src")
     public static void setImageResource(ImageView imageView, int resource) {
         imageView.setImageResource(resource);
-    }
-
-    @BindingAdapter("android:background")
-    public static void setBackgroundResource(View view, int resource) {
-        view.setBackgroundResource(resource);
     }
 
     @BindingAdapter("listPlaceholder")
@@ -123,12 +119,12 @@ public class BindingAdapters {
         });
     }
 
-    @BindingAdapter(value = {"onSwiped", "onDragged", "onDropped", "undoMessage", "onUndoSwipe"}, requireAll = false)
+    @BindingAdapter(value = {"onSwiped", "onUndoSwipe", "undoMessage",
+            "onDragged", "onDropped", "swipeDrawable"}, requireAll = false)
     public static void setItemTouchHelper(RecyclerView view,
-            Relay<Integer> onSwiped,
-            Relay<Pair<Integer, Integer>> onDragged,
-            Relay<Boolean> onDropped,
-            String undoMessage, Relay<Boolean> onUndoSwipe) {
+            Relay<Integer> onSwiped, Relay<Boolean> onUndoSwipe, String undoMessage,
+            Relay<Pair<Integer, Integer>> onDragged, Relay<Boolean> onDropped,
+            Drawable swipeDrawable) {
         final SimpleItemTouchHelperCallback.SwipeCallback swipeCallback = onSwiped == null ? null : position -> {
             onSwiped.accept(position);
 
@@ -150,7 +146,7 @@ public class BindingAdapters {
                     }
                 };
 
-        new ItemTouchHelper(new SimpleItemTouchHelperCallback(swipeCallback, dragCallback))
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(swipeCallback, dragCallback, swipeDrawable))
                 .attachToRecyclerView(view);
     }
 }

@@ -47,6 +47,7 @@
             bind:defaultList="@{true}"
             bind:onSwiped="@{vm.onSwiped}"
             bind:showImage="@{vm.showImage}"
+            bind:swipeDrawable="@{@drawable/ic_refresh_48_green}"
             />
 
         <TextView

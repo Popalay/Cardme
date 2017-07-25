@@ -27,7 +27,6 @@
             android:id="@+id/list_holders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:defaultList="@{true}"
             bind:holderClick="@{vm.holderClickListener}"

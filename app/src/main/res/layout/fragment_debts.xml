@@ -28,12 +28,12 @@
             android:id="@+id/list_debts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:debtsAdapter="@{vm.debts}"
             bind:defaultList="@{true}"
             bind:onSwiped="@{vm.onSwiped}"
             bind:onUndoSwipe="@{vm.onUndoSwipe}"
+            bind:swipeDrawable="@{@drawable/ic_trash_red}"
             bind:undoMessage="@{@string/debt_removed}"
             tools:listitem="@layout/item_debt"
             />

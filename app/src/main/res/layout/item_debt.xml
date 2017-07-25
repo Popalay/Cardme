@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
         <variable
             name="item"
-            type="com.popalay.cardme.data.models.Debt" />
+            type="com.popalay.cardme.data.models.Debt"
+            />
 
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/debt_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/normal">
+        android:minHeight="@dimen/debt_height"
+        android:padding="@dimen/normal"
+        >
 
         <ImageView
             android:id="@+id/image_coin"
@@ -24,7 +28,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/normal"
             android:elevation="@dimen/small_elevation"
-            android:src="@drawable/ic_coin" />
+            android:src="@drawable/ic_coin"
+            />
 
         <TextView
             android:id="@+id/text_message"
@@ -34,7 +39,8 @@
             android:layout_toEndOf="@id/image_coin"
             android:text="@{item.message}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            tools:text="$100" />
+            tools:text="$100"
+            />
 
         <TextView
             style="@style/Cardme.SingleLineText"
@@ -45,7 +51,8 @@
             android:layout_marginTop="@dimen/smallest"
             android:text="@{item.holder.name}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-            tools:text="$100" />
+            tools:text="$100"
+            />
 
     </RelativeLayout>
 

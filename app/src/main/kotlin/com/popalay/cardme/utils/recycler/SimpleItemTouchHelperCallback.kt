@@ -1,13 +1,16 @@
 package com.popalay.cardme.utils.recycler
 
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 
+
 class SimpleItemTouchHelperCallback(
         private val swipeCallback: SwipeCallback? = null,
-        private val dragCallback: DragCallback? = null
+        private val dragCallback: DragCallback? = null,
+        private val drawable: Drawable? = null
 ) : ItemTouchHelper.Callback() {
 
     private var orderChanged: Boolean = false
@@ -49,10 +52,7 @@ class SimpleItemTouchHelperCallback(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (swipeCallback == null) {
-            return
-        }
-        swipeCallback.onSwiped(viewHolder.adapterPosition)
+        swipeCallback?.onSwiped(viewHolder.adapterPosition)
     }
 
     override fun onChildDraw(c: Canvas,
@@ -62,12 +62,27 @@ class SimpleItemTouchHelperCallback(
                              dY: Float,
                              actionState: Int,
                              isCurrentlyActive: Boolean) {
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+        if (!recyclerView.itemAnimator.isRunning && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             viewHolder.apply {
-                val alpha = 1.0f - Math.abs(dX) / itemView.width.toFloat()
-                itemView.alpha = alpha
                 itemView.translationX = dX
+
+                drawable?.let {
+
+                    val itemHeight = itemView.bottom - itemView.top
+                    val itemWidth = itemView.right - itemView.left
+
+                    val containerWidth = itemWidth + (recyclerView.width - itemWidth) / 2
+
+                    val x = if (dX < 0F) itemView.right - containerWidth / 6 - drawable.intrinsicWidth / 2
+                    else itemView.left + containerWidth / 6 - drawable.intrinsicWidth / 2
+
+                    val y = (itemHeight - drawable.intrinsicHeight) / 2 + itemView.top
+
+                    drawable.setBounds(x, y, x + drawable.intrinsicWidth, y + drawable.intrinsicHeight)
+                    drawable.draw(c)
+                }
             }
+
         } else {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
@@ -90,7 +105,9 @@ class SimpleItemTouchHelperCallback(
 
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        viewHolder.itemView.alpha = 1f
+        viewHolder.itemView.apply {
+            alpha = 1f
+        }
     }
 
     interface SwipeCallback {
