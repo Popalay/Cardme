@@ -49,4 +49,8 @@ class DebtRepository @Inject internal constructor() {
     fun restore(debt: Debt): Completable = RxRealm.doTransactional {
         it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = false
     }
+
+    fun removeTrashed(): Completable = RxRealm.doTransactional {
+        it.where(Debt::class.java).equalTo(Debt.IS_TRASH, true).findAll().deleteAllFromRealm()
+    }
 }

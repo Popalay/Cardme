@@ -4,10 +4,13 @@ import com.popalay.cardme.R
 import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.repositories.card.CardRepository
+import com.popalay.cardme.data.repositories.debt.DebtRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.functions.Function3
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +18,8 @@ import javax.inject.Singleton
 @Singleton
 class CardInteractor @Inject constructor(
         private val cardRepository: CardRepository,
-        private val holderRepository: HolderRepository
+        private val holderRepository: HolderRepository,
+        private val debtRepository: DebtRepository
 ) {
 
     fun validateCard(creditCard: Card): Single<Card> {
@@ -54,8 +58,11 @@ class CardInteractor @Inject constructor(
             .andThen(holderRepository.updateCounts(card.holder))
             .subscribeOn(Schedulers.io())
 
-    fun emptyTrash(): Completable = cardRepository.removeTrashed()
-            .andThen(holderRepository.removeTrashed())
+    fun emptyTrash(): Completable = Singles.zip(
+            cardRepository.removeTrashed().toSingleDefault(true),
+            holderRepository.removeTrashed().toSingleDefault(true),
+            debtRepository.removeTrashed().toSingleDefault(true))
+            .toCompletable()
             .subscribeOn(Schedulers.io())
 
     private fun transform(card: Card): Card = card.apply {

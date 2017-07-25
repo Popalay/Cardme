@@ -8,6 +8,7 @@ import com.popalay.cardme.business.exception.AppException
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.card.CardRepository
+import com.popalay.cardme.data.repositories.debt.DebtRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -21,12 +22,15 @@ class CardInteractorTest {
 
     private lateinit var cardRepository: CardRepository
     private lateinit var holderRepository: HolderRepository
+    private lateinit var debtRepository: DebtRepository
     private lateinit var cardInteractor: CardInteractor
 
     @Before fun beforeEachTest() {
         cardRepository = mock<CardRepository>()
         holderRepository = mock<HolderRepository>()
-        cardInteractor = CardInteractor(cardRepository, holderRepository)
+        debtRepository = mock<DebtRepository>()
+
+        cardInteractor = CardInteractor(cardRepository, holderRepository, debtRepository)
     }
 
     @Test fun validateCard_Success() {
@@ -208,6 +212,7 @@ class CardInteractorTest {
     @Test fun removeTrashed_Success() {
         whenever(cardRepository.removeTrashed()).thenReturn(Completable.complete())
         whenever(holderRepository.removeTrashed()).thenReturn(Completable.complete())
+        whenever(debtRepository.removeTrashed()).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.emptyTrash().test()
 
@@ -215,6 +220,7 @@ class CardInteractorTest {
 
         verify(cardRepository).removeTrashed()
         verify(holderRepository).removeTrashed()
+        verify(debtRepository).removeTrashed()
 
         testObserver
                 .assertNoErrors()
