@@ -5,6 +5,8 @@ import com.popalay.cardme.business.debts.DebtsInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_DEBT
+import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.recycler.DiffObservableList
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,6 +39,12 @@ class DebtsViewModel @Inject constructor(
                 .switchMap { debt -> onUndoSwipe.filter { it }.map { debt } }
                 .flatMapCompletable(debtsInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(this::handleBaseError)
+                .addTo(disposables)
+
+        addDebtClickPublisher
+                .applyThrottling()
+                .doOnNext { router.navigateTo(SCREEN_ADD_DEBT) }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

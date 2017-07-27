@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddDebtBinding
 import com.popalay.cardme.presentation.base.BaseActivity
@@ -23,7 +22,7 @@ class AddDebtActivity : BaseActivity() {
 
     private lateinit var b: ActivityAddDebtBinding
 
-    override val navigator = object : CustomNavigator(this) {
+    override var navigator = object : CustomNavigator(this) {
 
         override fun exit() {
             //TODO implement start activity with transition command for Cicerone
@@ -38,10 +37,9 @@ class AddDebtActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
         FabTransform.setup(this, b.container)
 
-        b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
         b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
 
         initUI()

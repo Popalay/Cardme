@@ -1,5 +1,6 @@
 package com.popalay.cardme.presentation.screens.home
 
+import android.app.ActivityOptions
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
@@ -25,11 +27,15 @@ import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivi
 import com.popalay.cardme.presentation.screens.holders.HoldersFragment
 import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.trash.TrashActivity
+import com.popalay.cardme.utils.extensions.findFragmentByType
 import com.popalay.cardme.utils.extensions.setSelectedItem
+import com.popalay.cardme.utils.transitions.FabTransform
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.card.payment.CardIOActivity
+import ru.terrakok.cicerone.commands.Command
+import ru.terrakok.cicerone.commands.Forward
 import shortbread.Shortcut
 import javax.inject.Inject
 
@@ -42,7 +48,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     private lateinit var b: ActivityHomeBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
-    override val navigator = object : CustomNavigator(this, R.id.host) {
+    override var navigator = object : CustomNavigator(this, R.id.host) {
 
         override fun createFragment(screenKey: String, data: Any?) = when (screenKey) {
             SCREEN_CARDS -> {
@@ -69,6 +75,17 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
             SCREEN_TRASH -> TrashActivity.getIntent(activity)
             else -> null
+        }
+
+        override fun setupActivityTransactionAnimation(command: Command?, activityIntent: Intent?): Bundle? {
+            if (command is Forward && command.screenKey == SCREEN_ADD_DEBT) {
+                FabTransform.addExtras(activityIntent!!, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
+                val fragment = supportFragmentManager.findFragmentByType<DebtsFragment>() ?: return null
+                val options = ActivityOptions.makeSceneTransitionAnimation(activity, fragment.b.buttonWrite,
+                        getString(R.string.transition_add_debt))
+                return options.toBundle()
+            }
+            return super.setupActivityTransactionAnimation(command, activityIntent)
         }
     }
 

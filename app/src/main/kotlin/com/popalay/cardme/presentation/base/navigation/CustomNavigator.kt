@@ -8,7 +8,6 @@ import com.popalay.cardme.R
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardToUrl
-import com.popalay.cardme.presentation.base.navigation.commands.ForwardWithTransition
 import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.currentFragment
 import ru.terrakok.cicerone.android.SupportAppNavigator
@@ -34,17 +33,6 @@ open class CustomNavigator(
                     currentFragment.startActivityForResult(activityIntent, command.requestCode)
                 } else {
                     activity.startActivityForResult(activityIntent, command.requestCode)
-                }
-            }
-        } else if (command is ForwardWithTransition) {
-            val activityIntent = createActivityIntent(command.screenKey, command.transitionData)
-            // Start activity
-            if (activityIntent != null) {
-                val currentFragment = fragmentManager.currentFragment()
-                if (currentFragment != null) {
-                    currentFragment.startActivity(activityIntent, command.transition)
-                } else {
-                    activity.startActivity(activityIntent, command.transition)
                 }
             }
         }

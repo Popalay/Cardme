@@ -12,7 +12,7 @@ abstract class BaseActivity : AppCompatActivity(), Injectable {
     @Inject lateinit var navigationHolder: NavigatorHolder
 
     protected val disposables: CompositeDisposable by lazy { CompositeDisposable() }
-    protected open val navigator = CustomNavigator(this)
+    public open var navigator = CustomNavigator(this)
 
     override fun onResumeFragments() {
         super.onResumeFragments()
