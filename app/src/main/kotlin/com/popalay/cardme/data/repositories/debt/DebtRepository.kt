@@ -2,7 +2,6 @@ package com.popalay.cardme.data.repositories.debt
 
 import com.github.popalay.rxrealm.RxRealm
 import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.models.Holder
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -17,15 +16,10 @@ class DebtRepository @Inject internal constructor() {
         if (debt.id == null) {
             debt.id = UUID.randomUUID().toString()
         }
-        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name).findFirst()
-        if (realmHolder != null) {
-            debt.holder = it.copyFromRealm(realmHolder)
-        } else {
-            debt.holder.id = UUID.randomUUID().toString()
-        }
         if (debt.createdAt == 0L) {
             debt.createdAt = System.currentTimeMillis()
         }
+        it.insertOrUpdate(debt.holder)
         it.insertOrUpdate(debt)
     }.toSingleDefault(debt)
 
@@ -35,9 +29,9 @@ class DebtRepository @Inject internal constructor() {
                 .findAllSorted(Debt.CREATED_AT)
     }
 
-    fun getAllByHolder(holderId: String): Flowable<List<Debt>> = RxRealm.listenList {
+    fun getAllByHolder(holderName: String): Flowable<List<Debt>> = RxRealm.listenList {
         it.where(Debt::class.java)
-                .equalTo(Debt.HOLDER_ID, holderId)
+                .equalTo(Debt.HOLDER_NAME, holderName)
                 .equalTo(Debt.IS_TRASH, false)
                 .findAllSorted(Debt.CREATED_AT)
     }

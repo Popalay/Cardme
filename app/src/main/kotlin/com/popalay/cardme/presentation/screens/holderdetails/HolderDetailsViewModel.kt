@@ -4,7 +4,6 @@ import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.debts.DebtsInteractor
-import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
@@ -22,36 +21,30 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class HolderDetailsViewModel @Inject constructor(
-        @Named(HolderDetailsActivity.KEY_HOLDER_DETAILS) holderId: String,
+        @Named(HolderDetailsActivity.KEY_HOLDER_DETAILS) holderName: String,
         cardInteractor: CardInteractor,
-        holderInteractor: HolderInteractor,
         debtsInteractor: DebtsInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), HolderDetailsViewModelFacade {
 
     val debts = DiffObservableList<Debt>()
     val cards = DiffObservableList<Card>()
-    val holderName = ObservableString()
+    val holderName = ObservableString(holderName)
     val showImage = ObservableBoolean()
 
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
 
     init {
-        cardInteractor.getCardsByHolder(holderId)
+
+        cardInteractor.getCardsByHolder(holderName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
                 .subscribeBy()
                 .addTo(disposables)
 
-        debtsInteractor.getDebtsByHolder(holderId)
+        debtsInteractor.getDebtsByHolder(holderName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(debts)
-                .subscribeBy()
-                .addTo(disposables)
-
-        holderInteractor.getHolderName(holderId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .setTo(holderName)
                 .subscribeBy()
                 .addTo(disposables)
 

@@ -21,7 +21,7 @@ abstract class HolderDetailsModule {
 
         @Provides
         @Named(HolderDetailsActivity.KEY_HOLDER_DETAILS)
-        @JvmStatic fun provideHolderId(activity: HolderDetailsActivity): String =
+        @JvmStatic fun provideHolderName(activity: HolderDetailsActivity): String =
                 activity.intent.getStringExtra(HolderDetailsActivity.KEY_HOLDER_DETAILS)
 
     }

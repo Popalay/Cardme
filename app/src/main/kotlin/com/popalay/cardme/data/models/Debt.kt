@@ -15,7 +15,7 @@ open class Debt(
     companion object {
         const val ID = "id"
         const val CREATED_AT = "createdAt"
-        const val HOLDER_ID = "holder.id"
+        const val HOLDER_NAME = "holder.name"
         const val IS_TRASH = "isTrash"
     }
 

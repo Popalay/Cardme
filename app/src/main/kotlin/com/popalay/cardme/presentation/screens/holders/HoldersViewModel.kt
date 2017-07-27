@@ -29,7 +29,7 @@ class HoldersViewModel @Inject constructor(
                 .addTo(disposables)
 
         holderClickListener
-                .doOnNext { router.navigateTo(SCREEN_HOLDER_DETAILS, it.id) }
+                .doOnNext { router.navigateTo(SCREEN_HOLDER_DETAILS, it.name) }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

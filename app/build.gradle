@@ -53,6 +53,11 @@ android {
     flavorDimensions "ignored"
 
     productFlavors {
+
+        all {
+            buildConfigField "long", "DATABASE_VERSION", "2L"
+        }
+
         dev {
             versionCode gitVersionCodeTime
             versionName gitVersionName

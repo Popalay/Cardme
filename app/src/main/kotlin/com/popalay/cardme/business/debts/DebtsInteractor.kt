@@ -22,7 +22,7 @@ class DebtsInteractor @Inject constructor(
     fun getDebts(): Flowable<List<Debt>> = debtRepository.getAll()
             .subscribeOn(Schedulers.io())
 
-    fun getDebtsByHolder(holderId: String): Flowable<List<Debt>> = debtRepository.getAllByHolder(holderId)
+    fun getDebtsByHolder(holderName: String): Flowable<List<Debt>> = debtRepository.getAllByHolder(holderName)
             .subscribeOn(Schedulers.io())
 
     fun markAsTrash(debt: Debt): Completable = debtRepository.markAsTrash(debt)

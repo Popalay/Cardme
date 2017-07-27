@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0-alpha8'
-        classpath "io.realm:realm-gradle-plugin:3.4.0"
+        classpath "io.realm:realm-gradle-plugin:3.5.0"
         classpath "com.google.gms:google-services:3.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath ("com.google.firebase:firebase-plugins:1.1.0") {

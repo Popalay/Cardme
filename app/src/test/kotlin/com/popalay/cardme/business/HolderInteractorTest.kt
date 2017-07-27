@@ -50,16 +50,16 @@ class HolderInteractorTest {
     }
 
     @Test fun getHolder_Success() {
-        val id = "ash111"
-        val holder = Holder(id = id)
+        val name = "Denis"
+        val holder = Holder(name = name)
 
-        whenever(holderRepository.get(id)).thenReturn(Flowable.just(holder))
+        whenever(holderRepository.get(name)).thenReturn(Flowable.just(holder))
 
-        val testObserver = holderInteractor.getHolder(id).test()
+        val testObserver = holderInteractor.getHolder(name).test()
 
         testObserver.awaitTerminalEvent()
 
-        verify(holderRepository).get(id)
+        verify(holderRepository).get(name)
 
         testObserver
                 .assertNoErrors()
@@ -81,25 +81,6 @@ class HolderInteractorTest {
         testObserver
                 .assertNoErrors()
                 .assertValue { it == holder }
-                .assertComplete()
-    }
-
-    @Test fun getHolderName_Success() {
-        val id = "ash111"
-        val name = "Denis"
-        val holder = Holder(id = id, name = name)
-
-        whenever(holderRepository.get(id)).thenReturn(Flowable.just(holder))
-
-        val testObserver = holderInteractor.getHolderName(id).test()
-
-        testObserver.awaitTerminalEvent()
-
-        verify(holderRepository).get(id)
-
-        testObserver
-                .assertNoErrors()
-                .assertValue { it == name }
                 .assertComplete()
     }
 

@@ -29,9 +29,9 @@ class HolderDetailsActivity : SlidingActivity() {
 
         const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
 
-        fun getIntent(context: Context, id: String): Intent {
+        fun getIntent(context: Context, name: String): Intent {
             val intent = Intent(context, HolderDetailsActivity::class.java)
-            intent.putExtra(KEY_HOLDER_DETAILS, id)
+            intent.putExtra(KEY_HOLDER_DETAILS, name)
             return intent
         }
 

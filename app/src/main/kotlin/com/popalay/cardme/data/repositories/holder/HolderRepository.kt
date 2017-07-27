@@ -20,8 +20,8 @@ class HolderRepository @Inject constructor() {
                 .findAllSorted(Holder.NAME)
     }
 
-    fun get(holderId: String): Flowable<Holder> = RxRealm.listenElement { realm ->
-        realm.where(Holder::class.java).equalTo(Holder.ID, holderId).findAll()
+    fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement { realm ->
+        realm.where(Holder::class.java).equalTo(Holder.NAME, holderName).findAll()
     }
 
     fun getWithMaxCounters(): Maybe<Holder> = RxRealm.getElement { realm ->
@@ -36,10 +36,10 @@ class HolderRepository @Inject constructor() {
 
     fun updateCounts(holder: Holder): Completable = RxRealm.doTransactional {
         val cardCount = it.where(Card::class.java).equalTo(Card.IS_TRASH, false)
-                .equalTo(Card.HOLDER_ID, holder.id).count()
+                .equalTo(Card.HOLDER_NAME, holder.name).count()
         val debtCount = it.where(Debt::class.java).equalTo(Debt.IS_TRASH, false)
-                .equalTo(Debt.HOLDER_ID, holder.id).count()
-        val realmHolder = it.where(Holder::class.java).equalTo(Holder.ID, holder.id).findFirst()
+                .equalTo(Debt.HOLDER_NAME, holder.name).count()
+        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, holder.name).findFirst()
         if (cardCount <= 0 && debtCount <= 0) {
             realmHolder.isTrash = true
         } else {

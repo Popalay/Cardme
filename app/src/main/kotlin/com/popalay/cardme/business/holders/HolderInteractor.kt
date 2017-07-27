@@ -19,14 +19,10 @@ class HolderInteractor @Inject constructor(
     fun getHolders(): Flowable<List<Holder>> = holderRepository.getAll()
             .subscribeOn(Schedulers.io())
 
-    fun getHolder(holderId: String): Flowable<Holder> = holderRepository.get(holderId)
+    fun getHolder(holderName: String): Flowable<Holder> = holderRepository.get(holderName)
             .subscribeOn(Schedulers.io())
 
     fun getFavoriteHolder(): Maybe<Holder> = holderRepository.getWithMaxCounters()
-            .subscribeOn(Schedulers.io())
-
-    fun getHolderName(holderId: String): Flowable<String> = getHolder(holderId)
-            .map { it.name }
             .subscribeOn(Schedulers.io())
 
     fun getHolderNames(): Flowable<List<String>>

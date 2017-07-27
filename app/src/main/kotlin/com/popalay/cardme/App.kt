@@ -24,7 +24,7 @@ class App : DaggerApplication() {
         LeakCanary.install(this)
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(1)
+                .schemaVersion(BuildConfig.DATABASE_VERSION)
                 .migration(DataBaseMigration())
                 .build()
         Realm.setDefaultConfiguration(config)
