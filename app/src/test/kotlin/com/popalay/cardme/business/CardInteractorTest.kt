@@ -33,19 +33,54 @@ class CardInteractorTest {
         cardInteractor = CardInteractor(cardRepository, holderRepository, debtRepository)
     }
 
+    @Test fun get_Success() {
+        val cardNumber = "6767 8989 5454 5555"
+        val card = Card(number = cardNumber)
+
+        whenever(cardRepository.get(cardNumber)).thenReturn(Flowable.just(card))
+
+        val testObserver = cardInteractor.get(cardNumber).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).get(cardNumber)
+
+        testObserver
+                .assertNoErrors()
+                .assertValue { it == card }
+                .assertComplete()
+    }
+
     @Test fun validateCard_Success() {
         val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
 
         whenever(cardRepository.cardIsNew(card)).thenReturn(Single.just(true))
 
-        val testObserver = cardInteractor.validateCard(card).test()
+        val testObserver = cardInteractor.checkCardExist(card).test()
 
         testObserver.awaitTerminalEvent()
 
+        verify(cardRepository).cardIsNew(card)
+
         testObserver
                 .assertNoErrors()
-                .assertValue { it === card }
                 .assertComplete()
+    }
+
+    @Test fun validateCard_Failed() {
+        val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
+
+        whenever(cardRepository.cardIsNew(card)).thenReturn(Single.just(false))
+
+        val testObserver = cardInteractor.checkCardExist(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).cardIsNew(card)
+
+        testObserver
+                .assertError(AppException::class.java)
+                .assertTerminated()
     }
 
     @Test fun hasAllData_True() {
@@ -74,20 +109,6 @@ class CardInteractorTest {
                 .assertNoErrors()
                 .assertValue { !it }
                 .assertComplete()
-    }
-
-    @Test fun validateCard_Failed() {
-        val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
-
-        whenever(cardRepository.cardIsNew(card)).thenReturn(Single.just(false))
-
-        val testObserver = cardInteractor.validateCard(card).test()
-
-        testObserver.awaitTerminalEvent()
-
-        testObserver
-                .assertError(AppException::class.java)
-                .assertTerminated()
     }
 
     @Test fun saveCard_Success() {

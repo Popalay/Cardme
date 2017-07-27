@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import io.card.payment.CreditCard
+import javax.inject.Named
 
 @Module
 abstract class AddCardModule {
@@ -16,14 +16,13 @@ abstract class AddCardModule {
     @ViewModelKey(AddCardViewModel::class)
     abstract fun bindsAddCardViewModel(addCardViewModel: AddCardViewModel): ViewModel
 
-
     @Module
     companion object {
 
         @Provides
+        @Named(AddCardActivity.KEY_CARD_NUMBER)
         @JvmStatic
-        fun provideCreditCard(activity: AddCardActivity): CreditCard =
-                activity.intent.getParcelableExtra(AddCardActivity.KEY_CREDIT_CARD)
+        fun provideCardNumber(activity: AddCardActivity): String = activity.intent.getStringExtra(AddCardActivity.KEY_CARD_NUMBER)
 
     }
 

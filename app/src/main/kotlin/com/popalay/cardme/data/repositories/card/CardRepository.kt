@@ -18,6 +18,10 @@ class CardRepository @Inject internal constructor() {
 
     fun update(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
 
+    fun get(cardNumber: String): Flowable<Card> = RxRealm.listenElement {
+        it.where(Card::class.java).equalTo(Card.NUMBER, cardNumber).findAll()
+    }
+
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, false)

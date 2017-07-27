@@ -9,7 +9,6 @@ import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.functions.Function3
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -22,12 +21,15 @@ class CardInteractor @Inject constructor(
         private val debtRepository: DebtRepository
 ) {
 
-    fun validateCard(creditCard: Card): Single<Card> {
+    fun checkCardExist(creditCard: Card): Completable {
         val card = transform(creditCard)
         return cardRepository.cardIsNew(card)
-                .flatMap { if (it) Single.just(card) else Single.error<Card>(createCardExistError()) }
+                .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
                 .subscribeOn(Schedulers.io())
     }
+
+    fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
+            .subscribeOn(Schedulers.io())
 
     fun save(card: Card): Completable = cardRepository.save(card)
             .flatMapCompletable { holderRepository.updateCounts(it.holder) }

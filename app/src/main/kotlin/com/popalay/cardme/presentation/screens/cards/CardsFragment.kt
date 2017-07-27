@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
+import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import io.card.payment.CardIOActivity
@@ -64,5 +65,15 @@ class CardsFragment : BaseFragment() {
         viewModelFacade.doOnShareCard()
                 .subscribe { ShareUtils.shareText(activity, R.string.share_card, it) }
                 .addTo(disposables)
+
+        viewModelFacade.doOnShowCardExistsDialog()
+                .subscribe {
+                    DialogFactory.createCustomButtonsDialog(context,
+                            R.string.error_card_exist, R.string.action_yes, R.string.action_cancel,
+                            onPositive = viewModelFacade::onWantToOverwrite,
+                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
+                            .apply { setCancelable(false) }
+                            .show()
+                }.addTo(disposables)
     }
 }

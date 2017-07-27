@@ -15,7 +15,6 @@ import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.animation.EndAnimatorListener
 import com.popalay.cardme.utils.transitions.FabTransform
-import com.popalay.cardme.utils.transitions.MorphTransform
 import javax.inject.Inject
 
 class AddDebtActivity : BaseActivity() {
@@ -39,16 +38,12 @@ class AddDebtActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
 
-        if (!FabTransform.setup(this, b.container)) {
-            MorphTransform.setup(this, b.container,
-                    ContextCompat.getColor(this, R.color.dialog_background),
-                    resources.getDimensionPixelSize(R.dimen.dialog_corners))
-        }
-        ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java).let {
-            b.vm = it
-        }
+        FabTransform.setup(this, b.container)
+
+        b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
+        b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
+
         initUI()
     }
 

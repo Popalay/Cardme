@@ -9,4 +9,10 @@ interface CardsViewModelFacade {
 
     fun onCardScanned(creditCard: CreditCard)
 
+    fun onShowCardExistsDialogDismiss()
+
+    fun onWantToOverwrite()
+
+    fun doOnShowCardExistsDialog(): Observable<Boolean>
+
 }

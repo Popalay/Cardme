@@ -5,11 +5,8 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableList
 import android.view.inputmethod.EditorInfo
-import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.exception.AppException
-import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
@@ -21,20 +18,19 @@ import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
-import io.card.payment.CreditCard
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+import javax.inject.Named
 
 class AddCardViewModel @Inject constructor(
         private val router: CustomRouter,
         cardInteractor: CardInteractor,
-        creditCard: CreditCard,
+        @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
         holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
-) : BaseViewModel(), AddCardViewModelFacade {
+) : BaseViewModel() {
 
     val holderName = ObservableString()
     val holderNames: ObservableList<String> = ObservableArrayList<String>()
@@ -45,37 +41,36 @@ class AddCardViewModel @Inject constructor(
 
     val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
-    val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
     init {
-        cardInteractor.validateCard(Card(creditCard))
+        cardInteractor.get(cardNumber)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(card)
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(showImage)
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         holderInteractor.getHolderNames()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holderNames)
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         holderName.observe()
                 .doOnNext { card.get()?.holder?.name = it.clean() }
                 .switchMapSingle { cardInteractor.hasAllData(card.get()) }
                 .setTo(canSave)
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         title.observe()
                 .doOnNext { card.get()?.title = it.clean() }
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         acceptClickListener
@@ -85,39 +80,15 @@ class AddCardViewModel @Inject constructor(
                 .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         editorActionListener
                 .applyThrottling()
                 .filter { it == EditorInfo.IME_ACTION_DONE }
                 .doOnNext { acceptClickListener.accept(true) }
-                .subscribeBy(this::handleLocalError)
+                .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
-
-        errorDialogState
-                .filter { !it }
-                .doOnNext { router.exit() }
-                .subscribeBy(this::handleLocalError)
-                .addTo(disposables)
-    }
-
-    override fun doOnShowCardExistsDialog(): Observable<Boolean> {
-        return errorDialogState.filter { it }
-    }
-
-    override fun onShowCardExistsDialogDismiss() {
-        errorDialogState.accept(false)
-    }
-
-    private fun handleLocalError(throwable: Throwable) {
-        handleBaseError(throwable)
-        if (throwable !is AppException) return
-        when (throwable.errorType) {
-            ExceptionFactory.ErrorType.CARD_EXIST -> errorDialogState.accept(true)
-            else -> {
-            }
-        }
     }
 
 }

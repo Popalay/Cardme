@@ -9,9 +9,6 @@ import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddCardBinding
 import com.popalay.cardme.presentation.base.BaseActivity
-import com.popalay.cardme.utils.DialogFactory
-import io.card.payment.CreditCard
-import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class AddCardActivity : BaseActivity() {
@@ -19,14 +16,13 @@ class AddCardActivity : BaseActivity() {
     @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityAddCardBinding
-    private lateinit var viewModelFacade: AddCardViewModelFacade
 
     companion object {
-        val KEY_CREDIT_CARD = "KEY_CREDIT_CARD"
+        const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
 
-        fun getIntent(context: Context, creditCard: CreditCard): Intent {
+        fun getIntent(context: Context, cardNumber: String): Intent {
             val intent = Intent(context, AddCardActivity::class.java)
-            intent.putExtra(KEY_CREDIT_CARD, creditCard)
+            intent.putExtra(KEY_CARD_NUMBER, cardNumber)
             return intent
         }
     }
@@ -34,23 +30,11 @@ class AddCardActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityAddCardBinding>(this, R.layout.activity_add_card)
-        ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java).let {
-            b.vm = it
-            viewModelFacade = it
-        }
+        b.vm = ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java)
         initUI()
     }
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
-
-        viewModelFacade.doOnShowCardExistsDialog()
-                .subscribe {
-                    DialogFactory.createCustomButtonsDialog(this@AddCardActivity,
-                            R.string.error_card_exist, R.string.action_close,
-                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
-                            .apply { setCancelable(false) }
-                            .show()
-                }.addTo(disposables)
     }
 }

@@ -38,13 +38,13 @@ object DialogFactory {
     fun createCustomButtonsDialog(context: Context, @StringRes message: Int = 0,
                                   @StringRes positiveButton: Int = 0,
                                   @StringRes negativeButton: Int = 0,
-                                  inPositive: (() -> Unit)? = null,
+                                  onPositive: (() -> Unit)? = null,
                                   onDismiss: (() -> Unit)? = null): Dialog {
         return createCustomButtonsDialog(context,
                 if (message > 0) context.getString(message) else null,
                 if (positiveButton > 0) context.getString(positiveButton) else null,
                 if (negativeButton > 0) context.getString(negativeButton) else null,
-                inPositive, onDismiss)
+                onPositive, onDismiss)
     }
 
     fun createCustomButtonsDialog(context: Context, message: String? = null,

@@ -1,8 +1,11 @@
 package com.popalay.cardme.presentation.screens.cards
 
 import android.databinding.ObservableBoolean
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
+import com.popalay.cardme.business.exception.AppException
+import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
@@ -24,7 +27,7 @@ import javax.inject.Inject
 class CardsViewModel @Inject constructor(
         private val router: CustomRouter,
         private val cardInteractor: CardInteractor,
-        private val settingsInteractor: SettingsInteractor
+        settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), CardsViewModelFacade {
 
     val cards = DiffObservableList<Card>()
@@ -37,6 +40,10 @@ class CardsViewModel @Inject constructor(
     val onDragged: PublishRelay<Pair<Int, Int>> = PublishRelay.create()
     val onDropped: PublishRelay<Boolean> = PublishRelay.create()
     val onUndoSwipe: PublishRelay<Boolean> = PublishRelay.create()
+
+    val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
+
+    var lastAddedCardNumber: String? = null
 
     init {
         cardInteractor.getCards()
@@ -79,11 +86,39 @@ class CardsViewModel @Inject constructor(
                 .addTo(disposables)
     }
 
+    override fun doOnShowCardExistsDialog(): Observable<Boolean> {
+        return errorDialogState.filter { it }
+    }
+
+    override fun onShowCardExistsDialogDismiss() {
+        errorDialogState.accept(false)
+    }
+
+    override fun onWantToOverwrite() {
+        router.navigateTo(SCREEN_ADD_CARD, lastAddedCardNumber)
+    }
+
     override fun onCardScanned(creditCard: CreditCard) {
-        router.navigateTo(SCREEN_ADD_CARD, creditCard)
+        val card = Card(creditCard)
+        this.lastAddedCardNumber = card.number
+        cardInteractor.checkCardExist(card)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { router.navigateTo(SCREEN_ADD_CARD, lastAddedCardNumber) }
+                .subscribeBy(this::handleLocalError)
+                .addTo(disposables)
     }
 
     override fun doOnShareCard(): Observable<String> = cardClickPublisher
             .applyThrottling()
             .map { it.number }
+
+    private fun handleLocalError(throwable: Throwable) {
+        handleBaseError(throwable)
+        if (throwable !is AppException) return
+        when (throwable.errorType) {
+            ExceptionFactory.ErrorType.CARD_EXIST -> errorDialogState.accept(true)
+            else -> {
+            }
+        }
+    }
 }

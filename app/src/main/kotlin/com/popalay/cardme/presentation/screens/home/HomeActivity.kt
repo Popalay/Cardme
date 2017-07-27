@@ -30,7 +30,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.card.payment.CardIOActivity
-import io.card.payment.CreditCard
 import shortbread.Shortcut
 import javax.inject.Inject
 
@@ -64,7 +63,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
             SCREEN_HOME -> HomeActivity.getIntent(activity)
             SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
-            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as CreditCard)
+            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as String)
             SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
             SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
