@@ -21,15 +21,12 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/window_background"
-        android:orientation="vertical"
         >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_holders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:defaultList="@{true}"
             bind:holderClick="@{vm.holderClickListener}"
@@ -41,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_people_48_primary"
             android:text="@string/list_holders_placeholder"
             bind:listPlaceholder="@{vm.holders}"
             />

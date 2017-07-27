@@ -16,13 +16,15 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/window_background"
         >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/small"
+            android:paddingTop="@dimen/small"
             bind:cardClick="@{vm.cardClickPublisher}"
             bind:cardsAdapter="@{vm.cards}"
             bind:defaultList="@{true}"
@@ -31,6 +33,7 @@
             bind:onSwiped="@{vm.onSwiped}"
             bind:onUndoSwipe="@{vm.onUndoSwipe}"
             bind:showImage="@{vm.showImage}"
+            bind:swipeDrawable="@{@drawable/ic_trash_48_red}"
             bind:undoMessage="@{@string/card_removed}"
             />
 
@@ -49,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_card_48_primary"
             android:text="@string/list_cards_placeholder"
             bind:listPlaceholder="@{vm.cards}"
             />
