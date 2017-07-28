@@ -121,7 +121,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$archComponents"
 
     // Router
-    implementation 'com.github.Popalay:Cicerone:37d5818413'
+    implementation 'com.github.Popalay:Cicerone:68bc8c809c'
 
     // DI
     implementation "com.google.dagger:dagger:$dagger"

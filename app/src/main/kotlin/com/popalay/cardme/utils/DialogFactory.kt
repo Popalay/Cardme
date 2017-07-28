@@ -1,7 +1,6 @@
 package com.popalay.cardme.utils
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
@@ -58,16 +57,5 @@ object DialogFactory {
                 .setOnDismissListener { onDismiss?.invoke() }
                 .setNegativeButton(negativeButton, null)
                 .create()
-    }
-
-    fun createProgressDialog(context: Context, @StringRes message: Int = 0): ProgressDialog {
-        return createProgressDialog(context, if (message > 0) context.getString(message) else null)
-    }
-
-    fun createProgressDialog(context: Context, message: String? = null): ProgressDialog {
-        return ProgressDialog(context, R.style.Cardme_Dialog_Progress).apply {
-            setMessage(message)
-            setCancelable(false)
-        }
     }
 }

@@ -1,6 +1,5 @@
 package com.popalay.cardme.presentation.screens.home
 
-import android.app.ActivityOptions
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -9,7 +8,6 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
@@ -29,7 +27,6 @@ import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.trash.TrashActivity
 import com.popalay.cardme.utils.extensions.findFragmentByType
 import com.popalay.cardme.utils.extensions.setSelectedItem
-import com.popalay.cardme.utils.transitions.FabTransform
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -77,13 +74,10 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             else -> null
         }
 
-        override fun setupActivityTransactionAnimation(command: Command?, activityIntent: Intent?): Bundle? {
+        override fun setupActivityTransactionAnimation(command: Command, activityIntent: Intent): Bundle? {
             if (command is Forward && command.screenKey == SCREEN_ADD_DEBT) {
-                FabTransform.addExtras(activityIntent!!, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
-                val fragment = supportFragmentManager.findFragmentByType<DebtsFragment>() ?: return null
-                val options = ActivityOptions.makeSceneTransitionAnimation(activity, fragment.b.buttonWrite,
-                        getString(R.string.transition_add_debt))
-                return options.toBundle()
+                return supportFragmentManager.findFragmentByType<DebtsFragment>()
+                        ?.createAddDebtTransition(activityIntent)
             }
             return super.setupActivityTransactionAnimation(command, activityIntent)
         }

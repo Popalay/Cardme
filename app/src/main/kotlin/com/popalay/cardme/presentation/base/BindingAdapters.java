@@ -79,6 +79,12 @@ public class BindingAdapters {
         toolbar.setNavigationOnClickListener(v -> App.Companion.getAppComponent().getRouter().exit());
     }
 
+    @BindingAdapter("exitByClick")
+    public static void exitByClick(View view, boolean use) {
+        if (!use) return;
+        view.setOnClickListener(v -> App.Companion.getAppComponent().getRouter().exit());
+    }
+
     @BindingAdapter("stringAdapter")
     public static void stringAdapter(AutoCompleteTextView view, List<String> values) {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),
@@ -130,7 +136,7 @@ public class BindingAdapters {
 
             if (onUndoSwipe == null) return;
             Snackbar.make(view, undoMessage, Snackbar.LENGTH_LONG)
-                    .setDuration(ConstantsKt.UNDO_MESSAGE_DURATION)
+                    .setDuration((int) ConstantsKt.DURATION_UNDO_MESSAGE)
                     .setAction(R.string.action_undo, ignored -> onUndoSwipe.accept(true))
                     .show();
         };

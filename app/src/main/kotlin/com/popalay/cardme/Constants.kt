@@ -4,4 +4,6 @@ const val PRIVACY_POLICY_LINK = "https://rawgit.com/Popalay/Cardme/master/privac
 
 const val DEBOUNCE_DELAY_MS = 500L
 
-const val UNDO_MESSAGE_DURATION = 5000
+const val DURATION_UNDO_MESSAGE = 5000L
+
+const val DURATION_SHORT = 200L

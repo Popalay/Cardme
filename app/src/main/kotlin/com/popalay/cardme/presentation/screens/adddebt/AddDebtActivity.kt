@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddDebtBinding
 import com.popalay.cardme.presentation.base.BaseActivity
@@ -24,10 +25,7 @@ class AddDebtActivity : BaseActivity() {
 
     override var navigator = object : CustomNavigator(this) {
 
-        override fun exit() {
-            //TODO implement start activity with transition command for Cicerone
-            this@AddDebtActivity.exit()
-        }
+        override fun exit() = this@AddDebtActivity.exitWithAnimation()
 
     }
 
@@ -41,8 +39,6 @@ class AddDebtActivity : BaseActivity() {
         FabTransform.setup(this, b.container)
 
         b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
-
-        initUI()
     }
 
     override fun onEnterAnimationComplete() {
@@ -50,29 +46,25 @@ class AddDebtActivity : BaseActivity() {
         b.buttonSave.animate()
                 .scaleX(1f)
                 .scaleY(1f)
-                .setDuration(200L)
+                .setDuration(DURATION_SHORT)
                 .start()
     }
 
-    override fun onBackPressed() = exit()
+    override fun onBackPressed() = exitWithAnimation()
 
-    fun exit() {
-        setResult(Activity.RESULT_CANCELED)
+    private fun exitWithAnimation() {
         runOnUiThread {
             b.buttonSave.animate()
                     .scaleX(0f)
                     .scaleY(0f)
-                    .setDuration(200L)
+                    .setDuration(DURATION_SHORT)
                     .setListener(object : EndAnimatorListener {
                         override fun onAnimationEnd(animator: Animator) {
+                            setResult(Activity.RESULT_CANCELED)
                             finishAfterTransition()
                         }
                     })
                     .start()
         }
-    }
-
-    private fun initUI() {
-        b.root.setOnClickListener { exit() }
     }
 }
