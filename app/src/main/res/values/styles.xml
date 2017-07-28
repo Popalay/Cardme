@@ -74,7 +74,7 @@
     <style name="Cardme.FloatingButton">
         <item name="android:layout_marginBottom">@dimen/normal</item>
         <item name="android:layout_marginEnd">@dimen/normal</item>
-        <item name="android:tint">?colorPrimary</item>
+        <item name="android:tint">@color/selector_button_text</item>
         <item name="layout_behavior">@string/fab_hide_behavior</item>
     </style>
 
