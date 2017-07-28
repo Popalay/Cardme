@@ -1,4 +1,5 @@
 [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=596952a474a5a70001794cd8&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/596952a474a5a70001794cd8/build/latest?branch=master)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/Popalay/SuperMultipartFactory/blob/master/LICENSE)
 
 # Cardme
 Don't be constantly asking for card numbers from friends, just store them!
