@@ -6,9 +6,12 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.whenever
 import com.popalay.cardme.business.holders.HolderInteractor
+import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.device.DeviceRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import org.junit.Before
@@ -27,7 +30,7 @@ class HolderInteractorTest {
         holderInteractor = HolderInteractor(deviceRepository, holderRepository)
     }
 
-    @Test fun getHolders_Success() {
+    @Test fun getAll_Success() {
         val holders = (1..5).map { Holder() }.toMutableList()
         val trashedHolder = Holder(isTrash = true)
         holders.add(trashedHolder)
@@ -49,7 +52,7 @@ class HolderInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun getHolder_Success() {
+    @Test fun get_Success() {
         val name = "Denis"
         val holder = Holder(name = name)
 
@@ -67,7 +70,7 @@ class HolderInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun getFavoriteHolder_Success() {
+    @Test fun getFavorite_Success() {
         val holder = Holder()
 
         whenever(holderRepository.getWithMaxCounters()).thenReturn(Maybe.just(holder))
@@ -84,7 +87,41 @@ class HolderInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun getHolderNames_WithContacts() {
+    @Test fun addCard_Success() {
+        val holder = Holder(name = "Denis")
+        val card = Card(holder = holder)
+
+        whenever(holderRepository.addCard(holder.name, card)).thenReturn(Completable.complete())
+
+        val testObserver = holderInteractor.addCard(holder.name, card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(holderRepository).addCard(holder.name, card)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
+
+    @Test fun addDebt_Success() {
+        val holder = Holder(name = "Denis")
+        val debt = Debt(holder = holder)
+
+        whenever(holderRepository.addDebt(holder.name, debt)).thenReturn(Completable.complete())
+
+        val testObserver = holderInteractor.addDebt(holder.name, debt).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(holderRepository).addDebt(holder.name, debt)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
+
+    @Test fun getNames_WithContacts() {
         val holders = (1..5).map { Holder(name = "Denis $it") }.toList()
         val contact = mock<Contact>()
         whenever(contact.displayName).thenReturn("Petya")

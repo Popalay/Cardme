@@ -44,7 +44,7 @@ class CardsViewModel @Inject constructor(
     val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
     init {
-        cardInteractor.getCards()
+        cardInteractor.getAll()
                 .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)

@@ -122,7 +122,7 @@ class CardInteractorTest {
         val holder = Holder(name = "Denis")
         val card = Card(holder = holder)
 
-        val testObserver = cardInteractor.hasAllData(card, it).test()
+        val testObserver = cardInteractor.hasAllData(card, holder.name).test()
 
         testObserver.awaitTerminalEvent()
 
@@ -136,7 +136,7 @@ class CardInteractorTest {
         val holder = Holder(name = "")
         val card = Card(holder = holder)
 
-        val testObserver = cardInteractor.hasAllData(card, it).test()
+        val testObserver = cardInteractor.hasAllData(card, holder.name).test()
 
         testObserver.awaitTerminalEvent()
 
@@ -146,25 +146,7 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun saveCard_Success() {
-        val card = Card()
-
-        whenever(cardRepository.save(card)).thenReturn(Single.just(card))
-        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
-
-        val testObserver = cardInteractor.save(card).test()
-
-        testObserver.awaitTerminalEvent()
-
-        verify(cardRepository).save(card)
-        verify(holderRepository).updateCounts(card.holder)
-
-        testObserver
-                .assertNoErrors()
-                .assertComplete()
-    }
-
-    @Test fun getCards_Success() {
+    @Test fun getAll_Success() {
         val cards = (1..5).map { Card() }.toMutableList()
         val trashedCard = Card(isTrash = true)
         cards.add(trashedCard)
@@ -174,7 +156,7 @@ class CardInteractorTest {
             cards
         })
 
-        val testObserver = cardInteractor.getCards().test()
+        val testObserver = cardInteractor.getAll().test()
 
         testObserver.awaitTerminalEvent()
 
@@ -186,28 +168,27 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun getCardsByHolder_Success() {
+    @Test fun getTrashed_Success() {
         val cards = (1..5).map { Card() }.toMutableList()
         val trashedCard = Card(isTrash = true)
         cards.add(trashedCard)
-        val holderId = "0"
 
-        whenever(cardRepository.getAllByHolder(holderId)).thenReturn(Flowable.fromCallable {
-            cards.remove(trashedCard)
-            cards
+        whenever(cardRepository.getAllTrashed()).thenReturn(Flowable.fromCallable {
+            listOf(trashedCard)
         })
 
-        val testObserver = cardInteractor.getCardsByHolder(holderId).test()
+        val testObserver = cardInteractor.getAllTrashed().test()
 
         testObserver.awaitTerminalEvent()
 
-        verify(cardRepository).getAllByHolder(holderId)
+        verify(cardRepository).getAllTrashed()
 
         testObserver
                 .assertNoErrors()
-                .assertValue { it.count() == 5 }
+                .assertValue { it.count() == 1 }
                 .assertComplete()
     }
+
 
     @Test fun updateCards_Success() {
         val cards = (1..5).map { Card(position = it * 3) }.toMutableList()
@@ -233,14 +214,14 @@ class CardInteractorTest {
         val card = Card()
 
         whenever(cardRepository.markAsTrash(card)).thenReturn(Completable.complete())
-        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
+        whenever(holderRepository.removeCard(card)).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.markAsTrash(card).test()
 
         testObserver.awaitTerminalEvent()
 
         verify(cardRepository).markAsTrash(card)
-        verify(holderRepository).updateCounts(card.holder)
+        verify(holderRepository).removeCard(card)
 
         testObserver
                 .assertNoErrors()
@@ -250,15 +231,15 @@ class CardInteractorTest {
     @Test fun restart_Success() {
         val card = Card(isTrash = true)
 
+        whenever(holderRepository.addCard(card.holder.name, card)).thenReturn(Completable.complete())
         whenever(cardRepository.restore(card)).thenReturn(Completable.complete())
-        whenever(holderRepository.updateCounts(card.holder)).thenReturn(Completable.complete())
 
         val testObserver = cardInteractor.restore(card).test()
 
         testObserver.awaitTerminalEvent()
 
         verify(cardRepository).restore(card)
-        verify(holderRepository).updateCounts(card.holder)
+        verify(holderRepository).addCard(card.holder.name, card)
 
         testObserver
                 .assertNoErrors()

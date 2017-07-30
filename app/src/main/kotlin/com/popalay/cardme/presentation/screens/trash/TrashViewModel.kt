@@ -27,7 +27,7 @@ class TrashViewModel @Inject constructor(
     val emptyTrashClick: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
-        cardInteractor.getTrashedCards()
+        cardInteractor.getAllTrashed()
                 .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
