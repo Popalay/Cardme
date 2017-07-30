@@ -22,12 +22,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
-import javax.inject.Named
 
 class AddCardViewModel @Inject constructor(
         private val router: CustomRouter,
         cardInteractor: CardInteractor,
-        @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
         holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel() {
@@ -43,7 +41,7 @@ class AddCardViewModel @Inject constructor(
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
 
     init {
-        cardInteractor.get(cardNumber)
+        cardInteractor.getLastScanned()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(card)
                 .subscribeBy(this::handleBaseError)
@@ -55,15 +53,14 @@ class AddCardViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        holderInteractor.getHolderNames()
+        holderInteractor.getNames()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holderNames)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
         holderName.observe()
-                .doOnNext { card.get()?.holder?.name = it.clean() }
-                .switchMapSingle { cardInteractor.hasAllData(card.get()) }
+                .switchMapSingle { cardInteractor.hasAllData(card.get(), it) }
                 .setTo(canSave)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
@@ -77,7 +74,7 @@ class AddCardViewModel @Inject constructor(
                 .applyThrottling()
                 .filter { it }
                 .map { card.get() }
-                .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
+                .switchMapSingle { holderInteractor.addCard(holderName.get(), it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)

@@ -21,6 +21,14 @@ class CardInteractor @Inject constructor(
         private val debtRepository: DebtRepository
 ) {
 
+    fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
+            .subscribeOn(Schedulers.io())
+
+    fun setLastScanned(card: Card): Completable = cardRepository.setLastScanned(card)
+            .subscribeOn(Schedulers.io())
+
+    fun getLastScanned(): Single<Card> = cardRepository.getLastScanned()
+
     fun checkCardExist(creditCard: Card): Completable {
         val card = transform(creditCard)
         return cardRepository.cardIsNew(card)
@@ -28,22 +36,14 @@ class CardInteractor @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
-            .subscribeOn(Schedulers.io())
-
-    fun save(card: Card): Completable = cardRepository.save(card)
-            .flatMapCompletable { holderRepository.updateCounts(it.holder) }
-            .subscribeOn(Schedulers.io())
-
-    fun hasAllData(card: Card?): Single<Boolean> = Single.fromCallable {
-        card?.holder?.name?.isNotBlank() ?: false
+    fun hasAllData(card: Card?, holderName: String): Single<Boolean> = Single.fromCallable {
+        holderName.isNotBlank()
     }
 
-    fun getCards(): Flowable<List<Card>> = cardRepository.getAll().subscribeOn(Schedulers.io())
+    fun getCards(): Flowable<List<Card>> = cardRepository.getAll()
+            .subscribeOn(Schedulers.io())
 
-    fun getTrashedCards(): Flowable<List<Card>> = cardRepository.getAllTrashed().subscribeOn(Schedulers.io())
-
-    fun getCardsByHolder(holderName: String): Flowable<List<Card>> = cardRepository.getAllByHolder(holderName)
+    fun getTrashedCards(): Flowable<List<Card>> = cardRepository.getAllTrashed()
             .subscribeOn(Schedulers.io())
 
     fun update(items: List<Card>): Completable {
@@ -53,11 +53,11 @@ class CardInteractor @Inject constructor(
     }
 
     fun markAsTrash(card: Card): Completable = cardRepository.markAsTrash(card)
-            .andThen(holderRepository.updateCounts(card.holder))
+            .andThen(holderRepository.removeCard(card))
             .subscribeOn(Schedulers.io())
 
-    fun restore(card: Card): Completable = cardRepository.restore(card)
-            .andThen(holderRepository.updateCounts(card.holder))
+    fun restore(card: Card): Completable = holderRepository.addCard(card.holder.name, card)
+            .andThen(cardRepository.restore(card))
             .subscribeOn(Schedulers.io())
 
     fun emptyTrash(): Completable = Singles.zip(

@@ -66,7 +66,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
             SCREEN_HOME -> HomeActivity.getIntent(activity)
             SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
-            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as String)
+            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity)
             SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
             SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)

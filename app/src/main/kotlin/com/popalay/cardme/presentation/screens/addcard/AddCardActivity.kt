@@ -18,13 +18,8 @@ class AddCardActivity : BaseActivity() {
     private lateinit var b: ActivityAddCardBinding
 
     companion object {
-        const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
 
-        fun getIntent(context: Context, cardNumber: String): Intent {
-            val intent = Intent(context, AddCardActivity::class.java)
-            intent.putExtra(KEY_CARD_NUMBER, cardNumber)
-            return intent
-        }
+        fun getIntent(context: Context) = Intent(context, AddCardActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

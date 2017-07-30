@@ -15,21 +15,14 @@ class DebtsInteractor @Inject constructor(
         private val holderRepository: HolderRepository
 ) {
 
-    fun save(debt: Debt): Completable = debtRepository.save(debt)
-            .flatMapCompletable { holderRepository.updateCounts(it.holder) }
-            .subscribeOn(Schedulers.io())
-
-    fun getDebts(): Flowable<List<Debt>> = debtRepository.getAll()
-            .subscribeOn(Schedulers.io())
-
-    fun getDebtsByHolder(holderName: String): Flowable<List<Debt>> = debtRepository.getAllByHolder(holderName)
+    fun getAll(): Flowable<List<Debt>> = debtRepository.getAll()
             .subscribeOn(Schedulers.io())
 
     fun markAsTrash(debt: Debt): Completable = debtRepository.markAsTrash(debt)
-            .andThen(holderRepository.updateCounts(debt.holder))
+            .andThen(holderRepository.removeDebt(debt))
             .subscribeOn(Schedulers.io())
 
-    fun restore(debt: Debt): Completable = debtRepository.restore(debt)
-            .andThen(holderRepository.updateCounts(debt.holder))
+    fun restore(debt: Debt): Completable = holderRepository.addDebt(debt.holder.name, debt)
+            .andThen(debtRepository.restore(debt))
             .subscribeOn(Schedulers.io())
 }

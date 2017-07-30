@@ -6,23 +6,24 @@ import com.github.nitrico.lastadapter.StableId
 import com.popalay.cardme.R
 import io.card.payment.CreditCard
 import io.realm.RealmObject
+import io.realm.RealmResults
+import io.realm.annotations.LinkingObjects
 import io.realm.annotations.PrimaryKey
 
 
 open class Card(
         @PrimaryKey open var number: String = "",
-        open var title: String = "",
-        open var redactedNumber: String = "",
-        open var holder: Holder = Holder(),
-        @field:CardType open var cardType: Long = 0L,
-        open var generatedBackgroundSeed: Long = 0L,
-        open var position: Int = 0,
-        open var isTrash: Boolean = false
+        var title: String = "",
+        var redactedNumber: String = "",
+        @field:CardType var cardType: Long = 0L,
+        var generatedBackgroundSeed: Long = 0L,
+        var position: Int = 0,
+        var isTrash: Boolean = false,
+        var holder: Holder = Holder()
 ) : RealmObject(), StableId {
 
     companion object {
         const val NUMBER = "number"
-        const val HOLDER_NAME = "holder.name"
         const val POSITION = "position"
         const val IS_TRASH = "isTrash"
 
@@ -79,7 +80,6 @@ open class Card(
         if (number != other.number) return false
         if (title != other.title) return false
         if (redactedNumber != other.redactedNumber) return false
-        if (holder != other.holder) return false
         if (cardType != other.cardType) return false
         if (generatedBackgroundSeed != other.generatedBackgroundSeed) return false
         if (position != other.position) return false
@@ -92,7 +92,6 @@ open class Card(
         var result = number.hashCode()
         result = 31 * result + title.hashCode()
         result = 31 * result + redactedNumber.hashCode()
-        result = 31 * result + holder.hashCode()
         result = 31 * result + cardType.hashCode()
         result = 31 * result + generatedBackgroundSeed.hashCode()
         result = 31 * result + position
@@ -100,6 +99,6 @@ open class Card(
         return result
     }
 
-    override fun toString() = "Card(number='$number', title='$title', redactedNumber='$redactedNumber', holder=$holder, cardType=$cardType, generatedBackgroundSeed=$generatedBackgroundSeed, position=$position, isTrash=$isTrash)"
+    override fun toString() = "Card(number='$number', title='$title', redactedNumber='$redactedNumber', cardType=$cardType, generatedBackgroundSeed=$generatedBackgroundSeed, position=$position, isTrash=$isTrash)"
 
 }

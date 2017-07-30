@@ -1,15 +1,15 @@
 package com.popalay.cardme.presentation.screens.holderdetails
 
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.debts.DebtsInteractor
+import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
+import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.utils.extensions.applyThrottling
-import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
@@ -22,10 +22,11 @@ import javax.inject.Named
 
 class HolderDetailsViewModel @Inject constructor(
         @Named(HolderDetailsActivity.KEY_HOLDER_DETAILS) holderName: String,
-        cardInteractor: CardInteractor,
-        debtsInteractor: DebtsInteractor,
+        holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), HolderDetailsViewModelFacade {
+
+    val holder = ObservableField<Holder>()
 
     val debts = DiffObservableList<Debt>()
     val cards = DiffObservableList<Card>()
@@ -36,15 +37,9 @@ class HolderDetailsViewModel @Inject constructor(
 
     init {
 
-        cardInteractor.getCardsByHolder(holderName)
+        holderInteractor.get(holderName)
                 .observeOn(AndroidSchedulers.mainThread())
-                .setTo(cards)
-                .subscribeBy()
-                .addTo(disposables)
-
-        debtsInteractor.getDebtsByHolder(holderName)
-                .observeOn(AndroidSchedulers.mainThread())
-                .setTo(debts)
+                .setTo(holder)
                 .subscribeBy()
                 .addTo(disposables)
 

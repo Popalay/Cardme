@@ -1,9 +1,12 @@
 package com.popalay.cardme.business.holders
 
 import android.Manifest
+import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.device.DeviceRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.schedulers.Schedulers
@@ -16,16 +19,22 @@ class HolderInteractor @Inject constructor(
         private val holderRepository: HolderRepository
 ) {
 
-    fun getHolders(): Flowable<List<Holder>> = holderRepository.getAll()
+    fun get(holderName: String): Flowable<Holder> = holderRepository.get(holderName)
             .subscribeOn(Schedulers.io())
 
-    fun getHolder(holderName: String): Flowable<Holder> = holderRepository.get(holderName)
+    fun addCard(holderName: String, card: Card): Completable = holderRepository.addCard(holderName, card)
             .subscribeOn(Schedulers.io())
 
-    fun getFavoriteHolder(): Maybe<Holder> = holderRepository.getWithMaxCounters()
+    fun addDebt(holderName: String, debt: Debt): Completable = holderRepository.addDebt(holderName, debt)
             .subscribeOn(Schedulers.io())
 
-    fun getHolderNames(): Flowable<List<String>>
+    fun getAll(): Flowable<List<Holder>> = holderRepository.getAll()
+            .subscribeOn(Schedulers.io())
+
+    fun getFavorite(): Maybe<Holder> = holderRepository.getWithMaxCounters()
+            .subscribeOn(Schedulers.io())
+
+    fun getNames(): Flowable<List<String>>
             = deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)
             .flatMap({ holderRepository.getAll() }, this::transform)
             .subscribeOn(Schedulers.io())

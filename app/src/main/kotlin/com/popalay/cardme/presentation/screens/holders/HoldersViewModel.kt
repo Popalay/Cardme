@@ -14,15 +14,15 @@ import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class HoldersViewModel @Inject constructor(
-        private val router: CustomRouter,
-        private val holderInteractor: HolderInteractor
+        router: CustomRouter,
+        holderInteractor: HolderInteractor
 ) : BaseViewModel() {
 
     val holders = DiffObservableList<Holder>()
     val holderClickListener: PublishRelay<Holder> = PublishRelay.create<Holder>()
 
     init {
-        holderInteractor.getHolders()
+        holderInteractor.getAll()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holders)
                 .subscribeBy(this::handleBaseError)

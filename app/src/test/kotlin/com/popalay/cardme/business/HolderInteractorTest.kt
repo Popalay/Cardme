@@ -37,7 +37,7 @@ class HolderInteractorTest {
             holders
         })
 
-        val testObserver = holderInteractor.getHolders().test()
+        val testObserver = holderInteractor.getAll().test()
 
         testObserver.awaitTerminalEvent()
 
@@ -55,7 +55,7 @@ class HolderInteractorTest {
 
         whenever(holderRepository.get(name)).thenReturn(Flowable.just(holder))
 
-        val testObserver = holderInteractor.getHolder(name).test()
+        val testObserver = holderInteractor.get(name).test()
 
         testObserver.awaitTerminalEvent()
 
@@ -72,7 +72,7 @@ class HolderInteractorTest {
 
         whenever(holderRepository.getWithMaxCounters()).thenReturn(Maybe.just(holder))
 
-        val testObserver = holderInteractor.getFavoriteHolder().test()
+        val testObserver = holderInteractor.getFavorite().test()
 
         testObserver.awaitTerminalEvent()
 
@@ -94,7 +94,7 @@ class HolderInteractorTest {
         whenever(deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)).thenReturn(Flowable.just(true))
         whenever(deviceRepository.getContacts()).thenReturn(contacts)
 
-        val testObserver = holderInteractor.getHolderNames().test()
+        val testObserver = holderInteractor.getNames().test()
 
         testObserver.awaitTerminalEvent()
 
@@ -118,7 +118,7 @@ class HolderInteractorTest {
         whenever(deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)).thenReturn(Flowable.just(false))
         whenever(deviceRepository.getContacts()).thenReturn(contacts)
 
-        val testObserver = holderInteractor.getHolderNames().test()
+        val testObserver = holderInteractor.getNames().test()
 
         testObserver.awaitTerminalEvent()
 

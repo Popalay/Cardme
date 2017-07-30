@@ -6,6 +6,7 @@ import com.popalay.cardme.data.models.Settings
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +23,7 @@ class SettingsRepository @Inject internal constructor(private val context: Conte
 
     fun createDefault() = Settings(
             theme = "Default",
-            language = context.resources.configuration.locale.displayLanguage,
+            language = Locale.getDefault().displayLanguage,
             isCardBackground = true
     )
 }

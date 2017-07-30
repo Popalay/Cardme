@@ -7,6 +7,7 @@ import com.popalay.cardme.data.models.Holder
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.realm.Realm
 import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,18 +15,54 @@ import javax.inject.Singleton
 @Singleton
 class HolderRepository @Inject constructor() {
 
+    fun addCard(holderName: String, card: Card): Completable = RxRealm.doTransactional {
+        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
+                .findFirst() ?: it.createObject(Holder::class.java, holderName)
+        card.holder = holder
+        val realmCard = it.copyToRealmOrUpdate(card)
+        if (!holder.cards.contains(realmCard)) holder.cards.add(realmCard)
+
+        updateTrashFlag(it)
+    }
+
+    fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
+        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
+                .findFirst() ?: it.createObject(Holder::class.java, holderName)
+        debt.holder = holder
+        val realmDebt = it.copyToRealmOrUpdate(debt)
+        if (!holder.debts.contains(realmDebt)) holder.debts.add(realmDebt)
+
+        updateTrashFlag(it)
+    }
+
+    fun removeCard(card: Card): Completable = RxRealm.doTransactional {
+        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holder.name).findFirst()
+        val realmCard = it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst()
+        holder.cards.remove(realmCard)
+
+        updateTrashFlag(it)
+    }
+
+    fun removeDebt(debt: Debt): Completable = RxRealm.doTransactional {
+        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name).findFirst()
+        val realmDebt = it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst()
+        holder.debts.remove(realmDebt)
+
+        updateTrashFlag(it)
+    }
+
     fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
         it.where(Holder::class.java)
                 .equalTo(Holder.IS_TRASH, false)
                 .findAllSorted(Holder.NAME)
     }
 
-    fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement { realm ->
-        realm.where(Holder::class.java).equalTo(Holder.NAME, holderName).findAll()
+    fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement {
+        it.where(Holder::class.java).equalTo(Holder.NAME, holderName).findAll()
     }
 
-    fun getWithMaxCounters(): Maybe<Holder> = RxRealm.getElement { realm ->
-        realm.where(Holder::class.java)
+    fun getWithMaxCounters(): Maybe<Holder> = RxRealm.getElement {
+        it.where(Holder::class.java)
                 .findAllSorted(Holder.CARDS_COUNT, Sort.DESCENDING, Holder.DEBTS_COUNT, Sort.DESCENDING)
                 .first()
     }
@@ -34,18 +71,21 @@ class HolderRepository @Inject constructor() {
         it.where(Holder::class.java).equalTo(Holder.IS_TRASH, true).findAll().deleteAllFromRealm()
     }
 
-    fun updateCounts(holder: Holder): Completable = RxRealm.doTransactional {
-        val cardCount = it.where(Card::class.java).equalTo(Card.IS_TRASH, false)
-                .equalTo(Card.HOLDER_NAME, holder.name).count()
-        val debtCount = it.where(Debt::class.java).equalTo(Debt.IS_TRASH, false)
-                .equalTo(Debt.HOLDER_NAME, holder.name).count()
-        val realmHolder = it.where(Holder::class.java).equalTo(Holder.NAME, holder.name).findFirst()
-        if (cardCount <= 0 && debtCount <= 0) {
-            realmHolder.isTrash = true
-        } else {
-            realmHolder.isTrash = false
-            realmHolder.cardsCount = cardCount.toInt()
-            realmHolder.debtCount = debtCount.toInt()
+    private fun updateTrashFlag(realm: Realm) {
+        val intoTrash = realm.where(Holder::class.java)
+                .isEmpty(Holder.CARDS).isEmpty(Holder.DEBTS)
+                .findAll()
+
+        for (item in intoTrash) {
+            item.isTrash = true
+        }
+
+        val fromTrash = realm.where(Holder::class.java)
+                .isNotEmpty(Holder.CARDS).or().isNotEmpty(Holder.DEBTS)
+                .findAll()
+
+        for (item in fromTrash) {
+            item.isTrash = false
         }
     }
 }

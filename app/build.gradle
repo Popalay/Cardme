@@ -44,8 +44,7 @@ android {
 
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            useProguard true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -55,7 +54,7 @@ android {
     productFlavors {
 
         all {
-            buildConfigField "long", "DATABASE_VERSION", "2L"
+            buildConfigField "long", "DATABASE_VERSION", "3L"
         }
 
         dev {
@@ -85,13 +84,13 @@ android {
 }
 
 ext {
-    supportLibrary = '26.0.0-beta2'
+    supportLibrary = '26.0.0'
     rxJava = '2.1.1'
     rxAndroid = '2.0.1'
     rxKotlin = '2.1.0'
     playServices = '11.0.4'
     dagger = '2.11'
-    archComponents = '1.0.0-alpha5'
+    archComponents = '1.0.0-alpha7'
     leakCanary = '1.5.1'
     cicerone = '2.0.0'
 }
@@ -109,7 +108,6 @@ dependencies {
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     // Data binding
     kapt "com.android.databinding:compiler:$gradlePlugin"
@@ -164,7 +162,7 @@ dependencies {
     implementation "com.google.firebase:firebase-crash:$playServices"
 
     // Proguard rules
-    implementation 'com.github.yongjhih.android-proguards:android-proguards:2.0.0'
+    implementation 'com.github.yongjhih.android-proguards:android-proguards:2.0.1'
 
     // Debug utils
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"

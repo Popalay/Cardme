@@ -9,39 +9,30 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CardRepository @Inject internal constructor() {
+class CardRepository @Inject constructor() {
 
-    fun save(card: Card): Single<Card> = RxRealm.doTransactional {
-        it.insertOrUpdate(card.holder)
-        it.insertOrUpdate(card)
-    }.toSingleDefault(card)
-
-    fun update(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
+    var lastScannedCard: Card? = null
 
     fun get(cardNumber: String): Flowable<Card> = RxRealm.listenElement {
         it.where(Card::class.java).equalTo(Card.NUMBER, cardNumber).findAll()
     }
 
+    fun update(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
+
+    fun setLastScanned(card: Card): Completable = Completable.fromAction { lastScannedCard = card }
+
+    fun getLastScanned(): Single<Card> = Single.just(lastScannedCard ?: Card())
+
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, false)
-                .findAllSorted(Card.HOLDER_NAME)
-                .sort(Card.POSITION)
+                .findAllSorted(Card.POSITION)
     }
 
     fun getAllTrashed(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, true)
-                .findAllSorted(Card.HOLDER_NAME)
-                .sort(Card.POSITION)
-    }
-
-    fun getAllByHolder(holderName: String): Flowable<List<Card>> = RxRealm.listenList {
-        it.where(Card::class.java)
-                .equalTo(Card.HOLDER_NAME, holderName)
-                .equalTo(Card.IS_TRASH, false)
-                .findAllSorted(Card.HOLDER_NAME)
-                .sort(Card.POSITION)
+                .findAllSorted(Card.POSITION)
     }
 
     fun markAsTrash(card: Card): Completable = RxRealm.doTransactional {

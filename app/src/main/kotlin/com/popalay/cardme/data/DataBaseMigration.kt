@@ -26,5 +26,18 @@ class DataBaseMigration : RealmMigration {
                     .addPrimaryKey("number")
             updatedVersion++
         }
+
+        if (updatedVersion == 2L) {
+            schema.get("Holder")
+                    .removeField("cardsCount")
+                    .removeField("debtCount")
+                    .addRealmListField("cards", schema.get("Card"))
+                    .addRealmListField("debts", schema.get("Debt"))
+            updatedVersion++
+        }
+
+        if (updatedVersion == 3L) {
+            updatedVersion++
+        }
     }
 }

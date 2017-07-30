@@ -39,13 +39,13 @@ class AddDebtViewModel @Inject constructor(
 
     init {
 
-        holderInteractor.getHolderNames()
+        holderInteractor.getNames()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(holderNames)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        Observables.combineLatest(to.observe().doOnNext { debt.get().holder.name = it.clean() },
+        Observables.combineLatest(to.observe(),
                 message.observe().doOnNext { debt.get().message = it.clean() })
                 .map { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() }
                 .setTo(canSave)
@@ -55,7 +55,7 @@ class AddDebtViewModel @Inject constructor(
         addClick.applyThrottling()
                 .filter { it }
                 .map { debt.get() }
-                .switchMapSingle { debtsInteractor.save(it).toSingleDefault(true) }
+                .switchMapSingle { holderInteractor.addDebt(to.get(), it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)

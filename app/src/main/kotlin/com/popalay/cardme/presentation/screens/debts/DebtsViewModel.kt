@@ -2,6 +2,7 @@ package com.popalay.cardme.presentation.screens.debts
 
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.debts.DebtsInteractor
+import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class DebtsViewModel @Inject constructor(
         router: CustomRouter,
-        debtsInteractor: DebtsInteractor
+        debtsInteractor: DebtsInteractor,
+        holdersInteractor: HolderInteractor
 ) : BaseViewModel() {
 
     var debts = DiffObservableList<Debt>()
@@ -27,7 +29,7 @@ class DebtsViewModel @Inject constructor(
     val onUndoSwipe: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
-        debtsInteractor.getDebts()
+        debtsInteractor.getAll()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(debts)
                 .subscribeBy(this::handleBaseError)

@@ -1,6 +1,7 @@
 package com.popalay.cardme.utils.extensions
 
 import android.databinding.ObservableList
+import android.util.Log
 import com.popalay.cardme.utils.recycler.DiffObservableList
 import io.reactivex.Flowable
 import java.util.*

@@ -33,7 +33,7 @@ class ShortcutInteractor @Inject constructor(
             }
             Shortcut.FAVORITE_HOLDER -> {
                 router.newRootScreen(SCREEN_HOLDERS)
-                holderInteractor.getFavoriteHolder()
+                holderInteractor.getFavorite()
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSuccess { router.navigateTo(SCREEN_HOLDER_DETAILS, it.name) }
                         .subscribeBy(Throwable::printStackTrace)

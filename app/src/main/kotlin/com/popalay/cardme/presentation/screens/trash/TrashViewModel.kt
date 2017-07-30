@@ -6,7 +6,6 @@ import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
-import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.recycler.DiffObservableList
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 class TrashViewModel @Inject constructor(
         settingsInteractor: SettingsInteractor,
-        private val router: CustomRouter,
         private val cardInteractor: CardInteractor
 ) : BaseViewModel() {
 
