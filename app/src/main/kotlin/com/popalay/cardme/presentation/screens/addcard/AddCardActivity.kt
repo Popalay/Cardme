@@ -6,12 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddCardBinding
-import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.presentation.base.RightSlidingActivity
 import javax.inject.Inject
 
-class AddCardActivity : BaseActivity() {
+class AddCardActivity : RightSlidingActivity() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
 
@@ -28,6 +29,8 @@ class AddCardActivity : BaseActivity() {
         b.vm = ViewModelProviders.of(this, factory).get(AddCardViewModel::class.java)
         initUI()
     }
+
+    override fun getRootView(): View = b.root
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)

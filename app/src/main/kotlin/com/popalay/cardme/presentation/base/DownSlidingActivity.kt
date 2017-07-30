@@ -14,7 +14,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.utils.animation.EndAnimatorListener
 import kotlin.properties.Delegates
 
-abstract class SlidingActivity : BaseActivity() {
+abstract class DownSlidingActivity : BaseActivity() {
 
     companion object {
         private val GESTURE_THRESHOLD = 10
@@ -45,6 +45,7 @@ abstract class SlidingActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         root = getRootView()
+        root.setBackgroundResource(R.color.window_background)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -85,8 +86,6 @@ abstract class SlidingActivity : BaseActivity() {
         }
         return handled || super.dispatchTouchEvent(ev)
     }
-
-    override fun onBackPressed() = closeDownAndDismiss()
 
     protected abstract fun getRootView(): View
 

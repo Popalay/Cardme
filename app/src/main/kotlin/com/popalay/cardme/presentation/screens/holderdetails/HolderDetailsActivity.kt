@@ -7,23 +7,22 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
-import com.popalay.cardme.presentation.base.SlidingActivity
+import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.ShareUtils
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
-class HolderDetailsActivity : SlidingActivity() {
+class HolderDetailsActivity : RightSlidingActivity() {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityHolderDetailsBinding
     private lateinit var viewModelFacade: HolderDetailsViewModelFacade
-
-    private var isExpanded: Boolean = false
 
     companion object {
 
@@ -49,12 +48,12 @@ class HolderDetailsActivity : SlidingActivity() {
 
     override fun getRootView(): View = b.root
 
-    override fun canSlideDown() = isExpanded && b.listDebts.scrollY == 0
+    override fun canSlideDown() = (b.listCards.layoutManager as LinearLayoutManager)
+            .findFirstCompletelyVisibleItemPosition() == 0
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
         b.collapsingToolbar.isTitleEnabled = false
-        b.toolbar.setNavigationOnClickListener { onBackPressed() }
 
         viewModelFacade.doOnShareCard()
                 .subscribe {
@@ -67,15 +66,12 @@ class HolderDetailsActivity : SlidingActivity() {
             showOnSides = true
         })
 
-        b.toolbar.navigationIcon?.alpha = 255
         b.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            isExpanded = verticalOffset == 0
             if (appBarLayout.totalScrollRange == 0) {
                 return@addOnOffsetChangedListener
             }
             val alpha = Math.min(-verticalOffset, 255)
             b.toolbar.setTitleTextColor(Color.argb(alpha, 255, 255, 255))
-            b.toolbar.navigationIcon?.alpha = alpha
         }
 
     }

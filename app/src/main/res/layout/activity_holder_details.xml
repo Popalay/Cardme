@@ -64,9 +64,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_cross"
+                    app:navigationIcon="@drawable/ic_back"
                     app:theme="@style/Cardme.Toolbar"
                     app:title="@{vm.holderName}"
+                    bind:backByArrow="@{true}"
                     />
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -83,7 +84,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/window_background"
                 >
 
                 <android.support.v7.widget.RecyclerView

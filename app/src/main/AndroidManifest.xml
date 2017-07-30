@@ -33,12 +33,13 @@
         <activity
             android:name="com.popalay.cardme.presentation.screens.addcard.AddCardActivity"
             android:label="@string/card_details"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Cardme.AddCard" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Cardme.Sliding" />
+            android:theme="@style/Cardme.HolderDetails" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity"
@@ -48,12 +49,14 @@
         <activity
             android:name="com.popalay.cardme.presentation.screens.trash.TrashActivity"
             android:label="@string/trash"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Cardme.Trash" />
 
         <activity
             android:name=".presentation.screens.settings.SettingsActivity"
             android:label="@string/settings"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Cardme.Settings" />
 
     </application>
 

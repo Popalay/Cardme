@@ -8,13 +8,14 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
-import com.popalay.cardme.presentation.base.BaseActivity
+import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
 import javax.inject.Inject
 
-class TrashActivity : BaseActivity() {
+class TrashActivity : RightSlidingActivity() {
 
     companion object {
         fun getIntent(context: Context) = Intent(context, TrashActivity::class.java)
@@ -30,6 +31,8 @@ class TrashActivity : BaseActivity() {
         b.vm = ViewModelProviders.of(this, factory).get(TrashViewModel::class.java)
         initUI()
     }
+
+    override fun getRootView(): View = b.root
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.trash_menu, menu)
