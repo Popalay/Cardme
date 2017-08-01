@@ -61,7 +61,7 @@ abstract class RightSlidingActivity : BaseActivity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if(gestureDetector.onTouchEvent(ev)) return true
+        if (gestureDetector.onTouchEvent(ev)) return true
         var handled = false
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -132,9 +132,9 @@ abstract class RightSlidingActivity : BaseActivity() {
 
     private fun toLeft() {
         val start = root.x
-        val finish = 0f
+        val finish = 0F
         ObjectAnimator.ofFloat(root, "x", start, finish).apply {
-            duration = ANIMATION_DURATION / 2
+            duration = ANIMATION_DURATION
             interpolator = AccelerateInterpolator()
             addUpdateListener { updateScrim() }
         }.start()
