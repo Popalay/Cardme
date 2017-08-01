@@ -36,6 +36,7 @@
     <string name="format_holder_number">%s\'s card</string>
     <string name="format_holder_cards">Cards: %d</string>
     <string name="format_holder_debts">Debts: %d</string>
+    <string name="format_debt_holder">Holder: %s</string>
 
     <!-- list placeholders -->
     <string name="list_debts_placeholder">You didn\'t borrow anything. \nTo add a debt click on button below</string>
