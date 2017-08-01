@@ -59,7 +59,7 @@ public class BindingAdapters {
     public static void applyDivider(RecyclerView view, int orientation) {
         if (orientation == OrientationHelper.VERTICAL) {
             view.addItemDecoration(new HorizontalDividerItemDecoration.Builder(view.getContext())
-                    .color(R.color.grey)
+                    .color(R.color.window_background)
                     .size(R.dimen.list_divider_size)
                     .leftOffset(R.dimen.title_offset)
                     .rightOffset(R.dimen.zero_offset)
