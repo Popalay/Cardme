@@ -9,4 +9,3 @@ inline fun <reified T : Fragment> FragmentManager.findFragmentByType() = fragmen
         ?.filter { it is T }
         ?.map { it as T }
         ?.firstOrNull()
-

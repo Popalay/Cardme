@@ -28,10 +28,8 @@ class HolderDetailsActivity : RightSlidingActivity() {
 
         const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
 
-        fun getIntent(context: Context, name: String): Intent {
-            val intent = Intent(context, HolderDetailsActivity::class.java)
-            intent.putExtra(KEY_HOLDER_DETAILS, name)
-            return intent
+        fun getIntent(context: Context, name: String) = Intent(context, HolderDetailsActivity::class.java).apply {
+            putExtra(KEY_HOLDER_DETAILS, name)
         }
 
     }
@@ -49,7 +47,7 @@ class HolderDetailsActivity : RightSlidingActivity() {
     override fun getRootView(): View = b.root
 
     override fun canSlideDown() = (b.listCards.layoutManager as LinearLayoutManager)
-            .findFirstCompletelyVisibleItemPosition() == 0
+            .findFirstCompletelyVisibleItemPosition() == 0 || b.listCards.childCount == 0
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)

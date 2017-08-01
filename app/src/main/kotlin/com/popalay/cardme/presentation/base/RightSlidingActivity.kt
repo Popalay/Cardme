@@ -6,12 +6,17 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.view.GestureDetectorCompat
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.popalay.cardme.R
 import com.popalay.cardme.utils.animation.EndAnimatorListener
 import kotlin.properties.Delegates
+
 
 abstract class RightSlidingActivity : BaseActivity() {
 
@@ -27,6 +32,7 @@ abstract class RightSlidingActivity : BaseActivity() {
     private lateinit var root: View
     private var screenSize: Point by Delegates.notNull<Point>()
     private var windowScrim: ColorDrawable by Delegates.notNull<ColorDrawable>()
+    private lateinit var gestureDetector: GestureDetectorCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +47,21 @@ abstract class RightSlidingActivity : BaseActivity() {
         super.onPostCreate(savedInstanceState)
         root = getRootView()
         root.setBackgroundResource(R.color.window_background)
+        val flingVelocity = ViewConfiguration.get(this).scaledMaximumFlingVelocity / 3F
+        gestureDetector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(event1: MotionEvent, event2: MotionEvent,
+                                 velocityX: Float, velocityY: Float): Boolean {
+                return if (event2.x > event1.x && velocityX > flingVelocity) {
+                    clearScrim()
+                    finish()
+                    true
+                } else false
+            }
+        })
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if(gestureDetector.onTouchEvent(ev)) return true
         var handled = false
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -58,7 +76,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                     ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
                 }
-                root.x = Math.max(ev.x - startX, 0f)
+                root.x = Math.max(ev.x - startX, 0F)
                 updateScrim()
                 handled = true
             }
@@ -67,7 +85,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                     isSliding = false
                     onSlidingFinished()
                     handled = true
-                    if (shouldClose(root.x - startX)) {
+                    if (shouldClose(root.x / 1.5F - startX)) {
                         closeRightAndDismiss()
                     } else {
                         toLeft()
@@ -105,8 +123,6 @@ abstract class RightSlidingActivity : BaseActivity() {
             interpolator = DecelerateInterpolator()
             addListener(object : EndAnimatorListener {
                 override fun onAnimationEnd(animator: Animator) {
-                    root.x = screenSize.x.toFloat()
-                    updateScrim()
                     finish()
                 }
             })
@@ -118,16 +134,21 @@ abstract class RightSlidingActivity : BaseActivity() {
         val start = root.x
         val finish = 0f
         ObjectAnimator.ofFloat(root, "x", start, finish).apply {
-            duration = ANIMATION_DURATION
-            interpolator = DecelerateInterpolator()
+            duration = ANIMATION_DURATION / 2
+            interpolator = AccelerateInterpolator()
             addUpdateListener { updateScrim() }
         }.start()
     }
 
     private fun updateScrim() {
         val progress = root.x / screenSize.x
-        val alpha = (progress * 255f).toInt()
+        val alpha = (progress * 255F).toInt()
         windowScrim.alpha = 255 - alpha
+        window.setBackgroundDrawable(windowScrim)
+    }
+
+    private fun clearScrim() {
+        windowScrim.alpha = 0
         window.setBackgroundDrawable(windowScrim)
     }
 }
