@@ -90,7 +90,7 @@
                     android:id="@+id/list_debts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layoutAnimation="@anim/layout_animation_fall_down"
+                    android:layoutAnimation="@anim/list_layout_animation"
                     android:nestedScrollingEnabled="false"
                     bind:applyDivider="@{orientation.VERTICAL}"
                     bind:debtsAdapter="@{vm.holder.debts}"

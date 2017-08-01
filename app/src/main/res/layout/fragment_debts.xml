@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:debtsAdapter="@{vm.debts}"
-            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:layoutAnimation="@anim/list_layout_animation"
             bind:defaultList="@{true}"
             bind:onSwiped="@{vm.onSwiped}"
             bind:onUndoSwipe="@{vm.onUndoSwipe}"

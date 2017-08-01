@@ -27,7 +27,7 @@
             android:id="@+id/list_holders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:layoutAnimation="@anim/list_layout_animation"
             bind:applyDivider="@{orientation.VERTICAL}"
             bind:defaultList="@{true}"
             bind:holderClick="@{vm.holderClickListener}"
