@@ -19,8 +19,10 @@
     </style>
 
     <style name="RightLeftActivity" parent="@android:style/Animation.Activity">
-        <item name="android:windowEnterAnimation">@anim/activity_right_left_enter</item>
-        <item name="android:windowExitAnimation">@anim/activity_right_left_exit</item>
+        <item name="android:activityOpenEnterAnimation">@anim/activity_right_left_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/nothing</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_right_left_exit</item>
     </style>
 
     <style name="Cardme.Sliding">
@@ -43,6 +45,10 @@
 
     <style name="Cardme.Splash">
         <item name="android:windowBackground">@drawable/bg_splash</item>
+    </style>
+
+    <style name="Cardme.Home">
+        <item name="android:windowAnimationStyle">@style/RightLeftActivity</item>
     </style>
 
     <style name="Cardme.HolderDetails" parent="Cardme.Sliding.Right" />

@@ -28,7 +28,8 @@
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.home.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Cardme.Home" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.addcard.AddCardActivity"
