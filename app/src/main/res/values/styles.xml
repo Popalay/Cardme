@@ -25,6 +25,13 @@
         <item name="android:activityCloseExitAnimation">@anim/activity_right_left_exit</item>
     </style>
 
+    <style name="RightFadeActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/nothing</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_right_left_exit</item>
+    </style>
+
     <style name="Cardme.Sliding">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -48,7 +55,7 @@
     </style>
 
     <style name="Cardme.Home">
-        <item name="android:windowAnimationStyle">@style/RightLeftActivity</item>
+        <item name="android:windowAnimationStyle">@style/RightFadeActivity</item>
     </style>
 
     <style name="Cardme.HolderDetails" parent="Cardme.Sliding.Right" />
