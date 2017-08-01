@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,7 +18,7 @@ public class HorizontalDividerItemDecoration extends DividerItemDecoration {
     private final int size;
 
     private final Rect bounds = new Rect();
-    private final Paint paint;
+    private final Paint dividerPaint;
 
     private HorizontalDividerItemDecoration(Context context, @ColorRes int color,
             @DimenRes int size, @DimenRes int leftOffset, @DimenRes int rightOffset) {
@@ -27,8 +26,9 @@ public class HorizontalDividerItemDecoration extends DividerItemDecoration {
         this.size = context.getResources().getDimensionPixelSize(size);
         this.leftOffset = context.getResources().getDimensionPixelSize(leftOffset);
         this.rightOffset = context.getResources().getDimensionPixelSize(rightOffset);
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(ContextCompat.getColor(context, color));
+        dividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        dividerPaint.setStrokeWidth(size);
+        dividerPaint.setColor(ContextCompat.getColor(context, color));
     }
 
     private HorizontalDividerItemDecoration(Builder builder) {
@@ -62,9 +62,9 @@ public class HorizontalDividerItemDecoration extends DividerItemDecoration {
         for (int i = 0; i < childCount - 1; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, bounds);
-            final int bottom = bounds.bottom + Math.round(ViewCompat.getTranslationY(child));
+            final int bottom = bounds.bottom + Math.round(child.getTranslationY());
             final int top = bottom - size;
-            canvas.drawLine(left, top, right, bottom, paint);
+            canvas.drawLine(left, top, right, bottom, dividerPaint);
         }
         canvas.restore();
     }
