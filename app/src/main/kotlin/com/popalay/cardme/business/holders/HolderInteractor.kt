@@ -8,7 +8,6 @@ import com.popalay.cardme.data.repositories.device.DeviceRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,9 +28,6 @@ class HolderInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun getAll(): Flowable<List<Holder>> = holderRepository.getAll()
-            .subscribeOn(Schedulers.io())
-
-    fun getFavorite(): Maybe<Holder> = holderRepository.getWithMaxCounters()
             .subscribeOn(Schedulers.io())
 
     fun getNames(): Flowable<List<String>>

@@ -13,7 +13,6 @@ import com.popalay.cardme.data.repositories.device.DeviceRepository
 import com.popalay.cardme.data.repositories.holder.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.verify
@@ -63,23 +62,6 @@ class HolderInteractorTest {
         testObserver.awaitTerminalEvent()
 
         verify(holderRepository).get(name)
-
-        testObserver
-                .assertNoErrors()
-                .assertValue { it == holder }
-                .assertComplete()
-    }
-
-    @Test fun getFavorite_Success() {
-        val holder = Holder()
-
-        whenever(holderRepository.getWithMaxCounters()).thenReturn(Maybe.just(holder))
-
-        val testObserver = holderInteractor.getFavorite().test()
-
-        testObserver.awaitTerminalEvent()
-
-        verify(holderRepository).getWithMaxCounters()
 
         testObserver
                 .assertNoErrors()

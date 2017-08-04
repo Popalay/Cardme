@@ -1,18 +1,17 @@
 package com.popalay.cardme.business
 
-import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.presentation.screens.*
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_DEBT
+import com.popalay.cardme.presentation.screens.SCREEN_CARDS
+import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
+import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ShortcutInteractor @Inject constructor(
-        private val router: CustomRouter,
-        private val holderInteractor: HolderInteractor
+        private val router: CustomRouter
 ) {
 
     private var appliedShortcut = Shortcut.NONE
@@ -31,12 +30,9 @@ class ShortcutInteractor @Inject constructor(
                 router.newRootScreen(SCREEN_CARDS)
                 router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE)
             }
-            Shortcut.FAVORITE_HOLDER -> {
-                router.newRootScreen(SCREEN_HOLDERS)
-                holderInteractor.getFavorite()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess { router.navigateTo(SCREEN_HOLDER_DETAILS, it.name) }
-                        .subscribeBy(Throwable::printStackTrace)
+            Shortcut.ADD_DEBT -> {
+                router.navigateTo(SCREEN_DEBTS)
+                router.navigateTo(SCREEN_ADD_DEBT)
             }
             Shortcut.DEBTS -> router.newRootScreen(SCREEN_DEBTS)
             else -> {
@@ -45,6 +41,6 @@ class ShortcutInteractor @Inject constructor(
     }
 
     enum class Shortcut {
-        NONE, ADD_CARD, FAVORITE_HOLDER, DEBTS
+        NONE, ADD_CARD, ADD_DEBT, DEBTS
     }
 }

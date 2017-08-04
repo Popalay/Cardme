@@ -27,7 +27,6 @@ import com.popalay.cardme.presentation.screens.settings.SettingsActivity
 import com.popalay.cardme.presentation.screens.trash.TrashActivity
 import com.popalay.cardme.utils.extensions.findFragmentByType
 import com.popalay.cardme.utils.extensions.setSelectedItem
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.card.payment.CardIOActivity
@@ -123,9 +122,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return androidInjector
-    }
+    override fun supportFragmentInjector() = androidInjector
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
@@ -136,14 +133,14 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     // Shortcuts
-    @Shortcut(id = "SHORTCUT_ADD_CARD", icon = R.drawable.ic_shortcut_add_card, shortLabelRes = R.string.shortcut_add_card)
+    @Shortcut(id = "SHORTCUT_ADD_CARD", icon = R.drawable.ic_shortcut_add_card, rank = 0, shortLabelRes = R.string.shortcut_add_card)
     fun addCardShortcut() {
         shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_CARD)
     }
 
-    @Shortcut(id = "SHORTCUT_FAVORITE_HOLDER", icon = R.drawable.ic_shortcut_favorite_holder, rank = 1, shortLabelRes = R.string.shortcut_favorite_holder)
-    fun favoriteHolderShortcut() {
-        shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.FAVORITE_HOLDER)
+    //@Shortcut(id = "SHORTCUT_ADD_DEBT", icon = R.drawable.ic_shortcut_debts, rank = 1, shortLabelRes = R.string.shortcut_add_debt)
+    fun addDebtShortcut() {
+        shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_DEBT)
     }
 
     @Shortcut(id = "SHORTCUT_DEBTS", icon = R.drawable.ic_shortcut_debts, rank = 2, shortLabelRes = R.string.shortcut_debts)
