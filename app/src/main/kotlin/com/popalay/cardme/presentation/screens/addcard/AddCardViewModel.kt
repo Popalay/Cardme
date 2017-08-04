@@ -3,8 +3,8 @@ package com.popalay.cardme.presentation.screens.addcard
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import android.databinding.ObservableList
 import android.view.inputmethod.EditorInfo
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.holders.HolderInteractor
@@ -18,7 +18,9 @@ import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
@@ -28,15 +30,15 @@ class AddCardViewModel @Inject constructor(
         cardInteractor: CardInteractor,
         holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
-) : BaseViewModel() {
+) : BaseViewModel(), AddCardViewModelFacade {
 
     val holderName = ObservableString()
-    val holderNames: ObservableList<String> = ObservableArrayList<String>()
+    val holderNames: ObservableArrayList<String> = ObservableArrayList()
     val title = ObservableString()
-    val canSave = ObservableBoolean()
     val showImage = ObservableBoolean()
     val card = ObservableField<Card>()
 
+    val canSaveState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
     val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
 
@@ -59,14 +61,11 @@ class AddCardViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        holderName.observe()
-                .switchMapSingle { cardInteractor.hasAllData(card.get(), it) }
-                .setTo(canSave)
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
-
-        title.observe()
-                .doOnNext { card.get()?.title = it.clean() }
+        Observables.combineLatest(holderName.observe(),
+                title.observe().doOnNext { card.get()?.title = it.clean() })
+                .switchMapSingle { cardInteractor.hasAllData(card.get(), it.first) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(canSaveState::accept)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
@@ -88,4 +87,13 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
     }
 
+    override fun onAcceptClick() = acceptClickListener.accept(true)
+
+    override fun onCanSaveStateChanged(): Observable<Boolean> = canSaveState
+
+}
+
+interface AddCardViewModelFacade {
+    fun onAcceptClick()
+    fun onCanSaveStateChanged(): Observable<Boolean>
 }
