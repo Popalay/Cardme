@@ -55,3 +55,9 @@ class HolderDetailsViewModel @Inject constructor(
             .map { it.number }
 
 }
+
+interface HolderDetailsViewModelFacade {
+
+    fun doOnShareCard(): Observable<String>
+
+}

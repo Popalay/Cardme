@@ -118,3 +118,13 @@ class CardsViewModel @Inject constructor(
         }
     }
 }
+
+interface CardsViewModelFacade {
+
+    fun doOnShareCard(): Observable<String>
+    fun onCardScanned(creditCard: CreditCard)
+    fun onShowCardExistsDialogDismiss()
+    fun onWantToOverwrite()
+    fun doOnShowCardExistsDialog(): Observable<Boolean>
+
+}
