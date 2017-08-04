@@ -75,9 +75,10 @@ class CardsViewModel @Inject constructor(
                 .addTo(disposables)
 
         onSwiped
+                .applyThrottling()
                 .map(cards::get)
                 .flatMapSingle { cardInteractor.markAsTrash(it).toSingle { it } }
-                .switchMap { card -> onUndoSwipe.filter { it }.map { card } }
+                .switchMap { card -> onUndoSwipe.applyThrottling().filter { it }.map { card } }
                 .flatMapCompletable(cardInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()

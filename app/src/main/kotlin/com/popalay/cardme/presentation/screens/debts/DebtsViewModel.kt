@@ -2,7 +2,6 @@ package com.popalay.cardme.presentation.screens.debts
 
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.business.debts.DebtsInteractor
-import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 class DebtsViewModel @Inject constructor(
         router: CustomRouter,
-        debtsInteractor: DebtsInteractor,
-        holdersInteractor: HolderInteractor
+        debtsInteractor: DebtsInteractor
 ) : BaseViewModel() {
 
     var debts = DiffObservableList<Debt>()
@@ -38,7 +36,7 @@ class DebtsViewModel @Inject constructor(
         onSwiped
                 .map(debts::get)
                 .flatMapSingle { debtsInteractor.markAsTrash(it).toSingle { it } }
-                .switchMap { debt -> onUndoSwipe.filter { it }.map { debt } }
+                .switchMap { debt -> onUndoSwipe.applyThrottling().filter { it }.map { debt } }
                 .flatMapCompletable(debtsInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)
