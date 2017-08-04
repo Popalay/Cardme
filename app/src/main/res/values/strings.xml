@@ -48,7 +48,7 @@
     <!-- app shortcuts -->
     <string name="shortcut_add_card">Add card</string>
     <string name="shortcut_debts">Your debts</string>
-    <string name="shortcut_favorite_holder">Favorite holder</string>
+    <string name="shortcut_add_debt">Add debt</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
