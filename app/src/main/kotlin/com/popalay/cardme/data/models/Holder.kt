@@ -16,8 +16,7 @@ open class Holder(
         const val NAME = "name"
         const val CARDS = "cards"
         const val DEBTS = "debts"
-        const val CARDS_COUNT = "cards.size"
-        const val DEBTS_COUNT = "debts.size"
+        const val CARDS_NUMBER = "cards.number"
         const val IS_TRASH = "isTrash"
     }
 
