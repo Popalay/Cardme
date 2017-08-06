@@ -5,6 +5,7 @@ import com.popalay.cardme.data.models.Card
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,13 +27,15 @@ class CardRepository @Inject constructor() {
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, false)
-                .findAllSorted(Card.POSITION)
+                .findAllSorted(Card.HOLDER_NAME, Sort.ASCENDING)
+                .sort(Card.POSITION)
     }
 
     fun getAllTrashed(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, true)
-                .findAllSorted(Card.POSITION)
+                .findAllSorted(Card.HOLDER_NAME, Sort.ASCENDING)
+                .sort(Card.POSITION)
     }
 
     fun markAsTrash(card: Card): Completable = RxRealm.doTransactional {

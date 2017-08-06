@@ -24,6 +24,7 @@ open class Card(
 
     companion object {
         const val NUMBER = "number"
+        const val HOLDER_NAME = "holder.name"
         const val POSITION = "position"
         const val IS_TRASH = "isTrash"
 
