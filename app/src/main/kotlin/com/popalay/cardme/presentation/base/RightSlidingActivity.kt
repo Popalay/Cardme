@@ -98,6 +98,12 @@ abstract class RightSlidingActivity : BaseActivity() {
         return handled || super.dispatchTouchEvent(ev)
     }
 
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, R.anim.activity_right_left_exit)
+    }
+
     protected abstract fun getRootView(): View
 
     protected open fun onSlidingFinished() = Unit

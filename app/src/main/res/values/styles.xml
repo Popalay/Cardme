@@ -13,23 +13,16 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="DownUpActivity" parent="@android:style/Animation.Activity">
-        <item name="android:windowEnterAnimation">@anim/activity_down_up_enter</item>
-        <item name="android:windowExitAnimation">@anim/activity_down_up_exit</item>
-    </style>
-
     <style name="RightLeftActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/activity_right_left_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/nothing</item>
         <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_right_left_exit</item>
     </style>
 
     <style name="RightFadeActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
         <item name="android:activityOpenExitAnimation">@anim/nothing</item>
         <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_right_left_exit</item>
     </style>
 
     <style name="Cardme.Sliding">
@@ -40,10 +33,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="Cardme.Sliding.Down">
-        <item name="android:windowAnimationStyle">@style/DownUpActivity</item>
     </style>
 
     <style name="Cardme.Sliding.Right">
