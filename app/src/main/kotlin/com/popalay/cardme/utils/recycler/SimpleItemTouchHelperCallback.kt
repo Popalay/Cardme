@@ -62,19 +62,18 @@ class SimpleItemTouchHelperCallback(
                              dY: Float,
                              actionState: Int,
                              isCurrentlyActive: Boolean) {
-        if (!recyclerView.itemAnimator.isRunning && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+        if (viewHolder.adapterPosition == -1) return
+
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             viewHolder.apply {
                 itemView.translationX = dX
 
+                val itemHeight = itemView.bottom - itemView.top
+                val itemWidth = itemView.right - itemView.left
+
                 drawable?.let {
-
-                    val itemHeight = itemView.bottom - itemView.top
-                    val itemWidth = itemView.right - itemView.left
-
-                    val containerWidth = itemWidth + (recyclerView.width - itemWidth) / 2
-
-                    val x = if (dX < 0F) itemView.right - containerWidth / 6 - drawable.intrinsicWidth / 2
-                    else itemView.left + containerWidth / 6 - drawable.intrinsicWidth / 2
+                    val x = if (dX < 0F) itemView.right - itemWidth / 6 - drawable.intrinsicWidth / 2
+                    else itemView.left + itemWidth / 6 - drawable.intrinsicWidth / 2
 
                     val y = (itemHeight - drawable.intrinsicHeight) / 2 + itemView.top
 
@@ -82,16 +81,14 @@ class SimpleItemTouchHelperCallback(
                     drawable.draw(c)
                 }
             }
-
-        } else {
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && actionState != ItemTouchHelper.ACTION_STATE_SWIPE) {
-            viewHolder!!.itemView.alpha = 0.5f
+            viewHolder?.itemView?.alpha = 0.5F
         }
 
         if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && orderChanged) {
@@ -105,21 +102,15 @@ class SimpleItemTouchHelperCallback(
 
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        viewHolder.itemView.apply {
-            alpha = 1f
-        }
+        viewHolder.itemView.alpha = 1F
     }
 
     interface SwipeCallback {
-
         fun onSwiped(position: Int)
-
     }
 
     interface DragCallback {
-
         fun onDragged(from: Int, to: Int)
-
         fun onDropped()
     }
 }

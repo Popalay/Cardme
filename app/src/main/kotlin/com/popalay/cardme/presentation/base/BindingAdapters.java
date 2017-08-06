@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PagerSnapHelper;
@@ -52,7 +51,6 @@ public class BindingAdapters {
         if (!defaultList) return;
         view.setHasFixedSize(true);
         view.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        view.setItemAnimator(new DefaultItemAnimator());
     }
 
     @BindingAdapter("applyDivider")
@@ -74,14 +72,14 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("backByArrow")
-    public static void backByArrow(Toolbar toolbar, boolean use) {
-        if (!use) return;
+    public static void backByArrow(Toolbar toolbar, boolean apply) {
+        if (!apply) return;
         toolbar.setNavigationOnClickListener(v -> App.Companion.getAppComponent().getRouter().exit());
     }
 
     @BindingAdapter("exitByClick")
-    public static void exitByClick(View view, boolean use) {
-        if (!use) return;
+    public static void exitByClick(View view, boolean apply) {
+        if (!apply) return;
         view.setOnClickListener(v -> App.Companion.getAppComponent().getRouter().exit());
     }
 
