@@ -109,7 +109,7 @@ abstract class RightSlidingActivity : BaseActivity() {
     private fun shouldClose(delta: Float): Boolean = delta > screenSize.x / SWIPE_START_PART
 
     private fun isSlidingRight(startX: Float, startY: Float, ev: MotionEvent): Boolean {
-        val deltaY = ev.y - startY
+        val deltaY = Math.abs(ev.y - startY)
         if (deltaY > GESTURE_THRESHOLD) return false
         val deltaX = ev.x - startX
         return deltaX > GESTURE_THRESHOLD
