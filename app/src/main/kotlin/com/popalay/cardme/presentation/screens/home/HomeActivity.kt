@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.popalay.cardme.R
@@ -112,6 +113,14 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
                 .setIcon(R.drawable.ic_settings)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         return true
+    }
+
+    override fun onBackPressed() {
+        if (b.drawerLayout.isDrawerOpen(Gravity.START)) {
+            b.drawerLayout.closeDrawers()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
