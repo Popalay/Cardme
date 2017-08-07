@@ -109,6 +109,7 @@ public class BindingAdapters {
     @BindingAdapter("bottomNavigationListener")
     public static void bottomNavigationListener(BottomNavigationView view, Relay<Integer> listener) {
         view.setOnNavigationItemSelectedListener(item -> {
+            if (view.getSelectedItemId() == item.getItemId()) return false;
             listener.accept(item.getItemId());
             return true;
         });
