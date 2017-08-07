@@ -23,7 +23,7 @@ abstract class RightSlidingActivity : BaseActivity() {
     companion object {
         private val GESTURE_THRESHOLD = 10
         private val ANIMATION_DURATION = 200L
-        private val SWIPE_START_PART = 2
+        private val SWIPE_START_PART = 3
     }
 
     private var startX = 0F
@@ -68,7 +68,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                 startX = ev.x
                 startY = ev.y
             }
-            MotionEvent.ACTION_MOVE -> if (isSlidingRight(startX, startY, ev) && canSlideDown() || isSliding) {
+            MotionEvent.ACTION_MOVE -> if (isSlidingRight(startX, startY, ev) && canSlideRight() || isSliding) {
                 if (!isSliding) {
                     isSliding = true
                     window.statusBarColor = Color.TRANSPARENT
@@ -76,7 +76,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                     ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
                 }
-                root.x = Math.max(ev.x - startX, 0F)
+                root.x = Math.max((ev.x - startX) / 1.5F, 0F)
                 updateScrim()
                 handled = true
             }
@@ -85,7 +85,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                     isSliding = false
                     onSlidingFinished()
                     handled = true
-                    if (shouldClose(root.x / 1.5F - startX)) {
+                    if (shouldClose(root.x)) {
                         closeRightAndDismiss()
                     } else {
                         toLeft()
@@ -110,7 +110,7 @@ abstract class RightSlidingActivity : BaseActivity() {
 
     protected open fun onSlidingStarted() = Unit
 
-    protected open fun canSlideDown() = true
+    protected open fun canSlideRight() = true
 
     private fun shouldClose(delta: Float): Boolean = delta > screenSize.x / SWIPE_START_PART
 

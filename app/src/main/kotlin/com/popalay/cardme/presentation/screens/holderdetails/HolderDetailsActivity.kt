@@ -46,7 +46,7 @@ class HolderDetailsActivity : RightSlidingActivity() {
 
     override fun getRootView(): View = b.root
 
-    override fun canSlideDown() = (b.listCards.layoutManager as LinearLayoutManager)
+    override fun canSlideRight() = (b.listCards.layoutManager as LinearLayoutManager)
             .findFirstCompletelyVisibleItemPosition() == 0 || b.listCards.childCount == 0
 
     private fun initUI() {
