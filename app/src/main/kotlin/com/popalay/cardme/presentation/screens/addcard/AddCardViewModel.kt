@@ -71,9 +71,9 @@ class AddCardViewModel @Inject constructor(
 
         acceptClickListener
                 .applyThrottling()
-                .filter { it }
+                .filter { it && canSaveState.value }
                 .map { card.get() }
-                .switchMapSingle { holderInteractor.addCard(holderName.get(), it).toSingleDefault(true) }
+                .switchMapSingle { holderInteractor.addCard(holderName.get().clean(), it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)

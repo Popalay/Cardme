@@ -4,13 +4,12 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.debts.DebtsInteractor
 import com.popalay.cardme.business.holders.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.applyThrottling
+import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.setTo
 import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.observe
@@ -23,7 +22,6 @@ import javax.inject.Inject
 
 class AddDebtViewModel @Inject constructor(
         router: CustomRouter,
-        debtsInteractor: DebtsInteractor,
         holderInteractor: HolderInteractor
 ) : BaseViewModel() {
 
@@ -53,9 +51,9 @@ class AddDebtViewModel @Inject constructor(
                 .addTo(disposables)
 
         addClick.applyThrottling()
-                .filter { it }
+                .filter { it && canSave.get() }
                 .map { debt.get() }
-                .switchMapSingle { holderInteractor.addDebt(to.get(), it).toSingleDefault(true) }
+                .switchMapSingle { holderInteractor.addDebt(to.get().clean(), it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
