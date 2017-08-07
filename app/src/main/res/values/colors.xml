@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#282F37</color>
+    <color name="primary">#354D60</color>
     <color name="primary_dark">@color/primary</color>
+    <color name="navigation_bar">#202D3A</color>
     <color name="accent">#3CCAAA</color>
-    <color name="primary_text">#282828</color>
+    <color name="primary_text">@color/dark_grey</color>
     <color name="primary_text_invert">@color/white</color>
-    <color name="secondary_text">#7A8189</color>
+    <color name="secondary_text">@color/grey</color>
 
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
@@ -13,17 +14,18 @@
 
     <color name="error">@color/deep_red</color>
     <color name="success">#64C893</color>
-    <color name="disabled">#B5AFAE</color>
+    <color name="disabled">@color/grey</color>
 
     <color name="white">#FFF</color>
     <color name="black">#111</color>
+    <color name="dark_grey">#282828</color>
     <color name="light_grey">#F2F2F2</color>
-    <color name="grey">#cfcfcf</color>
+    <color name="grey">#99A5AF</color>
     <color name="scrim">#99323232</color>
 
     <!--card colors-->
-    <color name="deep_grey">#FF3699d4</color>
-    <color name="dark_grey">#FF2764ae</color>
+    <color name="deep_blue">#FF3699d4</color>
+    <color name="dark_blue">#FF2764ae</color>
 
     <color name="deep_red">#FFee6d6d</color>
     <color name="dark_red">#FFb65865</color>

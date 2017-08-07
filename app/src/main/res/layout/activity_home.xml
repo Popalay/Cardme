@@ -84,6 +84,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/header_drawer"
+            app:itemIconTint="@color/primary_text"
+            app:itemTextColor="@color/primary_text"
             app:menu="@menu/drawer_menu"
             bind:drawerNavigationListener="@{vm.drawerNavigationClick}"
             />
