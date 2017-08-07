@@ -13,7 +13,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.ShareUtils
-import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
+import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 

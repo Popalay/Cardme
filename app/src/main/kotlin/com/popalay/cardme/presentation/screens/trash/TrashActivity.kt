@@ -12,7 +12,7 @@ import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
-import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
+import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import javax.inject.Inject
 
 class TrashActivity : RightSlidingActivity() {

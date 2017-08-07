@@ -18,6 +18,6 @@
 
     <dimen name="title_offset">72dp</dimen>
     <dimen name="zero_offset">0dp</dimen>
-    <dimen name="list_divider_size">0dp</dimen>
+    <dimen name="list_divider_size">1dp</dimen>
 
 </resources>

@@ -6,8 +6,10 @@
     <color name="primary_text">#282828</color>
     <color name="primary_text_invert">@color/white</color>
     <color name="secondary_text">#7A8189</color>
+
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
+    <color name="list_divider">@color/light_grey</color>
 
     <color name="error">@color/deep_red</color>
     <color name="success">#64C893</color>

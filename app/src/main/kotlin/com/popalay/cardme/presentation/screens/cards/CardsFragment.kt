@@ -13,7 +13,7 @@ import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.ShareUtils
-import com.popalay.cardme.utils.recycler.decoration.SpacingItemDecoration
+import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo

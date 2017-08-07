@@ -1,4 +1,4 @@
-package com.popalay.cardme.utils.recycler.decoration
+package com.popalay.cardme.utils.recycler
 
 import android.graphics.Rect
 import android.support.v7.widget.LinearLayoutManager

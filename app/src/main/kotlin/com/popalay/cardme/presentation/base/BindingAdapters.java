@@ -5,9 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +24,6 @@ import com.popalay.cardme.App;
 import com.popalay.cardme.ConstantsKt;
 import com.popalay.cardme.R;
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback;
-import com.popalay.cardme.utils.recycler.decoration.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -55,14 +55,9 @@ public class BindingAdapters {
 
     @BindingAdapter("applyDivider")
     public static void applyDivider(RecyclerView view, int orientation) {
-        if (orientation == OrientationHelper.VERTICAL) {
-            view.addItemDecoration(new HorizontalDividerItemDecoration.Builder(view.getContext())
-                    .color(R.color.window_background)
-                    .size(R.dimen.list_divider_size)
-                    .leftOffset(R.dimen.title_offset)
-                    .rightOffset(R.dimen.zero_offset)
-                    .build());
-        }
+        final DividerItemDecoration divider = new DividerItemDecoration(view.getContext(), orientation);
+        divider.setDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.list_divider));
+        view.addItemDecoration(divider);
     }
 
     @BindingAdapter("snap")
