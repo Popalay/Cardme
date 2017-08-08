@@ -40,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/list_layout_animation"
             android:paddingBottom="@dimen/small"
             android:paddingTop="@dimen/small"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"

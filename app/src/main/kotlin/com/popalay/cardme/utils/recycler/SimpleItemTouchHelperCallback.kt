@@ -84,14 +84,13 @@ class SimpleItemTouchHelperCallback(
                 itemView.translationX = dX
             }
         }
-        getDefaultUIUtil().onDraw(c, recyclerView, viewHolder.itemView, dX, dY, actionState, isCurrentlyActive)
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
-        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && actionState != ItemTouchHelper.ACTION_STATE_SWIPE) {
-            viewHolder?.itemView?.alpha = 0.5F
-            getDefaultUIUtil().onSelected(viewHolder?.itemView)
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            viewHolder?.itemView?.alpha = 0.75F
         }
 
         if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && orderChanged) {
@@ -104,8 +103,8 @@ class SimpleItemTouchHelperCallback(
     }
 
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) {
+        super.clearView(recyclerView, viewHolder)
         viewHolder.itemView.alpha = 1F
-        getDefaultUIUtil().clearView(viewHolder.itemView)
     }
 
     interface SwipeCallback {
