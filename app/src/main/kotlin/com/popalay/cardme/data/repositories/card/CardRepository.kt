@@ -51,6 +51,8 @@ class CardRepository @Inject constructor() {
     }
 
     fun cardIsNew(card: Card): Single<Boolean> = RxRealm.getElement {
-        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst()
+        it.where(Card::class.java)
+                .equalTo(Card.IS_TRASH, false)
+                .equalTo(Card.NUMBER, card.number).findFirst()
     }.isEmpty
 }
