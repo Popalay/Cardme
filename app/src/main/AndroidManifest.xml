@@ -35,7 +35,8 @@
             android:name="com.popalay.cardme.presentation.screens.addcard.AddCardActivity"
             android:label="@string/card_details"
             android:screenOrientation="portrait"
-            android:theme="@style/Cardme.AddCard" />
+            android:theme="@style/Cardme.AddCard"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"

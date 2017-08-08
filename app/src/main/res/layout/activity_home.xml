@@ -49,20 +49,13 @@
                 >
 
                 <FrameLayout
+                    android:id="@+id/host"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    >
+                    />
 
-                    <FrameLayout
-                        android:id="@+id/host"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
-
-                    <include layout="@layout/shadow" />
-
-                </FrameLayout>
+                <include layout="@layout/shadow" />
 
                 <android.support.design.widget.BottomNavigationView
                     android:id="@+id/bottom_bar"
@@ -84,7 +77,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/header_drawer"
-            app:itemIconTint="@color/primary_text"
             app:itemTextColor="@color/primary_text"
             app:menu="@menu/drawer_menu"
             bind:drawerNavigationListener="@{vm.drawerNavigationClick}"

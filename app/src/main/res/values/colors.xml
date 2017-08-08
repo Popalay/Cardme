@@ -24,16 +24,16 @@
     <color name="scrim">#99323232</color>
 
     <!--card colors-->
-    <color name="deep_blue">#FF3699d4</color>
-    <color name="dark_blue">#FF2764ae</color>
+    <color name="deep_blue">#3699d4</color>
+    <color name="dark_blue">#2764ae</color>
 
-    <color name="deep_red">#FFee6d6d</color>
-    <color name="dark_red">#FFb65865</color>
+    <color name="deep_red">#ee6d6d</color>
+    <color name="dark_red">#b65865</color>
 
-    <color name="deep_green">#FF397381</color>
-    <color name="dark_green">#FF447675</color>
+    <color name="deep_green">#6ebed1</color>
+    <color name="dark_green">#548b89</color>
 
-    <color name="deep_purple">#FF9c6dc6</color>
-    <color name="dark_purple">#FF7866b9</color>
+    <color name="deep_purple">#b589dc</color>
+    <color name="dark_purple">#9178ea</color>
 
 </resources>
