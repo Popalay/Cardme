@@ -75,7 +75,6 @@ class CardsViewModel @Inject constructor(
                 .addTo(disposables)
 
         onSwiped
-                .applyThrottling()
                 .map(cards::get)
                 .flatMapSingle { cardInteractor.markAsTrash(it).toSingle { it } }
                 .switchMap { card -> onUndoSwipe.applyThrottling().filter { it }.map { card } }
