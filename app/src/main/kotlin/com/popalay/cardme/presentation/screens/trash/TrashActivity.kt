@@ -8,10 +8,12 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
+import com.popalay.cardme.utils.extensions.onItemTouch
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import javax.inject.Inject
 
@@ -24,6 +26,8 @@ class TrashActivity : RightSlidingActivity() {
     @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityTrashBinding
+
+    private var isCardTouched: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class TrashActivity : RightSlidingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun canSlideRight() = !isCardTouched
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
@@ -55,6 +60,14 @@ class TrashActivity : RightSlidingActivity() {
             showBetween = true
             showOnSides = true
         })
+
+        b.listCards.onItemTouch {
+            when (it.action) {
+                MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> isCardTouched = true
+                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> isCardTouched = false
+            }
+        }
+
     }
 
 }

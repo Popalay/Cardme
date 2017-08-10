@@ -8,11 +8,13 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MotionEvent
 import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.ShareUtils
+import com.popalay.cardme.utils.extensions.onItemTouch
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -23,6 +25,8 @@ class HolderDetailsActivity : RightSlidingActivity() {
 
     private lateinit var b: ActivityHolderDetailsBinding
     private lateinit var viewModelFacade: HolderDetailsViewModelFacade
+
+    private var isCardTouched: Boolean = false
 
     companion object {
 
@@ -46,8 +50,10 @@ class HolderDetailsActivity : RightSlidingActivity() {
 
     override fun getRootView(): View = b.root
 
-    override fun canSlideRight() = (b.listCards.layoutManager as LinearLayoutManager)
-            .findFirstCompletelyVisibleItemPosition() == 0 || b.listCards.childCount == 0
+    override fun canSlideRight() = !b.listCards.isAnimating
+            && (b.listCards.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
+            || !isCardTouched
+            || b.listCards.childCount == 0
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
@@ -64,7 +70,15 @@ class HolderDetailsActivity : RightSlidingActivity() {
             showOnSides = true
         })
 
-        b.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        b.listCards.onItemTouch {
+            when (it.action) {
+                MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> isCardTouched = true
+                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> isCardTouched = false
+            }
+        }
+
+        b.appBar.addOnOffsetChangedListener {
+            appBarLayout, verticalOffset ->
             if (appBarLayout.totalScrollRange == 0) {
                 return@addOnOffsetChangedListener
             }

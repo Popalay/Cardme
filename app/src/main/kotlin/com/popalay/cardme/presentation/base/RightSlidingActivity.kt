@@ -51,7 +51,7 @@ abstract class RightSlidingActivity : BaseActivity() {
         gestureDetector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(event1: MotionEvent, event2: MotionEvent,
                                  velocityX: Float, velocityY: Float): Boolean {
-                return if (event2.x > event1.x && velocityX > flingVelocity) {
+                return if (event2.x > event1.x && velocityX > flingVelocity && canSlideRight()) {
                     clearScrim()
                     finish()
                     true
