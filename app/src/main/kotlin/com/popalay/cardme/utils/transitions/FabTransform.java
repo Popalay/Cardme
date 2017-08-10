@@ -62,9 +62,7 @@ public class FabTransform extends Transition {
     private static final String EXTRA_FAB_ICON_RES_ID = "EXTRA_FAB_ICON_RES_ID";
     private static final long DEFAULT_DURATION = 240L;
     private static final String PROP_BOUNDS = "cardme:fabTransform:bounds";
-    private static final String[] TRANSITION_PROPERTIES = {
-            PROP_BOUNDS
-    };
+    private static final String[] TRANSITION_PROPERTIES = {PROP_BOUNDS};
 
     private final int color;
     private final int icon;
@@ -153,8 +151,7 @@ public class FabTransform extends Transition {
         final View view = endValues.view;
         final Rect dialogBounds = fromFab ? endBounds : startBounds;
         final Rect fabBounds = fromFab ? startBounds : endBounds;
-        final Interpolator fastOutSlowInInterpolator =
-                AnimUtils.getFastOutSlowInInterpolator(sceneRoot.getContext());
+        final Interpolator fastOutSlowInInterpolator = AnimUtils.getFastOutSlowInInterpolator(sceneRoot.getContext());
         final long duration = getDuration();
         final long halfDuration = duration / 2;
         final long twoThirdsDuration = duration * 2 / 3;

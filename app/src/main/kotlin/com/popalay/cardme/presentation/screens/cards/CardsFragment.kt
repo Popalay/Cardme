@@ -12,7 +12,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.utils.DialogFactory
-import com.popalay.cardme.utils.ShareUtils
+import com.popalay.cardme.utils.extensions.shareText
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
@@ -63,7 +63,7 @@ class CardsFragment : BaseFragment() {
         })
 
         viewModelFacade.doOnShareCard()
-                .subscribe { ShareUtils.shareText(activity, R.string.share_card, it) }
+                .subscribe { shareText( R.string.share_card, it) }
                 .addTo(disposables)
 
         viewModelFacade.doOnShowCardExistsDialog()

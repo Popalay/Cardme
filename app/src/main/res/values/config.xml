@@ -3,6 +3,5 @@
 
     <string name="fab_hide_behavior">com.popalay.cardme.utils.behaviors.FabScrollBehavior</string>
     <string name="fab_snackbar_behavior">com.popalay.cardme.utils.behaviors.SnackbarFabBehavior</string>
-    <string name="bottom_navigation_behavior">com.popalay.cardme.utils.behaviors.BottomNavigationBehavior</string>
 
 </resources>
