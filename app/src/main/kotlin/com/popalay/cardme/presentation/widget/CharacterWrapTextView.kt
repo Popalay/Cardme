@@ -6,15 +6,14 @@ import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.View
 
-class CharacterWrapTextView : AppCompatTextView {
+class CharacterWrapTextView(context: Context,
+                            attrs: AttributeSet? = null,
+                            defStyleAttr: Int = 0
+) : AppCompatTextView(context, attrs, defStyleAttr) {
+
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
     private val testPaint: Paint by lazy { Paint(paint) }
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
-
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle)
 
     private fun refitText(text: String, textWidth: Int) {
         if (textWidth <= 0) return
