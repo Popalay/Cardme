@@ -37,12 +37,14 @@
                 android:layout_height="wrap_content"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:titleEnabled="false"
                 >
 
                 <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                     android:id="@+id/list_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="?actionBarSize"
                     android:clipToPadding="false"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -66,7 +68,6 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_back"
                     app:theme="@style/Cardme.Toolbar"
-                    app:title="@{vm.holderName}"
                     bind:backByArrow="@{true}"
                     />
 

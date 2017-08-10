@@ -4,24 +4,31 @@
     <string name="error">Error</string>
     <string name="please_wait">Please wait…</string>
     <string name="none">None</string>
-    <string name="cards">Cards</string>
-    <string name="holders">Holders</string>
-    <string name="debts">Debts</string>
     <string name="card_number">Card number</string>
     <string name="card_holder">Card holder</string>
-    <string name="card_details">Card details</string>
     <string name="holder_name">Holder name</string>
     <string name="number_copied">Copied to clipboard</string>
     <string name="card_removed">Card has been removed</string>
     <string name="debt_removed">Debt has been removed</string>
     <string name="who_lent">Who lent you?</string>
     <string name="debt_information">Debt information</string>
-    <string name="settings">Settings</string>
     <string name="share_card">Share card number using…</string>
     <string name="title">Title</string>
     <string name="theme">Theme</string>
     <string name="language">Language</string>
     <string name="card_background">Card background</string>
+    <string name="user_interface">User interface</string>
+    <string name="about_the_app">About the app</string>
+    <string name="rate_the_app">Rate the app</string>
+
+    <!-- screen labels -->
+    <string name="card_details">Card details</string>
+    <string name="holder_details">Holder details</string>
+    <string name="trash">Trash</string>
+    <string name="settings">Settings</string>
+    <string name="cards">Cards</string>
+    <string name="holders">Holders</string>
+    <string name="debts">Debts</string>
 
     <!-- actions -->
     <string name="action_save">Save</string>
@@ -31,6 +38,8 @@
     <string name="action_yes">Yes</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
+    <string name="about">About</string>
+    <string name="empty_trash">Empty trash</string>
 
     <!-- formats -->
     <string name="format_holder_number">%s\'s card</string>
@@ -58,11 +67,5 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
-    <string name="user_interface">User interface</string>
-    <string name="about">About</string>
-    <string name="about_the_app">About the app</string>
-    <string name="rate_the_app">Rate the app</string>
-    <string name="trash">Trash</string>
-    <string name="empty_trash">Empty trash</string>
 
 </resources>

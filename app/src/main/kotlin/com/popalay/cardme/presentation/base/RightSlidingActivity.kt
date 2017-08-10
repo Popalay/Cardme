@@ -116,9 +116,8 @@ abstract class RightSlidingActivity : BaseActivity() {
 
     private fun isSlidingRight(startX: Float, startY: Float, ev: MotionEvent): Boolean {
         val deltaY = Math.abs(ev.y - startY)
-        if (deltaY > GESTURE_THRESHOLD) return false
         val deltaX = ev.x - startX
-        return deltaX > GESTURE_THRESHOLD
+        return deltaX > GESTURE_THRESHOLD && deltaY < GESTURE_THRESHOLD
     }
 
     private fun closeRightAndDismiss() {

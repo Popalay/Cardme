@@ -9,6 +9,7 @@ import android.view.View
 class SpacingItemDecoration private constructor(
         private val betweenItems: Boolean,
         private val onSides: Boolean,
+        private val onTop: Boolean,
         private val dividerSize: Int
 ) : RecyclerView.ItemDecoration() {
 
@@ -17,6 +18,7 @@ class SpacingItemDecoration private constructor(
     }
 
     private constructor(builder: Builder) : this(builder.showBetween, builder.showOnSides,
+            builder.onTop,
             builder.dividerSize)
 
     private var orientation = -1
@@ -38,7 +40,7 @@ class SpacingItemDecoration private constructor(
 
     private fun applyToVerticalList(outRect: Rect) {
         if (betweenItems) {
-            outRect.top = dividerSize / 2
+            outRect.top = if (onTop) dividerSize / 2 else 0
             outRect.bottom = dividerSize / 2
         }
 
@@ -55,7 +57,7 @@ class SpacingItemDecoration private constructor(
         }
 
         if (onSides) {
-            outRect.top = dividerSize
+            outRect.top = if (onTop) dividerSize else 0
             outRect.bottom = dividerSize
         }
     }
@@ -78,13 +80,8 @@ class SpacingItemDecoration private constructor(
 
         var showBetween: Boolean = false
         var showOnSides: Boolean = false
+        var onTop: Boolean = true
         var dividerSize: Int = 0
-
-        fun dividerSize(init: Builder.() -> Int) = apply { dividerSize = init() }
-
-        fun showBetween(init: Builder.() -> Boolean) = apply { showBetween = init() }
-
-        fun showOnSides(init: Builder.() -> Boolean) = apply { showOnSides = init() }
 
         fun build() = SpacingItemDecoration(this)
     }

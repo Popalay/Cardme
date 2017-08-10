@@ -41,6 +41,7 @@
         <activity
             android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
             android:screenOrientation="portrait"
+            android:label="@string/holder_details"
             android:theme="@style/Cardme.HolderDetails" />
 
         <activity

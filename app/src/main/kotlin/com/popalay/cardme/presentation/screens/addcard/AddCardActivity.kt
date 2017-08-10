@@ -59,5 +59,14 @@ class AddCardActivity : RightSlidingActivity() {
 
     private fun initUI() {
         setSupportActionBar(b.toolbar)
+
+        b.textTitle.setOnFocusChangeListener { _, focus ->
+            b.appBarLayout.setExpanded(!focus)
+        }
+
+        b.textHolder.setOnFocusChangeListener { _, focus ->
+            b.appBarLayout.setExpanded(!focus)
+        }
+
     }
 }
