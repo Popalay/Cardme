@@ -59,7 +59,7 @@ class CardsViewModel @Inject constructor(
 
         addCardClickPublisher
                 .applyThrottling()
-                .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, requestCode = CardsFragment.SCAN_REQUEST_CODE) }
+                .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, CardsFragment.SCAN_REQUEST_CODE) }
                 .addTo(disposables)
 
         onDragged
@@ -77,7 +77,7 @@ class CardsViewModel @Inject constructor(
         onSwiped
                 .map(cards::get)
                 .flatMapSingle { cardInteractor.markAsTrash(it).toSingle { it } }
-                .switchMap { card -> onUndoSwipe.applyThrottling().filter { it }.map { card } }
+                .switchMap { card -> onUndoSwipe.filter { it }.map { card } }
                 .flatMapCompletable(cardInteractor::restore)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()

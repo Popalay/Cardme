@@ -131,7 +131,10 @@ public class BindingAdapters {
             if (onUndoSwipe == null) return;
             Snackbar.make(view, undoMessage, Snackbar.LENGTH_LONG)
                     .setDuration((int) ConstantsKt.DURATION_UNDO_MESSAGE)
-                    .setAction(R.string.action_undo, ignored -> onUndoSwipe.accept(true))
+                    .setAction(R.string.action_undo, button -> {
+                        onUndoSwipe.accept(true);
+                        button.setEnabled(false);
+                    })
                     .show();
         };
 

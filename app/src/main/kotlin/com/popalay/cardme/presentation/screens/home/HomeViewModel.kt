@@ -22,8 +22,7 @@ class HomeViewModel @Inject constructor(
     val drawerNavigationClick: PublishRelay<Int> = PublishRelay.create<Int>()
 
     init {
-        if (!shortcutInteractor.startedWithShortcut())
-            router.newRootScreen(SCREEN_CARDS)
+        if (!shortcutInteractor.startedWithShortcut()) router.newRootScreen(SCREEN_CARDS)
 
         settingClick
                 .applyThrottling()

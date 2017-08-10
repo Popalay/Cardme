@@ -6,7 +6,7 @@ import ru.terrakok.cicerone.Router
 
 class CustomRouter : Router() {
 
-    fun navigateToForResult(screenKey: String, data: Any? = null, requestCode: Int) {
+    fun navigateToForResult(screenKey: String, requestCode: Int,  data: Any? = null) {
         executeCommand(ForwardForResult(screenKey, data, requestCode))
     }
 

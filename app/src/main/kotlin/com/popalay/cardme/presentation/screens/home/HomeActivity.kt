@@ -76,8 +76,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
         override fun setupActivityTransactionAnimation(command: Command, activityIntent: Intent): Bundle? {
             if (command is Forward && command.screenKey == SCREEN_ADD_DEBT) {
-                return supportFragmentManager.findFragmentByType<DebtsFragment>()
-                        ?.createAddDebtTransition(activityIntent)
+                return findFragmentByType<DebtsFragment>()?.createAddDebtTransition(activityIntent)
             }
             return super.setupActivityTransactionAnimation(command, activityIntent)
         }
@@ -96,6 +95,13 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
         b.vm = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
         initUI()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CardsFragment.SCAN_REQUEST_CODE) {
+            findFragmentByType<CardsFragment>()?.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
