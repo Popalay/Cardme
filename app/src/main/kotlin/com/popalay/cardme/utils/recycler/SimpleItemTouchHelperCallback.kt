@@ -113,6 +113,6 @@ class SimpleItemTouchHelperCallback(
 
     interface DragCallback {
         fun onDragged(from: Int, to: Int)
-        fun onDropped()
+        fun onDropped(): Unit
     }
 }
