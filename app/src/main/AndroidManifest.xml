@@ -36,12 +36,12 @@
             android:label="@string/card_details"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.AddCard"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustNothing" />
 
         <activity
             android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
-            android:screenOrientation="portrait"
             android:label="@string/holder_details"
+            android:screenOrientation="portrait"
             android:theme="@style/Cardme.HolderDetails" />
 
         <activity
