@@ -69,7 +69,6 @@
                     style="@style/Cardme.BottomBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_behavior="@string/bottom_navigation_behavior"
                     app:menu="@menu/menu_home"
                     bind:bottomNavigationListener="@{vm.bottomNavigationClick}"
                     />
