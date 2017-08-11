@@ -16,10 +16,6 @@ class ViewModelFactory @Inject constructor(
         creator ?: creators.keys.filter(modelClass::isAssignableFrom).firstOrNull()?.apply { creator = creators[this] }
         creator ?: throw IllegalArgumentException("unknown model class " + modelClass)
 
-        try {
-            return creator?.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        return creator?.get() as T
     }
 }

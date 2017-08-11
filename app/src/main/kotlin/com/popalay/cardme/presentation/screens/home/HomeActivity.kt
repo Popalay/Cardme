@@ -20,6 +20,7 @@ import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
+import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import com.popalay.cardme.presentation.screens.debts.DebtsFragment
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
@@ -71,12 +72,15 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
             SCREEN_TRASH -> TrashActivity.getIntent(activity)
+            SCREEN_CARD_DETAILS -> CardDetailsActivity.getIntent(activity, data as String)
             else -> null
         }
 
         override fun setupActivityTransactionAnimation(command: Command, activityIntent: Intent): Bundle? {
             if (command is Forward && command.screenKey == SCREEN_ADD_DEBT) {
                 return findFragmentByType<DebtsFragment>()?.createAddDebtTransition(activityIntent)
+            } else if (command is Forward && command.screenKey == SCREEN_CARD_DETAILS) {
+                return findFragmentByType<CardsFragment>()?.createCardDetailsTransition(activityIntent)
             }
             return super.setupActivityTransactionAnimation(command, activityIntent)
         }

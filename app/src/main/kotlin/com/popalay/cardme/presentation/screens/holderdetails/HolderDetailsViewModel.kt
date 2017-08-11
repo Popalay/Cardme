@@ -11,7 +11,6 @@ import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.recycler.DiffObservableList
-import com.stepango.rxdatabindings.ObservableString
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,7 +29,6 @@ class HolderDetailsViewModel @Inject constructor(
 
     val debts = DiffObservableList<Debt>()
     val cards = DiffObservableList<Card>()
-    val holderName = ObservableString(holderName)
     val showImage = ObservableBoolean()
 
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()

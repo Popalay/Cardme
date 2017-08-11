@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.popalay.cardme.presentation.screens.carddetails.CardDetailsViewModel"
+            />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        bind:exitByClick="@{true}"
+        >
+
+        <com.popalay.cardme.presentation.widget.CreditCardView
+            android:id="@+id/card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/normal"
+            android:transitionName="@string/transition_card_details"
+            app:backgroundGeneratorSeed="@{vm.card.generatedBackgroundSeed}"
+            app:cardCornerRadius="@dimen/card_corners"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:withImage="@{vm.showImage}"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/normal"
+                >
+
+                <ImageView
+                    android:id="@+id/image_card_type"
+                    android:layout_width="@dimen/card_type_icon_size"
+                    android:layout_height="@dimen/card_type_icon_size"
+                    android:layout_alignParentEnd="true"
+                    android:src="@{vm.card.iconRes}"
+                    />
+
+                <TextView
+                    style="@style/Cardme.CardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/image_card_type"
+                    android:layout_alignTop="@id/image_card_type"
+                    android:layout_marginEnd="@dimen/normal"
+                    android:layout_toStartOf="@id/image_card_type"
+                    android:gravity="center_vertical"
+                    android:text="@={vm.card.title}"
+                    />
+
+                <com.popalay.cardme.presentation.widget.CharacterWrapTextView
+                    android:id="@+id/text_number"
+                    style="@style/Cardme.CardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@{vm.card.redactedNumber}"
+                    />
+
+                <TextView
+                    android:id="@+id/text_holder"
+                    style="@style/Cardme.CardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/smallest"
+                    android:text="@{vm.card.holder.name}"
+                    />
+
+            </RelativeLayout>
+
+        </com.popalay.cardme.presentation.widget.CreditCardView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

@@ -31,6 +31,7 @@
         android:focusable="true"
         android:onClick="@{() -> publisher.accept(item)}"
         android:stateListAnimator="@anim/lift_on_touch"
+        android:transitionName="@string/transition_card_details"
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
         app:withImage="@{withImage}"

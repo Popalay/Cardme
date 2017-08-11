@@ -6,6 +6,8 @@ import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.presentation.screens.addcard.AddCardModule
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity
 import com.popalay.cardme.presentation.screens.adddebt.AddDebtModule
+import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
+import com.popalay.cardme.presentation.screens.carddetails.CardDetailsModule
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity
 import com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsModule
 import com.popalay.cardme.presentation.screens.home.HomeActivity
@@ -45,5 +47,8 @@ abstract class UiModule {
 
     @ContributesAndroidInjector(modules = arrayOf(TrashModule::class))
     abstract fun contributeTrashActivity(): TrashActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(CardDetailsModule::class))
+    abstract fun contributeCardDetailsActivity(): CardDetailsActivity
 
 }

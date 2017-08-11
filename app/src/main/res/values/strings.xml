@@ -67,5 +67,7 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
+    <string name="transition_card_details" translatable="false">transition_card_details</string>
+
 
 </resources>

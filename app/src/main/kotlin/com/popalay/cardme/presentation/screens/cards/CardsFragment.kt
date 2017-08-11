@@ -5,14 +5,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
+import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.utils.DialogFactory
-import com.popalay.cardme.utils.extensions.shareText
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
@@ -62,10 +63,6 @@ class CardsFragment : BaseFragment() {
             showOnSides = true
         })
 
-        viewModelFacade.doOnShareCard()
-                .subscribe { shareText( R.string.share_card, it) }
-                .addTo(disposables)
-
         viewModelFacade.doOnShowCardExistsDialog()
                 .subscribe {
                     DialogFactory.createCustomButtonsDialog(context,
@@ -75,5 +72,15 @@ class CardsFragment : BaseFragment() {
                             .apply { setCancelable(false) }
                             .show()
                 }.addTo(disposables)
+    }
+
+    fun createCardDetailsTransition(activityIntent: Intent): Bundle {
+        val position = viewModelFacade.getPositionOfCard(activityIntent
+                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
+
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                b.listCards.findViewHolderForAdapterPosition(position).itemView,
+                getString(R.string.transition_card_details))
+                .toBundle()
     }
 }

@@ -11,6 +11,7 @@ import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
+import com.popalay.cardme.presentation.screens.SCREEN_CARD_DETAILS
 import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
@@ -62,6 +63,11 @@ class CardsViewModel @Inject constructor(
                 .subscribe { router.navigateToForResult(SCREEN_SCAN_CARD, CardsFragment.SCAN_REQUEST_CODE) }
                 .addTo(disposables)
 
+        cardClickPublisher
+                .applyThrottling()
+                .subscribe { router.navigateTo(SCREEN_CARD_DETAILS, it.number) }
+                .addTo(disposables)
+
         onDragged
                 .map(cards::swap)
                 .subscribeBy()
@@ -104,9 +110,7 @@ class CardsViewModel @Inject constructor(
                 .addTo(disposables)
     }
 
-    override fun doOnShareCard(): Observable<String> = cardClickPublisher
-            .applyThrottling()
-            .map { it.number }
+    override fun getPositionOfCard(number: String) = cards.indexOfFirst { it.number == number }
 
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)
@@ -121,10 +125,9 @@ class CardsViewModel @Inject constructor(
 
 interface CardsViewModelFacade {
 
-    fun doOnShareCard(): Observable<String>
     fun onCardScanned(creditCard: CreditCard)
     fun onShowCardExistsDialogDismiss()
     fun onWantToOverwrite()
     fun doOnShowCardExistsDialog(): Observable<Boolean>
-
+    fun getPositionOfCard(number: String): Int
 }

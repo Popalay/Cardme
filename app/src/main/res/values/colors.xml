@@ -11,6 +11,7 @@
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
     <color name="list_divider">@color/light_grey</color>
+    <color name="scrim">#BF202D3A</color>
 
     <color name="error">@color/deep_red</color>
     <color name="success">#64C893</color>
@@ -21,7 +22,6 @@
     <color name="dark_grey">#282828</color>
     <color name="light_grey">#F2F2F2</color>
     <color name="grey">#99A5AF</color>
-    <color name="scrim">#99323232</color>
 
     <!--card colors-->
     <color name="deep_blue">#3699d4</color>
