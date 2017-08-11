@@ -1,10 +1,15 @@
 package com.popalay.cardme.utils.extensions
 
+import android.content.Context
+import android.net.Uri
 import android.support.annotation.StringRes
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.ShareCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import com.popalay.cardme.R
 
 
 fun FragmentActivity.currentFragment() = supportFragmentManager.fragments?.filter { it.isVisible }?.firstOrNull()
@@ -26,3 +31,24 @@ fun FragmentActivity.shareText(@StringRes title: Int, text: String) {
 }
 
 fun Fragment.shareText(@StringRes title: Int, text: String) = activity.shareText(title, text)
+
+fun Context.openLink(url: Uri) {
+    val builder = CustomTabsIntent.Builder()
+    builder.setToolbarColor(ContextCompat.getColor(this, R.color.primary))
+    val customTabsIntent = builder.build()
+    customTabsIntent.launchUrl(this, url)
+}
+
+fun Context.openLink(url: String) = openLink(Uri.parse(url))
+
+fun Boolean.ifTrue(block: () -> Unit) {
+    if (this) {
+        block()
+    }
+}
+
+fun Boolean.ifFalse(block: () -> Unit) {
+    if (!this) {
+        block()
+    }
+}

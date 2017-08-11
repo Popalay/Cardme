@@ -7,8 +7,8 @@ import com.popalay.cardme.R
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardForResult
 import com.popalay.cardme.presentation.base.navigation.commands.ForwardToUrl
-import com.popalay.cardme.utils.BrowserUtils
 import com.popalay.cardme.utils.extensions.currentFragment
+import com.popalay.cardme.utils.extensions.openLink
 import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 
@@ -19,9 +19,8 @@ open class CustomNavigator(
 
     override fun applyCommand(command: Command?) {
         if (command is ForwardToUrl) {
-            BrowserUtils.openLink(activity, command.url)
+            activity.openLink(command.url)
         } else if (command is ForwardForResult) {
-            // Start activity
             createActivityIntent(command.screenKey, command.transitionData)?.let {
                 activity.currentFragment()?.startActivityForResult(it, command.requestCode)
                         ?: activity.startActivityForResult(it, command.requestCode)
