@@ -227,8 +227,7 @@ class FabTransform : Transition {
             return
         }
 
-        transitionValues.values.put(PROP_BOUNDS, Rect(view.left, view.top,
-                view.right, view.bottom))
+        transitionValues.values.put(PROP_BOUNDS, Rect(view.left, view.top, view.right, view.bottom))
     }
 
     companion object {
@@ -253,9 +252,7 @@ class FabTransform : Transition {
             val color = intent.getIntExtra(EXTRA_FAB_COLOR, Color.TRANSPARENT)
             val icon = intent.getIntExtra(EXTRA_FAB_ICON_RES_ID, -1)
             val sharedEnter = FabTransform(color, icon)
-            if (target != null) {
-                sharedEnter.addTarget(target)
-            }
+            target?.let { sharedEnter.addTarget(target) }
             activity.window.sharedElementEnterTransition = sharedEnter
             return true
         }
