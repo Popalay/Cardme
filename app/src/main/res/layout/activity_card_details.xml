@@ -86,6 +86,30 @@
 
         </com.popalay.cardme.presentation.widget.CreditCardView>
 
+        <ImageButton
+            android:id="@+id/button_share"
+            style="@style/Cardme.Button.Rounded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal"
+            android:src="@drawable/ic_share"
+            app:layout_constraintStart_toStartOf="@id/card_view"
+            app:layout_constraintTop_toBottomOf="@id/card_view"
+            />
+
+        <ImageButton
+            android:id="@+id/button_edit"
+            style="@style/Cardme.Button.Rounded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal"
+            android:layout_marginTop="@dimen/normal"
+            android:src="@drawable/ic_write"
+            app:layout_constraintStart_toEndOf="@id/button_share"
+            app:layout_constraintTop_toBottomOf="@id/card_view"
+            />
+
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>

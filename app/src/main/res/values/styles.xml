@@ -164,4 +164,11 @@
         <item name="android:textColor">?colorAccent</item>
     </style>
 
+    <style name="Cardme.Button.Rounded" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/bg_circle</item>
+        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/normal</item>
+        <item name="android:tint">@color/accent</item>
+    </style>
+
 </resources>
