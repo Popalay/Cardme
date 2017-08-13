@@ -40,6 +40,9 @@
     <string name="action_close">Close</string>
     <string name="about">About</string>
     <string name="empty_trash">Empty trash</string>
+    <string name="share">Share</string>
+    <string name="share_using_nfc">Share using NFC</string>
+    <string name="edit">Edit</string>
 
     <!-- formats -->
     <string name="format_holder_number">%s\'s card</string>
@@ -68,6 +71,5 @@
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
     <string name="transition_card_details" translatable="false">transition_card_details</string>
-
 
 </resources>

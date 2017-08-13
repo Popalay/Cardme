@@ -101,6 +101,7 @@
         <item name="android:layout_marginBottom">@dimen/normal</item>
         <item name="android:layout_marginEnd">@dimen/normal</item>
         <item name="android:tint">@color/white</item>
+        <item name="rippleColor">?colorPrimary</item>
         <item name="layout_behavior">@string/fab_hide_behavior</item>
     </style>
 
@@ -167,9 +168,10 @@
 
     <style name="Cardme.Button.Rounded" parent="Base.Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/bg_circle</item>
-        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
+        <item name="android:backgroundTint">@color/accent</item>
         <item name="android:padding">@dimen/normal</item>
-        <item name="android:tint">@color/accent</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:elevation">@dimen/small_elevation</item>
     </style>
 
 </resources>

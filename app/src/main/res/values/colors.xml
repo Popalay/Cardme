@@ -11,7 +11,7 @@
     <color name="window_background">@color/light_grey</color>
     <color name="dialog_background">@color/white</color>
     <color name="list_divider">@color/light_grey</color>
-    <color name="scrim">#BF202D3A</color>
+    <color name="scrim">#E6202D3A</color>
 
     <color name="error">@color/deep_red</color>
     <color name="success">#64C893</color>

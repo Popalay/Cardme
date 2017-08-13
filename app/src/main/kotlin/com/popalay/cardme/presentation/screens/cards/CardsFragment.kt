@@ -56,6 +56,26 @@ class CardsFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        b.buttonAdd.show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        b.buttonAdd.hide()
+    }
+
+    fun createCardDetailsTransition(activityIntent: Intent): Bundle {
+        val position = viewModelFacade.getPositionOfCard(activityIntent
+                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
+
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                b.listCards.findViewHolderForAdapterPosition(position).itemView,
+                getString(R.string.transition_card_details))
+                .toBundle()
+    }
+
     private fun initUI() {
         b.listCards.addItemDecoration(SpacingItemDecoration.create {
             dividerSize = resources.getDimension(R.dimen.normal).toInt()
@@ -72,15 +92,5 @@ class CardsFragment : BaseFragment() {
                             .apply { setCancelable(false) }
                             .show()
                 }.addTo(disposables)
-    }
-
-    fun createCardDetailsTransition(activityIntent: Intent): Bundle {
-        val position = viewModelFacade.getPositionOfCard(activityIntent
-                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
-
-        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                b.listCards.findViewHolderForAdapterPosition(position).itemView,
-                getString(R.string.transition_card_details))
-                .toBundle()
     }
 }

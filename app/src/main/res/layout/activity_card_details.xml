@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -23,16 +24,17 @@
         <com.popalay.cardme.presentation.widget.CreditCardView
             android:id="@+id/card_view"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/normal"
             android:transitionName="@string/transition_card_details"
             app:backgroundGeneratorSeed="@{vm.card.generatedBackgroundSeed}"
             app:cardCornerRadius="@dimen/card_corners"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
             app:withImage="@{vm.showImage}"
+            tools:layout_height="200dp"
             >
 
             <RelativeLayout
@@ -92,9 +94,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal"
+            android:contentDescription="@string/share"
+            android:scaleX="0"
+            android:scaleY="0"
             android:src="@drawable/ic_share"
-            app:layout_constraintStart_toStartOf="@id/card_view"
+            app:layout_constraintEnd_toStartOf="@+id/button_nfc"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_view"
+            />
+
+        <ImageButton
+            android:id="@+id/button_nfc"
+            style="@style/Cardme.Button.Rounded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/share_using_nfc"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_nfc"
+            app:layout_constraintEnd_toStartOf="@+id/button_edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_share"
+            app:layout_constraintTop_toTopOf="@id/button_share"
             />
 
         <ImageButton
@@ -102,13 +124,15 @@
             style="@style/Cardme.Button.Rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal"
-            android:layout_marginTop="@dimen/normal"
+            android:contentDescription="@string/edit"
+            android:scaleX="0"
+            android:scaleY="0"
             android:src="@drawable/ic_write"
-            app:layout_constraintStart_toEndOf="@id/button_share"
-            app:layout_constraintTop_toBottomOf="@id/card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_nfc"
+            app:layout_constraintTop_toTopOf="@id/button_share"
             />
-
 
     </android.support.constraint.ConstraintLayout>
 

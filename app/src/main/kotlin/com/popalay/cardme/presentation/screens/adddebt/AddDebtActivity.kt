@@ -1,20 +1,18 @@
 package com.popalay.cardme.presentation.screens.adddebt
 
-import android.animation.Animator
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.transition.Transition
-import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddDebtBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
-import com.popalay.cardme.utils.animation.EndAnimatorListener
-import com.popalay.cardme.utils.animation.EndTransitionListener
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.onEnd
+import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.transitions.FabTransform
 import javax.inject.Inject
 
@@ -26,9 +24,7 @@ class AddDebtActivity : BaseActivity() {
     private lateinit var b: ActivityAddDebtBinding
 
     override var navigator = object : CustomNavigator(this) {
-
-        override fun exit() = this@AddDebtActivity.exitWithAnimation()
-
+        override fun exit() = exitWithAnimation()
     }
 
     companion object {
@@ -39,33 +35,19 @@ class AddDebtActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
         FabTransform.setup(this, b.container)
-
         b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
-
-        window.sharedElementEnterTransition?.addListener(object : EndTransitionListener {
-            override fun onTransitionEnd(transition: Transition?) {
-                b.buttonSave.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .setDuration(DURATION_SHORT)
-                        .start()
-
-            }
-        })
+        initUi()
     }
 
     override fun onBackPressed() = exitWithAnimation()
 
     private fun exitWithAnimation() {
-        b.buttonSave.animate()
-                .scaleX(0f)
-                .scaleY(0f)
-                .setDuration(DURATION_SHORT)
-                .setListener(object : EndAnimatorListener {
-                    override fun onAnimationEnd(animator: Animator) {
-                        supportFinishAfterTransition()
-                    }
-                })
-                .start()
+        b.buttonSave.hideAnimated { supportFinishAfterTransition() }
+    }
+
+    private fun initUi() {
+        window.sharedElementEnterTransition.onEnd {
+            b.buttonSave.showAnimated()
+        }
     }
 }

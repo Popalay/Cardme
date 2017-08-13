@@ -6,10 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityCardDetailsBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.onEnd
+import com.popalay.cardme.utils.extensions.showAnimated
 import javax.inject.Inject
 
 class CardDetailsActivity : BaseActivity() {
@@ -19,9 +23,7 @@ class CardDetailsActivity : BaseActivity() {
     private lateinit var b: ActivityCardDetailsBinding
 
     override var navigator = object : CustomNavigator(this) {
-
-        override fun exit() = finishAfterTransition()
-
+        override fun exit() = exitWithAnimation()
     }
 
     companion object {
@@ -40,11 +42,23 @@ class CardDetailsActivity : BaseActivity() {
         ViewModelProviders.of(this, factory).get(CardDetailsViewModel::class.java).let {
             b.vm = it
         }
-        initUI()
+        initUi()
     }
 
-    private fun initUI() {
+    override fun onBackPressed() = exitWithAnimation()
 
+    private fun exitWithAnimation() {
+        b.buttonEdit.hideAnimated()
+        b.buttonNfc.hideAnimated(DURATION_SHORT / 2)
+        b.buttonShare.hideAnimated(DURATION_SHORT) { supportFinishAfterTransition() }
+    }
+
+    private fun initUi() {
+        window.sharedElementEnterTransition.onEnd {
+            b.buttonShare.showAnimated()
+            b.buttonNfc.showAnimated(DURATION_SHORT / 2)
+            b.buttonEdit.showAnimated(DURATION_SHORT)
+        }
     }
 
 }
