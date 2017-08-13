@@ -54,6 +54,7 @@ class AddDebtViewModel @Inject constructor(
                 .filter { it && canSave.get() }
                 .map { debt.get() }
                 .switchMapSingle { holderInteractor.addDebt(to.get().clean(), it).toSingleDefault(true) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)

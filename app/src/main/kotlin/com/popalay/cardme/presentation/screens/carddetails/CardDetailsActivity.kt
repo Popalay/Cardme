@@ -13,7 +13,9 @@ import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.utils.extensions.hideAnimated
 import com.popalay.cardme.utils.extensions.onEnd
+import com.popalay.cardme.utils.extensions.shareText
 import com.popalay.cardme.utils.extensions.showAnimated
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class CardDetailsActivity : BaseActivity() {
@@ -21,9 +23,10 @@ class CardDetailsActivity : BaseActivity() {
     @Inject lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var b: ActivityCardDetailsBinding
+    private lateinit var viewModelFacade: CardDetailsViewModelFacade
 
     override var navigator = object : CustomNavigator(this) {
-        override fun exit() = exitWithAnimation()
+        override fun exit() = this@CardDetailsActivity.exitWithAnimation()
     }
 
     companion object {
@@ -41,6 +44,7 @@ class CardDetailsActivity : BaseActivity() {
         b = DataBindingUtil.setContentView<ActivityCardDetailsBinding>(this, R.layout.activity_card_details)
         ViewModelProviders.of(this, factory).get(CardDetailsViewModel::class.java).let {
             b.vm = it
+            viewModelFacade = it
         }
         initUi()
     }
@@ -59,6 +63,10 @@ class CardDetailsActivity : BaseActivity() {
             b.buttonNfc.showAnimated(DURATION_SHORT / 2)
             b.buttonEdit.showAnimated(DURATION_SHORT)
         }
+
+        viewModelFacade.onShareCard()
+                .subscribe { shareText(R.string.share_card, it) }
+                .addTo(disposables)
     }
 
 }

@@ -24,7 +24,7 @@ class AddDebtActivity : BaseActivity() {
     private lateinit var b: ActivityAddDebtBinding
 
     override var navigator = object : CustomNavigator(this) {
-        override fun exit() = exitWithAnimation()
+        override fun exit() = this@AddDebtActivity.exitWithAnimation()
     }
 
     companion object {
@@ -34,7 +34,6 @@ class AddDebtActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
-        FabTransform.setup(this, b.container)
         b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
         initUi()
     }
@@ -46,8 +45,7 @@ class AddDebtActivity : BaseActivity() {
     }
 
     private fun initUi() {
-        window.sharedElementEnterTransition.onEnd {
-            b.buttonSave.showAnimated()
-        }
+        FabTransform.setup(this, b.container)
+        window.sharedElementEnterTransition.onEnd { b.buttonSave.showAnimated() }
     }
 }

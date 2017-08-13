@@ -20,7 +20,6 @@ typealias LastAdapterHolder<V> = com.github.nitrico.lastadapter.Holder<V>
 @BindingAdapter(value = *arrayOf("cardsAdapter", "cardClick", "showImage"), requireAll = false)
 fun RecyclerView.cardsAdapter(items: List<Card>?, publisher: Relay<Card>?, showImage: ObservableBoolean?) {
     if (this.adapter != null || items == null || items.isEmpty()) return
-    this.scheduleLayoutAnimation()
     LastAdapter(items, BR.item)
             .map<Card>(object : ItemType<ItemCardBinding>(R.layout.item_card) {
                 override fun onCreate(holder: LastAdapterHolder<ItemCardBinding>) {
@@ -41,7 +40,6 @@ fun RecyclerView.cardsAdapter(items: List<Card>?, publisher: Relay<Card>?, showI
 @BindingAdapter("debtsAdapter")
 fun RecyclerView.debtsAdapter(items: List<Debt>?) {
     if (this.adapter != null || items == null || items.isEmpty()) return
-    this.scheduleLayoutAnimation()
     LastAdapter(items, BR.item)
             .map<Debt>(R.layout.item_debt)
             .into(this)
@@ -50,7 +48,6 @@ fun RecyclerView.debtsAdapter(items: List<Debt>?) {
 @BindingAdapter(value = *arrayOf("holdersAdapter", "holderClick"), requireAll = false)
 fun RecyclerView.holdersAdapter(items: List<Holder>?, publisher: Relay<Holder>?) {
     if (this.adapter != null || items == null || items.isEmpty()) return
-    this.scheduleLayoutAnimation()
     LastAdapter(items, BR.item)
             .map<Holder>(object : ItemType<ItemHolderBinding>(R.layout.item_holder) {
                 override fun onCreate(holder: LastAdapterHolder<ItemHolderBinding>) {
