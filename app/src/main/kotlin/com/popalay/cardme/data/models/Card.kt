@@ -4,19 +4,18 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
 import com.github.nitrico.lastadapter.StableId
 import com.popalay.cardme.R
+import com.popalay.cardme.utils.extensions.ifTrue
 import io.card.payment.CreditCard
 import io.realm.RealmObject
-import io.realm.RealmResults
-import io.realm.annotations.LinkingObjects
 import io.realm.annotations.PrimaryKey
 
 
 open class Card(
-        @PrimaryKey open var number: String = "",
+        @PrimaryKey var number: String = "",
         var title: String = "",
         var redactedNumber: String = "",
         @field:CardType var cardType: Long = 0L,
-        var generatedBackgroundSeed: Long = 0L,
+        var generatedBackgroundSeed: Long = System.nanoTime(),
         var position: Int = 0,
         var isTrash: Boolean = false,
         var holder: Holder = Holder()

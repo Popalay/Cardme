@@ -7,6 +7,8 @@ import com.popalay.cardme.business.cards.CardInteractor
 import com.popalay.cardme.business.settings.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
+import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
@@ -17,6 +19,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class CardDetailsViewModel @Inject constructor(
+        private val router: CustomRouter,
         @Named(CardDetailsActivity.KEY_CARD_NUMBER) cardNumber: String,
         cardInteractor: CardInteractor,
         settingsInteractor: SettingsInteractor
@@ -39,6 +42,12 @@ class CardDetailsViewModel @Inject constructor(
         settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(showImage)
+                .subscribeBy(this::handleBaseError)
+                .addTo(disposables)
+
+        editCardClick
+                .applyThrottling()
+                .doOnNext { router.navigateTo(SCREEN_ADD_CARD, card.get()) }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

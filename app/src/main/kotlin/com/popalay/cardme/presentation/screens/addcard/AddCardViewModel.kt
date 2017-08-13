@@ -24,8 +24,11 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+import javax.inject.Named
 
 class AddCardViewModel @Inject constructor(
+        @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
+        @Named(AddCardActivity.KEY_FORMATTED_CARD_NUMBER) cardFormattedNumber: String,
         private val router: CustomRouter,
         cardInteractor: CardInteractor,
         holderInteractor: HolderInteractor,
@@ -36,16 +39,20 @@ class AddCardViewModel @Inject constructor(
     val holderNames: ObservableArrayList<String> = ObservableArrayList()
     val title = ObservableString()
     val showImage = ObservableBoolean()
-    val card = ObservableField<Card>()
+    val card = ObservableField<Card>(Card(number = cardNumber, redactedNumber = cardFormattedNumber))
 
     val canSaveState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
     val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
 
     init {
-        cardInteractor.getLastScanned()
+        cardInteractor.get(cardNumber)
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(card)
+                .doOnNext {
+                    title.set(it.title)
+                    holderName.set(it.holder.name)
+                }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 

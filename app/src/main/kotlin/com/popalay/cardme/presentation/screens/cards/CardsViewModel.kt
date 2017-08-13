@@ -44,6 +44,8 @@ class CardsViewModel @Inject constructor(
 
     val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
 
+    private var lastScannedCard: Card? = null
+
     init {
         cardInteractor.getAll()
                 .distinctUntilChanged()
@@ -98,19 +100,20 @@ class CardsViewModel @Inject constructor(
         errorDialogState.accept(false)
     }
 
-    override fun onWantToOverwrite() = router.navigateTo(SCREEN_ADD_CARD)
+    override fun onWantToOverwrite() = navigateToAddCard()
 
     override fun onCardScanned(creditCard: CreditCard) {
-        val card = Card(creditCard)
-        cardInteractor.setLastScanned(card)
-                .andThen(cardInteractor.checkCardExist(card))
+        lastScannedCard = Card(creditCard)
+        cardInteractor.checkCardExist(lastScannedCard?.number ?: "")
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { router.navigateTo(SCREEN_ADD_CARD) }
+                .doOnComplete(this::navigateToAddCard)
                 .subscribeBy(this::handleLocalError)
                 .addTo(disposables)
     }
 
     override fun getPositionOfCard(number: String) = cards.indexOfFirst { it.number == number }
+
+    private fun navigateToAddCard() = router.navigateTo(SCREEN_ADD_CARD, lastScannedCard)
 
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)

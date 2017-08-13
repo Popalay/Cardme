@@ -24,14 +24,8 @@ class CardInteractor @Inject constructor(
     fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
             .subscribeOn(Schedulers.io())
 
-    fun setLastScanned(card: Card): Completable = cardRepository.setLastScanned(card)
-            .subscribeOn(Schedulers.io())
-
-    fun getLastScanned(): Single<Card> = cardRepository.getLastScanned()
-
-    fun checkCardExist(creditCard: Card): Completable {
-        val card = transform(creditCard)
-        return cardRepository.cardIsNew(card)
+    fun checkCardExist(cardNumber: String): Completable {
+        return cardRepository.cardIsNew(cardNumber)
                 .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
                 .subscribeOn(Schedulers.io())
     }
@@ -66,10 +60,6 @@ class CardInteractor @Inject constructor(
             debtRepository.removeTrashed().toSingleDefault(true))
             .toCompletable()
             .subscribeOn(Schedulers.io())
-
-    private fun transform(card: Card): Card = card.apply {
-        generatedBackgroundSeed = System.nanoTime()
-    }
 
     private fun createCardExistError(): Throwable =
             ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST,

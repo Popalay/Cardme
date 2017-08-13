@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.popalay.cardme.R
+import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.databinding.ActivityAddCardBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import io.reactivex.rxkotlin.addTo
@@ -18,7 +19,13 @@ import javax.inject.Inject
 class AddCardActivity : RightSlidingActivity() {
 
     companion object {
-        fun getIntent(context: Context) = Intent(context, AddCardActivity::class.java)
+        const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
+        const val KEY_FORMATTED_CARD_NUMBER = "KEY_FORMATTED_CARD_NUMBER"
+
+        fun getIntent(context: Context, card: Card) = Intent(context, AddCardActivity::class.java).apply {
+            putExtra(KEY_CARD_NUMBER, card.number)
+            putExtra(KEY_FORMATTED_CARD_NUMBER, card.redactedNumber)
+        }
     }
 
     @Inject lateinit var factory: ViewModelProvider.Factory

@@ -8,9 +8,12 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
+import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.databinding.ActivityCardDetailsBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
+import com.popalay.cardme.presentation.screens.addcard.AddCardActivity
 import com.popalay.cardme.utils.extensions.hideAnimated
 import com.popalay.cardme.utils.extensions.onEnd
 import com.popalay.cardme.utils.extensions.shareText
@@ -26,6 +29,13 @@ class CardDetailsActivity : BaseActivity() {
     private lateinit var viewModelFacade: CardDetailsViewModelFacade
 
     override var navigator = object : CustomNavigator(this) {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
+            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as Card)
+            else -> null
+        }
+
         override fun exit() = this@CardDetailsActivity.exitWithAnimation()
     }
 

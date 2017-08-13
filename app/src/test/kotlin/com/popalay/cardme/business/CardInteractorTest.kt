@@ -51,41 +51,6 @@ class CardInteractorTest {
                 .assertComplete()
     }
 
-    @Test fun setLastScanned_Success() {
-        val cardNumber = "6767 8989 5454 5555"
-        val card = Card(number = cardNumber)
-
-        whenever(cardRepository.setLastScanned(card)).thenReturn(Completable.complete())
-
-        val testObserver = cardInteractor.setLastScanned(card).test()
-
-        testObserver.awaitTerminalEvent()
-
-        verify(cardRepository).setLastScanned(card)
-
-        testObserver
-                .assertNoErrors()
-                .assertComplete()
-    }
-
-    @Test fun getLastScanned_Success() {
-        val cardNumber = "6767 8989 5454 5555"
-        val card = Card(number = cardNumber)
-
-        whenever(cardRepository.getLastScanned()).thenReturn(Single.just(card))
-
-        val testObserver = cardInteractor.getLastScanned().test()
-
-        testObserver.awaitTerminalEvent()
-
-        verify(cardRepository).getLastScanned()
-
-        testObserver
-                .assertNoErrors()
-                .assertValue { it == card }
-                .assertComplete()
-    }
-
     @Test fun validateCard_Success() {
         val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
 

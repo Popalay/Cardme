@@ -12,17 +12,11 @@ import javax.inject.Singleton
 @Singleton
 class CardRepository @Inject constructor() {
 
-    var lastScannedCard: Card? = null
-
     fun get(cardNumber: String): Flowable<Card> = RxRealm.listenElement {
         it.where(Card::class.java).equalTo(Card.NUMBER, cardNumber).findAll()
     }
 
     fun update(cards: List<Card>): Completable = RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }
-
-    fun setLastScanned(card: Card): Completable = Completable.fromAction { lastScannedCard = card }
-
-    fun getLastScanned(): Single<Card> = Single.just(lastScannedCard ?: Card())
 
     fun getAll(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
@@ -49,9 +43,9 @@ class CardRepository @Inject constructor() {
         it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = false
     }
 
-    fun cardIsNew(card: Card): Single<Boolean> = RxRealm.getElement {
+    fun cardIsNew(cardNumber: String): Single<Boolean> = RxRealm.getElement {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, false)
-                .equalTo(Card.NUMBER, card.number).findFirst()
+                .equalTo(Card.NUMBER, cardNumber).findFirst()
     }.isEmpty
 }

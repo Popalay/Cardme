@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.popalay.cardme.R
 import com.popalay.cardme.business.ShortcutInteractor
+import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
@@ -64,10 +65,11 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             else -> null
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
             SCREEN_HOME -> HomeActivity.getIntent(activity)
             SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
-            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity)
+            SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as Card)
             SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
             SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
             SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
