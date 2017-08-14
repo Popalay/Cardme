@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.showAnimated
 
 class FabScrollBehavior(context: Context, attrs: AttributeSet) : SnackbarFabBehavior(context, attrs) {
 
@@ -17,7 +19,7 @@ class FabScrollBehavior(context: Context, attrs: AttributeSet) : SnackbarFabBeha
                                     target: View,
                                     type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
-        handler.postDelayed({ child.show() }, 500L)
+        handler.postDelayed({ child.showAnimated() }, 500L)
     }
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout,
@@ -30,7 +32,7 @@ class FabScrollBehavior(context: Context, attrs: AttributeSet) : SnackbarFabBeha
                                 type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
         if (dyConsumed == 0) return
-        child.hide()
+        child.hideAnimated()
     }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,

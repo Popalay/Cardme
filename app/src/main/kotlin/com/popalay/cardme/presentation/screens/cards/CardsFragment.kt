@@ -14,6 +14,8 @@ import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.utils.DialogFactory
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
@@ -58,12 +60,12 @@ class CardsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        b.buttonAdd.show()
+        b.buttonAdd.showAnimated()
     }
 
     override fun onPause() {
         super.onPause()
-        b.buttonAdd.hide()
+        b.buttonAdd.hideAnimated()
     }
 
     fun createCardDetailsTransition(activityIntent: Intent): Bundle {
