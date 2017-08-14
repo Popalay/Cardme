@@ -14,9 +14,8 @@ import javax.inject.Singleton
 class HolderRepository @Inject constructor() {
 
     fun addCard(holderName: String, card: Card): Completable = RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.NUMBER, card.number)
-                .findAll().deleteAllFromRealm()
-
+        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findAll().deleteAllFromRealm()
+    }.andThen(RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
                 .findFirst() ?: it.createObject(Holder::class.java, holderName)
         card.holder = holder
@@ -24,7 +23,7 @@ class HolderRepository @Inject constructor() {
         if (!holder.cards.contains(realmCard)) holder.cards.add(realmCard)
 
         updateTrashFlag(it)
-    }
+    })
 
     fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
