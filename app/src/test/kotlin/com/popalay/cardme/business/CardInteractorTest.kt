@@ -52,15 +52,15 @@ class CardInteractorTest {
     }
 
     @Test fun validateCard_Success() {
-        val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
+        val cardNumber = "8876437654376548"
 
-        whenever(cardRepository.cardIsNew(card)).thenReturn(Single.just(true))
+        whenever(cardRepository.cardIsNew(cardNumber)).thenReturn(Single.just(true))
 
-        val testObserver = cardInteractor.checkCardExist(card).test()
+        val testObserver = cardInteractor.checkCardExist(cardNumber).test()
 
         testObserver.awaitTerminalEvent()
 
-        verify(cardRepository).cardIsNew(card)
+        verify(cardRepository).cardIsNew(cardNumber)
 
         testObserver
                 .assertNoErrors()
@@ -68,15 +68,15 @@ class CardInteractorTest {
     }
 
     @Test fun validateCard_Failed() {
-        val card = Card(number = "8876437654376548", redactedNumber = "**** **** **** 6548")
+        val cardNumber = "8876437654376548"
 
-        whenever(cardRepository.cardIsNew(card)).thenReturn(Single.just(false))
+        whenever(cardRepository.cardIsNew(cardNumber)).thenReturn(Single.just(false))
 
-        val testObserver = cardInteractor.checkCardExist(card).test()
+        val testObserver = cardInteractor.checkCardExist(cardNumber).test()
 
         testObserver.awaitTerminalEvent()
 
-        verify(cardRepository).cardIsNew(card)
+        verify(cardRepository).cardIsNew(cardNumber)
 
         testObserver
                 .assertError(AppException::class.java)
