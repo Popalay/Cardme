@@ -31,6 +31,7 @@ class CardDetailsViewModel @Inject constructor(
     val shareCardClick: PublishRelay<Boolean> = PublishRelay.create()
     val shareNfcCardClick: PublishRelay<Boolean> = PublishRelay.create()
     val editCardClick: PublishRelay<Boolean> = PublishRelay.create()
+    val removeCardClick: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
         cardInteractor.get(cardNumber)
@@ -48,6 +49,15 @@ class CardDetailsViewModel @Inject constructor(
         editCardClick
                 .applyThrottling()
                 .doOnNext { router.navigateTo(SCREEN_ADD_CARD, card.get()) }
+                .subscribeBy(this::handleBaseError)
+                .addTo(disposables)
+
+        removeCardClick
+                .applyThrottling()
+                .map { card.get() }
+                .flatMapSingle { cardInteractor.markAsTrash(it).toSingle { true } }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

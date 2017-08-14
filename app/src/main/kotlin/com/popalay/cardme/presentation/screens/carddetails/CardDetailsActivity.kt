@@ -62,16 +62,18 @@ class CardDetailsActivity : BaseActivity() {
     override fun onBackPressed() = exitWithAnimation()
 
     private fun exitWithAnimation() {
-        b.buttonEdit.hideAnimated()
-        b.buttonNfc.hideAnimated(DURATION_SHORT / 2)
+        b.buttonRemove.hideAnimated()
+        b.buttonEdit.hideAnimated(DURATION_SHORT / 3)
+        b.buttonNfc.hideAnimated(2 * DURATION_SHORT / 3)
         b.buttonShare.hideAnimated(DURATION_SHORT) { supportFinishAfterTransition() }
     }
 
     private fun initUi() {
         window.sharedElementEnterTransition.onEnd {
             b.buttonShare.showAnimated()
-            b.buttonNfc.showAnimated(DURATION_SHORT / 2)
-            b.buttonEdit.showAnimated(DURATION_SHORT)
+            b.buttonNfc.showAnimated(DURATION_SHORT / 3)
+            b.buttonEdit.showAnimated(2 * DURATION_SHORT / 3)
+            b.buttonRemove.showAnimated(DURATION_SHORT)
         }
 
         viewModelFacade.onShareCard()

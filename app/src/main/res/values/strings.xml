@@ -43,6 +43,7 @@
     <string name="share">Share</string>
     <string name="share_using_nfc">Share using NFC</string>
     <string name="edit">Edit</string>
+    <string name="add_to_trash">Add to trash</string>
 
     <!-- formats -->
     <string name="format_holder_number">%s\'s card</string>
@@ -67,9 +68,5 @@
 
     <!-- errors -->
     <string name="error_card_exist">The card is already exist. Do you want to overwrite?</string>
-
-    <!-- transition shared elements -->
-    <string name="transition_add_debt" translatable="false">transition_add_debt</string>
-    <string name="transition_card_details" translatable="false">transition_card_details</string>
 
 </resources>

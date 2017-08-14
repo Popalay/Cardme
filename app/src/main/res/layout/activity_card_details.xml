@@ -99,7 +99,6 @@
             android:scaleY="0"
             android:src="@drawable/ic_share"
             app:layout_constraintEnd_toStartOf="@+id/button_nfc"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_view"
             bind:onClick="@{vm.shareCardClick}"
@@ -115,7 +114,6 @@
             android:scaleY="0"
             android:src="@drawable/ic_nfc"
             app:layout_constraintEnd_toStartOf="@+id/button_edit"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button_share"
             app:layout_constraintTop_toTopOf="@id/button_share"
             bind:onClick="@{vm.shareNfcCardClick}"
@@ -130,11 +128,25 @@
             android:scaleX="0"
             android:scaleY="0"
             android:src="@drawable/ic_write"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/button_remove"
             app:layout_constraintStart_toEndOf="@+id/button_nfc"
             app:layout_constraintTop_toTopOf="@id/button_share"
             bind:onClick="@{vm.editCardClick}"
+            />
+
+        <ImageButton
+            android:id="@+id/button_remove"
+            style="@style/Cardme.Button.Rounded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add_to_trash"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_edit"
+            app:layout_constraintTop_toTopOf="@id/button_share"
+            bind:onClick="@{vm.removeCardClick}"
             />
 
     </android.support.constraint.ConstraintLayout>
