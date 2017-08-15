@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.repositories.card
 
 import com.github.popalay.rxrealm.RxRealm
+import com.google.gson.Gson
 import com.popalay.cardme.data.models.Card
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -10,7 +11,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CardRepository @Inject constructor() {
+class CardRepository @Inject constructor(
+        private val gson: Gson
+) {
 
     fun get(cardNumber: String): Flowable<Card> = RxRealm.listenElement {
         it.where(Card::class.java).equalTo(Card.NUMBER, cardNumber).findAll()
@@ -48,4 +51,11 @@ class CardRepository @Inject constructor() {
                 .equalTo(Card.IS_TRASH, false)
                 .equalTo(Card.NUMBER, cardNumber).findFirst()
     }.isEmpty
+
+    fun prepareForSharing(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
+
+    fun getFromJson(source: String): Single<Card> = Single.fromCallable {
+        gson.fromJson<Card>(source, Card::class.java)
+    }
+
 }

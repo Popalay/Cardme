@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="nfc_path_prefix">/popalay.com:cardme</string>
+
     <string name="fab_hide_behavior">com.popalay.cardme.utils.behaviors.FabScrollBehavior</string>
     <string name="fab_snackbar_behavior">com.popalay.cardme.utils.behaviors.SnackbarFabBehavior</string>
 

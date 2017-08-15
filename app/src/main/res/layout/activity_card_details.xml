@@ -113,6 +113,7 @@
             android:scaleX="0"
             android:scaleY="0"
             android:src="@drawable/ic_nfc"
+            android:visibility="@{vm.enableShareNfc}"
             app:layout_constraintEnd_toStartOf="@+id/button_edit"
             app:layout_constraintStart_toEndOf="@+id/button_share"
             app:layout_constraintTop_toTopOf="@id/button_share"

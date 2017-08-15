@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.nfc.NdefMessage
+import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
@@ -38,6 +40,7 @@ import ru.terrakok.cicerone.commands.Forward
 import shortbread.Shortcut
 import javax.inject.Inject
 
+
 class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject lateinit var factory: ViewModelProvider.Factory
@@ -46,6 +49,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
     private lateinit var b: ActivityHomeBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var viewModelFacade: HomeViewModelFacade
 
     override var navigator = object : CustomNavigator(this, R.id.host) {
 
@@ -99,8 +103,30 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
-        b.vm = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
+        ViewModelProviders.of(this, factory).get(HomeViewModel::class.java).let {
+            b.vm = it
+            viewModelFacade = it
+        }
         initUI()
+    }
+
+    public override fun onNewIntent(intent: Intent) {
+        setIntent(intent)
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
+            processIntent(intent)
+        }
+    }
+
+    fun processIntent(intent: Intent) {
+        val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+        val msg = rawMsgs [0] as NdefMessage
+        val bytes = msg.records[0].payload
+        viewModelFacade.onNfcMessageRead(bytes)
+        getIntent().action = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -159,7 +185,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_CARD)
     }
 
-    //@Shortcut(id = "SHORTCUT_ADD_DEBT", icon = R.drawable.ic_shortcut_debts, rank = 1, shortLabelRes = R.string.shortcut_add_debt)
+    @Shortcut(id = "SHORTCUT_ADD_DEBT", icon = R.drawable.ic_shortcut_debts, rank = 1, shortLabelRes = R.string.shortcut_add_debt)
     fun addDebtShortcut() {
         shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_DEBT)
     }

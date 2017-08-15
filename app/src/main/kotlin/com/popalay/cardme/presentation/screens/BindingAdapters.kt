@@ -30,6 +30,10 @@ fun ImageView.setImageResource(resource: Int) {
     this.setImageResource(resource)
 }
 
+@BindingAdapter("android:visibility")
+fun View.setVisibility(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
+}
 
 @BindingAdapter("hasFixedSize")
 fun RecyclerView.setHasFixedSize(hasFixedSize: Boolean) {

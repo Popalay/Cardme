@@ -86,13 +86,13 @@ android {
 
 ext {
     supportLibrary = '26.0.1'
-    rxJava = '2.1.1'
+    rxJava = '2.1.2'
     rxAndroid = '2.0.1'
     rxKotlin = '2.1.0'
     playServices = '11.0.4'
     dagger = '2.11'
     archComponents = '1.0.0-alpha8'
-    leakCanary = '1.5.2'
+    leakCanary = '1.5.1'
     cicerone = '2.0.0'
 }
 
@@ -139,11 +139,12 @@ dependencies {
 
     // Utils
     implementation 'io.card:android-sdk:5.5.1'
+    implementation 'com.google.code.gson:gson:2.8.1'
 
     // Adapter
     implementation 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
 
-    implementation 'com.facebook.stetho:stetho:1.4.2'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.uphyca:stetho_realm:2.0.0'
     implementation 'com.annimon:stream:1.1.8'
     implementation 'com.github.tamir7.contacts:contacts:1.1.4'

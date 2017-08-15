@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.repositories.device
 
 import android.content.Context
+import android.content.pm.PackageManager
 import com.github.tamir7.contacts.Contact
 import com.github.tamir7.contacts.Contacts
 import com.popalay.cardme.utils.PermissionChecker
@@ -13,6 +14,8 @@ import javax.inject.Singleton
 class DeviceRepository @Inject constructor(
         private val context: Context
 ) {
+
+    fun supportNfc() = context.packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
 
     fun getContacts(): List<Contact?> = Contacts.getQuery().find()
 

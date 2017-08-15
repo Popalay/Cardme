@@ -61,6 +61,12 @@ class CardInteractor @Inject constructor(
             .toCompletable()
             .subscribeOn(Schedulers.io())
 
+    fun prepareForSharing(card: Card): Single<String> = cardRepository.prepareForSharing(card)
+            .subscribeOn(Schedulers.io())
+
+    fun getFromJson(source: String): Single<Card> = cardRepository.getFromJson(source)
+            .subscribeOn(Schedulers.io())
+
     private fun createCardExistError(): Throwable =
             ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST,
                     R.string.error_card_exist)

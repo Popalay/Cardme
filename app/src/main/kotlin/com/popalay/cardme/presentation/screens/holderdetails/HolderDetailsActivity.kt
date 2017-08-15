@@ -13,7 +13,7 @@ import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.extensions.onItemTouch
-import com.popalay.cardme.utils.extensions.shareText
+import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -58,7 +58,7 @@ class HolderDetailsActivity : RightSlidingActivity() {
         setSupportActionBar(b.toolbar)
 
         viewModelFacade.doOnShareCard()
-                .subscribe { shareText(R.string.share_card, it) }
+                .subscribe { openShareChooser(R.string.share_card, it) }
                 .addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.create {

@@ -12,20 +12,23 @@ import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 import javax.inject.Named
 
+
 class CardDetailsViewModel @Inject constructor(
         private val router: CustomRouter,
+        private val cardInteractor: CardInteractor,
         @Named(CardDetailsActivity.KEY_CARD_NUMBER) cardNumber: String,
-        cardInteractor: CardInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), CardDetailsViewModelFacade {
 
     val showImage = ObservableBoolean()
+    val enableShareNfc = ObservableBoolean()
     val card = ObservableField<Card>()
 
     val shareCardClick: PublishRelay<Boolean> = PublishRelay.create()
@@ -43,6 +46,12 @@ class CardDetailsViewModel @Inject constructor(
         settingsInteractor.listenShowCardsBackground()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(showImage)
+                .subscribeBy(this::handleBaseError)
+                .addTo(disposables)
+
+        settingsInteractor.enableNfcFeatures()
+                .observeOn(AndroidSchedulers.mainThread())
+                .setTo(enableShareNfc)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
@@ -66,9 +75,18 @@ class CardDetailsViewModel @Inject constructor(
             .applyThrottling()
             .map { card.get().number }
 
+    override fun onShareCardUsingNfc(): Observable<String> = shareNfcCardClick
+            .applyThrottling()
+            .filter { enableShareNfc.get() }
+            .flatMapSingle { cardInteractor.prepareForSharing(card.get()) }
+
+    override fun getCardShareNfcObject() = cardInteractor.prepareForSharing(card.get())
+
 }
 
 interface CardDetailsViewModelFacade {
 
     fun onShareCard(): Observable<String>
+    fun onShareCardUsingNfc(): Observable<String>
+    fun getCardShareNfcObject(): Single<String>
 }

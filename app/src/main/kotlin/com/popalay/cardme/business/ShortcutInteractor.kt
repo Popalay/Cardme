@@ -27,13 +27,10 @@ class ShortcutInteractor @Inject constructor(
         appliedShortcut = shortcut
         when (shortcut) {
             Shortcut.ADD_CARD -> {
-                router.newRootScreen(SCREEN_CARDS)
                 router.navigateToForResult(SCREEN_SCAN_CARD, CardsFragment.SCAN_REQUEST_CODE)
+                router.newRootScreen(SCREEN_CARDS)
             }
-            Shortcut.ADD_DEBT -> {
-                router.newRootScreen(SCREEN_DEBTS)
-                router.navigateTo(SCREEN_ADD_DEBT)
-            }
+            Shortcut.ADD_DEBT -> router.navigateTo(SCREEN_ADD_DEBT)
             Shortcut.DEBTS -> router.newRootScreen(SCREEN_DEBTS)
             else -> {
             }

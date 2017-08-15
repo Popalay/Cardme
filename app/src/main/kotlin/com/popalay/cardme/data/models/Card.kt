@@ -3,22 +3,22 @@ package com.popalay.cardme.data.models
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
 import com.github.nitrico.lastadapter.StableId
+import com.google.gson.annotations.Expose
 import com.popalay.cardme.R
-import com.popalay.cardme.utils.extensions.ifTrue
 import io.card.payment.CreditCard
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 
 open class Card(
-        @PrimaryKey var number: String = "",
-        var title: String = "",
-        var redactedNumber: String = "",
-        @field:CardType var cardType: Long = 0L,
-        var generatedBackgroundSeed: Long = System.nanoTime(),
-        var position: Int = 0,
-        var isTrash: Boolean = false,
-        var holder: Holder = Holder()
+        @Expose @PrimaryKey var number: String = "",
+        @Expose var title: String = "",
+        @Expose var redactedNumber: String = "",
+        @Expose @field:CardType var cardType: Long = 0L,
+        @Expose var generatedBackgroundSeed: Long = System.nanoTime(),
+        @Expose var position: Int = 0,
+        @Expose var isTrash: Boolean = false,
+        @Expose var holder: Holder = Holder()
 ) : RealmObject(), StableId {
 
     companion object {
@@ -55,6 +55,17 @@ open class Card(
                 io.card.payment.CardType.JCB -> CARD_TYPE_JCB
                 else -> CARD_TYPE_UNKNOWN
             }
+    )
+
+    constructor(card: Card) : this(
+            card.number,
+            card.title,
+            card.redactedNumber,
+            card.cardType,
+            card.generatedBackgroundSeed,
+            card.position,
+            card.isTrash,
+            Holder(name = card.holder.name)
     )
 
     @DrawableRes fun getIconRes() = when (cardType) {

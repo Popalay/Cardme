@@ -1,13 +1,14 @@
 package com.popalay.cardme.data.models
 
 import com.github.nitrico.lastadapter.StableId
+import com.google.gson.annotations.Expose
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 open class Holder(
-        @PrimaryKey var name: String = "",
-        var isTrash: Boolean = false,
+        @Expose @PrimaryKey var name: String = "",
+        @Expose var isTrash: Boolean = false,
         var cards: RealmList<Card> = RealmList(),
         var debts: RealmList<Debt> = RealmList()
 ) : RealmObject(), StableId {

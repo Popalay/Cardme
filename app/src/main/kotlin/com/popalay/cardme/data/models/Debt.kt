@@ -1,16 +1,17 @@
 package com.popalay.cardme.data.models
 
 import com.github.nitrico.lastadapter.StableId
+import com.google.gson.annotations.Expose
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
 open class Debt(
-        @PrimaryKey var id: String = UUID.randomUUID().toString(),
-        var message: String = "",
-        var createdAt: Long = System.currentTimeMillis(),
-        var isTrash: Boolean = false,
-        var holder: Holder = Holder()
+        @Expose @PrimaryKey var id: String = UUID.randomUUID().toString(),
+        @Expose var message: String = "",
+        @Expose var createdAt: Long = System.currentTimeMillis(),
+        @Expose var isTrash: Boolean = false,
+        @Expose var holder: Holder = Holder()
 ) : RealmObject(), StableId {
 
     companion object {

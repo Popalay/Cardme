@@ -1,6 +1,8 @@
 package com.popalay.cardme.injection
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.popalay.cardme.App
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import dagger.Module
@@ -25,5 +27,11 @@ class AppModule {
     @Provides
     @Singleton
     fun provideNavigatorHolder(): NavigatorHolder = cicerone.navigatorHolder
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create()
 
 }
