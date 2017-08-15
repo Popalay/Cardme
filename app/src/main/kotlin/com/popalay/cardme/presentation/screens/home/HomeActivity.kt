@@ -1,13 +1,16 @@
 package com.popalay.cardme.presentation.screens.home
 
+import android.app.PendingIntent
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
+import android.nfc.tech.NfcF
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
@@ -51,6 +54,19 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var viewModelFacade: HomeViewModelFacade
 
+    private var adapter: NfcAdapter? = null
+    private var pendingIntent: PendingIntent? = null
+    private var filters: Array<IntentFilter>? = null
+    private var techLists: Array<Array<String>>? = null
+
+    companion object {
+
+        private val MENU_SETTINGS = Menu.FIRST
+
+        fun getIntent(context: Context) = Intent(context, HomeActivity::class.java)
+
+    }
+
     override var navigator = object : CustomNavigator(this, R.id.host) {
 
         override fun createFragment(screenKey: String, data: Any?) = when (screenKey) {
@@ -92,14 +108,6 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         }
     }
 
-    companion object {
-
-        private val MENU_SETTINGS = Menu.FIRST
-
-        fun getIntent(context: Context) = Intent(context, HomeActivity::class.java)
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
@@ -107,26 +115,27 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             b.vm = it
             viewModelFacade = it
         }
+        initNfcListening()
         initUI()
     }
 
-    public override fun onNewIntent(intent: Intent) {
-        setIntent(intent)
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        toggle.syncState()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        processIntent(intent)
     }
 
     public override fun onResume() {
         super.onResume()
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
-            processIntent(intent)
-        }
+        adapter?.enableForegroundDispatch(this, pendingIntent, filters, techLists)
     }
 
-    fun processIntent(intent: Intent) {
-        val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-        val msg = rawMsgs [0] as NdefMessage
-        val bytes = msg.records[0].payload
-        viewModelFacade.onNfcMessageRead(bytes)
-        getIntent().action = null
+    override fun onPause() {
+        super.onPause()
+        adapter?.disableForegroundDispatch(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -134,11 +143,6 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         if (requestCode == CardsFragment.SCAN_REQUEST_CODE) {
             findFragmentByType<CardsFragment>()?.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        toggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -179,13 +183,37 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         b.drawerLayout.addDrawerListener(toggle)
     }
 
+    private fun initNfcListening() {
+        adapter = NfcAdapter.getDefaultAdapter(this)
+
+        pendingIntent = PendingIntent.getActivity(this, 0,
+                Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        or Intent.FLAG_ACTIVITY_CLEAR_TOP), 0)
+        val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
+        try {
+            ndef.addDataType("application/" + packageName)
+        } catch (e: IntentFilter.MalformedMimeTypeException) {
+            throw RuntimeException("fail", e)
+        }
+        filters = arrayOf(ndef)
+        techLists = arrayOf((arrayOf<String>(NfcF::class.java.name)))
+    }
+
+    private fun processIntent(intent: Intent) {
+        val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+        val msg = rawMsgs [0] as NdefMessage
+        val bytes = msg.records[0].payload
+        viewModelFacade.onNfcMessageRead(bytes)
+        getIntent().action = null
+    }
+
     // Shortcuts
     @Shortcut(id = "SHORTCUT_ADD_CARD", icon = R.drawable.ic_shortcut_add_card, rank = 0, shortLabelRes = R.string.shortcut_add_card)
     fun addCardShortcut() {
         shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_CARD)
     }
 
-    @Shortcut(id = "SHORTCUT_ADD_DEBT", icon = R.drawable.ic_shortcut_debts, rank = 1, shortLabelRes = R.string.shortcut_add_debt)
+    //@Shortcut(id = "SHORTCUT_ADD_DEBT", icon = R.drawable.ic_shortcut_debts, rank = 1, shortLabelRes = R.string.shortcut_add_debt)
     fun addDebtShortcut() {
         shortcutInteractor.applyShortcut(ShortcutInteractor.Shortcut.ADD_DEBT)
     }

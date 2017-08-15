@@ -23,7 +23,8 @@ class SettingsRepository @Inject internal constructor(private val context: Conte
 
     fun createDefault() = Settings(
             theme = "Default",
-            language = Locale.getDefault().displayLanguage,
+            language = "English",
+            //language = Locale.getDefault().displayLanguage,
             isCardBackground = true
     )
 }

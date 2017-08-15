@@ -228,4 +228,37 @@ class CardInteractorTest {
                 .assertNoErrors()
                 .assertComplete()
     }
+
+    @Test fun prepareForSharing_Success() {
+        val card = Card()
+
+        whenever(cardRepository.prepareForSharing(card)).thenReturn(Single.just("card.json"))
+
+        val testObserver = cardInteractor.prepareForSharing(card).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).prepareForSharing(card)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
+
+    @Test fun getFromJson_Success() {
+        val card = Card()
+        val cardJson = "card.json"
+
+        whenever(cardRepository.getFromJson(cardJson)).thenReturn(Single.just(card))
+
+        val testObserver = cardInteractor.getFromJson(cardJson).test()
+
+        testObserver.awaitTerminalEvent()
+
+        verify(cardRepository).getFromJson(cardJson)
+
+        testObserver
+                .assertNoErrors()
+                .assertComplete()
+    }
 }
