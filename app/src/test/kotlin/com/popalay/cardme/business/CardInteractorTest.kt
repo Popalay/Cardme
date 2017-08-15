@@ -156,8 +156,8 @@ class CardInteractorTest {
 
 
     @Test fun updateCards_Success() {
-        val cards = (1..5).map { Card(position = it * 3) }.toMutableList()
-        val cardsRePositioned = (1..5).map { Card(position = it - 1) }.toMutableList()
+        val cards = (1..5).map { Card(position = it * 3, generatedBackgroundSeed = 1L) }.toMutableList()
+        val cardsRePositioned = (1..5).map { Card(position = it - 1, generatedBackgroundSeed = 1L) }.toMutableList()
 
         whenever(cardRepository.update(cards)).thenReturn(Completable.complete())
 
