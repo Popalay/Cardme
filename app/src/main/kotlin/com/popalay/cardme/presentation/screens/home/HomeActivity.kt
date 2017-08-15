@@ -183,12 +183,11 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         b.drawerLayout.addDrawerListener(toggle)
     }
 
+    //TODO create specific class
     private fun initNfcListening() {
         adapter = NfcAdapter.getDefaultAdapter(this)
-
-        pendingIntent = PendingIntent.getActivity(this, 0,
-                Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        or Intent.FLAG_ACTIVITY_CLEAR_TOP), 0)
+        pendingIntent = PendingIntent.getActivity(this, 0, Intent(this, javaClass)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP), 0)
         val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
         try {
             ndef.addDataType("application/" + packageName)
