@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
+apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'realm-android'
 apply from: "$project.rootDir/tools/script-git-version.gradle"
 
@@ -161,6 +162,7 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-core:$playServices"
+    implementation "com.google.firebase:firebase-perf:$playServices"
     implementation "com.google.firebase:firebase-crash:$playServices"
 
     // Proguard rules

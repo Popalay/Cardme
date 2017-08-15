@@ -28,7 +28,7 @@ object PatternBackgroundUtils {
     }
 
     @DrawableRes private fun getRandomBackground(random: Int): Int {
-        val backgrounds = intArrayOf(R.drawable.bg_card_purple, R.drawable.bg_card_green, R.drawable.bg_card_red, R.drawable.bg_card_grey)
+        val backgrounds = intArrayOf(R.drawable.bg_card_purple, R.drawable.bg_card_green, R.drawable.bg_card_red, R.drawable.bg_card_blue)
         return backgrounds[random % backgrounds.size]
     }
 }
