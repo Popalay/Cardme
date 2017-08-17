@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#354D60</color>
+    <color name="primary">#3B5763</color>
     <color name="primary_dark">@color/primary</color>
-    <color name="navigation_bar">#202D3A</color>
-    <color name="accent">#3CCAAA</color>
+    <color name="navigation_bar">#274653</color>
+    <color name="accent">#1CB489</color>
     <color name="primary_text">@color/dark_grey</color>
     <color name="primary_text_invert">@color/white</color>
     <color name="secondary_text">@color/grey</color>
 
     <color name="window_background">@color/light_grey</color>
-    <color name="dialog_background">@color/white</color>
     <color name="list_divider">@color/light_grey</color>
+    <color name="dialog_background">@color/white</color>
     <color name="scrim">#E6202D3A</color>
 
     <color name="error">@color/deep_red</color>
-    <color name="success">#64C893</color>
+    <color name="success">@color/accent</color>
     <color name="disabled">@color/grey</color>
 
     <color name="white">#FFF</color>
