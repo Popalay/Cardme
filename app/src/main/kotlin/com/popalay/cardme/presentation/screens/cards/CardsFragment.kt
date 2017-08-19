@@ -1,9 +1,7 @@
 package com.popalay.cardme.presentation.screens.cards
 
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
@@ -14,6 +12,8 @@ import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
 import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.utils.DialogFactory
+import com.popalay.cardme.utils.extensions.getDataBinding
+import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
 import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
@@ -24,26 +24,21 @@ import javax.inject.Inject
 
 class CardsFragment : BaseFragment() {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
-
-    private lateinit var b: FragmentCardsBinding
-    private lateinit var viewModelFacade: CardsViewModelFacade
-
     companion object {
-
         const val SCAN_REQUEST_CODE = 121
-
         fun newInstance() = CardsFragment()
     }
+
+    @Inject lateinit var factory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFacade: CardsViewModelFacade
+
+    private lateinit var b: FragmentCardsBinding
 
     override fun onCreateView(inflater: LayoutInflater?,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        b = DataBindingUtil.inflate(inflater, R.layout.fragment_cards, container, false)
-        ViewModelProviders.of(this, factory).get(CardsViewModel::class.java).let {
-            b.vm = it
-            viewModelFacade = it
-        }
+        b = getDataBinding(inflater, R.layout.fragment_cards, container)
+        b.vm = getViewModel<CardsViewModel>(factory)
         initUI()
         return b.root
     }

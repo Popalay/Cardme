@@ -1,11 +1,16 @@
 package com.popalay.cardme.utils.extensions
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
+import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
@@ -13,7 +18,10 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.ShareCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.popalay.cardme.R
+import com.popalay.cardme.presentation.base.BaseViewModel
 
 
 fun FragmentActivity.currentFragment() = supportFragmentManager.fragments?.filter { it.isVisible }?.firstOrNull()
@@ -60,6 +68,23 @@ fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String) {
         }
     }
 }
+
+fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
+): T = DataBindingUtil.setContentView<T>(this, layoutId)
+
+fun <T : ViewDataBinding> Fragment.getDataBinding(
+        inflater: LayoutInflater?,
+        @LayoutRes layoutId: Int,
+        container: ViewGroup?
+): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
+
+inline fun <reified T : BaseViewModel> FragmentActivity.getViewModel(
+        factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
+): T = ViewModelProviders.of(this, factory).get(T::class.java)
+
+inline fun <reified T : BaseViewModel> Fragment.getViewModel(
+        factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(activity.application)
+): T = ViewModelProviders.of(this, factory).get(T::class.java)
 
 fun Context.createNdefMessage(byteArray: ByteArray): NdefMessage {
     return NdefMessage(arrayOf(NdefRecord.createMime("application/" + packageName, byteArray),

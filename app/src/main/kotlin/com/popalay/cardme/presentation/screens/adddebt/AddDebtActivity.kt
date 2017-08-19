@@ -1,46 +1,39 @@
 package com.popalay.cardme.presentation.screens.adddebt
 
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityAddDebtBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
-import com.popalay.cardme.utils.extensions.hideAnimated
-import com.popalay.cardme.utils.extensions.onEnd
-import com.popalay.cardme.utils.extensions.showAnimated
+import com.popalay.cardme.utils.extensions.*
 import com.popalay.cardme.utils.transitions.FabTransform
 import javax.inject.Inject
 
 
 class AddDebtActivity : BaseActivity() {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
-
-    private lateinit var b: ActivityAddDebtBinding
-
-    override var navigator = object : CustomNavigator(this) {
-        override fun exit() = this@AddDebtActivity.exitWithAnimation()
-    }
-
     companion object {
         fun getIntent(context: Context) = Intent(context, AddDebtActivity::class.java)
     }
 
+    @Inject lateinit var factory: ViewModelProvider.Factory
+    @Inject override lateinit var navigator: CustomNavigator
+
+    private lateinit var b: ActivityAddDebtBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = DataBindingUtil.setContentView<ActivityAddDebtBinding>(this, R.layout.activity_add_debt)
-        b.vm = ViewModelProviders.of(this, factory).get(AddDebtViewModel::class.java)
+        b = getDataBinding(R.layout.activity_add_debt)
+        b.vm = getViewModel<AddDebtViewModel>(factory)
         initUi()
     }
 
     override fun onBackPressed() = exitWithAnimation()
 
-    private fun exitWithAnimation() {
+    fun exitWithAnimation() {
         b.buttonSave.hideAnimated { supportFinishAfterTransition() }
     }
 

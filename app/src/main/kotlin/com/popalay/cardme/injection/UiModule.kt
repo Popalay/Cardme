@@ -24,30 +24,38 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class UiModule {
 
-    @ContributesAndroidInjector()
-    abstract fun contributeSplashActivity(): SplashActivity
-
     @Binds
     abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
+    @PerActivity
+    @ContributesAndroidInjector()
+    abstract fun contributeSplashActivity(): SplashActivity
+
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(AddCardModule::class))
     abstract fun contributeAddCardActivity(): AddCardActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(HomeModule::class))
     abstract fun contributeHomeActivity(): HomeActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(HolderDetailsModule::class))
     abstract fun contributeHolderDetailsActivity(): HolderDetailsActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(SettingsModule::class))
     abstract fun contributeSettingsActivity(): SettingsActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(AddDebtModule::class))
     abstract fun contributeAddDebtActivity(): AddDebtActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(TrashModule::class))
     abstract fun contributeTrashActivity(): TrashActivity
 
+    @PerActivity
     @ContributesAndroidInjector(modules = arrayOf(CardDetailsModule::class))
     abstract fun contributeCardDetailsActivity(): CardDetailsActivity
 

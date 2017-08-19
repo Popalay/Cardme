@@ -13,7 +13,7 @@ import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 
 open class CustomNavigator(
-        val activity: BaseActivity,
+        private val activity: BaseActivity,
         containerId: Int = 0
 ) : SupportAppNavigator(activity, containerId) {
 

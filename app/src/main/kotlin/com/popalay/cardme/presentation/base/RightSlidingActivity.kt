@@ -21,9 +21,9 @@ import kotlin.properties.Delegates
 abstract class RightSlidingActivity : BaseActivity() {
 
     companion object {
-        private val GESTURE_THRESHOLD = 10
-        private val ANIMATION_DURATION = 200L
-        private val SWIPE_START_PART = 3
+        private const val GESTURE_THRESHOLD = 10
+        private const val ANIMATION_DURATION = 200L
+        private const val SWIPE_START_PART = 3
     }
 
     private var startX = 0F

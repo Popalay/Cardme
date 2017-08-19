@@ -30,8 +30,7 @@ class CardRepository @Inject constructor(
     fun getAllTrashed(): Flowable<List<Card>> = RxRealm.listenList {
         it.where(Card::class.java)
                 .equalTo(Card.IS_TRASH, true)
-                .findAllSorted(Card.HOLDER_NAME, Sort.ASCENDING)
-                .sort(Card.POSITION)
+                .findAllSorted(Card.POSITION, Sort.ASCENDING, Card.HOLDER_NAME, Sort.ASCENDING)
     }
 
     fun markAsTrash(card: Card): Completable = RxRealm.doTransactional {

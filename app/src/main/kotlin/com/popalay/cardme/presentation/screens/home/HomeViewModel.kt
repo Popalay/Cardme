@@ -64,10 +64,13 @@ class HomeViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }
+
+    override fun onSettingClick() = settingClick.accept(true)
 }
 
 interface HomeViewModelFacade {
 
     fun onNfcMessageRead(message: ByteArray)
+    fun onSettingClick()
 
 }

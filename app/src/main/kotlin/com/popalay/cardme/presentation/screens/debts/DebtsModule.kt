@@ -1,6 +1,7 @@
 package com.popalay.cardme.presentation.screens.debts
 
 import android.arch.lifecycle.ViewModel
+import com.popalay.cardme.injection.PerFragment
 import com.popalay.cardme.injection.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -11,6 +12,8 @@ abstract class DebtsModule {
 
     @Binds
     @IntoMap
+    @PerFragment
     @ViewModelKey(DebtsViewModel::class)
     abstract fun bindsDebtsViewModel(viewModel: DebtsViewModel): ViewModel
+
 }

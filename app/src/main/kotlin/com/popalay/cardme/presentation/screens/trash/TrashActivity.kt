@@ -1,10 +1,8 @@
 package com.popalay.cardme.presentation.screens.trash
 
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +11,8 @@ import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
+import com.popalay.cardme.utils.extensions.getDataBinding
+import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.onItemTouch
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import javax.inject.Inject
@@ -31,8 +31,8 @@ class TrashActivity : RightSlidingActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = DataBindingUtil.setContentView<ActivityTrashBinding>(this, R.layout.activity_trash)
-        b.vm = ViewModelProviders.of(this, factory).get(TrashViewModel::class.java)
+        b = getDataBinding<ActivityTrashBinding>(R.layout.activity_trash)
+        b.vm = getViewModel<TrashViewModel>(factory)
         initUI()
     }
 

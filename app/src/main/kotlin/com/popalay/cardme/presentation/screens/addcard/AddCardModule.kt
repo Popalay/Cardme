@@ -1,6 +1,7 @@
 package com.popalay.cardme.presentation.screens.addcard
 
 import android.arch.lifecycle.ViewModel
+import com.popalay.cardme.injection.PerActivity
 import com.popalay.cardme.injection.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -13,6 +14,7 @@ abstract class AddCardModule {
 
     @Binds
     @IntoMap
+    @PerActivity
     @ViewModelKey(AddCardViewModel::class)
     abstract fun bindsAddCardViewModel(addCardViewModel: AddCardViewModel): ViewModel
 
@@ -20,11 +22,17 @@ abstract class AddCardModule {
     companion object {
 
         @Provides
+        @PerActivity
+        @JvmStatic fun provideViewModelFacade(viewModel: AddCardViewModel): AddCardViewModelFacade = viewModel
+
+        @Provides
+        @PerActivity
         @Named(AddCardActivity.KEY_CARD_NUMBER)
         @JvmStatic fun provideCardNumber(activity: AddCardActivity): String =
                 activity.intent.getStringExtra(AddCardActivity.KEY_CARD_NUMBER)
 
         @Provides
+        @PerActivity
         @Named(AddCardActivity.KEY_FORMATTED_CARD_NUMBER)
         @JvmStatic fun provideFormattedCardNumber(activity: AddCardActivity): String =
                 activity.intent.getStringExtra(AddCardActivity.KEY_FORMATTED_CARD_NUMBER)

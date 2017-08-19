@@ -28,7 +28,6 @@ class TrashViewModel @Inject constructor(
 
     init {
         cardInteractor.getAllTrashed()
-                .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)
                 .subscribeBy()
