@@ -1,25 +1,13 @@
 package com.popalay.cardme.utils.behaviors
 
 import android.content.Context
-import android.os.Handler
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 
-class FabScrollBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior(context, attrs) {
-
-    private val handler: Handler by lazy { Handler() }
-
-    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout,
-                                    child: FloatingActionButton,
-                                    target: View,
-                                    type: Int) {
-        super.onStopNestedScroll(coordinatorLayout, child, target, type)
-        show(child)
-    }
+class FabScrollBehavior(context: Context, attrs: AttributeSet) : SnackbarFabBehavior(context, attrs) {
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout,
                                 child: FloatingActionButton,
@@ -30,8 +18,16 @@ class FabScrollBehavior(context: Context, attrs: AttributeSet) : FloatingActionB
                                 dyUnconsumed: Int,
                                 type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (dyConsumed == 0) return
-        hide(child)
+        if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
+            child.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton) {
+                    super.onHidden(fab)
+                    fab.visibility = View.INVISIBLE
+                }
+            })
+        } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
+            child.show()
+        }
     }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
@@ -40,26 +36,7 @@ class FabScrollBehavior(context: Context, attrs: AttributeSet) : FloatingActionB
                                      target: View,
                                      axes: Int,
                                      type: Int): Boolean {
-        return axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
-    }
-
-    private fun show(child: View) {
-        child.animate()
-                .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(200L)
-                .start()
-    }
-
-    private fun hide(child: View) {
-        child.animate()
-                .alpha(0f)
-                .scaleX(0f)
-                .scaleY(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(200L)
-                .start()
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL ||
+                super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
     }
 }

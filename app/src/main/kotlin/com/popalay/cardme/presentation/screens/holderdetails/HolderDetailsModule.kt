@@ -3,6 +3,8 @@ package com.popalay.cardme.presentation.screens.holderdetails
 import android.arch.lifecycle.ViewModel
 import com.popalay.cardme.injection.PerActivity
 import com.popalay.cardme.injection.ViewModelKey
+import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.presentation.screens.home.HolderDetailsNavigator
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -11,6 +13,10 @@ import javax.inject.Named
 
 @Module
 abstract class HolderDetailsModule {
+
+    @Binds
+    @PerActivity
+    abstract fun bindsNavigator(navigator: HolderDetailsNavigator): CustomNavigator
 
     @Binds
     @IntoMap

@@ -4,18 +4,19 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MotionEvent
 import android.view.View
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.ActivityHolderDetailsBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
+import com.popalay.cardme.presentation.base.navigation.CustomNavigator
+import com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.onItemTouch
-import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
-import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class HolderDetailsActivity : RightSlidingActivity() {
@@ -28,7 +29,7 @@ class HolderDetailsActivity : RightSlidingActivity() {
     }
 
     @Inject lateinit var factory: ViewModelProvider.Factory
-
+    @Inject override lateinit var navigator: CustomNavigator
     @Inject lateinit var viewModelFacade: HolderDetailsViewModelFacade
 
     private lateinit var b: ActivityHolderDetailsBinding
@@ -49,12 +50,18 @@ class HolderDetailsActivity : RightSlidingActivity() {
             || !isCardTouched
             || b.listCards.childCount == 0
 
+    fun createCardDetailsTransition(activityIntent: Intent): Bundle? {
+        val position = viewModelFacade.getPositionOfCard(activityIntent
+                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
+
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                b.listCards.findViewHolderForAdapterPosition(position).itemView,
+                getString(R.string.transition_card_details))
+                .toBundle()
+    }
+
     private fun initUI() {
         setSupportActionBar(b.toolbar)
-
-        viewModelFacade.doOnShareCard()
-                .subscribe { openShareChooser(R.string.share_card, it) }
-                .addTo(disposables)
 
         b.listCards.addItemDecoration(SpacingItemDecoration.create {
             dividerSize = resources.getDimension(R.dimen.normal).toInt()

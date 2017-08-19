@@ -102,9 +102,7 @@
         <item name="android:layout_marginEnd">@dimen/normal</item>
         <item name="android:tint">@color/white</item>
         <item name="rippleColor">?colorPrimary</item>
-<!--
         <item name="layout_behavior">@string/fab_hide_behavior</item>
--->
     </style>
 
     <style name="Cardme.CardNumber">
