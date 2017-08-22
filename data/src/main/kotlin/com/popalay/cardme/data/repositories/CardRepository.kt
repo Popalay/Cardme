@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories.card
+package com.popalay.cardme.data.repositories
 
 import com.github.popalay.rxrealm.RxRealm
 import com.google.gson.Gson

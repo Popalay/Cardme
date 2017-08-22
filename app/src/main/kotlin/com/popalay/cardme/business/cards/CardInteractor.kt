@@ -1,11 +1,11 @@
 package com.popalay.cardme.business.cards
 
 import com.popalay.cardme.R
-import com.popalay.cardme.business.exception.ExceptionFactory
+import com.popalay.cardme.data.ExceptionFactory
 import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.repositories.card.CardRepository
-import com.popalay.cardme.data.repositories.debt.DebtRepository
-import com.popalay.cardme.data.repositories.holder.HolderRepository
+import com.popalay.cardme.data.repositories.CardRepository
+import com.popalay.cardme.data.repositories.DebtRepository
+import com.popalay.cardme.data.repositories.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

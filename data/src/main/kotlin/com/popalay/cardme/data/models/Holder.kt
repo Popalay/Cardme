@@ -1,6 +1,5 @@
 package com.popalay.cardme.data.models
 
-import com.github.nitrico.lastadapter.StableId
 import com.google.gson.annotations.Expose
 import io.realm.RealmList
 import io.realm.RealmObject

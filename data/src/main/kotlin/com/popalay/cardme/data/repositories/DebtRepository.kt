@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories.debt
+package com.popalay.cardme.data.repositories
 
 import com.github.popalay.rxrealm.RxRealm
 import com.popalay.cardme.data.models.Debt
@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DebtRepository @Inject internal constructor() {
+class DebtRepository @Inject constructor() {
 
     fun getAll(): Flowable<List<Debt>> = RxRealm.listenList {
         it.where(Debt::class.java)

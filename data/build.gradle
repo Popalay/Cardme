@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api dataDependencies.rxJava
+    api dataDependencies.rxKotlin
+    implementation dataDependencies.rxRealm
+
+    api dataDependencies.dagger
+    kapt dataDependencies.daggerCompiler
+
+    implementation dataDependencies.gson
+
+    implementation dataDependencies.streamApi
+    implementation dataDependencies.androidPermissionX
+    implementation dataDependencies.contacts
+}

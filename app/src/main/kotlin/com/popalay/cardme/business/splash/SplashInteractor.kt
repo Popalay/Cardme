@@ -1,6 +1,6 @@
 package com.popalay.cardme.business.splash
 
-import com.popalay.cardme.data.repositories.settings.SettingsRepository
+import com.popalay.cardme.data.repositories.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

@@ -1,8 +1,8 @@
 package com.popalay.cardme.business.debts
 
 import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.repositories.debt.DebtRepository
-import com.popalay.cardme.data.repositories.holder.HolderRepository
+import com.popalay.cardme.data.repositories.DebtRepository
+import com.popalay.cardme.data.repositories.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers

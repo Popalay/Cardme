@@ -3,10 +3,11 @@ package com.popalay.cardme.presentation.screens.cards
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.popalay.cardme.business.DataTransformers
 import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.exception.AppException
-import com.popalay.cardme.business.exception.ExceptionFactory
 import com.popalay.cardme.business.settings.SettingsInteractor
+import com.popalay.cardme.data.ExceptionFactory
+import com.popalay.cardme.data.models.AppException
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
@@ -103,7 +104,7 @@ class CardsViewModel @Inject constructor(
     override fun onWantToOverwrite() = navigateToAddCard()
 
     override fun onCardScanned(creditCard: CreditCard) {
-        lastScannedCard = Card(creditCard)
+        lastScannedCard = DataTransformers.transform(creditCard)
         cardInteractor.checkCardExist(lastScannedCard?.number ?: "")
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::navigateToAddCard)

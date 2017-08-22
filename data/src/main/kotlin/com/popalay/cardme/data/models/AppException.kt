@@ -1,6 +1,7 @@
-package com.popalay.cardme.business.exception
+package com.popalay.cardme.data.models
 
 import android.support.annotation.StringRes
+import com.popalay.cardme.data.ExceptionFactory
 
 class AppException(
         var errorType: ExceptionFactory.ErrorType?,

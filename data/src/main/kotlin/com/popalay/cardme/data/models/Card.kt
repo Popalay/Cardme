@@ -2,10 +2,7 @@ package com.popalay.cardme.data.models
 
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
-import com.github.nitrico.lastadapter.StableId
 import com.google.gson.annotations.Expose
-import com.popalay.cardme.R
-import io.card.payment.CreditCard
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
@@ -42,33 +39,8 @@ open class Card(
         const val CARD_TYPE_UNKNOWN = 7L
     }
 
-    constructor(creditCard: CreditCard) : this(
-            number = creditCard.cardNumber,
-            redactedNumber = creditCard.redactedCardNumber,
-            cardType = when (creditCard.cardType) {
-                io.card.payment.CardType.MASTERCARD -> CARD_TYPE_MASTERCARD
-                io.card.payment.CardType.VISA -> CARD_TYPE_VISA
-                io.card.payment.CardType.MAESTRO -> CARD_TYPE_MAESTRO
-                io.card.payment.CardType.AMEX -> CARD_TYPE_AMEX
-                io.card.payment.CardType.DINERSCLUB -> CARD_TYPE_DINERSCLUB
-                io.card.payment.CardType.DISCOVER -> CARD_TYPE_DISCOVER
-                io.card.payment.CardType.JCB -> CARD_TYPE_JCB
-                else -> CARD_TYPE_UNKNOWN
-            }
-    )
-
-    constructor(card: Card) : this(
-            card.number,
-            card.title,
-            card.redactedNumber,
-            card.cardType,
-            card.generatedBackgroundSeed,
-            card.position,
-            card.isTrash,
-            Holder(name = card.holder.name)
-    )
-
-    @DrawableRes fun getIconRes() = when (cardType) {
+    //TODO return card icon
+    @DrawableRes fun getIconRes() = 0 /*when (cardType) {
         CARD_TYPE_MAESTRO -> R.drawable.ic_maestro
         CARD_TYPE_MASTERCARD -> R.drawable.ic_mastercard
         CARD_TYPE_VISA -> R.drawable.ic_visa
@@ -77,7 +49,7 @@ open class Card(
         CARD_TYPE_DISCOVER -> R.drawable.ic_discover
         CARD_TYPE_JCB -> R.drawable.ic_jcb
         else -> R.drawable.ic_unknown
-    }
+    }*/
 
     override val stableId: Long
         get() = number.hashCode().toLong()

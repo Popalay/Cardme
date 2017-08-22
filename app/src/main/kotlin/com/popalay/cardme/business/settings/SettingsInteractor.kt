@@ -1,8 +1,8 @@
 package com.popalay.cardme.business.settings
 
 import com.popalay.cardme.data.models.Settings
-import com.popalay.cardme.data.repositories.device.DeviceRepository
-import com.popalay.cardme.data.repositories.settings.SettingsRepository
+import com.popalay.cardme.data.repositories.DeviceRepository
+import com.popalay.cardme.data.repositories.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

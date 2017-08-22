@@ -4,12 +4,12 @@ import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.exception.AppException
+import com.popalay.cardme.data.models.AppException
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Holder
-import com.popalay.cardme.data.repositories.card.CardRepository
-import com.popalay.cardme.data.repositories.debt.DebtRepository
-import com.popalay.cardme.data.repositories.holder.HolderRepository
+import com.popalay.cardme.data.repositories.CardRepository
+import com.popalay.cardme.data.repositories.DebtRepository
+import com.popalay.cardme.data.repositories.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

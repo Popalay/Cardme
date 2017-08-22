@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories.holder
+package com.popalay.cardme.data.repositories
 
 import com.github.popalay.rxrealm.RxRealm
 import com.popalay.cardme.data.models.Card

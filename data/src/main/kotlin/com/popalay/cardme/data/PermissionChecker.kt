@@ -1,9 +1,8 @@
-package com.popalay.cardme.utils
+package com.popalay.cardme.data
 
 import android.content.Context
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
-import com.popalay.cardme.business.exception.ExceptionFactory
 import io.reactivex.*
 
 object PermissionChecker {

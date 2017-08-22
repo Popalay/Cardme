@@ -54,13 +54,13 @@ class HomeNavigator @Inject constructor(
         else -> null
     }
 
-    override fun setupActivityTransactionAnimation(command: Command, activityIntent: Intent): Bundle? {
+    override fun createStartActivityOptions(command: Command?, activityIntent: Intent): Bundle? {
         if (command is Forward && command.screenKey == SCREEN_ADD_DEBT) {
             return activity.findFragmentByType<DebtsFragment>()?.createAddDebtTransition(activityIntent)
         } else if (command is Forward && command.screenKey == SCREEN_CARD_DETAILS) {
             return activity.findFragmentByType<CardsFragment>()?.createCardDetailsTransition(activityIntent)
         }
-        return super.setupActivityTransactionAnimation(command, activityIntent)
+        return super.createStartActivityOptions(command, activityIntent)
     }
 
 }

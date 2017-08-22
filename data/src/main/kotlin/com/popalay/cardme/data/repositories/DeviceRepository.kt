@@ -1,12 +1,11 @@
-package com.popalay.cardme.data.repositories.device
+package com.popalay.cardme.data.repositories
 
 import android.content.Context
 import android.content.pm.PackageManager
 import com.github.tamir7.contacts.Contact
 import com.github.tamir7.contacts.Contacts
-import com.popalay.cardme.utils.PermissionChecker
+import com.popalay.cardme.data.PermissionChecker
 import io.reactivex.Flowable
-
 import javax.inject.Inject
 import javax.inject.Singleton
 

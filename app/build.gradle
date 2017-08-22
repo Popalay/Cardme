@@ -4,20 +4,17 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'realm-android'
-apply from: "$project.rootDir/tools/script-git-version.gradle"
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+apply from: "$project.rootDir/buildsystem/script-git-version.gradle"
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.popalay.cardme"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
 
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -26,14 +23,14 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("keys/debug.keystore")
+            storeFile file("../buildsystem/debug.keystore")
         }
 
         release {
-            storeFile file("keys/release.keystore")
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
+            storeFile file("../buildsystem/release.keystore")
+            keyAlias "yocard"
+            keyPassword "wr7qUc2e6e"
+            storePassword "wr7qUc2e6e"
         }
     }
 
@@ -73,7 +70,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        incremental false
     }
 
     dataBinding.enabled true
@@ -85,101 +81,69 @@ android {
     }
 }
 
-ext {
-    supportLibrary = '26.0.1'
-    rxJava = '2.1.2'
-    rxAndroid = '2.0.1'
-    rxKotlin = '2.1.0'
-    playServices = '11.0.4'
-    dagger = '2.11'
-    archComponents = '1.0.0-alpha8'
-    leakCanary = '1.5.1'
-    cicerone = '2.0.0'
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Support
-    implementation "com.android.support:cardview-v7:$supportLibrary"
-    implementation "com.android.support:recyclerview-v7:$supportLibrary"
-    implementation "com.android.support:support-v4:$supportLibrary"
-    implementation "com.android.support:design:$supportLibrary"
-    implementation "com.android.support:customtabs:$supportLibrary"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(":data")
 
-    //Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+    implementation presentationDependencies.cardView
+    implementation presentationDependencies.recyclerView
+    implementation presentationDependencies.supportLib
+    implementation presentationDependencies.supportDesign
+    implementation presentationDependencies.customTabs
+    implementation presentationDependencies.constraintLayout
 
-    // Data binding
-    kapt "com.android.databinding:compiler:$gradlePlugin"
-    implementation "com.stepango.rxdatabindings:rxdatabindings:1.1.1"
+    kapt presentationDependencies.databindingCompiler
+    implementation presentationDependencies.rxDatabinding
 
-    // Google Architecture Components
-    implementation "android.arch.lifecycle:runtime:$archComponents"
-    implementation "android.arch.lifecycle:extensions:$archComponents"
-    kapt "android.arch.lifecycle:compiler:$archComponents"
+    implementation presentationDependencies.archComponentsRuntime
+    implementation presentationDependencies.archComponentsExtensions
+    kapt presentationDependencies.archComponentsCompiler
 
-    // Router
-    implementation 'com.github.Popalay:Cicerone:68bc8c809c'
+    implementation presentationDependencies.router
 
-    // DI
-    implementation "com.google.dagger:dagger:$dagger"
-    implementation "com.google.dagger:dagger-android-support:$dagger"
-    kapt "com.google.dagger:dagger-android-processor:$dagger"
-    kapt "com.google.dagger:dagger-compiler:$dagger"
+    implementation presentationDependencies.dagger
+    kapt presentationDependencies.daggerCompiler
+    implementation presentationDependencies.daggerAndroidSupport
+    kapt presentationDependencies.daggerAndroidProcessor
 
-    // Rx
-    implementation "io.reactivex.rxjava2:rxjava:$rxJava"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin"
-    implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    implementation presentationDependencies.rxKotlin
+    implementation presentationDependencies.rxRelay
+    implementation presentationDependencies.rxRealm
 
-    // DB
-    implementation 'com.github.popalay:rx2-realm:1.0.6'
+    implementation presentationDependencies.cardIo
+    implementation presentationDependencies.gson
 
-    // Utils
-    implementation 'io.card:android-sdk:5.5.1'
-    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation presentationDependencies.lastAdapter
 
-    // Adapter
-    implementation 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
+    implementation developmentDependencies.stetho
+    implementation developmentDependencies.stethoRealm
+    implementation developmentDependencies.androidProguards
+    debugImplementation developmentDependencies.leakCanary
+    releaseImplementation developmentDependencies.leakCanaryNoOp
+    testImplementation developmentDependencies.leakCanaryNoOp
 
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.uphyca:stetho_realm:2.0.0'
-    implementation 'com.annimon:stream:1.1.8'
-    implementation 'com.github.tamir7.contacts:contacts:1.1.4'
-    implementation 'com.github.Popalay:AndroidPermissionX:0142673ad1'
+    implementation presentationDependencies.streamApi
+    implementation presentationDependencies.contacts
+    implementation presentationDependencies.androidPermissionX
 
-    // Shortcuts
-    implementation 'com.github.matthiasrobbers:shortbread:1.0.1'
-    kapt 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
+    implementation presentationDependencies.shortbread
+    kapt presentationDependencies.shortbreadCompiler
 
-    // Widgets
-    implementation 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2'
-    implementation 'jp.wasabeef:recyclerview-animators:2.2.6'
-    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation presentationDependencies.recyclerViewPager
+    implementation presentationDependencies.textDrawable
 
-    // Firebase
-    implementation "com.google.firebase:firebase-core:$playServices"
-    implementation "com.google.firebase:firebase-perf:$playServices"
-    implementation "com.google.firebase:firebase-crash:$playServices"
+    implementation presentationDependencies.firebaseCore
+    implementation presentationDependencies.firebasePerf
+    implementation presentationDependencies.firebaseCrash
 
-    // Proguard rules
-    implementation 'com.github.yongjhih.android-proguards:android-proguards:2.0.1'
-
-    // Debug utils
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
-
-    // Testing
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.8.47'
-    testImplementation "org.assertj:assertj-core:3.8.0"
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.assertJ
+    testImplementation testDependencies.kotlinTest
 }
 
 apply plugin: 'com.google.gms.google-services'

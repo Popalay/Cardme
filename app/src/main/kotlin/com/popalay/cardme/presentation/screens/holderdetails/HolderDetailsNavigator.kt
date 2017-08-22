@@ -19,11 +19,11 @@ class HolderDetailsNavigator @Inject constructor(
         else -> null
     }
 
-    override fun setupActivityTransactionAnimation(command: Command, activityIntent: Intent): Bundle? {
+    override fun createStartActivityOptions(command: Command?, activityIntent: Intent): Bundle? {
         if (command is Forward && command.screenKey == SCREEN_CARD_DETAILS) {
             return activity.createCardDetailsTransition(activityIntent)
         }
-        return super.setupActivityTransactionAnimation(command, activityIntent)
+        return super.createStartActivityOptions(command, activityIntent)
     }
 
 }

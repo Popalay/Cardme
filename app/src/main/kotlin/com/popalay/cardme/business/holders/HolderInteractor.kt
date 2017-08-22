@@ -4,8 +4,8 @@ import android.Manifest
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
-import com.popalay.cardme.data.repositories.device.DeviceRepository
-import com.popalay.cardme.data.repositories.holder.HolderRepository
+import com.popalay.cardme.data.repositories.DeviceRepository
+import com.popalay.cardme.data.repositories.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
