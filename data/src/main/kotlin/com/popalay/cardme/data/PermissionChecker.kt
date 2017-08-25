@@ -3,29 +3,11 @@ package com.popalay.cardme.data
 import android.content.Context
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack
 import com.kcode.permissionslib.main.PermissionCompat
-import io.reactivex.*
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 object PermissionChecker {
-
-    fun <T> composeSingle(context: Context, vararg permissions: String): SingleTransformer<T, T> =
-            SingleTransformer {
-                checkSingle(context, *permissions)
-                        .flatMap { granted ->
-                            if (granted) it
-                            else Single.error<T>(ExceptionFactory
-                                    .createError(ExceptionFactory.ErrorType.PERMISSION_DENIED))
-                        }
-            }
-
-    fun <T> compose(context: Context, vararg permissions: String): FlowableTransformer<T, T> =
-            FlowableTransformer {
-                check(context, *permissions)
-                        .flatMap { granted ->
-                            if (granted) it
-                            else Flowable.error<T>(ExceptionFactory
-                                    .createError(ExceptionFactory.ErrorType.PERMISSION_DENIED))
-                        }
-            }
 
     fun check(context: Context, vararg permissions: String): Flowable<Boolean> =
             Flowable.create<Boolean>({

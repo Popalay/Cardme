@@ -1,4 +1,4 @@
-package com.popalay.cardme.business.splash
+package com.popalay.cardme.business.interactor
 
 import com.popalay.cardme.data.repositories.SettingsRepository
 import io.reactivex.Completable

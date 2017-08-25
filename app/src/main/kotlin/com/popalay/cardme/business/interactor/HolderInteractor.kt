@@ -1,4 +1,4 @@
-package com.popalay.cardme.business.holders
+package com.popalay.cardme.business.interactor
 
 import android.Manifest
 import com.popalay.cardme.data.models.Card
@@ -38,6 +38,7 @@ class HolderInteractor @Inject constructor(
 
     fun getNames(): Flowable<List<String>>
             = deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)
+
             .flatMap({ holderRepository.getAll() }, this::transform)
             .subscribeOn(Schedulers.io())
 

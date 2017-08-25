@@ -1,7 +1,6 @@
-package com.popalay.cardme.data
+package com.popalay.cardme.business
 
 import android.support.annotation.StringRes
-import com.popalay.cardme.data.models.AppException
 
 object ExceptionFactory {
 
@@ -12,3 +11,8 @@ object ExceptionFactory {
 
     fun createError(type: ErrorType, @StringRes message: Int = 0) = AppException(type, message)
 }
+
+class AppException(
+        val errorType: ExceptionFactory.ErrorType?,
+        @field:StringRes val messageRes: Int
+) : RuntimeException()

@@ -3,11 +3,11 @@ package com.popalay.cardme.presentation.screens.cards
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.popalay.cardme.business.AppException
 import com.popalay.cardme.business.DataTransformers
-import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.settings.SettingsInteractor
-import com.popalay.cardme.data.ExceptionFactory
-import com.popalay.cardme.data.models.AppException
+import com.popalay.cardme.business.ExceptionFactory
+import com.popalay.cardme.business.interactor.CardInteractor
+import com.popalay.cardme.business.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
@@ -93,19 +93,15 @@ class CardsViewModel @Inject constructor(
                 .addTo(disposables)
     }
 
-    override fun doOnShowCardExistsDialog(): Observable<Boolean> {
-        return errorDialogState.filter { it }
-    }
+    override fun doOnShowCardExistsDialog(): Observable<Boolean> = errorDialogState.filter { it }
 
-    override fun onShowCardExistsDialogDismiss() {
-        errorDialogState.accept(false)
-    }
+    override fun onShowCardExistsDialogDismiss() = errorDialogState.accept(false)
 
     override fun onWantToOverwrite() = navigateToAddCard()
 
     override fun onCardScanned(creditCard: CreditCard) {
         lastScannedCard = DataTransformers.transform(creditCard)
-        cardInteractor.checkCardExist(lastScannedCard?.number ?: "")
+        cardInteractor.checkCardExist(lastScannedCard?.number)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::navigateToAddCard)
                 .subscribeBy(this::handleLocalError)

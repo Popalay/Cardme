@@ -1,7 +1,7 @@
-package com.popalay.cardme.business.cards
+package com.popalay.cardme.business.interactor
 
 import com.popalay.cardme.R
-import com.popalay.cardme.data.ExceptionFactory
+import com.popalay.cardme.business.ExceptionFactory
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.repositories.CardRepository
 import com.popalay.cardme.data.repositories.DebtRepository
@@ -24,8 +24,8 @@ class CardInteractor @Inject constructor(
     fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
             .subscribeOn(Schedulers.io())
 
-    fun checkCardExist(cardNumber: String): Completable {
-        return cardRepository.cardIsNew(cardNumber)
+    fun checkCardExist(cardNumber: String?): Completable {
+        return cardRepository.cardIsNew(cardNumber ?: "")
                 .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
                 .subscribeOn(Schedulers.io())
     }
@@ -68,6 +68,5 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     private fun createCardExistError(): Throwable =
-            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST,
-                    R.string.error_card_exist)
+            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST, R.string.error_card_exist)
 }

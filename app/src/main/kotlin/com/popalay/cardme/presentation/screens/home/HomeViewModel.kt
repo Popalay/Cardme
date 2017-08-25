@@ -3,9 +3,9 @@ package com.popalay.cardme.presentation.screens.home
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
-import com.popalay.cardme.business.ShortcutInteractor
-import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.holders.HolderInteractor
+import com.popalay.cardme.business.interactor.ShortcutInteractor
+import com.popalay.cardme.business.interactor.CardInteractor
+import com.popalay.cardme.business.interactor.HolderInteractor
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.*

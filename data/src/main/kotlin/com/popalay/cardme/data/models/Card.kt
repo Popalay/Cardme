@@ -3,6 +3,7 @@ package com.popalay.cardme.data.models
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
 import com.google.gson.annotations.Expose
+import com.popalay.cardme.data.R
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
@@ -39,8 +40,7 @@ open class Card(
         const val CARD_TYPE_UNKNOWN = 7L
     }
 
-    //TODO return card icon
-    @DrawableRes fun getIconRes() = 0 /*when (cardType) {
+    @DrawableRes fun getIconRes() = when (cardType) {
         CARD_TYPE_MAESTRO -> R.drawable.ic_maestro
         CARD_TYPE_MASTERCARD -> R.drawable.ic_mastercard
         CARD_TYPE_VISA -> R.drawable.ic_visa
@@ -49,7 +49,7 @@ open class Card(
         CARD_TYPE_DISCOVER -> R.drawable.ic_discover
         CARD_TYPE_JCB -> R.drawable.ic_jcb
         else -> R.drawable.ic_unknown
-    }*/
+    }
 
     override val stableId: Long
         get() = number.hashCode().toLong()

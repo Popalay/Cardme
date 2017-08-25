@@ -4,7 +4,7 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.holders.HolderInteractor
+import com.popalay.cardme.business.interactor.HolderInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter

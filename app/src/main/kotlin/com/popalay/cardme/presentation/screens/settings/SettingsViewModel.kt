@@ -2,7 +2,7 @@ package com.popalay.cardme.presentation.screens.settings
 
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import com.popalay.cardme.business.settings.SettingsInteractor
+import com.popalay.cardme.business.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Settings
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.stepango.rxdatabindings.observe

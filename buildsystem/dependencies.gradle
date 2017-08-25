@@ -16,7 +16,7 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 26
 
-    gradlePlugin = '3.0.0-beta2'
+    gradlePlugin = '3.0.0-beta3'
 
     //Libraries
     supportLibrary = '26.0.1'

@@ -1,4 +1,4 @@
-package com.popalay.cardme.business
+package com.popalay.cardme.business.interactor
 
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_DEBT

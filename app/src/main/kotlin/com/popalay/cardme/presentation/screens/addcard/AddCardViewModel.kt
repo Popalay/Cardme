@@ -6,9 +6,9 @@ import android.databinding.ObservableField
 import android.view.inputmethod.EditorInfo
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.cards.CardInteractor
-import com.popalay.cardme.business.holders.HolderInteractor
-import com.popalay.cardme.business.settings.SettingsInteractor
+import com.popalay.cardme.business.interactor.CardInteractor
+import com.popalay.cardme.business.interactor.HolderInteractor
+import com.popalay.cardme.business.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter

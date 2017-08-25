@@ -3,8 +3,8 @@ package com.popalay.cardme.presentation.screens.holderdetails
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.holders.HolderInteractor
-import com.popalay.cardme.business.settings.SettingsInteractor
+import com.popalay.cardme.business.interactor.HolderInteractor
+import com.popalay.cardme.business.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel

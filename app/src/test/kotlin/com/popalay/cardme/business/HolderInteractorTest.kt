@@ -5,7 +5,7 @@ import com.github.tamir7.contacts.Contact
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.whenever
-import com.popalay.cardme.business.holders.HolderInteractor
+import com.popalay.cardme.business.interactor.HolderInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder

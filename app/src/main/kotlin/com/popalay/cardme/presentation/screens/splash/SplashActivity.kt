@@ -1,7 +1,7 @@
 package com.popalay.cardme.presentation.screens.splash
 
 import android.os.Bundle
-import com.popalay.cardme.business.splash.SplashInteractor
+import com.popalay.cardme.business.interactor.SplashInteractor
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.screens.home.HomeActivity
 import io.reactivex.android.schedulers.AndroidSchedulers

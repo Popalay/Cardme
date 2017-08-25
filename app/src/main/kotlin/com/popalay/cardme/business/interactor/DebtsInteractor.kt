@@ -1,4 +1,4 @@
-package com.popalay.cardme.business.debts
+package com.popalay.cardme.business.interactor
 
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.repositories.DebtRepository

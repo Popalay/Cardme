@@ -1,4 +1,4 @@
-package com.popalay.cardme.business.settings
+package com.popalay.cardme.business.interactor
 
 import com.popalay.cardme.data.models.Settings
 import com.popalay.cardme.data.repositories.DeviceRepository
