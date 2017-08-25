@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'realm-android'
 
 apply from: "$project.rootDir/buildsystem/script-git-version.gradle"
 
@@ -94,6 +93,11 @@ dependencies {
     implementation presentationDependencies.customTabs
     implementation presentationDependencies.constraintLayout
 
+    implementation presentationDependencies.recyclerViewPager
+    implementation presentationDependencies.textDrawable
+
+    implementation presentationDependencies.lastAdapter
+
     kapt presentationDependencies.databindingCompiler
     implementation presentationDependencies.rxDatabinding
 
@@ -102,6 +106,9 @@ dependencies {
     kapt presentationDependencies.archComponentsCompiler
 
     implementation presentationDependencies.router
+
+    implementation presentationDependencies.gson
+    implementation presentationDependencies.contacts
 
     implementation presentationDependencies.dagger
     kapt presentationDependencies.daggerCompiler
@@ -112,12 +119,8 @@ dependencies {
     implementation presentationDependencies.rxAndroid
     implementation presentationDependencies.rxKotlin
     implementation presentationDependencies.rxRelay
-    implementation presentationDependencies.rxRealm
 
     implementation presentationDependencies.cardIo
-    implementation presentationDependencies.gson
-
-    implementation presentationDependencies.lastAdapter
 
     implementation developmentDependencies.stetho
     implementation developmentDependencies.stethoRealm
@@ -126,15 +129,8 @@ dependencies {
     releaseImplementation developmentDependencies.leakCanaryNoOp
     testImplementation developmentDependencies.leakCanaryNoOp
 
-    implementation presentationDependencies.streamApi
-    implementation presentationDependencies.contacts
-    implementation presentationDependencies.androidPermissionX
-
     implementation presentationDependencies.shortbread
     kapt presentationDependencies.shortbreadCompiler
-
-    implementation presentationDependencies.recyclerViewPager
-    implementation presentationDependencies.textDrawable
 
     implementation presentationDependencies.firebaseCore
     implementation presentationDependencies.firebasePerf

@@ -27,7 +27,10 @@ dependencies {
 
     api project(':data')
 
+    implementation domainDependencies.kotlin
+
     implementation domainDependencies.rxJava
+    implementation domainDependencies.rxKotlin
 
     implementation domainDependencies.dagger
     kapt domainDependencies.daggerCompiler
@@ -39,4 +42,6 @@ dependencies {
     testImplementation testDomainDependencies.mockitoKotlin
     testImplementation testDomainDependencies.assertJ
     testImplementation testDomainDependencies.kotlinTest
+
+
 }
