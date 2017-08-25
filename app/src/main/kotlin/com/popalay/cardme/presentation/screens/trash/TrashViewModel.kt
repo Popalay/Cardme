@@ -2,8 +2,8 @@ package com.popalay.cardme.presentation.screens.trash
 
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.interactor.CardInteractor
-import com.popalay.cardme.business.interactor.SettingsInteractor
+import com.popalay.cardme.domain.interactor.CardInteractor
+import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.utils.extensions.applyThrottling

@@ -1,7 +1,7 @@
 package com.popalay.cardme.presentation.screens.debts
 
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.interactor.DebtsInteractor
+import com.popalay.cardme.domain.interactor.DebtsInteractor
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter

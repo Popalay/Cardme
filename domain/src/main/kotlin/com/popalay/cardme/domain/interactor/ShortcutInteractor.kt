@@ -1,17 +1,11 @@
-package com.popalay.cardme.business.interactor
+package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.presentation.base.navigation.CustomRouter
-import com.popalay.cardme.presentation.screens.SCREEN_ADD_DEBT
-import com.popalay.cardme.presentation.screens.SCREEN_CARDS
-import com.popalay.cardme.presentation.screens.SCREEN_DEBTS
-import com.popalay.cardme.presentation.screens.SCREEN_SCAN_CARD
-import com.popalay.cardme.presentation.screens.cards.CardsFragment
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ShortcutInteractor @Inject constructor(
-        private val router: CustomRouter
+        //private val router: CustomRouter
 ) {
 
     private var appliedShortcut = Shortcut.NONE
@@ -25,7 +19,7 @@ class ShortcutInteractor @Inject constructor(
 
     fun applyShortcut(shortcut: Shortcut) {
         appliedShortcut = shortcut
-        when (shortcut) {
+       /* when (shortcut) {
             Shortcut.ADD_CARD -> {
                 router.navigateToForResult(SCREEN_SCAN_CARD, CardsFragment.SCAN_REQUEST_CODE)
                 router.newRootScreen(SCREEN_CARDS)
@@ -34,7 +28,7 @@ class ShortcutInteractor @Inject constructor(
             Shortcut.DEBTS -> router.newRootScreen(SCREEN_DEBTS)
             else -> {
             }
-        }
+        }*/
     }
 
     enum class Shortcut {

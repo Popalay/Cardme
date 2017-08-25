@@ -3,12 +3,12 @@ package com.popalay.cardme.presentation.screens.cards
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.AppException
-import com.popalay.cardme.business.DataTransformers
-import com.popalay.cardme.business.ExceptionFactory
-import com.popalay.cardme.business.interactor.CardInteractor
-import com.popalay.cardme.business.interactor.SettingsInteractor
+import com.popalay.cardme.DataTransformers
 import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.domain.AppException
+import com.popalay.cardme.domain.ExceptionFactory
+import com.popalay.cardme.domain.interactor.CardInteractor
+import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD

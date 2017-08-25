@@ -85,6 +85,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":data")
+    implementation project(":domain")
 
     implementation presentationDependencies.cardView
     implementation presentationDependencies.recyclerView
@@ -138,12 +139,6 @@ dependencies {
     implementation presentationDependencies.firebaseCore
     implementation presentationDependencies.firebasePerf
     implementation presentationDependencies.firebaseCrash
-
-    testImplementation testDependencies.junit
-    testImplementation testDependencies.mockito
-    testImplementation testDependencies.mockitoKotlin
-    testImplementation testDependencies.assertJ
-    testImplementation testDependencies.kotlinTest
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,4 +1,4 @@
-package com.popalay.cardme.business.interactor
+package com.popalay.cardme.domain.interactor
 
 import android.Manifest
 import com.popalay.cardme.data.models.Card

@@ -16,7 +16,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.popalay.cardme.R
-import com.popalay.cardme.business.interactor.ShortcutInteractor
+import com.popalay.cardme.domain.interactor.ShortcutInteractor
 import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.presentation.base.BaseActivity
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator

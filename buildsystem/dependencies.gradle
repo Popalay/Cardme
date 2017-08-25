@@ -103,6 +103,11 @@ ext {
 
     domainDependencies = [
             rxJava: "io.reactivex.rxjava2:rxjava:$rxJava",
+
+            dagger            : "com.google.dagger:dagger:$dagger",
+            daggerCompiler    : "com.google.dagger:dagger-compiler:$dagger",
+
+            contacts          : "com.github.tamir7.contacts:contacts:$contacts",
     ]
 
     dataDependencies = [
@@ -126,10 +131,9 @@ ext {
             stetho          : "com.facebook.stetho:stetho:$stetho",
             stethoRealm     : "com.uphyca:stetho_realm:$stethoRealm",
             androidProguards: "com.github.yongjhih.android-proguards:android-proguards:$androidProguards",
-
     ]
 
-    testDependencies = [
+    testDomainDependencies = [
             junit        : "junit:junit:$jUnit",
             mockito      : "org.mockito:mockito-core:$mockito",
             mockitoKotlin: "com.nhaarman:mockito-kotlin-kt1.1:$mockitoKotlin",

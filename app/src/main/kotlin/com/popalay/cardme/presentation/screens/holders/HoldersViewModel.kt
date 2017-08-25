@@ -1,7 +1,7 @@
 package com.popalay.cardme.presentation.screens.holders
 
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.business.interactor.HolderInteractor
+import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter

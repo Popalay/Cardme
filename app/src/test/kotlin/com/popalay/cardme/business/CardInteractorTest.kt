@@ -3,7 +3,7 @@ package com.popalay.cardme.business
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import com.popalay.cardme.business.interactor.CardInteractor
+import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Holder
 import com.popalay.cardme.data.repositories.CardRepository

@@ -1,4 +1,4 @@
-package com.popalay.cardme.business
+package com.popalay.cardme
 
 import com.popalay.cardme.data.models.Card
 import io.card.payment.CreditCard

@@ -1,11 +1,10 @@
-package com.popalay.cardme.business.interactor
+package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.R
-import com.popalay.cardme.business.ExceptionFactory
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.repositories.CardRepository
 import com.popalay.cardme.data.repositories.DebtRepository
 import com.popalay.cardme.data.repositories.HolderRepository
+import com.popalay.cardme.domain.ExceptionFactory
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -68,5 +67,5 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     private fun createCardExistError(): Throwable =
-            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST, R.string.error_card_exist)
+            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST, 0)
 }
