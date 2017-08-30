@@ -71,6 +71,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        incremental = false
     }
 
     sourceSets {
@@ -78,6 +79,10 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -108,7 +113,6 @@ dependencies {
     implementation presentationDependencies.router
 
     implementation presentationDependencies.gson
-    implementation presentationDependencies.contacts
 
     implementation presentationDependencies.dagger
     kapt presentationDependencies.daggerCompiler

@@ -1,7 +1,6 @@
 package com.popalay.cardme
 
 import com.facebook.stetho.Stetho
-import com.github.tamir7.contacts.Contacts
 import com.popalay.cardme.data.DataBaseMigration
 import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.DaggerAppComponent
@@ -28,14 +27,12 @@ class App : DaggerApplication() {
                 .migration(DataBaseMigration())
                 .build()
         Realm.setDefaultConfiguration(config)
-        Contacts.initialize(this)
         Shortbread.create(this)
 
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build())
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                .build())
     }
 
     override fun applicationInjector() = DaggerAppComponent.builder()

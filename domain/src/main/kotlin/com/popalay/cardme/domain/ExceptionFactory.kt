@@ -9,10 +9,7 @@ object ExceptionFactory {
         PERMISSION_DENIED
     }
 
-    fun createError(type: ErrorType, message: Int = 0) = AppException(type, message)
+    fun createError(type: ErrorType) = AppException(type)
 }
 
-class AppException(
-        val errorType: ExceptionFactory.ErrorType?,
-        val messageRes: Int
-) : RuntimeException()
+class AppException(val errorType: ExceptionFactory.ErrorType) : RuntimeException()

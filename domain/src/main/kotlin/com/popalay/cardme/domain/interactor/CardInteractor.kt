@@ -67,5 +67,5 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     private fun createCardExistError(): Throwable =
-            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST, 0)
+            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST)
 }
