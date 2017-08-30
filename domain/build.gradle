@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -42,6 +41,4 @@ dependencies {
     testImplementation testDomainDependencies.mockitoKotlin
     testImplementation testDomainDependencies.assertJ
     testImplementation testDomainDependencies.kotlinTest
-
-
 }

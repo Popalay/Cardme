@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -29,17 +28,15 @@ dependencies {
 
     implementation dataDependencies.kotlin
 
-    api dataDependencies.rxJava
+    implementation dataDependencies.rxJava
     implementation dataDependencies.rxRealm
 
-    api dataDependencies.dagger
+    implementation dataDependencies.dagger
     kapt dataDependencies.daggerCompiler
 
-    implementation dataDependencies.gson
+    api dataDependencies.contacts
+    api dataDependencies.gson
 
     implementation dataDependencies.streamApi
     implementation dataDependencies.androidPermissionX
-    implementation dataDependencies.contacts
-
-
 }

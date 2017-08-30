@@ -66,7 +66,6 @@ ext {
             rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroid",
             rxKotlin                : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
             rxRelay                 : "com.jakewharton.rxrelay2:rxrelay:$rxRelay",
-            rxRealm                 : "com.github.popalay:rx2-realm:$rxRealm",
 
             dagger                  : "com.google.dagger:dagger:$dagger",
             daggerCompiler          : "com.google.dagger:dagger-compiler:$dagger",
@@ -81,11 +80,6 @@ ext {
             archComponentsCompiler  : "android.arch.lifecycle:compiler:$archComponents",
 
             cardIo                  : "io.card:android-sdk:$cardIo",
-            gson                    : "com.google.code.gson:gson:$gson",
-
-            streamApi               : "com.annimon:stream:$streamApi",
-            contacts                : "com.github.tamir7.contacts:contacts:$contacts",
-            androidPermissionX      : "com.github.Popalay:AndroidPermissionX:$androidPermissionX",
 
             shortbread              : "com.github.matthiasrobbers:shortbread:$shortbread",
             shortbreadCompiler      : "com.github.matthiasrobbers:shortbread-compiler:$shortbread",
