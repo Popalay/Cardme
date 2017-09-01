@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -31,8 +30,8 @@ dependencies {
     implementation domainDependencies.rxJava
     implementation domainDependencies.rxKotlin
 
-    implementation domainDependencies.dagger
-    kapt domainDependencies.daggerCompiler
+    implementation domainDependencies.javaxAnnotation
+    implementation domainDependencies.javaxInject
 
     implementation domainDependencies.contacts
 

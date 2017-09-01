@@ -8,7 +8,6 @@ import com.popalay.cardme.domain.ExceptionFactory
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,11 +52,10 @@ class CardInteractor @Inject constructor(
             .andThen(cardRepository.restore(card))
             .subscribeOn(Schedulers.io())
 
-    fun emptyTrash(): Completable = Singles.zip(
-            cardRepository.removeTrashed().toSingleDefault(true),
-            holderRepository.removeTrashed().toSingleDefault(true),
-            debtRepository.removeTrashed().toSingleDefault(true))
-            .toCompletable()
+    fun emptyTrash(): Completable = Completable.mergeArray(
+            cardRepository.removeTrashed(),
+            holderRepository.removeTrashed(),
+            debtRepository.removeTrashed())
             .subscribeOn(Schedulers.io())
 
     fun prepareForSharing(card: Card): Single<String> = cardRepository.prepareForSharing(card)
