@@ -6,10 +6,10 @@ import android.databinding.ObservableField
 import android.view.inputmethod.EditorInfo
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
-import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.utils.extensions.applyThrottling
@@ -29,6 +29,7 @@ import javax.inject.Named
 class AddCardViewModel @Inject constructor(
         @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
         @Named(AddCardActivity.KEY_FORMATTED_CARD_NUMBER) cardFormattedNumber: String,
+        //TODO provide cardType
         private val router: CustomRouter,
         cardInteractor: CardInteractor,
         holderInteractor: HolderInteractor,
@@ -39,11 +40,14 @@ class AddCardViewModel @Inject constructor(
     val holderNames: ObservableArrayList<String> = ObservableArrayList()
     val title = ObservableString()
     val showImage = ObservableBoolean()
-    val card = ObservableField<Card>(Card(number = cardNumber, redactedNumber = cardFormattedNumber))
+    val card = ObservableField<Card>(Card(number = cardNumber,
+            redactedNumber = cardFormattedNumber,
+            cardType = 0L))
 
-    val canSaveState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
-    val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
     val editorActionListener: PublishRelay<Int> = PublishRelay.create<Int>()
+
+    private val canSaveState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
+    private val acceptClickListener: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
 
     init {
         cardInteractor.get(cardNumber)
@@ -51,7 +55,7 @@ class AddCardViewModel @Inject constructor(
                 .setTo(card)
                 .doOnNext {
                     title.set(it.title)
-                    holderName.set(it.holder.name)
+                    holderName.set(it.holderName)
                 }
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)

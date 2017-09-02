@@ -1,4 +1,4 @@
-package com.popalay.cardme.data
+package com.popalay.cardme.data.repositories.device
 
 import android.content.Context
 import com.kcode.permissionslib.main.OnRequestPermissionsCallBack

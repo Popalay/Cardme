@@ -3,7 +3,6 @@ package com.popalay.cardme.data.repositories.device
 import android.content.Context
 import android.content.pm.PackageManager
 import com.github.tamir7.contacts.Contact
-import com.popalay.cardme.data.PermissionChecker
 import io.reactivex.Flowable
 import javax.inject.Inject
 import javax.inject.Singleton

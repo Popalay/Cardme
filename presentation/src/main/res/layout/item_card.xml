@@ -80,7 +80,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/normal"
                 android:layout_marginTop="@dimen/smallest"
-                android:text="@{item.holder.name}"
+                android:text="@{item.holderName}"
                 />
 
         </RelativeLayout>

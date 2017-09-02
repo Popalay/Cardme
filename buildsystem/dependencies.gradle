@@ -16,7 +16,7 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 26
 
-    gradlePlugin = '3.0.0-beta3'
+    gradlePlugin = '3.0.0-beta4'
     kotlinLanguage = '1.1.4-2'
 
     //Libraries
@@ -29,9 +29,9 @@ ext {
     rxDataBinding = '1.1.1'
     playServices = '11.2.0'
     dagger = '2.11'
-    javaxAnnotation= '1.0'
+    javaxAnnotation = '1.0'
     javaxInject = '1'
-    archComponents = '1.0.0-alpha8'
+    archComponents = '1.0.0-alpha9'
     cicerone = '2.1.0'
     constraintLayout = '1.0.2'
     cardIo = '5.5.1'
@@ -98,15 +98,15 @@ ext {
     ]
 
     domainDependencies = [
-            rxJava        : "io.reactivex.rxjava2:rxjava:$rxJava",
-            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
+            rxJava         : "io.reactivex.rxjava2:rxjava:$rxJava",
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
 
-            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinLanguage",
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinLanguage",
 
-            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotation}",
-            javaxInject:        "javax.inject:javax.inject:${javaxInject}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotation}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInject}",
 
-            contacts      : "com.github.tamir7.contacts:contacts:$contacts",
+            contacts       : "com.github.tamir7.contacts:contacts:$contacts",
     ]
 
     dataDependencies = [
@@ -119,6 +119,10 @@ ext {
             daggerCompiler    : "com.google.dagger:dagger-compiler:$dagger",
 
             gson              : "com.google.code.gson:gson:$gson",
+
+            roomRuntime       : "android.arch.persistence.room:runtime:$archComponents",
+            roomRxJava2       : "android.arch.persistence.room:rxjava2:$archComponents",
+            roomCompiler      : "android.arch.persistence.room:compiler:$archComponents",
 
             streamApi         : "com.annimon:stream:$streamApi",
             androidPermissionX: "com.github.Popalay:AndroidPermissionX:$androidPermissionX",

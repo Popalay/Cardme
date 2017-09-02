@@ -24,7 +24,7 @@ class HolderInteractor @Inject constructor(
     fun addCard(holderName: String, card: Card): Completable = holderRepository.addCard(holderName, card)
             .subscribeOn(Schedulers.io())
 
-    fun addCard(card: Card): Completable = addCard(card.holder.name, card)
+    fun addCard(card: Card): Completable = addCard(card.holderName, card)
             .subscribeOn(Schedulers.io())
 
     fun addDebt(holderName: String, debt: Debt): Completable = holderRepository.addDebt(holderName, debt)
@@ -38,7 +38,6 @@ class HolderInteractor @Inject constructor(
 
     fun getNames(): Flowable<List<String>>
             = deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)
-
             .flatMap({ holderRepository.getAll() }, this::transform)
             .subscribeOn(Schedulers.io())
 

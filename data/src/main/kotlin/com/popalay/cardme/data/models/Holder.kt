@@ -8,7 +8,6 @@ import io.realm.annotations.PrimaryKey
 open class Holder(
         @Expose @PrimaryKey var name: String = "",
         @Expose var isTrash: Boolean = false,
-        var cards: RealmList<Card> = RealmList(),
         var debts: RealmList<Debt> = RealmList()
 ) : RealmObject(), StableId {
 

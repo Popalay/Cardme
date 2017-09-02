@@ -3,10 +3,10 @@ package com.popalay.cardme.presentation.screens.holderdetails
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.domain.interactor.HolderInteractor
-import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Holder
+import com.popalay.cardme.domain.interactor.HolderInteractor
+import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_CARD_DETAILS
@@ -46,11 +46,12 @@ class HolderDetailsViewModel @Inject constructor(
 
         cardClickPublisher
                 .applyThrottling()
-                .subscribe { router.navigateTo(SCREEN_CARD_DETAILS, it.number) }
+                .subscribeBy { router.navigateTo(SCREEN_CARD_DETAILS, it.number) }
                 .addTo(disposables)
     }
 
-    override fun getPositionOfCard(number: String) = holder.get().cards.indexOfFirst { it.number == number }
+    //TODO change message to number
+    override fun getPositionOfCard(number: String) = 0//holder.get().cards.indexOfFirst { it.message == number }
 
 }
 

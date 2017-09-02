@@ -1,7 +1,6 @@
 package com.popalay.cardme
 
 import com.facebook.stetho.Stetho
-import com.popalay.cardme.data.DataBaseMigration
 import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.DaggerAppComponent
 import com.popalay.cardme.injection.applyAutoInjector
@@ -24,7 +23,8 @@ class App : DaggerApplication() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .schemaVersion(BuildConfig.DATABASE_VERSION)
-                .migration(DataBaseMigration())
+                .deleteRealmIfMigrationNeeded()
+                //.migration(DataBaseMigration())
                 .build()
         Realm.setDefaultConfiguration(config)
         Shortbread.create(this)

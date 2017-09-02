@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.repositories
 
 import com.github.popalay.rxrealm.RxRealm
+import com.popalay.cardme.data.dao.CardDao
 import com.popalay.cardme.data.models.Card
 import com.popalay.cardme.data.models.Debt
 import com.popalay.cardme.data.models.Holder
@@ -11,9 +12,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HolderRepository @Inject constructor() {
+class HolderRepository @Inject constructor(
+        private val cardDao: CardDao
+) {
 
-    fun addCard(holderName: String, card: Card): Completable = RxRealm.doTransactional {
+    fun addCard(holderName: String, card: Card): Completable {
+        //TODO create holder if needed
+        return cardDao.insertOrUpdate(card.apply { this.holderName = holderName }).toCompletable()
+    }
+
+    /*fun addCard(holderName: String, card: Card): Completable = RxRealm.doTransactional {
         it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findAll().deleteAllFromRealm()
     }.andThen(RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
@@ -23,7 +31,7 @@ class HolderRepository @Inject constructor() {
         if (!holder.cards.contains(realmCard)) holder.cards.add(realmCard)
 
         updateTrashFlag(it)
-    })
+    })*/
 
     fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
@@ -36,9 +44,9 @@ class HolderRepository @Inject constructor() {
     }
 
     fun removeCard(card: Card): Completable = RxRealm.doTransactional {
-        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holder.name).findFirst()
-        val realmCard = it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst()
-        holder.cards.remove(realmCard)
+        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holderName).findFirst()
+        //val realmCard = it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst()
+        //holder.cards.remove(realmCard)
 
         updateTrashFlag(it)
     }
@@ -67,7 +75,8 @@ class HolderRepository @Inject constructor() {
 
     private fun updateTrashFlag(realm: Realm) {
         val intoTrash = realm.where(Holder::class.java)
-                .isEmpty(Holder.CARDS).isEmpty(Holder.DEBTS)
+                //TODO.isEmpty(Holder.CARDS)
+                .isEmpty(Holder.DEBTS)
                 .findAll()
 
         for (item in intoTrash) {
@@ -75,7 +84,9 @@ class HolderRepository @Inject constructor() {
         }
 
         val fromTrash = realm.where(Holder::class.java)
-                .isNotEmpty(Holder.CARDS).or().isNotEmpty(Holder.DEBTS)
+                //TODO.isNotEmpty(Holder.CARDS)
+                .or()
+                .isNotEmpty(Holder.DEBTS)
                 .findAll()
 
         for (item in fromTrash) {
@@ -83,3 +94,5 @@ class HolderRepository @Inject constructor() {
         }
     }
 }
+
+private fun Unit.toCompletable() = Completable.fromAction { this }

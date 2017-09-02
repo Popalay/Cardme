@@ -65,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{@string/format_holder_cards(item.cards.size)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 tools:text="Cards: 23"
                 />

@@ -34,6 +34,10 @@ dependencies {
     implementation dataDependencies.dagger
     kapt dataDependencies.daggerCompiler
 
+    api dataDependencies.roomRuntime
+    api dataDependencies.roomRxJava2
+    kapt dataDependencies.roomCompiler
+
     api dataDependencies.contacts
     api dataDependencies.gson
 

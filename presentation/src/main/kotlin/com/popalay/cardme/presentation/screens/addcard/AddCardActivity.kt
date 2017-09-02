@@ -14,6 +14,7 @@ import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class AddCardActivity : RightSlidingActivity() {
@@ -45,7 +46,7 @@ class AddCardActivity : RightSlidingActivity() {
         acceptMenuItem = menu.findItem(R.id.action_accept)
 
         viewModelFacade.onCanSaveStateChanged()
-                .subscribe { acceptMenuItem.isEnabled = it }
+                .subscribeBy { acceptMenuItem.isEnabled = it }
                 .addTo(disposables)
 
         return super.onCreateOptionsMenu(menu)
