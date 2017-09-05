@@ -22,23 +22,23 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsRepositiory(repository: DataDeviceRepository): DeviceRepository
+    abstract fun bindsDeviceRepositoryRepositiory(repository: DataDeviceRepository): DeviceRepository
 
     @Binds
     @Singleton
-    abstract fun bindsRepositiory(repository: DataCardRepository): CardRepository
+    abstract fun bindsCardRepositoryRepositiory(repository: DataCardRepository): CardRepository
 
     @Binds
     @Singleton
-    abstract fun bindsRepositiory(repository: DataDebtRepository): DebtRepository
+    abstract fun bindsDebtRepositoryRepositiory(repository: DataDebtRepository): DebtRepository
 
     @Binds
     @Singleton
-    abstract fun bindsRepositiory(repository: DataHolderRepository): HolderRepository
+    abstract fun bindsHolderRepositoryRepositiory(repository: DataHolderRepository): HolderRepository
 
     @Binds
     @Singleton
-    abstract fun bindsRepositiory(repository: DataSettingsRepository): SettingsRepository
+    abstract fun bindsSettingsRepositoryRepositiory(repository: DataSettingsRepository): SettingsRepository
 
     @Module
     companion object {

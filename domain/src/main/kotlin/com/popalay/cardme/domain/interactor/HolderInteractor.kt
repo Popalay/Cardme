@@ -1,13 +1,13 @@
 package com.popalay.cardme.domain.interactor
 
-import android.Manifest
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.model.Holder
-import com.popalay.cardme.domain.repository.HolderRepository
 import com.popalay.cardme.domain.repository.DeviceRepository
+import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,13 +37,13 @@ class HolderInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun getNames(): Flowable<List<String>>
-            = deviceRepository.checkPermissions(Manifest.permission.READ_CONTACTS)
-            .flatMap({ holderRepository.getAll() }, this::transform)
+            = Flowables.combineLatest(holderRepository.getAll(),
+            deviceRepository.getContactsNames().toFlowable(), this::transform)
             .subscribeOn(Schedulers.io())
 
-    private fun transform(withContacts: Boolean, holders: List<Holder>): List<String> {
+    private fun transform(holders: List<Holder>, contacts: List<String>): List<String> {
         val names = holders.map { it.name }.toMutableList()
-        if (withContacts) names.addAll(deviceRepository.getContacts().map { it.displayName })
-        return names.filter { it.isNotBlank() }.distinct().sorted()
+        names.addAll(contacts)
+        return names.filter(String::isNotBlank).distinct().sorted()
     }
 }

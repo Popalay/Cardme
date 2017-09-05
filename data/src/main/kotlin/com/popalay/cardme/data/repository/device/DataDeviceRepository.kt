@@ -1,10 +1,10 @@
 package com.popalay.cardme.data.repository.device
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import com.github.tamir7.contacts.Contact
 import com.popalay.cardme.domain.repository.DeviceRepository
-import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,8 +16,7 @@ class DataDeviceRepository @Inject constructor(
 
     override fun supportNfc() = context.packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
 
-    override fun getContacts(): List<Contact> = contactProvider.getContacts()
-
-    override fun checkPermissions(vararg permissions: String): Flowable<Boolean> = PermissionChecker.check(context, *permissions)
+    override fun getContactsNames(): Single<List<String>> = PermissionChecker.checkSingle(context, Manifest.permission.READ_CONTACTS)
+            .map { if (it) contactProvider.getContacts().map { it.displayName } else listOf() }
 
 }
