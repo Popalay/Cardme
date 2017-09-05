@@ -8,12 +8,12 @@
 
         <variable
             name="item"
-            type="com.popalay.cardme.data.models.Holder"
+            type="com.popalay.cardme.domain.model.Holder"
             />
 
         <variable
             name="publisher"
-            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.data.models.Holder>"
+            type="com.popalay.cardme.domain.model.Holder"
             />
     </data>
 

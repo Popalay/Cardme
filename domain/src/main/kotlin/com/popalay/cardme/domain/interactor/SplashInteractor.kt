@@ -1,6 +1,6 @@
 package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.data.repositories.SettingsRepository
+import com.popalay.cardme.domain.repository.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

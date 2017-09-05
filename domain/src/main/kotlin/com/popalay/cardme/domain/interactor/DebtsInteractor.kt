@@ -1,8 +1,8 @@
 package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.repositories.DebtRepository
-import com.popalay.cardme.data.repositories.HolderRepository
+import com.popalay.cardme.domain.model.Debt
+import com.popalay.cardme.domain.repository.DebtRepository
+import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers

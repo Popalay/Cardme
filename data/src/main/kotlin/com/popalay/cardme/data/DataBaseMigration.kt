@@ -9,18 +9,18 @@ class DataBaseMigration : RealmMigration {
         var updatedVersion = oldVersion
 
         if (updatedVersion == 0L) {
-            schema.get("Card").addField("isTrash", Boolean::class.java)
-            schema.get("Holder").addField("isTrash", Boolean::class.java)
-            schema.get("Debt").addField("isTrash", Boolean::class.java)
+            schema.get("DataCard").addField("isTrash", Boolean::class.java)
+            schema.get("DataHolder").addField("isTrash", Boolean::class.java)
+            schema.get("DataDebt").addField("isTrash", Boolean::class.java)
             updatedVersion++
         }
 
         if (updatedVersion == 1L) {
-            schema.get("Holder")
+            schema.get("DataHolder")
                     .removePrimaryKey()
                     .removeField("id")
                     .addPrimaryKey("name")
-            schema.get("Card")
+            schema.get("DataCard")
                     .removePrimaryKey()
                     .removeField("id")
                     .addPrimaryKey("number")
@@ -28,11 +28,11 @@ class DataBaseMigration : RealmMigration {
         }
 
         if (updatedVersion == 2L) {
-            schema.get("Holder")
+            schema.get("DataHolder")
                     .removeField("cardsCount")
                     .removeField("debtCount")
-                    .addRealmListField("cards", schema.get("Card"))
-                    .addRealmListField("debts", schema.get("Debt"))
+                    .addRealmListField("cards", schema.get("DataCard"))
+                    .addRealmListField("debts", schema.get("DataDebt"))
             updatedVersion++
         }
 

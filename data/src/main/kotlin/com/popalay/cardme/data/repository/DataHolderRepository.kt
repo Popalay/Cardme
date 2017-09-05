@@ -1,10 +1,11 @@
-package com.popalay.cardme.data.repositories
+package com.popalay.cardme.data.repository
 
 import com.github.popalay.rxrealm.RxRealm
 import com.popalay.cardme.data.dao.CardDao
-import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.models.Holder
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Debt
+import com.popalay.cardme.domain.model.Holder
+import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.realm.Realm
@@ -12,20 +13,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HolderRepository @Inject constructor(
+class DataHolderRepository @Inject constructor(
         private val cardDao: CardDao
-) {
+) : HolderRepository {
 
-    fun addCard(holderName: String, card: Card): Completable {
+    override fun addCard(holderName: String, card: Card): Completable {
         //TODO create holder if needed
-        return cardDao.insertOrUpdate(card.apply { this.holderName = holderName }).toCompletable()
+        return Completable.fromAction {
+            cardDao.insertOrUpdate(card.apply { this.holderName = holderName })
+        }
     }
 
-    /*fun addCard(holderName: String, card: Card): Completable = RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findAll().deleteAllFromRealm()
+    /*fun addCard(holderName: String, card: DataCard): Completable = RxRealm.doTransactional {
+        it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findAll().deleteAllFromRealm()
     }.andThen(RxRealm.doTransactional {
-        val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
-                .findFirst() ?: it.createObject(Holder::class.java, holderName)
+        val holder = it.where(DataHolder::class.java).equalTo(DataHolder.NAME, holderName)
+                .findFirst() ?: it.createObject(DataHolder::class.java, holderName)
         card.holder = holder
         val realmCard = it.copyToRealmOrUpdate(card)
         if (!holder.cards.contains(realmCard)) holder.cards.add(realmCard)
@@ -33,7 +36,7 @@ class HolderRepository @Inject constructor(
         updateTrashFlag(it)
     })*/
 
-    fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
+    override fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, holderName)
                 .findFirst() ?: it.createObject(Holder::class.java, holderName)
         debt.holder = holder
@@ -43,15 +46,15 @@ class HolderRepository @Inject constructor(
         updateTrashFlag(it)
     }
 
-    fun removeCard(card: Card): Completable = RxRealm.doTransactional {
+    override fun removeCard(card: Card): Completable = RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, card.holderName).findFirst()
-        //val realmCard = it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst()
+        //val realmCard = it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst()
         //holder.cards.remove(realmCard)
 
         updateTrashFlag(it)
     }
 
-    fun removeDebt(debt: Debt): Completable = RxRealm.doTransactional {
+    override fun removeDebt(debt: Debt): Completable = RxRealm.doTransactional {
         val holder = it.where(Holder::class.java).equalTo(Holder.NAME, debt.holder.name).findFirst()
         val realmDebt = it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst()
         holder.debts.remove(realmDebt)
@@ -59,23 +62,23 @@ class HolderRepository @Inject constructor(
         updateTrashFlag(it)
     }
 
-    fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
+    override fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
         it.where(Holder::class.java)
                 .equalTo(Holder.IS_TRASH, false)
                 .findAllSorted(Holder.NAME)
     }
 
-    fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement {
+    override fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement {
         it.where(Holder::class.java).equalTo(Holder.NAME, holderName).findAll()
     }
 
-    fun removeTrashed(): Completable = RxRealm.doTransactional {
+    override fun removeTrashed(): Completable = RxRealm.doTransactional {
         it.where(Holder::class.java).equalTo(Holder.IS_TRASH, true).findAll().deleteAllFromRealm()
     }
 
     private fun updateTrashFlag(realm: Realm) {
         val intoTrash = realm.where(Holder::class.java)
-                //TODO.isEmpty(Holder.CARDS)
+                //TODO.isEmpty(DataHolder.CARDS)
                 .isEmpty(Holder.DEBTS)
                 .findAll()
 
@@ -84,7 +87,7 @@ class HolderRepository @Inject constructor(
         }
 
         val fromTrash = realm.where(Holder::class.java)
-                //TODO.isNotEmpty(Holder.CARDS)
+                //TODO.isNotEmpty(DataHolder.CARDS)
                 .or()
                 .isNotEmpty(Holder.DEBTS)
                 .findAll()
@@ -94,5 +97,3 @@ class HolderRepository @Inject constructor(
         }
     }
 }
-
-private fun Unit.toCompletable() = Completable.fromAction { this }

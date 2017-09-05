@@ -1,8 +1,8 @@
 package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.data.models.Settings
-import com.popalay.cardme.data.repositories.device.DeviceRepository
-import com.popalay.cardme.data.repositories.SettingsRepository
+import com.popalay.cardme.domain.model.Settings
+import com.popalay.cardme.domain.repository.DeviceRepository
+import com.popalay.cardme.domain.repository.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

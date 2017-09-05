@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.popalay.cardme.data.models.Card"
+            type="com.popalay.cardme.domain.model.Card"
             />
 
         <variable
@@ -18,7 +18,7 @@
 
         <variable
             name="publisher"
-            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.data.models.Card>"
+            type="com.popalay.cardme.domain.model.Card"
             />
     </data>
 

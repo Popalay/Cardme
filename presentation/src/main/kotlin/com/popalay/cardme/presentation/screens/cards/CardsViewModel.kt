@@ -4,7 +4,7 @@ import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.DataTransformers
-import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.AppException
 import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.interactor.CardInteractor

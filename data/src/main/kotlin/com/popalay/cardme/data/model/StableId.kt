@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.models
+package com.popalay.cardme.data.model
 
 interface StableId {
     val stableId: Long

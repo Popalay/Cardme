@@ -3,7 +3,7 @@ package com.popalay.cardme.presentation.screens.home
 import android.content.Intent
 import android.os.Bundle
 import com.popalay.cardme.R
-import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.presentation.base.navigation.CustomNavigator
 import com.popalay.cardme.presentation.screens.*
 import com.popalay.cardme.presentation.screens.addcard.AddCardActivity

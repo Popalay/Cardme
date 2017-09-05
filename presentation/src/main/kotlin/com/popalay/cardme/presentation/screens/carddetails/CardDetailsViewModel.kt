@@ -5,7 +5,7 @@ import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
-import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD

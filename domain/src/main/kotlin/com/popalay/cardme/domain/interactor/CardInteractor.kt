@@ -1,9 +1,9 @@
 package com.popalay.cardme.domain.interactor
 
-import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.repositories.CardRepository
-import com.popalay.cardme.data.repositories.DebtRepository
-import com.popalay.cardme.data.repositories.HolderRepository
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.repository.CardRepository
+import com.popalay.cardme.domain.repository.DebtRepository
+import com.popalay.cardme.domain.repository.HolderRepository
 import com.popalay.cardme.domain.ExceptionFactory
 import io.reactivex.Completable
 import io.reactivex.Flowable

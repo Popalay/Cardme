@@ -1,11 +1,11 @@
 package com.popalay.cardme.domain.interactor
 
 import android.Manifest
-import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.models.Holder
-import com.popalay.cardme.data.repositories.HolderRepository
-import com.popalay.cardme.data.repositories.device.DeviceRepository
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Debt
+import com.popalay.cardme.domain.model.Holder
+import com.popalay.cardme.domain.repository.HolderRepository
+import com.popalay.cardme.domain.repository.DeviceRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers

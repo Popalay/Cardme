@@ -1,7 +1,5 @@
 package com.popalay.cardme.utils.recycler
 
-import com.popalay.cardme.data.models.StableId
-
 
 class StableIdDiffListCallback<in T : StableId> : DiffObservableList.Callback<T> {
 

@@ -88,6 +88,7 @@ kapt {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':data')
     api project(":domain")
 
     implementation presentationDependencies.cardView

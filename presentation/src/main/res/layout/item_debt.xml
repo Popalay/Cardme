@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.popalay.cardme.data.models.Debt"
+            type="com.popalay.cardme.domain.model.Debt"
             />
 
     </data>

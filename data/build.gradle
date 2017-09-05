@@ -26,6 +26,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(':domain')
+
     implementation dataDependencies.kotlin
 
     implementation dataDependencies.rxJava

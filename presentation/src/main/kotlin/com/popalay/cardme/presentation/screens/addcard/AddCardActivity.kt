@@ -8,11 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.popalay.cardme.R
-import com.popalay.cardme.data.models.Card
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.databinding.ActivityAddCardBinding
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
@@ -37,7 +38,7 @@ class AddCardActivity : RightSlidingActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = getDataBinding(R.layout.activity_add_card)
-        b.vm = getViewModel<AddCardViewModel>(factory)
+        b.vm = getViewModel(factory)
         initUI()
     }
 
@@ -46,7 +47,9 @@ class AddCardActivity : RightSlidingActivity() {
         acceptMenuItem = menu.findItem(R.id.action_accept)
 
         viewModelFacade.onCanSaveStateChanged()
-                .subscribeBy { acceptMenuItem.isEnabled = it }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { acceptMenuItem.isEnabled = it }
+                .subscribeBy(Throwable::printStackTrace)
                 .addTo(disposables)
 
         return super.onCreateOptionsMenu(menu)
@@ -71,6 +74,5 @@ class AddCardActivity : RightSlidingActivity() {
         b.textHolder.setOnFocusChangeListener { _, focus ->
             b.appBarLayout.setExpanded(!focus)
         }
-
     }
 }

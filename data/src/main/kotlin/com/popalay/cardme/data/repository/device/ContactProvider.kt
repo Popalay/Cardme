@@ -1,4 +1,4 @@
-package com.popalay.cardme.data.repositories.device
+package com.popalay.cardme.data.repository.device
 
 import android.content.Context
 import com.github.tamir7.contacts.Contact

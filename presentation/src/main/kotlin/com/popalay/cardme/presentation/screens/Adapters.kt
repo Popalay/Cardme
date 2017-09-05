@@ -9,9 +9,9 @@ import com.github.nitrico.lastadapter.LastAdapter
 import com.jakewharton.rxrelay2.Relay
 import com.popalay.cardme.BR
 import com.popalay.cardme.R
-import com.popalay.cardme.data.models.Card
-import com.popalay.cardme.data.models.Debt
-import com.popalay.cardme.data.models.Holder
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Debt
+import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.databinding.ItemCardBinding
 import com.popalay.cardme.databinding.ItemHolderBinding
 
