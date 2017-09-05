@@ -9,5 +9,5 @@ class Card(
         var generatedBackgroundSeed: Long,
         var position: Int,
         var isTrash: Boolean,
-        var holderName: String
+        var holder: Holder
 )

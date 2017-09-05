@@ -24,8 +24,6 @@ class DataCardRepository @Inject constructor(
     /*RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }*/
 
     override fun getAll(): Flowable<List<Card>> = cardDao.getAllNotTrashed()
-            //TODO map DataCard to Card
-            .map { listOf<Card>() }
 
     override fun getAllTrashed(): Flowable<List<Card>> = Flowable.empty()/*RxRealm.listenList {
         it.where(DataCard::class.java)

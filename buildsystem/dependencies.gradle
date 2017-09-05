@@ -17,7 +17,7 @@ ext {
     compileSdkVersion = 26
 
     gradlePlugin = '3.0.0-beta4'
-    kotlinLanguage = '1.1.4-2'
+    kotlinLanguage = '1.1.4-3'
 
     //Libraries
     supportLibrary = '26.0.1'

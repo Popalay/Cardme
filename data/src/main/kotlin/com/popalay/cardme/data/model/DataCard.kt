@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.model
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.DrawableRes
@@ -9,20 +10,20 @@ import com.google.gson.annotations.Expose
 import com.popalay.cardme.data.R
 
 @Entity(tableName = "cards",
-        indices = arrayOf(Index(value = "number", unique = true))/*,
+        indices = arrayOf(Index(value = "number", unique = true), Index(value = "holderName")),
         foreignKeys = arrayOf(ForeignKey(entity = DataHolder::class,
                 parentColumns = arrayOf("name"),
                 childColumns = arrayOf("holderName"),
-                onDelete = ForeignKey.CASCADE))*/
-) data class DataCard(
-        @Expose @PrimaryKey var number: String = "",
-        @Expose var title: String = "",
-        @Expose var redactedNumber: String = "",
+                onDelete = ForeignKey.CASCADE)))
+data class DataCard(
+        @Expose @PrimaryKey var number: String,
+        @Expose var title: String,
+        @Expose var redactedNumber: String,
         @Expose @CardType val cardType: Long,
-        @Expose var generatedBackgroundSeed: Long = System.nanoTime(),
-        @Expose var position: Int = 0,
-        @Expose var isTrash: Boolean = false,
-        @Expose var holderName: String = ""
+        @Expose var generatedBackgroundSeed: Long,
+        @Expose var position: Int,
+        @Expose var isTrash: Boolean,
+        @Expose var holderName: String
 ) : StableId {
 
     companion object {

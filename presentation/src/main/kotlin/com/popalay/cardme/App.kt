@@ -20,13 +20,6 @@ class App : DaggerApplication() {
 
         applyAutoInjector()
         LeakCanary.install(this)
-        Realm.init(this)
-        val config = RealmConfiguration.Builder()
-                .schemaVersion(BuildConfig.DATABASE_VERSION)
-                .deleteRealmIfMigrationNeeded()
-                //.migration(DataBaseMigration())
-                .build()
-        Realm.setDefaultConfiguration(config)
         Shortbread.create(this)
 
         Stetho.initialize(Stetho.newInitializerBuilder(this)

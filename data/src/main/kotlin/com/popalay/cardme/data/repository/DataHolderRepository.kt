@@ -1,9 +1,6 @@
 package com.popalay.cardme.data.repository
 
-import com.github.popalay.rxrealm.RxRealm
 import com.popalay.cardme.data.dao.CardDao
-import com.popalay.cardme.data.model.DataDebt
-import com.popalay.cardme.data.model.DataHolder
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.model.Holder
@@ -19,12 +16,12 @@ class DataHolderRepository @Inject constructor(
         private val cardDao: CardDao
 ) : HolderRepository {
 
-    override fun addCard(holderName: String, card: Card): Completable {
+    override fun addCard(holderName: String, card: Card): Completable = Completable.complete() /*{
         //TODO create holder if needed
         return Completable.fromAction {
             cardDao.insertOrUpdate(card.apply { this.holderName = holderName })
         }
-    }
+    }*/
 
     /*fun addCard(holderName: String, card: DataCard): Completable = RxRealm.doTransactional {
         it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findAll().deleteAllFromRealm()
@@ -38,7 +35,7 @@ class DataHolderRepository @Inject constructor(
         updateTrashFlag(it)
     })*/
 
-    override fun addDebt(holderName: String, debt: Debt): Completable = RxRealm.doTransactional {
+    override fun addDebt(holderName: String, debt: Debt): Completable = Completable.complete()/*RxRealm.doTransactional {
         val holder = it.where(DataHolder::class.java).equalTo(DataHolder.NAME, holderName)
                 .findFirst() ?: it.createObject(DataHolder::class.java, holderName)
         debt.holder = holder
@@ -46,40 +43,40 @@ class DataHolderRepository @Inject constructor(
         if (!holder.debts.contains(realmDebt)) holder.debts.add(realmDebt)
 
         updateTrashFlag(it)
-    }
+    }*/
 
-    override fun removeCard(card: Card): Completable = RxRealm.doTransactional {
+    override fun removeCard(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
         val holder = it.where(DataHolder::class.java).equalTo(DataHolder.NAME, card.holderName).findFirst()
         //val realmCard = it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst()
         //holder.cards.remove(realmCard)
 
         updateTrashFlag(it)
-    }
+    }*/
 
-    override fun removeDebt(debt: Debt): Completable = RxRealm.doTransactional {
+    override fun removeDebt(debt: Debt): Completable = Completable.complete()/*RxRealm.doTransactional {
         val holder = it.where(DataHolder::class.java).equalTo(DataHolder.NAME, debt.holder.name).findFirst()
         val realmDebt = it.where(DataDebt::class.java).equalTo(DataDebt.ID, debt.id).findFirst()
         holder.debts.remove(realmDebt)
 
         updateTrashFlag(it)
-    }
+    }*/
 
-    override fun getAll(): Flowable<List<Holder>> = RxRealm.listenList {
+    override fun getAll(): Flowable<List<Holder>> = Flowable.empty()/*RxRealm.listenList {
         it.where(DataHolder::class.java)
                 .equalTo(DataHolder.IS_TRASH, false)
                 .findAllSorted(DataHolder.NAME)
     }
-
-    override fun get(holderName: String): Flowable<Holder> = RxRealm.listenElement {
+*/
+    override fun get(holderName: String): Flowable<Holder> = Flowable.empty()/*RxRealm.listenElement {
         it.where(DataHolder::class.java).equalTo(DataHolder.NAME, holderName).findAll()
-    }
+    }*/
 
-    override fun removeTrashed(): Completable = RxRealm.doTransactional {
+    override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {
         it.where(Holder::class.java).equalTo(DataHolder.IS_TRASH, true).findAll().deleteAllFromRealm()
-    }
+    }*/
 
     private fun updateTrashFlag(realm: Realm) {
-        val intoTrash = realm.where(DataHolder::class.java)
+/*        val intoTrash = realm.where(DataHolder::class.java)
                 //TODO.isEmpty(DataHolder.CARDS)
                 .isEmpty(DataHolder.DEBTS)
                 .findAll()
@@ -96,6 +93,6 @@ class DataHolderRepository @Inject constructor(
 
         for (item in fromTrash) {
             item.isTrash = false
-        }
+        }*/
     }
 }

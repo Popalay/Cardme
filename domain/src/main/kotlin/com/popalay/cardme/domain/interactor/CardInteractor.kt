@@ -1,10 +1,10 @@
 package com.popalay.cardme.domain.interactor
 
+import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
 import com.popalay.cardme.domain.repository.DebtRepository
 import com.popalay.cardme.domain.repository.HolderRepository
-import com.popalay.cardme.domain.ExceptionFactory
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -48,7 +48,7 @@ class CardInteractor @Inject constructor(
             .andThen(holderRepository.removeCard(card))
             .subscribeOn(Schedulers.io())
 
-    fun restore(card: Card): Completable = holderRepository.addCard(card.holderName, card)
+    fun restore(card: Card): Completable = holderRepository.addCard(card.holder.name, card)
             .andThen(cardRepository.restore(card))
             .subscribeOn(Schedulers.io())
 
