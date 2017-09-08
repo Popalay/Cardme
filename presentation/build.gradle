@@ -4,16 +4,18 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'com.google.firebase.firebase-perf'
 
-apply from: "$project.rootDir/buildsystem/script-git-version.gradle"
+apply from: "../buildsystem/script-git-version.gradle"
+
+def globalConf = rootProject.ext
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion globalConf.compileSdkVersion
+    buildToolsVersion globalConf.buildToolsVersion
 
     defaultConfig {
         applicationId "com.popalay.cardme"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion globalConf.minSdkVersion
+        targetSdkVersion globalConf.targetSdkVersion
 
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -22,14 +24,14 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../buildsystem/debug.keystore")
+            storeFile file(globalConf.debugStoreFile)
         }
 
         release {
-            storeFile file("../buildsystem/release.keystore")
-            keyAlias "yocard"
-            keyPassword "wr7qUc2e6e"
-            storePassword "wr7qUc2e6e"
+            storeFile file(globalConf.releaseStoreFile)
+            keyAlias globalConf.keyAlias
+            keyPassword globalConf.keyPassword
+            storePassword globalConf.storePassword
         }
     }
 
