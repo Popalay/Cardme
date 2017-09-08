@@ -5,11 +5,12 @@ import android.databinding.ObservableList
 import android.support.annotation.MainThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.util.ListUpdateCallback
+import com.popalay.cardme.domain.model.StableId
 import java.util.*
 import kotlin.collections.ArrayList
 
 class DiffObservableList<T : StableId> @JvmOverloads constructor(
-        private val callback: Callback<T> = StableIdDiffListCallback<T>(),
+        private val callback: Callback<T> = StableIdDiffListCallback(),
         private val detectMoves: Boolean = true
 ) : AbstractList<T>(), ObservableList<T> {
 

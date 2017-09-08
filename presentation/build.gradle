@@ -134,7 +134,6 @@ dependencies {
     implementation presentationDependencies.firebaseCrash
 
     implementation developmentDependencies.stetho
-    implementation developmentDependencies.stethoRealm
     implementation developmentDependencies.androidProguards
     debugImplementation developmentDependencies.leakCanary
     releaseImplementation developmentDependencies.leakCanaryNoOp

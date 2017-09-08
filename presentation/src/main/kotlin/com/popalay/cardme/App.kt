@@ -5,10 +5,7 @@ import com.popalay.cardme.injection.AppComponent
 import com.popalay.cardme.injection.DaggerAppComponent
 import com.popalay.cardme.injection.applyAutoInjector
 import com.squareup.leakcanary.LeakCanary
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import dagger.android.support.DaggerApplication
-import io.realm.Realm
-import io.realm.RealmConfiguration
 import shortbread.Shortbread
 
 class App : DaggerApplication() {
@@ -24,7 +21,6 @@ class App : DaggerApplication() {
 
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                 .build())
     }
 

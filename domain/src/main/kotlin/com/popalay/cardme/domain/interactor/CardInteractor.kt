@@ -48,7 +48,7 @@ class CardInteractor @Inject constructor(
             .andThen(holderRepository.removeCard(card))
             .subscribeOn(Schedulers.io())
 
-    fun restore(card: Card): Completable = holderRepository.addCard(card.holder.name, card)
+    fun restore(card: Card): Completable = holderRepository.addCard(card.holderName, card)
             .andThen(cardRepository.restore(card))
             .subscribeOn(Schedulers.io())
 

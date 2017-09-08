@@ -22,7 +22,7 @@ class DebtsInteractor @Inject constructor(
             .andThen(holderRepository.removeDebt(debt))
             .subscribeOn(Schedulers.io())
 
-    fun restore(debt: Debt): Completable = holderRepository.addDebt(debt.holder.name, debt)
+    fun restore(debt: Debt): Completable = holderRepository.addDebt(debt.holderName, debt)
             .andThen(debtRepository.restore(debt))
             .subscribeOn(Schedulers.io())
 }

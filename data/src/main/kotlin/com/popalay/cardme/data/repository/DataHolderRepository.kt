@@ -7,7 +7,6 @@ import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.realm.Realm
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -75,7 +74,7 @@ class DataHolderRepository @Inject constructor(
         it.where(Holder::class.java).equalTo(DataHolder.IS_TRASH, true).findAll().deleteAllFromRealm()
     }*/
 
-    private fun updateTrashFlag(realm: Realm) {
+    private fun updateTrashFlag() {
 /*        val intoTrash = realm.where(DataHolder::class.java)
                 //TODO.isEmpty(DataHolder.CARDS)
                 .isEmpty(DataHolder.DEBTS)

@@ -24,13 +24,13 @@ class HolderInteractor @Inject constructor(
     fun addCard(holderName: String, card: Card): Completable = holderRepository.addCard(holderName, card)
             .subscribeOn(Schedulers.io())
 
-    fun addCard(card: Card): Completable = addCard(card.holder.name, card)
+    fun addCard(card: Card): Completable = addCard(card.holderName, card)
             .subscribeOn(Schedulers.io())
 
     fun addDebt(holderName: String, debt: Debt): Completable = holderRepository.addDebt(holderName, debt)
             .subscribeOn(Schedulers.io())
 
-    fun addDebt(debt: Debt): Completable = addDebt(debt.holder.name, debt)
+    fun addDebt(debt: Debt): Completable = addDebt(debt.holderName, debt)
             .subscribeOn(Schedulers.io())
 
     fun getAll(): Flowable<List<Holder>> = holderRepository.getAll()

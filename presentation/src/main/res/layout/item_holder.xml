@@ -13,7 +13,7 @@
 
         <variable
             name="publisher"
-            type="com.popalay.cardme.domain.model.Holder"
+            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.domain.model.Holder>"
             />
     </data>
 

@@ -30,7 +30,6 @@ dependencies {
     implementation dataDependencies.kotlin
 
     implementation dataDependencies.rxJava
-    implementation dataDependencies.rxRealm
 
     implementation dataDependencies.dagger
     kapt dataDependencies.daggerCompiler

@@ -22,7 +22,7 @@ class DataSettingsRepository @Inject constructor(
     override fun save(settings: Settings): Completable = Completable.complete()/*RxRealm.doTransactional { it.copyToRealmOrUpdate(settings) }*/
 
     override fun createDefault() = Settings(
-            id = UUID.randomUUID().toString(),
+            id = UUID.randomUUID().timestamp(),
             theme = "Default",
             language = "English",
             //language = Locale.getDefault().displayLanguage,

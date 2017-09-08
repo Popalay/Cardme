@@ -10,8 +10,4 @@ import com.google.gson.annotations.Expose
 data class DataHolder(
         @Expose @PrimaryKey var name: String,
         @Expose var isTrash: Boolean
-) : StableId {
-
-    override val stableId: Long
-        get() = name.hashCode().toLong()
-}
+)

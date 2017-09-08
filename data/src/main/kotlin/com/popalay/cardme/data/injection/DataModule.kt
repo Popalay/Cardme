@@ -45,18 +45,18 @@ abstract class DataModule {
 
         @Provides
         @Singleton
-        fun provideGson(): Gson = GsonBuilder()
+        @JvmStatic fun provideGson(): Gson = GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create()
 
         @Provides
         @Singleton
-        fun provideDatabase(context: Context): Database
+        @JvmStatic fun provideDatabase(context: Context): Database
                 = Room.databaseBuilder(context, Database::class.java, "cardme-db").build()
 
         @Provides
         @Singleton
-        fun provideCardDao(database: Database): CardDao = database.cardDao()
+        @JvmStatic fun provideCardDao(database: Database): CardDao = database.cardDao()
     }
 
 }

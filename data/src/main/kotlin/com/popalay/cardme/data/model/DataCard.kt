@@ -6,8 +6,8 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
-import com.google.gson.annotations.Expose
 import com.popalay.cardme.data.R
+import com.popalay.cardme.domain.model.StableId
 
 @Entity(tableName = "cards",
         indices = arrayOf(Index(value = "number", unique = true), Index(value = "holderName")),
@@ -16,15 +16,15 @@ import com.popalay.cardme.data.R
                 childColumns = arrayOf("holderName"),
                 onDelete = ForeignKey.CASCADE)))
 data class DataCard(
-        @Expose @PrimaryKey var number: String,
-        @Expose var title: String,
-        @Expose var redactedNumber: String,
-        @Expose @CardType val cardType: Long,
-        @Expose var generatedBackgroundSeed: Long,
-        @Expose var position: Int,
-        @Expose var isTrash: Boolean,
-        @Expose var holderName: String
-) : StableId {
+        @PrimaryKey var number: String,
+        var title: String,
+        var redactedNumber: String,
+        @CardType var cardType: Long,
+        var generatedBackgroundSeed: Long,
+        var position: Int,
+        var isTrash: Boolean,
+        var holderName: String
+) {
 
     companion object {
         @IntDef(CARD_TYPE_MAESTRO, CARD_TYPE_MASTERCARD, CARD_TYPE_VISA, CARD_TYPE_AMEX,
@@ -53,8 +53,5 @@ data class DataCard(
         CARD_TYPE_JCB -> R.drawable.ic_jcb
         else -> R.drawable.ic_unknown
     }
-
-    override val stableId: Long
-        get() = number.hashCode().toLong()
 
 }

@@ -18,8 +18,4 @@ data class DataDebt(
         @Expose var createdAt: Long,
         @Expose var isTrash: Boolean,
         @Expose var holderName: String
-) : StableId {
-
-    override val stableId: Long
-        get() = id
-}
+)

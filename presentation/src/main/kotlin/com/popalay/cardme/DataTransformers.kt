@@ -1,7 +1,6 @@
 package com.popalay.cardme
 
 import com.popalay.cardme.domain.model.Card
-import io.card.payment.CardType
 import io.card.payment.CreditCard
 
 object DataTransformers {
@@ -9,7 +8,7 @@ object DataTransformers {
     fun transform(creditCard: CreditCard) = Card(
             number = creditCard.cardNumber,
             redactedNumber = creditCard.redactedCardNumber,
-            cardType = when (creditCard.cardType) {
+            cardType = 0/*when (creditCard.cardType) {
                 CardType.MASTERCARD -> Card.CARD_TYPE_MASTERCARD
                 CardType.VISA -> Card.CARD_TYPE_VISA
                 CardType.MAESTRO -> Card.CARD_TYPE_MAESTRO
@@ -18,7 +17,7 @@ object DataTransformers {
                 CardType.DISCOVER -> Card.CARD_TYPE_DISCOVER
                 CardType.JCB -> Card.CARD_TYPE_JCB
                 else -> Card.CARD_TYPE_UNKNOWN
-            }
+            }*/
     )
 
 }

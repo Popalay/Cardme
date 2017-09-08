@@ -18,7 +18,7 @@
 
         <variable
             name="publisher"
-            type="com.popalay.cardme.domain.model.Card"
+            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.domain.model.Card>"
             />
     </data>
 

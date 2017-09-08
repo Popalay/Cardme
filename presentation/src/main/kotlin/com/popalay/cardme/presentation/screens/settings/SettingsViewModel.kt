@@ -3,7 +3,7 @@ package com.popalay.cardme.presentation.screens.settings
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.popalay.cardme.domain.interactor.SettingsInteractor
-import com.popalay.cardme.data.model.DataSettings
+import com.popalay.cardme.domain.model.Settings
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
@@ -16,7 +16,7 @@ class SettingsViewModel @Inject constructor(
         private val settingsInteractor: SettingsInteractor
 ) : BaseViewModel() {
 
-    val settings = ObservableField<DataSettings>()
+    val settings = ObservableField<Settings>()
     val showImages = ObservableBoolean()
 
     init {
