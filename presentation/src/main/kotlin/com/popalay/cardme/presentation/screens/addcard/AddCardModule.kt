@@ -31,12 +31,6 @@ abstract class AddCardModule {
         @JvmStatic fun provideCardNumber(activity: AddCardActivity): String =
                 activity.intent.getStringExtra(AddCardActivity.KEY_CARD_NUMBER)
 
-        @Provides
-        @PerActivity
-        @Named(AddCardActivity.KEY_FORMATTED_CARD_NUMBER)
-        @JvmStatic fun provideFormattedCardNumber(activity: AddCardActivity): String =
-                activity.intent.getStringExtra(AddCardActivity.KEY_FORMATTED_CARD_NUMBER)
-
     }
 
 }

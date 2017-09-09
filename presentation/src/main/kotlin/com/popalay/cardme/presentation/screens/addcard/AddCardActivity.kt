@@ -8,8 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.popalay.cardme.R
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.databinding.ActivityAddCardBinding
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.presentation.base.RightSlidingActivity
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
@@ -22,10 +22,8 @@ class AddCardActivity : RightSlidingActivity() {
 
     companion object {
         const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
-        const val KEY_FORMATTED_CARD_NUMBER = "KEY_FORMATTED_CARD_NUMBER"
         fun getIntent(context: Context, card: Card) = Intent(context, AddCardActivity::class.java).apply {
             putExtra(KEY_CARD_NUMBER, card.number)
-            putExtra(KEY_FORMATTED_CARD_NUMBER, card.redactedNumber)
         }
     }
 

@@ -231,7 +231,7 @@ class CardInteractorTest {
     @Test fun prepareForSharing_Success() {
         val card = Card()
 
-        whenever(cardRepository.prepareForSharing(card)).thenReturn(Single.just("card.json"))
+        whenever(cardRepository.toJson(card)).thenReturn(Single.just("card.json"))
 
         val testObserver = cardInteractor.prepareForSharing(card).test()
 
@@ -248,7 +248,7 @@ class CardInteractorTest {
         val card = Card()
         val cardJson = "card.json"
 
-        whenever(cardRepository.getFromJson(cardJson)).thenReturn(Single.just(card))
+        whenever(cardRepository.fromJson(cardJson)).thenReturn(Single.just(card))
 
         val testObserver = cardInteractor.getFromJson(cardJson).test()
 

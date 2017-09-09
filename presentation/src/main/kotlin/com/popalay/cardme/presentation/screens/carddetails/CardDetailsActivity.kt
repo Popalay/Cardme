@@ -33,8 +33,8 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = getDataBinding<ActivityCardDetailsBinding>(R.layout.activity_card_details)
-        b.vm = getViewModel<CardDetailsViewModel>(factory)
+        b = getDataBinding(R.layout.activity_card_details)
+        b.vm = getViewModel(factory)
         NfcAdapter.getDefaultAdapter(this)?.setNdefPushMessageCallback(this, this)
         initUi()
     }

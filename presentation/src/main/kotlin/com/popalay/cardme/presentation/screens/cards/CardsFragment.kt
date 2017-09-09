@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.popalay.cardme.DataTransformers
 import com.popalay.cardme.R
 import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.presentation.base.BaseFragment
@@ -38,7 +39,7 @@ class CardsFragment : BaseFragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         b = getDataBinding(inflater, R.layout.fragment_cards, container)
-        b.vm = getViewModel<CardsViewModel>(factory)
+        b.vm = getViewModel(factory)
         initUI()
         return b.root
     }
@@ -48,7 +49,7 @@ class CardsFragment : BaseFragment() {
         if (requestCode == SCAN_REQUEST_CODE) {
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
                 val scanResult = data.getParcelableExtra<CreditCard>(CardIOActivity.EXTRA_SCAN_RESULT)
-                viewModelFacade.onCardScanned(scanResult)
+                viewModelFacade.onCardScanned(DataTransformers.transform(scanResult))
             }
         }
     }

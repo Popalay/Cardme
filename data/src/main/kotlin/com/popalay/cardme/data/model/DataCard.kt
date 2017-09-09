@@ -23,6 +23,7 @@ data class DataCard(
         var generatedBackgroundSeed: Long,
         var position: Int,
         var isTrash: Boolean,
+        var isPending: Boolean,
         var holderName: String
 ) {
 

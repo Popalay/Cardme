@@ -3,12 +3,13 @@ package com.popalay.cardme.presentation.screens.cards
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.DataTransformers
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.AppException
 import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.interactor.CardInteractor
+import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
@@ -19,7 +20,6 @@ import com.popalay.cardme.utils.extensions.setTo
 import com.popalay.cardme.utils.extensions.swap
 import com.popalay.cardme.utils.recycler.DiffObservableList
 import com.stepango.rxdatabindings.setTo
-import io.card.payment.CreditCard
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -29,6 +29,7 @@ import javax.inject.Inject
 class CardsViewModel @Inject constructor(
         private val router: CustomRouter,
         private val cardInteractor: CardInteractor,
+        private val holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), CardsViewModelFacade {
 
@@ -37,15 +38,13 @@ class CardsViewModel @Inject constructor(
 
     val cardClickPublisher: PublishRelay<Card> = PublishRelay.create<Card>()
     val addCardClickPublisher: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
-
     val onSwiped: PublishRelay<Int> = PublishRelay.create()
     val onDragged: PublishRelay<Pair<Int, Int>> = PublishRelay.create()
     val onDropped: PublishRelay<Boolean> = PublishRelay.create()
     val onUndoSwipe: PublishRelay<Boolean> = PublishRelay.create()
 
-    val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
-
-    private var lastScannedCard: Card? = null
+    private val errorDialogState: BehaviorRelay<Boolean> = BehaviorRelay.create<Boolean>()
+    private var pendingCard: Card? = null
 
     init {
         cardInteractor.getAll()
@@ -99,9 +98,9 @@ class CardsViewModel @Inject constructor(
 
     override fun onWantToOverwrite() = navigateToAddCard()
 
-    override fun onCardScanned(creditCard: CreditCard) {
-        lastScannedCard = DataTransformers.transform(creditCard)
-        cardInteractor.checkCardExist(lastScannedCard?.number)
+    override fun onCardScanned(card: Card) {
+        holderInteractor.savePending(Holder(name = card.holderName))
+                .andThen(cardInteractor.savePending(card.also { pendingCard = it }))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::navigateToAddCard)
                 .subscribeBy(this::handleLocalError)
@@ -110,7 +109,7 @@ class CardsViewModel @Inject constructor(
 
     override fun getPositionOfCard(number: String) = cards.indexOfFirst { it.number == number }
 
-    private fun navigateToAddCard() = router.navigateTo(SCREEN_ADD_CARD, lastScannedCard)
+    private fun navigateToAddCard() = router.navigateTo(SCREEN_ADD_CARD, pendingCard)
 
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)
@@ -124,8 +123,7 @@ class CardsViewModel @Inject constructor(
 }
 
 interface CardsViewModelFacade {
-
-    fun onCardScanned(creditCard: CreditCard)
+    fun onCardScanned(card: Card)
     fun onShowCardExistsDialogDismiss()
     fun onWantToOverwrite()
     fun doOnShowCardExistsDialog(): Observable<Boolean>

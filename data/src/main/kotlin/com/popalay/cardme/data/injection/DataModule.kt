@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.popalay.cardme.data.Database
 import com.popalay.cardme.data.dao.CardDao
+import com.popalay.cardme.data.dao.HolderDao
 import com.popalay.cardme.data.repository.DataCardRepository
 import com.popalay.cardme.data.repository.DataDebtRepository
 import com.popalay.cardme.data.repository.DataHolderRepository
@@ -57,6 +58,10 @@ abstract class DataModule {
         @Provides
         @Singleton
         @JvmStatic fun provideCardDao(database: Database): CardDao = database.cardDao()
+
+        @Provides
+        @Singleton
+        @JvmStatic fun provideHolderDao(database: Database): HolderDao = database.holderDao()
     }
 
 }

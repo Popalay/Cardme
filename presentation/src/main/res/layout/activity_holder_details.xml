@@ -93,7 +93,6 @@
                     android:layoutAnimation="@anim/list_layout_animation"
                     android:nestedScrollingEnabled="false"
                     bind:applyDivider="@{orientation.VERTICAL}"
-                    bind:debtsAdapter="@{vm.holder.debts}"
                     bind:defaultList="@{true}"
                     tools:listitem="@layout/item_debt"
                     />
@@ -105,7 +104,6 @@
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_money_48_primary"
                     android:text="@string/list_debts_placeholder_holder_details"
-                    bind:listPlaceholder="@{vm.holder.debts}"
                     />
 
             </FrameLayout>

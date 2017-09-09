@@ -19,14 +19,21 @@ class CardInteractor @Inject constructor(
         private val debtRepository: DebtRepository
 ) {
 
-    fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
-            .subscribeOn(Schedulers.io())
+    fun save(card: Card): Completable {
+        //TODO Save holder if needed
+        return cardRepository.save(card.apply { isPending = false })
+                .subscribeOn(Schedulers.io())
+    }
 
-    fun checkCardExist(cardNumber: String?): Completable {
-        return cardRepository.cardIsNew(cardNumber ?: "")
+    fun savePending(card: Card): Completable {
+        return cardRepository.save(card.apply { isPending = true })
+                .andThen(cardRepository.cardIsNew(card.number))
                 .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
                 .subscribeOn(Schedulers.io())
     }
+
+    fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
+            .subscribeOn(Schedulers.io())
 
     fun hasAllData(card: Card?, holderName: String): Single<Boolean> = Single.fromCallable {
         holderName.isNotBlank()
@@ -45,11 +52,9 @@ class CardInteractor @Inject constructor(
     }
 
     fun markAsTrash(card: Card): Completable = cardRepository.markAsTrash(card)
-            .andThen(holderRepository.removeCard(card))
             .subscribeOn(Schedulers.io())
 
-    fun restore(card: Card): Completable = holderRepository.addCard(card.holderName, card)
-            .andThen(cardRepository.restore(card))
+    fun restore(card: Card): Completable = cardRepository.restore(card)
             .subscribeOn(Schedulers.io())
 
     fun emptyTrash(): Completable = Completable.mergeArray(
@@ -58,10 +63,10 @@ class CardInteractor @Inject constructor(
             debtRepository.removeTrashed())
             .subscribeOn(Schedulers.io())
 
-    fun prepareForSharing(card: Card): Single<String> = cardRepository.prepareForSharing(card)
+    fun prepareForSharing(card: Card): Single<String> = cardRepository.toJson(card)
             .subscribeOn(Schedulers.io())
 
-    fun getFromJson(source: String): Single<Card> = cardRepository.getFromJson(source)
+    fun getFromJson(source: String): Single<Card> = cardRepository.fromJson(source)
             .subscribeOn(Schedulers.io())
 
     private fun createCardExistError(): Throwable =

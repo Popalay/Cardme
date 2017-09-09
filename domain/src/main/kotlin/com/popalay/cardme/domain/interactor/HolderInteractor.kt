@@ -18,20 +18,23 @@ class HolderInteractor @Inject constructor(
         private val holderRepository: HolderRepository
 ) {
 
+    fun save(holder: Holder): Completable = holderRepository.save(holder.apply { isPending = false })
+            .subscribeOn(Schedulers.io())
+
+    fun savePending(holder: Holder): Completable = holderRepository.save(holder.apply { isPending = true })
+            .subscribeOn(Schedulers.io())
+
     fun get(holderName: String): Flowable<Holder> = holderRepository.get(holderName)
             .subscribeOn(Schedulers.io())
 
-    fun addCard(holderName: String, card: Card): Completable = holderRepository.addCard(holderName, card)
-            .subscribeOn(Schedulers.io())
+    fun addCard(holderName: String, card: Card): Completable = Completable.complete()/*holderRepository.addCard(holderName, card)
+            .subscribeOn(Schedulers.io())*/
 
     fun addCard(card: Card): Completable = addCard(card.holderName, card)
             .subscribeOn(Schedulers.io())
 
-    fun addDebt(holderName: String, debt: Debt): Completable = holderRepository.addDebt(holderName, debt)
-            .subscribeOn(Schedulers.io())
-
-    fun addDebt(debt: Debt): Completable = addDebt(debt.holderName, debt)
-            .subscribeOn(Schedulers.io())
+    fun addDebt(holderName: String, debt: Debt): Completable = Completable.complete()/*holderRepository.addDebt(holderName, debt)
+            .subscribeOn(Schedulers.io())*/
 
     fun getAll(): Flowable<List<Holder>> = holderRepository.getAll()
             .subscribeOn(Schedulers.io())

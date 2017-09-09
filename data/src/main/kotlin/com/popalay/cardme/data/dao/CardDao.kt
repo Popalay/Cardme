@@ -10,21 +10,22 @@ import io.reactivex.Maybe
 interface CardDao {
 
     @Query("SELECT * FROM cards " +
-            "WHERE number = :number")
+            "WHERE number = :number " +
+            "LIMIT 1")
     fun get(number: String): Flowable<Card>
 
     @Query("SELECT * FROM cards " +
-            "WHERE isTrash = 0 " +
+            "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY position, holderName")
     fun getAllNotTrashed(): Flowable<List<Card>>
 
     @Query("SELECT * FROM cards " +
-            "WHERE isTrash = 1 " +
+            "WHERE isTrash = 1 AND isPending = 0 " +
             "ORDER BY position, holderName")
     fun getAllTrashed(): Flowable<List<Card>>
 
     @Query("SELECT COUNT (*) FROM cards " +
-            "WHERE isTrash = 0 AND number = :number")
+            "WHERE isTrash = 0 AND isPending = 0 AND number = :number")
     fun cardsNotTrashedCount(number: String): Maybe<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -34,10 +35,10 @@ interface CardDao {
     fun update(card: DataCard)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateAll(vararg cards: DataCard)
+    fun updateAll(cards: List<DataCard>)
 
     @Delete
-    fun deleteAll(vararg cards: DataCard)
+    fun deleteAll(cards: List<DataCard>)
 
     @Delete
     fun delete(card: DataCard)

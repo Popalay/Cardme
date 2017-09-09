@@ -1,11 +1,11 @@
 package com.popalay.cardme.data.repository
 
 import com.google.gson.Gson
+import com.popalay.cardme.data.applyMapper
 import com.popalay.cardme.data.dao.CardDao
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,20 +16,19 @@ class DataCardRepository @Inject constructor(
         private val gson: Gson
 ) : CardRepository {
 
-    override fun get(cardNumber: String): Flowable<Card> = Flowable.empty()/*RxRealm.listenElement {
-        it.where(DataCard::class.java).equalTo(DataCard.NUMBER, cardNumber).findAll()
-    }*/
+    override fun save(card: Card): Completable = Completable.fromAction {
+        cardDao.insertOrUpdate(card.applyMapper())
+    }
 
-    override fun update(cards: List<Card>): Completable = Completable.complete()
-    /*RxRealm.doTransactional { it.copyToRealmOrUpdate(cards) }*/
+    override fun get(cardNumber: String) = cardDao.get(cardNumber)
 
-    override fun getAll(): Flowable<List<Card>> = cardDao.getAllNotTrashed()
+    override fun update(cards: List<Card>): Completable = Completable.fromAction {
+        cardDao.updateAll(cards.applyMapper())
+    }
 
-    override fun getAllTrashed(): Flowable<List<Card>> = Flowable.empty()/*RxRealm.listenList {
-        it.where(DataCard::class.java)
-                .equalTo(DataCard.IS_TRASH, true)
-                .findAllSorted(DataCard.POSITION, Sort.ASCENDING, DataCard.HOLDER_NAME, Sort.ASCENDING)
-    }*/
+    override fun getAll() = cardDao.getAllNotTrashed()
+
+    override fun getAllTrashed() = cardDao.getAllTrashed()
 
     override fun markAsTrash(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
         it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst().isTrash = true
@@ -49,10 +48,9 @@ class DataCardRepository @Inject constructor(
                 .equalTo(DataCard.NUMBER, cardNumber).findFirst()
     }.isEmpty*/
 
-    override fun prepareForSharing(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
+    override fun toJson(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
 
-    override fun getFromJson(source: String): Single<Card> = Single.fromCallable {
+    override fun fromJson(source: String): Single<Card> = Single.fromCallable {
         gson.fromJson<Card>(source, Card::class.java)
     }
-
 }

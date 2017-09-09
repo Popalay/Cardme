@@ -7,6 +7,8 @@ import io.reactivex.Single
 
 interface CardRepository {
 
+    fun save(card: Card): Completable
+
     fun get(cardNumber: String): Flowable<Card>
 
     fun update(cards: List<Card>): Completable
@@ -23,8 +25,7 @@ interface CardRepository {
 
     fun cardIsNew(cardNumber: String): Single<Boolean>
 
-    fun prepareForSharing(card: Card): Single<String>
+    fun toJson(card: Card): Single<String>
 
-    fun getFromJson(source: String): Single<Card>
-
+    fun fromJson(source: String): Single<Card>
 }
