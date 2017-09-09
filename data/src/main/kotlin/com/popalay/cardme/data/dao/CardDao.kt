@@ -4,7 +4,7 @@ import android.arch.persistence.room.*
 import com.popalay.cardme.data.model.DataCard
 import com.popalay.cardme.domain.model.Card
 import io.reactivex.Flowable
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface CardDao {
@@ -26,7 +26,7 @@ interface CardDao {
 
     @Query("SELECT COUNT (*) FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 AND number = :number")
-    fun cardsNotTrashedCount(number: String): Maybe<Int>
+    fun cardsNotTrashedCount(number: String): Single<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(card: DataCard)
