@@ -1,1 +1,3 @@
-+ Add mappers for layer interaction
+- [x] Add mappers for layer interaction
+- [ ] Add debt
+- [ ] Show count of cards and debts on the holder details item
