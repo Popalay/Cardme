@@ -10,7 +10,6 @@ import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.utils.extensions.applyThrottling
@@ -82,11 +81,7 @@ class AddCardViewModel @Inject constructor(
                 .applyThrottling()
                 .filter { it && canSaveState.value }
                 .map { card.get() }
-                .switchMapSingle {
-                    holderInteractor.save(Holder(name = it.holderName))
-                            .andThen(cardInteractor.save(it))
-                            .toSingleDefault(true)
-                }
+                .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(this::handleBaseError)

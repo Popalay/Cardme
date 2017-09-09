@@ -42,11 +42,7 @@ class DataCardRepository @Inject constructor(
         it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst().isTrash = false
     }*/
 
-    override fun cardIsNew(cardNumber: String): Single<Boolean> = Single.just(true)/*RxRealm.getElement {
-        it.where(DataCard::class.java)
-                .equalTo(DataCard.IS_TRASH, false)
-                .equalTo(DataCard.NUMBER, cardNumber).findFirst()
-    }.isEmpty*/
+    override fun cardIsNew(cardNumber: String): Single<Boolean> = cardDao.cardsNotTrashedCount(cardNumber).map { it == 0 }
 
     override fun toJson(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
 

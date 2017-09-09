@@ -2,9 +2,8 @@ package com.popalay.cardme.domain.interactor
 
 import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.CardRepository
-import com.popalay.cardme.domain.repository.DebtRepository
-import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -15,20 +14,23 @@ import javax.inject.Singleton
 @Singleton
 class CardInteractor @Inject constructor(
         private val cardRepository: CardRepository,
-        private val holderRepository: HolderRepository,
-        private val debtRepository: DebtRepository
+        private val holderInteractor: HolderInteractor
 ) {
 
     fun save(card: Card): Completable {
-        //TODO Save holder if needed
-        return cardRepository.save(card.apply { isPending = false })
+        return holderInteractor.save(Holder(name = card.holderName))
+                .andThen(cardRepository.save(card.apply { isPending = false }))
                 .subscribeOn(Schedulers.io())
     }
 
     fun savePending(card: Card): Completable {
-        return cardRepository.save(card.apply { isPending = true })
-                .andThen(cardRepository.cardIsNew(card.number))
+        return cardRepository.cardIsNew(card.number)
                 .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
+                .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
+                .andThen(cardRepository.save(card.apply {
+                    isPending = true
+                    generatedBackgroundSeed = System.nanoTime()
+                }))
                 .subscribeOn(Schedulers.io())
     }
 
@@ -55,12 +57,6 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun restore(card: Card): Completable = cardRepository.restore(card)
-            .subscribeOn(Schedulers.io())
-
-    fun emptyTrash(): Completable = Completable.mergeArray(
-            cardRepository.removeTrashed(),
-            holderRepository.removeTrashed(),
-            debtRepository.removeTrashed())
             .subscribeOn(Schedulers.io())
 
     fun prepareForSharing(card: Card): Single<String> = cardRepository.toJson(card)

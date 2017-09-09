@@ -16,8 +16,8 @@ import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class TrashViewModel @Inject constructor(
-        settingsInteractor: SettingsInteractor,
-        private val cardInteractor: CardInteractor
+        private val cardInteractor: CardInteractor,
+        private val settingsInteractor: SettingsInteractor
 ) : BaseViewModel() {
 
     val cards = DiffObservableList<Card>()
@@ -48,7 +48,7 @@ class TrashViewModel @Inject constructor(
 
         emptyTrashClick
                 .applyThrottling()
-                .flatMapCompletable { cardInteractor.emptyTrash() }
+                .flatMapCompletable { settingsInteractor.emptyTrash() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy()
                 .addTo(disposables)

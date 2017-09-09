@@ -6,10 +6,8 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.domain.AppException
 import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.interactor.CardInteractor
-import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.presentation.base.BaseViewModel
 import com.popalay.cardme.presentation.base.navigation.CustomRouter
 import com.popalay.cardme.presentation.screens.SCREEN_ADD_CARD
@@ -29,7 +27,6 @@ import javax.inject.Inject
 class CardsViewModel @Inject constructor(
         private val router: CustomRouter,
         private val cardInteractor: CardInteractor,
-        private val holderInteractor: HolderInteractor,
         settingsInteractor: SettingsInteractor
 ) : BaseViewModel(), CardsViewModelFacade {
 
@@ -99,8 +96,7 @@ class CardsViewModel @Inject constructor(
     override fun onWantToOverwrite() = navigateToAddCard()
 
     override fun onCardScanned(card: Card) {
-        holderInteractor.savePending(Holder(name = card.holderName))
-                .andThen(cardInteractor.savePending(card.also { pendingCard = it }))
+        cardInteractor.savePending(card.also { pendingCard = it })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::navigateToAddCard)
                 .subscribeBy(this::handleLocalError)
