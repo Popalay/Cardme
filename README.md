@@ -5,3 +5,9 @@
 Don't be constantly asking for card numbers from friends, just store them!
 
 <a href='https://play.google.com/store/apps/details?id=com.popalay.cardme&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="200" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+
+###TODOS
+
+- [x] Add mappers for layer interaction
+- [ ] Add debt
+- [ ] Show count of cards and debts on the holder details item
