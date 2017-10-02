@@ -30,7 +30,7 @@
         android:padding="@dimen/normal"
         >
 
-        <com.popalay.cardme.presentation.widget.LettersImageView
+        <com.popalay.cardme.widget.LettersImageView
             android:id="@+id/image_man"
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"

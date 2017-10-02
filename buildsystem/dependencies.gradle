@@ -5,6 +5,7 @@ allprojects {
         google()
         maven { url "https://jitpack.io" }
         maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     }
 }
 
@@ -16,7 +17,7 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 26
 
-    gradlePlugin = '3.0.0-beta4'
+    gradlePlugin = '3.0.0-beta6'
     kotlinLanguage = '1.1.4-3'
 
     //Libraries

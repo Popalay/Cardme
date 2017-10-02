@@ -21,7 +21,7 @@
         android:theme="@style/Cardme">
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.splash.SplashActivity"
+            android:name="com.popalay.cardme.screens.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Splash">
             <intent-filter>
@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.home.HomeActivity"
+            android:name="com.popalay.cardme.screens.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Home">
             <intent-filter>
@@ -42,36 +42,36 @@
         </activity>
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.addcard.AddCardActivity"
+            android:name="com.popalay.cardme.screens.addcard.AddCardActivity"
             android:label="@string/card_details"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.AddCard"
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.holderdetails.HolderDetailsActivity"
+            android:name="com.popalay.cardme.screens.holderdetails.HolderDetailsActivity"
             android:label="@string/holder_details"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.HolderDetails" />
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.adddebt.AddDebtActivity"
+            android:name="com.popalay.cardme.screens.adddebt.AddDebtActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Translucent.DialogActivity" />
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.carddetails.CardDetailsActivity"
+            android:name="com.popalay.cardme.screens.carddetails.CardDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Translucent.DialogActivity" />
 
         <activity
-            android:name="com.popalay.cardme.presentation.screens.trash.TrashActivity"
+            android:name="com.popalay.cardme.screens.trash.TrashActivity"
             android:label="@string/trash"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Trash" />
 
         <activity
-            android:name=".presentation.screens.settings.SettingsActivity"
+            android:name="com.popalay.cardme.screens.settings.SettingsActivity"
             android:label="@string/settings"
             android:screenOrientation="portrait"
             android:theme="@style/Cardme.Settings" />

@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.carddetails.CardDetailsViewModel"
+            type="com.popalay.cardme.screens.carddetails.CardDetailsViewModel"
             />
     </data>
 
@@ -21,7 +21,7 @@
         bind:exitByClick="@{true}"
         >
 
-        <com.popalay.cardme.presentation.widget.CreditCardView
+        <com.popalay.cardme.widget.CreditCardView
             android:id="@+id/card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     android:text="@={vm.card.title}"
                     />
 
-                <com.popalay.cardme.presentation.widget.CharacterWrapTextView
+                <com.popalay.cardme.widget.CharacterWrapTextView
                     android:id="@+id/text_number"
                     style="@style/Cardme.CardNumber"
                     android:layout_width="match_parent"
@@ -86,7 +86,7 @@
 
             </RelativeLayout>
 
-        </com.popalay.cardme.presentation.widget.CreditCardView>
+        </com.popalay.cardme.widget.CreditCardView>
 
         <ImageButton
             android:id="@+id/button_share"

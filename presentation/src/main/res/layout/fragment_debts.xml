@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.debts.DebtsViewModel"
+            type="com.popalay.cardme.screens.debts.DebtsViewModel"
             />
 
         <variable

@@ -21,7 +21,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.popalay.cardme.R
-import com.popalay.cardme.presentation.base.BaseViewModel
+import com.popalay.cardme.base.BaseViewModel
 
 
 fun FragmentActivity.currentFragment() = supportFragmentManager.fragments?.filter { it.isVisible }?.firstOrNull()

@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.settings.SettingsViewModel"
+            type="com.popalay.cardme.screens.settings.SettingsViewModel"
             />
     </data>
 
@@ -67,7 +67,7 @@
                             android:text="@string/user_interface"
                             />
 
-                        <com.popalay.cardme.presentation.widget.SettingTextView
+                        <com.popalay.cardme.widget.SettingTextView
                             style="@style/Cardme.Setting.Item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                             app:settingText="@{vm.settings.theme}"
                             />
 
-                        <com.popalay.cardme.presentation.widget.SettingTextView
+                        <com.popalay.cardme.widget.SettingTextView
                             style="@style/Cardme.Setting.Item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                             android:text="@string/about"
                             />
 
-                        <com.popalay.cardme.presentation.widget.SettingTextView
+                        <com.popalay.cardme.widget.SettingTextView
                             style="@style/Cardme.Setting.Item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                             android:text="@string/about_the_app"
                             />
 
-                        <com.popalay.cardme.presentation.widget.SettingTextView
+                        <com.popalay.cardme.widget.SettingTextView
                             style="@style/Cardme.Setting.Item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

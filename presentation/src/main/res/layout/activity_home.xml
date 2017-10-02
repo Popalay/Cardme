@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.home.HomeViewModel"
+            type="com.popalay.cardme.screens.home.HomeViewModel"
             />
     </data>
 

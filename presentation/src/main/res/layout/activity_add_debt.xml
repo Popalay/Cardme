@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.adddebt.AddDebtViewModel"
+            type="com.popalay.cardme.screens.adddebt.AddDebtViewModel"
             />
     </data>
 

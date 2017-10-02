@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.cards.CardsViewModel"
+            type="com.popalay.cardme.screens.cards.CardsViewModel"
             />
 
     </data>

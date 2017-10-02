@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.popalay.cardme.presentation.screens.addcard.AddCardViewModel"
+            type="com.popalay.cardme.screens.addcard.AddCardViewModel"
             />
 
     </data>
@@ -43,7 +43,7 @@
                     app:layout_collapseMode="parallax"
                     >
 
-                    <com.popalay.cardme.presentation.widget.CreditCardView
+                    <com.popalay.cardme.widget.CreditCardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/normal"
@@ -79,7 +79,7 @@
                                 android:text="@={vm.title}"
                                 />
 
-                            <com.popalay.cardme.presentation.widget.CharacterWrapTextView
+                            <com.popalay.cardme.widget.CharacterWrapTextView
                                 style="@style/Cardme.CardNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 
                         </RelativeLayout>
 
-                    </com.popalay.cardme.presentation.widget.CreditCardView>
+                    </com.popalay.cardme.widget.CreditCardView>
 
                 </FrameLayout>
 

@@ -2,7 +2,7 @@ package com.popalay.cardme.injection
 
 import android.content.Context
 import com.popalay.cardme.App
-import com.popalay.cardme.presentation.base.navigation.CustomRouter
+import com.popalay.cardme.base.navigation.CustomRouter
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
