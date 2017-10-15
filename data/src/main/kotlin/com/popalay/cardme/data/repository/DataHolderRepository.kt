@@ -23,23 +23,23 @@ class DataHolderRepository @Inject constructor(
     override fun get(holderName: String): Flowable<Holder> = holderDao.get(holderName)
 
     override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Holder::class.java).equalTo(DataHolder.IS_TRASH, true).findAll().deleteAllFromRealm()
+        it.where(Holder::class.java).equalTo(Holder.IS_TRASH, true).findAll().deleteAllFromRealm()
     }*/
 
     private fun updateTrashFlag() {
-/*        val intoTrash = realm.where(DataHolder::class.java)
-                //TODO.isEmpty(DataHolder.CARDS)
-                .isEmpty(DataHolder.DEBTS)
+/*        val intoTrash = realm.where(Holder::class.java)
+                //TODO.isEmpty(Holder.CARDS)
+                .isEmpty(Holder.DEBTS)
                 .findAll()
 
         for (item in intoTrash) {
             item.isTrash = true
         }
 
-        val fromTrash = realm.where(DataHolder::class.java)
-                //TODO.isNotEmpty(DataHolder.CARDS)
+        val fromTrash = realm.where(Holder::class.java)
+                //TODO.isNotEmpty(Holder.CARDS)
                 .or()
-                .isNotEmpty(DataHolder.DEBTS)
+                .isNotEmpty(Holder.DEBTS)
                 .findAll()
 
         for (item in fromTrash) {

@@ -31,15 +31,15 @@ class DataCardRepository @Inject constructor(
     override fun getAllTrashed() = cardDao.getAllTrashed()
 
     override fun markAsTrash(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst().isTrash = true
+        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = true
     }*/
 
     override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(DataCard::class.java).equalTo(DataCard.IS_TRASH, true).findAll().deleteAllFromRealm()
+        it.where(Card::class.java).equalTo(Card.IS_TRASH, true).findAll().deleteAllFromRealm()
     }*/
 
     override fun restore(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(DataCard::class.java).equalTo(DataCard.NUMBER, card.number).findFirst().isTrash = false
+        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = false
     }*/
 
     override fun cardIsNew(cardNumber: String): Single<Boolean> = cardDao.cardsNotTrashedCount(cardNumber).map { it == 0 }

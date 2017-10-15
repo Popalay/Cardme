@@ -5,17 +5,12 @@ import android.arch.persistence.room.RoomDatabase
 import com.popalay.cardme.data.dao.CardDao
 import com.popalay.cardme.data.dao.HolderDao
 import com.popalay.cardme.data.dao.SettingsDao
-import com.popalay.cardme.data.model.DataCard
-import com.popalay.cardme.data.model.DataDebt
-import com.popalay.cardme.data.model.DataHolder
-import com.popalay.cardme.data.model.DataSettings
+import com.popalay.cardme.data.model.Card
+import com.popalay.cardme.data.model.Debt
+import com.popalay.cardme.data.model.Holder
+import com.popalay.cardme.data.model.Settings
 
-@Database(entities = arrayOf(
-        DataCard::class,
-        DataHolder::class,
-        DataDebt::class,
-        DataSettings::class
-), version = 1)
+@Database(entities = [(Card::class), (Holder::class), (Debt::class), (Settings::class)], version = 1)
 abstract class Database : RoomDatabase() {
 
     abstract fun cardDao(): CardDao

@@ -1,10 +1,11 @@
 package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.*
-import com.popalay.cardme.data.model.DataCard
-import com.popalay.cardme.domain.model.Card
 import io.reactivex.Flowable
 import io.reactivex.Single
+
+import com.popalay.cardme.data.model.Card as DataCard
+import com.popalay.cardme.domain.model.Card as DomainCard
 
 @Dao
 interface CardDao {
@@ -12,17 +13,17 @@ interface CardDao {
     @Query("SELECT * FROM cards " +
             "WHERE number = :number " +
             "LIMIT 1")
-    fun get(number: String): Flowable<Card>
+    fun get(number: String): Flowable<DomainCard>
 
     @Query("SELECT * FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY position, holderName")
-    fun getAllNotTrashed(): Flowable<List<Card>>
+    fun getAllNotTrashed(): Flowable<List<DomainCard>>
 
     @Query("SELECT * FROM cards " +
             "WHERE isTrash = 1 AND isPending = 0 " +
             "ORDER BY position, holderName")
-    fun getAllTrashed(): Flowable<List<Card>>
+    fun getAllTrashed(): Flowable<List<DomainCard>>
 
     @Query("SELECT COUNT (*) FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 AND number = :number")

@@ -5,8 +5,8 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "holders",
-        indices = arrayOf(Index(value = "name", unique = true)))
-data class DataHolder(
+        indices = [(Index("name", unique = true))])
+data class Holder(
         @PrimaryKey var name: String,
         var isTrash: Boolean,
         var isPending: Boolean

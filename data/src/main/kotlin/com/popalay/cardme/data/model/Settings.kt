@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "settings")
-data class DataSettings(
+data class Settings(
         @PrimaryKey var id: Long,
         var language: String,
         var theme: String,

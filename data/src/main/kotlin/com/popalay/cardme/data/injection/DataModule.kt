@@ -54,7 +54,9 @@ abstract class DataModule {
         @Provides
         @Singleton
         @JvmStatic fun provideDatabase(context: Context): Database
-                = Room.databaseBuilder(context, Database::class.java, "cardme-db").build()
+                = Room.databaseBuilder(context, Database::class.java, "cardme-db")
+                .fallbackToDestructiveMigration()
+                .build()
 
         @Provides
         @Singleton

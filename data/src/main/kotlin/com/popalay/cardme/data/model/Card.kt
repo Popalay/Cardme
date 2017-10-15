@@ -7,15 +7,14 @@ import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
 import com.popalay.cardme.data.R
-import com.popalay.cardme.domain.model.StableId
 
 @Entity(tableName = "cards",
-        indices = arrayOf(Index(value = "number", unique = true), Index(value = "holderName")),
-        foreignKeys = arrayOf(ForeignKey(entity = DataHolder::class,
+        indices = [(Index("number", unique = true)), (Index("holderName"))],
+        foreignKeys = [(ForeignKey(entity = Holder::class,
                 parentColumns = arrayOf("name"),
                 childColumns = arrayOf("holderName"),
-                onDelete = ForeignKey.CASCADE)))
-data class DataCard(
+                onDelete = ForeignKey.CASCADE))])
+data class Card(
         @PrimaryKey var number: String,
         var title: String,
         var redactedNumber: String,
