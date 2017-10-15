@@ -9,15 +9,15 @@ import com.github.nitrico.lastadapter.LastAdapter
 import com.jakewharton.rxrelay2.Relay
 import com.popalay.cardme.BR
 import com.popalay.cardme.R
+import com.popalay.cardme.databinding.ItemCardBinding
+import com.popalay.cardme.databinding.ItemHolderBinding
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.model.Holder
-import com.popalay.cardme.databinding.ItemCardBinding
-import com.popalay.cardme.databinding.ItemHolderBinding
 
 typealias LastAdapterHolder<V> = com.github.nitrico.lastadapter.Holder<V>
 
-@BindingAdapter(value = *arrayOf("cardsAdapter", "cardClick", "showImage"), requireAll = false)
+@BindingAdapter(value = ["cardsAdapter", "cardClick", "showImage"], requireAll = false)
 fun RecyclerView.cardsAdapter(items: List<Card>?, publisher: Relay<Card>?, showImage: ObservableBoolean?) {
     if (this.adapter != null || items == null || items.isEmpty()) return
     LastAdapter(items, BR.item)
@@ -45,7 +45,7 @@ fun RecyclerView.debtsAdapter(items: List<Debt>?) {
             .into(this)
 }
 
-@BindingAdapter(value = *arrayOf("holdersAdapter", "holderClick"), requireAll = false)
+@BindingAdapter(value = ["holdersAdapter", "holderClick"], requireAll = false)
 fun RecyclerView.holdersAdapter(items: List<Holder>?, publisher: Relay<Holder>?) {
     if (this.adapter != null || items == null || items.isEmpty()) return
     LastAdapter(items, BR.item)
