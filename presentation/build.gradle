@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
-apply plugin: 'com.google.firebase.firebase-perf'
 
 apply from: "../buildsystem/script-git-version.gradle"
 
@@ -10,7 +9,6 @@ def globalConf = rootProject.ext
 
 android {
     compileSdkVersion globalConf.compileSdkVersion
-    buildToolsVersion globalConf.buildToolsVersion
 
     defaultConfig {
         applicationId "com.popalay.cardme"

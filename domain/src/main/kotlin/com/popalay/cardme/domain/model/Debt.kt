@@ -6,5 +6,5 @@ data class Debt(
         var createdAt: Long = 0L,
         var isTrash: Boolean = false,
         var holderName: String = "",
-        override var stableId: Long = id
+        override var stableId: Long? = id
 ) : StableId

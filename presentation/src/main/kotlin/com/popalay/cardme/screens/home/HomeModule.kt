@@ -1,10 +1,10 @@
 package com.popalay.cardme.screens.home
 
 import android.arch.lifecycle.ViewModel
-import com.alexfacciorusso.daggerviewmodel.ViewModelKey
 import com.popalay.cardme.base.navigation.CustomNavigator
 import com.popalay.cardme.injection.PerActivity
 import com.popalay.cardme.injection.PerFragment
+import com.popalay.cardme.injection.ViewModelKey
 import com.popalay.cardme.screens.cards.CardsFragment
 import com.popalay.cardme.screens.cards.CardsModule
 import com.popalay.cardme.screens.debts.DebtsFragment

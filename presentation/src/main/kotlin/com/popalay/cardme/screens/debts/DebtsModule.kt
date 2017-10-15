@@ -1,8 +1,8 @@
 package com.popalay.cardme.screens.debts
 
 import android.arch.lifecycle.ViewModel
-import com.alexfacciorusso.daggerviewmodel.ViewModelKey
 import com.popalay.cardme.injection.PerFragment
+import com.popalay.cardme.injection.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
