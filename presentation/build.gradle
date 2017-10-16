@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-crash'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 apply from: "../buildsystem/script-git-version.gradle"
 
@@ -121,8 +122,9 @@ dependencies {
     implementation presentationDependencies.firebasePerf
     implementation presentationDependencies.firebaseCrash
 
-    implementation developmentDependencies.stetho
     implementation developmentDependencies.androidProguards
+    implementation developmentDependencies.stetho
+    debugImplementation developmentDependencies.debugDb
     debugImplementation developmentDependencies.leakCanary
     releaseImplementation developmentDependencies.leakCanaryNoOp
     testImplementation developmentDependencies.leakCanaryNoOp
