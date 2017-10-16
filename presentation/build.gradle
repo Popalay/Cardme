@@ -51,10 +51,6 @@ android {
 
     productFlavors {
 
-        all {
-            buildConfigField "long", "DATABASE_VERSION", "3L"
-        }
-
         dev {
             versionCode gitVersionCodeTime
             versionName gitVersionName
@@ -67,11 +63,6 @@ android {
     }
 
     dataBinding.enabled true
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
