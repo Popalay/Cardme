@@ -7,6 +7,7 @@ import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,14 +16,32 @@ class DataHolderRepository @Inject constructor(
         private val holderDao: HolderDao
 ) : HolderRepository {
 
-    override fun save(holder: Holder): Completable = Completable.fromAction {
-        holderDao.insertOrUpdate(holder.toData())
+    override fun save(data: Holder): Completable = Completable.fromAction {
+        holderDao.insertOrUpdate(data.toData())
     }
 
-    override fun getAll(): Flowable<List<Holder>> = holderDao.getAllNotTrashed()
+    override fun markAsTrash(data: Holder): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun restore(data: Holder): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun contains(id: String): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getAll(): Flowable<List<Holder>> = holderDao.getAll()
             .map { it.map { it.toDomain() } }
 
-    override fun get(holderName: String): Flowable<Holder> = holderDao.get(holderName)
+    override fun getAllTrashed(): Flowable<List<Holder>> = holderDao.getAllTrashed()
+            .map { it.map { it.toDomain() } }
+
+    override fun getAllNotTrashed(): Flowable<List<Holder>> = holderDao.getAllNotTrashed()
+            .map { it.map { it.toDomain() } }
+
+    override fun get(id: String): Flowable<Holder> = holderDao.get(id)
             .map { it.toDomain() }
 
     override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {

@@ -18,24 +18,27 @@ class DataCardRepository @Inject constructor(
         private val gson: Gson
 ) : CardRepository {
 
-    override fun save(card: Card): Completable = Completable.fromAction {
-        cardDao.insertOrUpdate(card.toData())
+    override fun save(data: Card): Completable = Completable.fromAction {
+        cardDao.insertOrUpdate(data.toData())
     }
 
-    override fun get(cardNumber: String): Flowable<Card> = cardDao.get(cardNumber)
+    override fun get(id: String): Flowable<Card> = cardDao.get(id)
             .map { it.toDomain() }
 
-    override fun update(cards: List<Card>): Completable = Completable.fromAction {
-        cardDao.updateAll(cards.map { it.toData() })
+    override fun update(data: List<Card>): Completable = Completable.fromAction {
+        cardDao.updateAll(data.map { it.toData() })
     }
 
-    override fun getAll(): Flowable<List<Card>> = cardDao.getAllNotTrashed()
+    override fun getAll(): Flowable<List<Card>> = cardDao.getAll()
             .map { it.map { it.toDomain() } }
 
     override fun getAllTrashed(): Flowable<List<Card>> = cardDao.getAllTrashed()
             .map { it.map { it.toDomain() } }
 
-    override fun markAsTrash(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
+    override fun getAllNotTrashed(): Flowable<List<Card>> = cardDao.getAllNotTrashed()
+            .map { it.map { it.toDomain() } }
+
+    override fun markAsTrash(data: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
         it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = true
     }*/
 
@@ -43,11 +46,11 @@ class DataCardRepository @Inject constructor(
         it.where(Card::class.java).equalTo(Card.IS_TRASH, true).findAll().deleteAllFromRealm()
     }*/
 
-    override fun restore(card: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
+    override fun restore(data: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
         it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = false
     }*/
 
-    override fun cardIsNew(cardNumber: String): Single<Boolean> = cardDao.cardsNotTrashedCount(cardNumber).map { it == 0 }
+    override fun contains(id: String): Single<Boolean> = cardDao.getNotTrashedCount(id).map { it == 0 }
 
     override fun toJson(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
 

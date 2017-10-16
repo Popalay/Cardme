@@ -36,7 +36,7 @@ class HolderInteractor @Inject constructor(
     fun addDebt(holderName: String, debt: Debt): Completable = Completable.complete()/*holderRepository.addDebt(holderName, debt)
             .subscribeOn(Schedulers.io())*/
 
-    fun getAll(): Flowable<List<Holder>> = holderRepository.getAll()
+    fun getAll(): Flowable<List<Holder>> = holderRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())
 
     fun getNames(): Flowable<List<String>>

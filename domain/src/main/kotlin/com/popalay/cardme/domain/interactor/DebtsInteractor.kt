@@ -13,7 +13,7 @@ class DebtsInteractor @Inject constructor(
         private val debtRepository: DebtRepository
 ) {
 
-    fun getAll(): Flowable<List<Debt>> = debtRepository.getAll()
+    fun getAll(): Flowable<List<Debt>> = debtRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())
 
     fun markAsTrash(debt: Debt): Completable = debtRepository.markAsTrash(debt)

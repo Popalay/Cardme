@@ -15,6 +15,11 @@ interface CardDao {
     fun get(number: String): Flowable<DataCard>
 
     @Query("SELECT * FROM cards " +
+            "WHERE isPending = 0 " +
+            "ORDER BY position, holderName")
+    fun getAll(): Flowable<List<DataCard>>
+
+    @Query("SELECT * FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY position, holderName")
     fun getAllNotTrashed(): Flowable<List<DataCard>>
@@ -26,7 +31,7 @@ interface CardDao {
 
     @Query("SELECT COUNT (*) FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 AND number = :number")
-    fun cardsNotTrashedCount(number: String): Single<Int>
+    fun getNotTrashedCount(number: String): Single<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(card: DataCard)

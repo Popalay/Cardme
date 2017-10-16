@@ -24,7 +24,7 @@ class CardInteractor @Inject constructor(
     }
 
     fun savePending(card: Card): Completable {
-        return cardRepository.cardIsNew(card.number)
+        return cardRepository.contains(card.number)
                 .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
                 .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
                 .andThen(cardRepository.save(card.apply {
@@ -41,7 +41,7 @@ class CardInteractor @Inject constructor(
         holderName.isNotBlank()
     }
 
-    fun getAll(): Flowable<List<Card>> = cardRepository.getAll()
+    fun getAll(): Flowable<List<Card>> = cardRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())
 
     fun getAllTrashed(): Flowable<List<Card>> = cardRepository.getAllTrashed()
