@@ -4,7 +4,6 @@ import android.arch.persistence.room.*
 import io.reactivex.Flowable
 
 import com.popalay.cardme.data.model.Holder as DataHolder
-import com.popalay.cardme.domain.model.Holder as DomainHolder
 
 @Dao
 interface HolderDao {
@@ -12,12 +11,12 @@ interface HolderDao {
     @Query("SELECT * FROM holders " +
             "WHERE name = :name " +
             "LIMIT 1")
-    fun get(name: String): Flowable<DomainHolder>
+    fun get(name: String): Flowable<DataHolder>
 
     @Query("SELECT * FROM holders " +
             "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY name")
-    fun getAllNotTrashed(): Flowable<List<DomainHolder>>
+    fun getAllNotTrashed(): Flowable<List<DataHolder>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(holder: DataHolder)

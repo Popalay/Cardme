@@ -10,6 +10,6 @@ class Card(
         var isTrash: Boolean = false,
         var isPending: Boolean = false,
         var holderName: String = "",
-        var iconRes: Int? = 0,
-        override var stableId: Long? = number.hashCode().toLong()
+        var iconRes: Int = 0,
+        override var stableId: Long = number.hashCode().toLong()
 ) : StableId

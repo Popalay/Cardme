@@ -5,7 +5,6 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 
 import com.popalay.cardme.data.model.Card as DataCard
-import com.popalay.cardme.domain.model.Card as DomainCard
 
 @Dao
 interface CardDao {
@@ -13,17 +12,17 @@ interface CardDao {
     @Query("SELECT * FROM cards " +
             "WHERE number = :number " +
             "LIMIT 1")
-    fun get(number: String): Flowable<DomainCard>
+    fun get(number: String): Flowable<DataCard>
 
     @Query("SELECT * FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY position, holderName")
-    fun getAllNotTrashed(): Flowable<List<DomainCard>>
+    fun getAllNotTrashed(): Flowable<List<DataCard>>
 
     @Query("SELECT * FROM cards " +
             "WHERE isTrash = 1 AND isPending = 0 " +
             "ORDER BY position, holderName")
-    fun getAllTrashed(): Flowable<List<DomainCard>>
+    fun getAllTrashed(): Flowable<List<DataCard>>
 
     @Query("SELECT COUNT (*) FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 AND number = :number")
