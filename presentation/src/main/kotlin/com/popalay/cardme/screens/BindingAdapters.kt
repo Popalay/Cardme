@@ -113,7 +113,7 @@ fun NavigationView.drawerNavigationListener(listener: Relay<Int>) {
     }
 }
 
-@BindingAdapter(value = *arrayOf("onSwiped", "onUndoSwipe", "undoMessage", "onDragged", "onDropped", "swipeDrawable"), requireAll = false)
+@BindingAdapter(value = ["onSwiped", "onUndoSwipe", "undoMessage", "onDragged", "onDropped", "swipeDrawable"], requireAll = false)
 fun RecyclerView.setItemTouchHelper(onSwiped: Relay<Int>?, onUndoSwipe: Relay<Boolean>?, undoMessage: String?,
                                     onDragged: Relay<Pair<Int, Int>>?, onDropped: Relay<Boolean>?,
                                     swipeDrawable: Drawable?) {
