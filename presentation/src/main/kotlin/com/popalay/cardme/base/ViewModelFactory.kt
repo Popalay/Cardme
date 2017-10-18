@@ -13,7 +13,7 @@ class ViewModelFactory @Inject constructor(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         var creator: Provider<out ViewModel>? = creators[modelClass]
-        creator ?: creators.keys.filter(modelClass::isAssignableFrom).firstOrNull()?.apply { creator = creators[this] }
+        creator ?: creators.keys.firstOrNull(modelClass::isAssignableFrom)?.apply { creator = creators[this] }
         creator ?: throw IllegalArgumentException("unknown model class " + modelClass)
 
         return creator?.get() as T

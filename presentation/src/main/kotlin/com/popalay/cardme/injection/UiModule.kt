@@ -32,31 +32,31 @@ abstract class UiModule {
     abstract fun contributeSplashActivity(): SplashActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(AddCardModule::class))
+    @ContributesAndroidInjector(modules = [AddCardModule::class])
     abstract fun contributeAddCardActivity(): AddCardActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(HomeModule::class))
+    @ContributesAndroidInjector(modules = [HomeModule::class])
     abstract fun contributeHomeActivity(): HomeActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(HolderDetailsModule::class))
+    @ContributesAndroidInjector(modules = [HolderDetailsModule::class])
     abstract fun contributeHolderDetailsActivity(): HolderDetailsActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(SettingsModule::class))
+    @ContributesAndroidInjector(modules = [SettingsModule::class])
     abstract fun contributeSettingsActivity(): SettingsActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(AddDebtModule::class))
+    @ContributesAndroidInjector(modules = [AddDebtModule::class])
     abstract fun contributeAddDebtActivity(): AddDebtActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(TrashModule::class))
+    @ContributesAndroidInjector(modules = [TrashModule::class])
     abstract fun contributeTrashActivity(): TrashActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(CardDetailsModule::class))
+    @ContributesAndroidInjector(modules = [CardDetailsModule::class])
     abstract fun contributeCardDetailsActivity(): CardDetailsActivity
 
 }

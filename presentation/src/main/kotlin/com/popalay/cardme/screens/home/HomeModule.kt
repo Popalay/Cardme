@@ -25,15 +25,15 @@ abstract class HomeModule {
     abstract fun bindsNavigator(navigator: HomeNavigator): CustomNavigator
 
     @PerFragment
-    @ContributesAndroidInjector(modules = arrayOf(CardsModule::class))
+    @ContributesAndroidInjector(modules = [CardsModule::class])
     abstract fun contributeCardsFragment(): CardsFragment
 
     @PerFragment
-    @ContributesAndroidInjector(modules = arrayOf(HoldersModule::class))
+    @ContributesAndroidInjector(modules = [HoldersModule::class])
     abstract fun contributeHoldersFragment(): HoldersFragment
 
     @PerFragment
-    @ContributesAndroidInjector(modules = arrayOf(DebtsModule::class))
+    @ContributesAndroidInjector(modules = [DebtsModule::class])
     abstract fun contributeDebtsFragment(): DebtsFragment
 
     @Binds
