@@ -1,6 +1,7 @@
 package com.popalay.cardme.domain.interactor
 
 import com.popalay.cardme.domain.model.Debt
+import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.DebtRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -10,8 +11,15 @@ import javax.inject.Singleton
 
 @Singleton
 class DebtsInteractor @Inject constructor(
-        private val debtRepository: DebtRepository
+        private val debtRepository: DebtRepository,
+        private val holderInteractor: HolderInteractor
 ) {
+
+    fun save(debt: Debt): Completable {
+        return holderInteractor.save(Holder(name = debt.holderName))
+                .andThen(debtRepository.save(debt))
+                .subscribeOn(Schedulers.io())
+    }
 
     fun getAll(): Flowable<List<Debt>> = debtRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())

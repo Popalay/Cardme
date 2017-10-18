@@ -17,7 +17,7 @@ fun DataCard.toDomain(
 
 fun DomainHolder.toData() = DataHolder(name, isTrash, isPending)
 
-fun DataHolder.toDomain() = DomainHolder(name, isTrash, isPending)
+fun DataHolder.toDomain(cardCount: Int = 0, debtsCount: Int = 0) = DomainHolder(name, isTrash, isPending, cardCount, debtsCount)
 
 fun DomainSettings.toData() = DataSettings(0, language, theme, isCardBackground)
 

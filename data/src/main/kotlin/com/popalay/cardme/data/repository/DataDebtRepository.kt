@@ -36,15 +36,14 @@ class DataDebtRepository @Inject constructor(
     override fun getAllNotTrashed(): Flowable<List<Debt>> = debtDao.getAllNotTrashed()
             .map { it.map { it.toDomain() } }
 
-    override fun markAsTrash(data: Debt): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = true
-    }*/
+    override fun markAsTrash(data: Debt): Completable = Completable.fromAction {
+        debtDao.insertOrUpdate(data.toData().apply { isTrash = true })
+    }
 
-    override fun restore(data: Debt): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Debt::class.java).equalTo(Debt.ID, debt.id).findFirst().isTrash = false
-    }*/
+    override fun restore(data: Debt): Completable = Completable.fromAction {
+        debtDao.insertOrUpdate(data.toData().apply { isTrash = false })
+    }
 
-    override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Debt::class.java).equalTo(Debt.IS_TRASH, true).findAll().deleteAllFromRealm()
-    }*/
+    override fun removeTrashed(): Completable = debtDao.getAllTrashed()
+            .flatMapCompletable { Completable.fromAction { debtDao.deleteAll(it) } }
 }

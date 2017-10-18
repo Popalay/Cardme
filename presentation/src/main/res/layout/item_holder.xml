@@ -65,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="@{@string/format_holder_cards(item.cardsCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 tools:text="Cards: 23"
                 />
@@ -74,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
                 android:gravity="center"
+                android:text="@{@string/format_holder_debts(item.debtsCount)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 tools:text="Debts: 23"
                 />

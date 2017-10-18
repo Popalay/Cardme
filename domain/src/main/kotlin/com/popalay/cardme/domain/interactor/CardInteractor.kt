@@ -25,7 +25,7 @@ class CardInteractor @Inject constructor(
 
     fun savePending(card: Card): Completable {
         return cardRepository.contains(card.number)
-                .flatMapCompletable { if (it) Completable.complete() else Completable.error(createCardExistError()) }
+                .flatMapCompletable { if (!it) Completable.complete() else Completable.error(createCardExistError()) }
                 .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
                 .andThen(cardRepository.save(card.apply {
                     isPending = true

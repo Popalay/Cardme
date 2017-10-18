@@ -31,13 +31,14 @@ interface CardDao {
 
     @Query("SELECT COUNT (*) FROM cards " +
             "WHERE isTrash = 0 AND isPending = 0 AND number = :number")
-    fun getNotTrashedCount(number: String): Single<Int>
+    fun getCount(number: String): Single<Int>
+
+    @Query("SELECT COUNT (*) FROM cards " +
+            "WHERE isTrash = 0 AND holderName = :holderName")
+    fun getCountByHolder(holderName: String): Flowable<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(card: DataCard)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(card: DataCard)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(cards: List<DataCard>)

@@ -1,7 +1,6 @@
 package com.popalay.cardme.domain.interactor
 
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.DeviceRepository
 import com.popalay.cardme.domain.repository.HolderRepository
@@ -32,9 +31,6 @@ class HolderInteractor @Inject constructor(
 
     fun addCard(card: Card): Completable = addCard(card.holderName, card)
             .subscribeOn(Schedulers.io())
-
-    fun addDebt(holderName: String, debt: Debt): Completable = Completable.complete()/*holderRepository.addDebt(holderName, debt)
-            .subscribeOn(Schedulers.io())*/
 
     fun getAll(): Flowable<List<Holder>> = holderRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())

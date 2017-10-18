@@ -31,11 +31,12 @@ interface DebtDao {
             "ORDER BY createdAt")
     fun getNotTrashedByHolder(holderName: String): Flowable<List<Debt>>
 
+    @Query("SELECT COUNT (*) FROM debts " +
+            "WHERE isTrash = 0 AND holderName = :holderName")
+    fun getCountByHolder(holderName: String): Flowable<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(debt: Debt)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(debt: Debt)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(debts: List<Debt>)

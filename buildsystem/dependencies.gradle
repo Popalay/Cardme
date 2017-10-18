@@ -116,6 +116,7 @@ ext {
 
     dataDependencies = [
             rxJava            : "io.reactivex.rxjava2:rxjava:$rxJava",
+            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
 
             kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinLanguage",
 

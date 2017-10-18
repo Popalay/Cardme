@@ -23,6 +23,7 @@ dependencies {
     implementation dataDependencies.kotlin
 
     implementation dataDependencies.rxJava
+    implementation dataDependencies.rxKotlin
 
     implementation dataDependencies.dagger
     kapt dataDependencies.daggerCompiler

@@ -38,19 +38,18 @@ class DataCardRepository @Inject constructor(
     override fun getAllNotTrashed(): Flowable<List<Card>> = cardDao.getAllNotTrashed()
             .map { it.map { it.toDomain() } }
 
-    override fun markAsTrash(data: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = true
-    }*/
+    override fun markAsTrash(data: Card): Completable = Completable.fromAction {
+        cardDao.insertOrUpdate(data.toData().apply { isTrash = true })
+    }
 
-    override fun removeTrashed(): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.IS_TRASH, true).findAll().deleteAllFromRealm()
-    }*/
+    override fun removeTrashed(): Completable = cardDao.getAllTrashed()
+            .flatMapCompletable { Completable.fromAction { cardDao.deleteAll(it) } }
 
-    override fun restore(data: Card): Completable = Completable.complete()/*RxRealm.doTransactional {
-        it.where(Card::class.java).equalTo(Card.NUMBER, card.number).findFirst().isTrash = false
-    }*/
+    override fun restore(data: Card): Completable = Completable.fromAction {
+        cardDao.insertOrUpdate(data.toData().apply { isTrash = false })
+    }
 
-    override fun contains(id: String): Single<Boolean> = cardDao.getNotTrashedCount(id).map { it == 0 }
+    override fun contains(id: String): Single<Boolean> = cardDao.getCount(id).map { it > 0 }
 
     override fun toJson(card: Card): Single<String> = Single.fromCallable { gson.toJson(card) }
 

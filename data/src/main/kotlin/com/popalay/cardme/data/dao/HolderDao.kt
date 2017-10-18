@@ -2,6 +2,7 @@ package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.*
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 import com.popalay.cardme.data.model.Holder as DataHolder
 
@@ -23,6 +24,10 @@ interface HolderDao {
             "ORDER BY name")
     fun getAllTrashed(): Flowable<List<DataHolder>>
 
+    @Query("SELECT COUNT (*) FROM holders " +
+            "WHERE isTrash = 0 AND isPending = 0 AND name = :name")
+    fun getCount(name: String): Single<Int>
+
     @Query("SELECT * FROM holders " +
             "WHERE isTrash = 0 AND isPending = 0 " +
             "ORDER BY name")
@@ -30,9 +35,6 @@ interface HolderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(holder: DataHolder)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(holder: DataHolder)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(holders: List<DataHolder>)

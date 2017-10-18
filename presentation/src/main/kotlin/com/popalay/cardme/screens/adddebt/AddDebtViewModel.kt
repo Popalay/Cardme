@@ -4,10 +4,11 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.domain.model.Debt
-import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.base.BaseViewModel
 import com.popalay.cardme.base.navigation.CustomRouter
+import com.popalay.cardme.domain.interactor.DebtsInteractor
+import com.popalay.cardme.domain.interactor.HolderInteractor
+import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.setTo
@@ -22,18 +23,18 @@ import javax.inject.Inject
 
 class AddDebtViewModel @Inject constructor(
         router: CustomRouter,
-        holderInteractor: HolderInteractor
+        holderInteractor: HolderInteractor,
+        debtsInteractor: DebtsInteractor
 ) : BaseViewModel() {
-
-    val debt = ObservableField<Debt>(Debt())
 
     val to = ObservableString()
     val message = ObservableString()
-
     val canSave = ObservableBoolean()
     val holderNames = ObservableArrayList<String>()
 
     val addClick: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
+
+    private val debt = ObservableField<Debt>(Debt())
 
     init {
 
@@ -43,7 +44,7 @@ class AddDebtViewModel @Inject constructor(
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
 
-        Observables.combineLatest(to.observe(),
+        Observables.combineLatest(to.observe().doOnNext { debt.get().holderName = it.clean() },
                 message.observe().doOnNext { debt.get().message = it.clean() })
                 .map { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() }
                 .setTo(canSave)
@@ -52,8 +53,7 @@ class AddDebtViewModel @Inject constructor(
 
         addClick.applyThrottling()
                 .filter { it && canSave.get() }
-                .map { debt.get() }
-                .switchMapSingle { holderInteractor.addDebt(to.get().clean(), it).toSingleDefault(true) }
+                .switchMapSingle { debtsInteractor.save(debt.get()).toSingleDefault(true) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { router.exit() }
                 .subscribeBy(this::handleBaseError)
