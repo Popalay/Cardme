@@ -18,7 +18,7 @@ ext.versions = [
         kotlinLanguage    : "1.2.0",
 
         //Libraries
-        supportLibrary    : "26.1.0",
+        supportLibrary    : "27.0.2",
         playServices      : "11.6.0",
         archComponents    : "1.0.0",
         constraintLayout  : "1.1.0-beta3",
@@ -43,7 +43,7 @@ ext.versions = [
         streamApi         : "1.1.8",
         contacts          : "1.1.4",
         androidPermissionX: "0142673ad1",
-        shortbread        : "1.0.1",
+        shortbread        : "1.0.2",
         recyclerViewPager : "1.1.2",
         textDrawable      : "1.0.1",
 

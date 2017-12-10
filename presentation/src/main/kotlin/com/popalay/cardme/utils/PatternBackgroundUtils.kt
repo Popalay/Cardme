@@ -6,19 +6,19 @@ import android.graphics.drawable.LayerDrawable
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import com.popalay.cardme.R
-import java.util.*
+import java.util.Random
 
 object PatternBackgroundUtils {
 
-    fun generateBackground(context: Context, seed: Long, withImage: Boolean): Drawable {
+    fun generateBackground(context: Context, seed: Long, withImage: Boolean): Drawable? {
         val random = Random(seed).nextInt(Integer.MAX_VALUE)
         val background = ContextCompat.getDrawable(context, getRandomBackground(random))
-        if (!withImage) {
-            return background
+        return if (!withImage) {
+            background
         } else {
             val pattern = ContextCompat.getDrawable(context, getRandomPattern(random))
-            background.alpha = 140
-            return LayerDrawable(arrayOf(pattern, background))
+            background?.alpha = 140
+            LayerDrawable(arrayOf(pattern, background))
         }
     }
 

@@ -24,14 +24,14 @@ import com.popalay.cardme.R
 import com.popalay.cardme.base.BaseViewModel
 
 
-fun FragmentActivity.currentFragment() = supportFragmentManager.fragments?.filter { it.isVisible }?.firstOrNull()
+internal fun FragmentActivity.currentFragment() = supportFragmentManager.fragments?.firstOrNull { it.isVisible }
 
-inline fun <reified T : Fragment> AppCompatActivity.findFragmentByType() = supportFragmentManager.fragments
+internal inline fun <reified T : Fragment> AppCompatActivity.findFragmentByType() = supportFragmentManager.fragments
         ?.filter { it is T }
         ?.map { it as T }
         ?.firstOrNull()
 
-fun FragmentActivity.openShareChooser(@StringRes title: Int, text: String) {
+internal fun FragmentActivity.openShareChooser(@StringRes title: Int, text: String) {
     val intent = ShareCompat.IntentBuilder.from(this)
             .setChooserTitle(title)
             .setType("text/plain")
@@ -42,7 +42,7 @@ fun FragmentActivity.openShareChooser(@StringRes title: Int, text: String) {
     }
 }
 
-fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String) {
+internal fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String) {
     val targetShareIntents = mutableListOf<Intent>()
     val shareIntent = Intent()
     shareIntent.action = Intent.ACTION_SEND
@@ -69,46 +69,44 @@ fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String) {
     }
 }
 
-fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
-): T = DataBindingUtil.setContentView<T>(this, layoutId)
+internal fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
+): T = DataBindingUtil.setContentView(this, layoutId)
 
-fun <T : ViewDataBinding> Fragment.getDataBinding(
+internal fun <T : ViewDataBinding> Fragment.getDataBinding(
         inflater: LayoutInflater?,
         @LayoutRes layoutId: Int,
         container: ViewGroup?
 ): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
 
-inline fun <reified T : BaseViewModel> FragmentActivity.getViewModel(
+internal inline fun <reified T : BaseViewModel> FragmentActivity.getViewModel(
         factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)
 
-inline fun <reified T : BaseViewModel> Fragment.getViewModel(
-        factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(activity.application)
+internal inline fun <reified T : BaseViewModel> Fragment.getViewModel(
+        factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(unsafeActivity.application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)
 
-fun Context.createNdefMessage(byteArray: ByteArray): NdefMessage {
+internal fun Context.createNdefMessage(byteArray: ByteArray): NdefMessage {
     return NdefMessage(arrayOf(NdefRecord.createMime("application/" + packageName, byteArray),
             NdefRecord.createApplicationRecord(packageName)))
 }
 
-fun Fragment.openShareChooser(@StringRes title: Int, text: String) = activity.openShareChooser(title, text)
-
-fun Context.openLink(url: Uri) {
+internal fun Context.openLink(url: Uri) {
     val builder = CustomTabsIntent.Builder()
     builder.setToolbarColor(ContextCompat.getColor(this, R.color.primary))
     val customTabsIntent = builder.build()
     customTabsIntent.launchUrl(this, url)
 }
 
-fun Context.openLink(url: String) = openLink(Uri.parse(url))
+internal fun Context.openLink(url: String) = openLink(Uri.parse(url))
 
-fun Boolean.ifTrue(block: () -> Unit) {
+internal fun Boolean.ifTrue(block: () -> Unit) {
     if (this) {
         block()
     }
 }
 
-fun Boolean.ifFalse(block: () -> Unit) {
+internal fun Boolean.ifFalse(block: () -> Unit) {
     if (!this) {
         block()
     }

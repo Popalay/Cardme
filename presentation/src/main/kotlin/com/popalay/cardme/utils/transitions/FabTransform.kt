@@ -21,7 +21,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Outline
@@ -32,51 +31,25 @@ import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.transition.Transition
 import android.transition.TransitionValues
-import android.util.AttributeSet
 import android.view.View
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import com.popalay.cardme.R
 import com.popalay.cardme.utils.animation.AnimUtils
 import com.popalay.cardme.utils.extensions.ifFalse
 import com.popalay.cardme.utils.extensions.ifTrue
-import java.util.*
+import java.util.ArrayList
 
 /**
  * A transition between a FAB & another surface using a circular reveal moving along an arc.
  *
  * See: https://www.google.com/design/spec/motion/transforming-material.html#transforming-material-radial-transformation
  */
-class FabTransform : Transition {
-
-    private val color: Int
-    private val icon: Int
-
-    constructor(@ColorInt fabColor: Int, @DrawableRes fabIconResId: Int) {
-        color = fabColor
-        icon = fabIconResId
-        pathMotion = GravityArcMotion()
-        duration = DEFAULT_DURATION
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.FabTransform)
-        try {
-            if (!a.hasValue(R.styleable.FabTransform_fabColor) || !a.hasValue(R.styleable.FabTransform_fabIcon)) {
-                throw IllegalArgumentException("Must provide both color & icon.")
-            }
-            color = a.getColor(R.styleable.FabTransform_fabColor, Color.TRANSPARENT)
-            icon = a.getResourceId(R.styleable.FabTransform_fabIcon, 0)
-            pathMotion = GravityArcMotion()
-            if (duration < 0) {
-                duration = DEFAULT_DURATION
-            }
-        } finally {
-            a.recycle()
-        }
-    }
+class FabTransform(
+        @ColorInt private val colorRes: Int,
+        @DrawableRes private val iconRes: Int
+) : Transition() {
 
     override fun getTransitionProperties() = TRANSITION_PROPERTIES
 
@@ -118,19 +91,20 @@ class FabTransform : Transition {
             view.translationY = translationY.toFloat()
         }
 
-        val fabColor = ColorDrawable(color)
+        val fabColor = ColorDrawable(colorRes)
         fabColor.setBounds(0, 0, dialogBounds.width(), dialogBounds.height())
         if (!fromFab) fabColor.alpha = 0
         view.overlay.add(fabColor)
 
-        val fabIcon = ContextCompat.getDrawable(sceneRoot.context, icon).mutate()
-        val iconLeft = (dialogBounds.width() - fabIcon.intrinsicWidth) / 2
-        val iconTop = (dialogBounds.height() - fabIcon.intrinsicHeight) / 2
-        fabIcon.setBounds(iconLeft, iconTop,
-                iconLeft + fabIcon.intrinsicWidth,
-                iconTop + fabIcon.intrinsicHeight)
-        if (!fromFab) fabIcon.alpha = 0
-        view.overlay.add(fabIcon)
+        val fabIcon = ContextCompat.getDrawable(sceneRoot.context, iconRes)?.mutate()?.let {
+            val iconLeft = (dialogBounds.width() - it.intrinsicWidth) / 2
+            val iconTop = (dialogBounds.height() - it.intrinsicHeight) / 2
+            it.setBounds(iconLeft, iconTop,
+                    iconLeft + it.intrinsicWidth,
+                    iconTop + it.intrinsicHeight)
+            if (!fromFab) it.alpha = 0
+            view.overlay.add(it)
+        }
 
         val circularReveal: Animator
         if (fromFab) {
@@ -175,10 +149,9 @@ class FabTransform : Transition {
 
         var fadeContents: MutableList<Animator>? = null
         if (view is ViewGroup) {
-            val vg = view
-            fadeContents = ArrayList<Animator>(vg.childCount)
-            for (i in vg.childCount - 1 downTo 0) {
-                val child = vg.getChildAt(i)
+            fadeContents = ArrayList(view.childCount)
+            for (i in view.childCount - 1 downTo 0) {
+                val child = view.getChildAt(i)
                 val fade = ObjectAnimator.ofFloat(child, View.ALPHA, if (fromFab) 1f else 0f)
                 if (fromFab) {
                     child.alpha = 0f
@@ -256,5 +229,10 @@ class FabTransform : Transition {
             activity.window.sharedElementEnterTransition = sharedEnter
             return true
         }
+    }
+
+    init {
+        pathMotion = GravityArcMotion()
+        duration = DEFAULT_DURATION
     }
 }

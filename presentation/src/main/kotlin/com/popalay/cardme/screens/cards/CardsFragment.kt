@@ -9,14 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.popalay.cardme.DataTransformers
 import com.popalay.cardme.R
-import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.base.BaseFragment
+import com.popalay.cardme.databinding.FragmentCardsBinding
 import com.popalay.cardme.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
 import com.popalay.cardme.utils.extensions.showAnimated
+import com.popalay.cardme.utils.extensions.unsafeActivity
+import com.popalay.cardme.utils.extensions.unsafeContext
 import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
@@ -35,7 +37,7 @@ class CardsFragment : BaseFragment() {
 
     private lateinit var b: FragmentCardsBinding
 
-    override fun onCreateView(inflater: LayoutInflater?,
+    override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         b = getDataBinding(inflater, R.layout.fragment_cards, container)
@@ -68,10 +70,10 @@ class CardsFragment : BaseFragment() {
         val position = viewModelFacade.getPositionOfCard(activityIntent
                 .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
 
-        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(unsafeActivity,
                 b.listCards.findViewHolderForAdapterPosition(position).itemView,
                 getString(R.string.transition_card_details))
-                .toBundle()
+                .toBundle() ?: Bundle.EMPTY
     }
 
     private fun initUI() {
@@ -83,7 +85,7 @@ class CardsFragment : BaseFragment() {
 
         viewModelFacade.doOnShowCardExistsDialog()
                 .subscribe {
-                    DialogFactory.createCustomButtonsDialog(context,
+                    DialogFactory.createCustomButtonsDialog(unsafeContext,
                             R.string.error_card_exist, R.string.action_yes, R.string.action_cancel,
                             onPositive = viewModelFacade::onWantToOverwrite,
                             onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)

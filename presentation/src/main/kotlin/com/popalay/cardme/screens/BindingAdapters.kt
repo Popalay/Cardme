@@ -7,7 +7,11 @@ import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.widget.*
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ArrayAdapter
@@ -50,7 +54,7 @@ fun RecyclerView.setDefaultList(defaultList: Boolean) {
 @BindingAdapter("applyDivider")
 fun RecyclerView.applyDivider(orientation: Int) {
     val divider = DividerItemDecoration(this.context, orientation)
-    divider.setDrawable(ContextCompat.getDrawable(this.context, R.drawable.list_divider))
+    divider.setDrawable(ContextCompat.getDrawable(this.context, R.drawable.list_divider)!!)
     this.addItemDecoration(divider)
 }
 

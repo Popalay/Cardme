@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.popalay.cardme.R
-import com.popalay.cardme.databinding.FragmentDebtsBinding
 import com.popalay.cardme.base.BaseFragment
+import com.popalay.cardme.databinding.FragmentDebtsBinding
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
+import com.popalay.cardme.utils.extensions.unsafeActivity
+import com.popalay.cardme.utils.extensions.unsafeContext
 import com.popalay.cardme.utils.transitions.FabTransform
 import javax.inject.Inject
 
@@ -36,8 +38,8 @@ class DebtsFragment : BaseFragment() {
 
 
     fun createAddDebtTransition(activityIntent: Intent): Bundle {
-        FabTransform.addExtras(activityIntent, ContextCompat.getColor(activity, R.color.accent), R.drawable.ic_write)
-        val options = ActivityOptions.makeSceneTransitionAnimation(activity, b.buttonWrite, getString(R.string.transition_add_debt))
+        FabTransform.addExtras(activityIntent, ContextCompat.getColor(unsafeContext, R.color.accent), R.drawable.ic_write)
+        val options = ActivityOptions.makeSceneTransitionAnimation(unsafeActivity, b.buttonWrite, getString(R.string.transition_add_debt))
         return options.toBundle()
     }
 }
