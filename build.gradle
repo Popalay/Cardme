@@ -4,7 +4,6 @@ buildscript {
     repositories {
         jcenter()
         google()
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     }
 
     apply from: 'buildsystem/dependencies.gradle'

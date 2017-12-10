@@ -120,7 +120,7 @@ class CardInteractorTest {
             cards
         })
 
-        val testObserver = cardInteractor.getAll().test()
+        val testObserver = cardInteractor.getAllNotTrashed().test()
 
         testObserver.awaitTerminalEvent()
 

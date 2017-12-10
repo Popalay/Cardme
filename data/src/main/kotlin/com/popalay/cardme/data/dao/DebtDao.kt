@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.popalay.cardme.data.model.Debt
 import io.reactivex.Flowable
 
@@ -35,10 +36,10 @@ interface DebtDao {
             "WHERE isTrash = 0 AND holderName = :holderName")
     fun getCountByHolder(holderName: String): Flowable<Int>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insertOrUpdate(debt: Debt)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update(onConflict = REPLACE)
     fun updateAll(debts: List<Debt>)
 
     @Delete

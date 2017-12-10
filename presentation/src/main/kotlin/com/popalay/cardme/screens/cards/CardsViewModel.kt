@@ -44,7 +44,7 @@ class CardsViewModel @Inject constructor(
     private var pendingCard: Card? = null
 
     init {
-        cardInteractor.getAll()
+        cardInteractor.getAllNotTrashed()
                 .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(cards)

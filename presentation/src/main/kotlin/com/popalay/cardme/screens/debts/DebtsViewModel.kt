@@ -1,10 +1,10 @@
 package com.popalay.cardme.screens.debts
 
 import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.domain.interactor.DebtsInteractor
-import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.base.BaseViewModel
 import com.popalay.cardme.base.navigation.CustomRouter
+import com.popalay.cardme.domain.interactor.DebtsInteractor
+import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.screens.SCREEN_ADD_DEBT
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.setTo
@@ -27,7 +27,7 @@ class DebtsViewModel @Inject constructor(
     val onUndoSwipe: PublishRelay<Boolean> = PublishRelay.create()
 
     init {
-        debtsInteractor.getAll()
+        debtsInteractor.getAllNotTrashed()
                 .observeOn(AndroidSchedulers.mainThread())
                 .setTo(debts)
                 .subscribeBy(this::handleBaseError)

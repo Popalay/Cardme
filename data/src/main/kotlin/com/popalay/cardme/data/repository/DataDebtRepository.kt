@@ -46,4 +46,7 @@ class DataDebtRepository @Inject constructor(
 
     override fun removeTrashed(): Completable = debtDao.getAllTrashed()
             .flatMapCompletable { Completable.fromAction { debtDao.deleteAll(it) } }
+
+    override fun getNotTrashedByHolder(holderName: String): Flowable<List<Debt>> = debtDao.getNotTrashedByHolder(holderName)
+            .map { it.map { it.toDomain() } }
 }

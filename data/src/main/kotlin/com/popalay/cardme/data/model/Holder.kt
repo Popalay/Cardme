@@ -8,6 +8,5 @@ import android.arch.persistence.room.PrimaryKey
         indices = [(Index("name", unique = true))])
 data class Holder(
         @PrimaryKey var name: String,
-        var isTrash: Boolean,
-        var isPending: Boolean
+        var isTrash: Boolean
 )

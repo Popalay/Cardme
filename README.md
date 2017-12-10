@@ -11,4 +11,3 @@ Don't be constantly asking for card numbers from friends, just store them!
 - [x] Add mappers for layer interaction
 - [x] Add debt
 - [x] Show count of cards and debts on the holder details item
-- [ ] Fix insert or update action

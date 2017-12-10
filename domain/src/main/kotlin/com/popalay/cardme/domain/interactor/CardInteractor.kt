@@ -41,7 +41,11 @@ class CardInteractor @Inject constructor(
         holderName.isNotBlank()
     }
 
-    fun getAll(): Flowable<List<Card>> = cardRepository.getAllNotTrashed()
+    fun getAllNotTrashed(): Flowable<List<Card>> = cardRepository.getAllNotTrashed()
+            .subscribeOn(Schedulers.io())
+
+    fun getAllNotTrashedByHolder(holderName: String): Flowable<List<Card>>
+            = cardRepository.getNotTrashedByHolder(holderName)
             .subscribeOn(Schedulers.io())
 
     fun getAllTrashed(): Flowable<List<Card>> = cardRepository.getAllTrashed()

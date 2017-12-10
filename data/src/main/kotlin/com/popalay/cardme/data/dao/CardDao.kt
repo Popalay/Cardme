@@ -1,6 +1,7 @@
 package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -25,6 +26,11 @@ interface CardDao {
     fun getAllNotTrashed(): Flowable<List<DataCard>>
 
     @Query("SELECT * FROM cards " +
+            "WHERE isTrash = 0 AND isPending = 0 AND holderName = :holderName " +
+            "ORDER BY position, holderName")
+    fun getNotTrashedByHolder(holderName: String): Flowable<List<DataCard>>
+
+    @Query("SELECT * FROM cards " +
             "WHERE isTrash = 1 AND isPending = 0 " +
             "ORDER BY position, holderName")
     fun getAllTrashed(): Flowable<List<DataCard>>
@@ -37,10 +43,10 @@ interface CardDao {
             "WHERE isTrash = 0 AND holderName = :holderName")
     fun getCountByHolder(holderName: String): Flowable<Int>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insertOrUpdate(card: DataCard)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update(onConflict = REPLACE)
     fun updateAll(cards: List<DataCard>)
 
     @Delete

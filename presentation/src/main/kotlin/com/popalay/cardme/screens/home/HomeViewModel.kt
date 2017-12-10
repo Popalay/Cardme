@@ -3,11 +3,11 @@ package com.popalay.cardme.screens.home
 import com.jakewharton.rxrelay2.PublishRelay
 import com.popalay.cardme.PRIVACY_POLICY_LINK
 import com.popalay.cardme.R
-import com.popalay.cardme.domain.interactor.ShortcutInteractor
-import com.popalay.cardme.domain.interactor.CardInteractor
-import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.base.BaseViewModel
 import com.popalay.cardme.base.navigation.CustomRouter
+import com.popalay.cardme.domain.interactor.CardInteractor
+import com.popalay.cardme.domain.interactor.HolderInteractor
+import com.popalay.cardme.domain.interactor.ShortcutInteractor
 import com.popalay.cardme.screens.*
 import com.popalay.cardme.utils.extensions.applyThrottling
 import io.reactivex.rxkotlin.addTo
@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onNfcMessageRead(message: ByteArray) {
         cardInteractor.getFromJson(message.toString(Charset.defaultCharset()))
-                .flatMapCompletable(holderInteractor::addCard)
+                .flatMapCompletable(cardInteractor::save)
                 .subscribeBy(this::handleBaseError)
                 .addTo(disposables)
     }

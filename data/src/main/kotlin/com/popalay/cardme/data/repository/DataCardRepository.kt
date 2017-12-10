@@ -56,4 +56,8 @@ class DataCardRepository @Inject constructor(
     override fun fromJson(source: String): Single<Card> = Single.fromCallable {
         gson.fromJson<Card>(source, Card::class.java)
     }
+
+    override fun getNotTrashedByHolder(holderName: String): Flowable<List<Card>>
+            = cardDao.getNotTrashedByHolder(holderName)
+            .map { it.map { it.toDomain() } }
 }

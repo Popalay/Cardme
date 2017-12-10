@@ -54,6 +54,7 @@
                     app:layout_collapseMode="parallax"
                     app:rvp_singlePageFling="true"
                     bind:cardClick="@{vm.cardClickPublisher}"
+                    bind:cardsAdapter="@{vm.cards}"
                     bind:hasFixedSize="@{true}"
                     bind:showImage="@{vm.showImage}"
                     bind:snap="@{true}"
@@ -93,6 +94,7 @@
                     android:layoutAnimation="@anim/list_layout_animation"
                     android:nestedScrollingEnabled="false"
                     bind:applyDivider="@{orientation.VERTICAL}"
+                    bind:debtsAdapter="@{vm.debts}"
                     bind:defaultList="@{true}"
                     tools:listitem="@layout/item_debt"
                     />
@@ -104,6 +106,7 @@
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_money_48_primary"
                     android:text="@string/list_debts_placeholder_holder_details"
+                    bind:listPlaceholder="@{vm.debts}"
                     />
 
             </FrameLayout>

@@ -4,18 +4,17 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-import com.google.gson.annotations.Expose
 
 @Entity(tableName = "debts",
-        indices = [(Index("holderName"))],
-        foreignKeys = [(ForeignKey(entity = Holder::class,
-                parentColumns = arrayOf("name"),
-                childColumns = arrayOf("holderName"),
-                onDelete = ForeignKey.CASCADE))])
+        indices = [Index("holderName")],
+        foreignKeys = [ForeignKey(entity = Holder::class,
+                parentColumns = ["name"],
+                childColumns = ["holderName"],
+                onDelete = ForeignKey.CASCADE)])
 data class Debt(
-        @Expose @PrimaryKey(autoGenerate = true) var id: Long,
-        @Expose var message: String,
-        @Expose var createdAt: Long,
-        @Expose var isTrash: Boolean,
-        @Expose var holderName: String
+        @PrimaryKey(autoGenerate = true) var id: Long,
+        var message: String,
+        var createdAt: Long,
+        var isTrash: Boolean,
+        var holderName: String
 )

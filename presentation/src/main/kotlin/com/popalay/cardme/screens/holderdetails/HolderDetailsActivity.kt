@@ -38,8 +38,8 @@ class HolderDetailsActivity : RightSlidingActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = getDataBinding<ActivityHolderDetailsBinding>(R.layout.activity_holder_details)
-        b.vm = getViewModel<HolderDetailsViewModel>(factory)
+        b = getDataBinding(R.layout.activity_holder_details)
+        b.vm = getViewModel(factory)
         initUI()
     }
 
