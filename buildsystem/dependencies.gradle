@@ -7,144 +7,169 @@ allprojects {
     }
 }
 
-ext {
+ext.configurations = [
+        minSdkVersion    : 21,
+        targetSdkVersion : 27,
+        compileSdkVersion: 27,
+]
 
-    //Android
-    minSdkVersion = 21
-    targetSdkVersion = 27
-    compileSdkVersion = 27
+ext.versions = [
+        gradlePlugin      : "3.0.1",
+        kotlinLanguage    : "1.2.0",
 
-    gradlePlugin = '3.0.1'
-    kotlinLanguage = '1.2.0'
+        //Libraries
+        supportLibrary    : "26.1.0",
+        playServices      : "11.6.0",
+        archComponents    : "1.0.0",
+        constraintLayout  : "1.1.0-beta3",
 
-    //Libraries
-    supportLibrary = '26.1.0'
-    playServices = '11.6.0'
-    archComponents = '1.0.0'
-    constraintLayout = '1.1.0-beta3'
+        //Rx
+        rxJava            : "2.1.5",
+        rxAndroid         : "2.0.1",
+        rxKotlin          : "2.1.0",
+        rxRelay           : "2.0.0",
+        rxDataBinding     : "1.1.1",
 
-    //Rx
-    rxJava = '2.1.5'
-    rxAndroid = '2.0.1'
-    rxKotlin = '2.1.0'
-    rxRelay = '2.0.0'
-    rxDataBinding = '1.1.1'
+        //DI
+        dagger            : "2.13",
+        javaxAnnotation   : "1.0",
+        javaxInject       : "1",
 
-    //DI
-    dagger = '2.13'
-    javaxAnnotation = '1.0'
-    javaxInject = '1'
+        //Other
+        cicerone          : "2.1.0",
+        cardIo            : "5.5.1",
+        gson              : "2.8.1",
+        lastAdapter       : "2.2.2",
+        streamApi         : "1.1.8",
+        contacts          : "1.1.4",
+        androidPermissionX: "0142673ad1",
+        shortbread        : "1.0.1",
+        recyclerViewPager : "1.1.2",
+        textDrawable      : "1.0.1",
 
-    //Other
-    cicerone = '2.1.0'
-    cardIo = '5.5.1'
-    gson = '2.8.1'
-    lastAdapter = '2.2.2'
-    streamApi = '1.1.8'
-    contacts = '1.1.4'
-    androidPermissionX = '0142673ad1'
-    shortbread = '1.0.1'
-    recyclerViewPager = '1.1.2'
-    textDrawable = '1.0.1'
+        //Testing
+        jUnit             : "4.12",
+        assertJ           : "3.8.0",
+        mockito           : "2.8.47",
+        mockitoKotlin     : "1.5.0",
 
-    //Testing
-    jUnit = '4.12'
-    assertJ = '3.8.0'
-    mockito = '2.8.47'
-    mockitoKotlin = '1.5.0'
+        //Development
+        leakCanary        : "1.5.1",
+        stetho            : "1.5.0",
+        androidProguards  : "2.0.1",
+        debugDb           : "1.0.1",
+]
 
-    //Development
-    leakCanary = '1.5.1'
-    stetho = '1.5.0'
-    androidProguards = '2.0.1'
-    debugDb = '1.0.1'
+ext.support = [
+        cardView        : "com.android.support:cardview-v7:$versions.supportLibrary",
+        recyclerView    : "com.android.support:recyclerview-v7:$versions.supportLibrary",
+        supportLib      : "com.android.support:support-v4:$versions.supportLibrary",
+        design          : "com.android.support:design:$versions.supportLibrary",
+        customTabs      : "com.android.support:customtabs:$versions.supportLibrary",
+        constraintLayout: "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
+]
 
-    presentationDependencies = [
-            cardView                : "com.android.support:cardview-v7:$supportLibrary",
-            recyclerView            : "com.android.support:recyclerview-v7:$supportLibrary",
-            supportLib              : "com.android.support:support-v4:$supportLibrary",
-            supportDesign           : "com.android.support:design:$supportLibrary",
-            customTabs              : "com.android.support:customtabs:$supportLibrary",
-            constraintLayout        : "com.android.support.constraint:constraint-layout:$constraintLayout",
+ext.rxJava2 = [
+        rxJava   : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+        rxAndroid: "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
+        rxKotlin : "io.reactivex.rxjava2:rxkotlin:$versions.rxKotlin",
+]
 
-            rxJava                  : "io.reactivex.rxjava2:rxjava:$rxJava",
-            rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroid",
-            rxKotlin                : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
-            rxRelay                 : "com.jakewharton.rxrelay2:rxrelay:$rxRelay",
+ext.jakewharton = [
+        rxRelay: "com.jakewharton.rxrelay2:rxrelay:$versions.rxRelay",
+]
 
-            dagger                  : "com.google.dagger:dagger:$dagger",
-            daggerCompiler          : "com.google.dagger:dagger-compiler:$dagger",
-            daggerAndroidSupport    : "com.google.dagger:dagger-android-support:$dagger",
-            daggerAndroidProcessor  : "com.google.dagger:dagger-android-processor:$dagger",
+ext.dagger = [
+        dagger                : "com.google.dagger:dagger:$versions.dagger",
+        daggerCompiler        : "com.google.dagger:dagger-compiler:$versions.dagger",
+        daggerAndroidSupport  : "com.google.dagger:dagger-android-support:$versions.dagger",
+        daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$versions.dagger",
+]
 
-            databindingCompiler     : "com.android.databinding:compiler:$gradlePlugin",
-            rxDatabinding           : "com.stepango.rxdatabindings:rxdatabindings:$rxDataBinding",
+ext.arch = [
+        archComponentsRuntime   : "android.arch.lifecycle:runtime:$versions.archComponents",
+        archComponentsExtensions: "android.arch.lifecycle:extensions:$versions.archComponents",
+        archComponentsCompiler  : "android.arch.lifecycle:compiler:$versions.archComponents",
+        roomRuntime             : "android.arch.persistence.room:runtime:$versions.archComponents",
+        roomRxJava2             : "android.arch.persistence.room:rxjava2:$versions.archComponents",
+        roomCompiler            : "android.arch.persistence.room:compiler:$versions.archComponents",
+]
 
-            archComponentsRuntime   : "android.arch.lifecycle:runtime:$archComponents",
-            archComponentsExtensions: "android.arch.lifecycle:extensions:$archComponents",
-            archComponentsCompiler  : "android.arch.lifecycle:compiler:$archComponents",
+ext.firebase = [
+        firebaseCore : "com.google.firebase:firebase-core:$versions.playServices",
+        firebasePerf : "com.google.firebase:firebase-perf:$versions.playServices",
+        firebaseCrash: "com.google.firebase:firebase-crash:$versions.playServices",
+]
 
-            cardIo                  : "io.card:android-sdk:$cardIo",
+ext.matthiasrobbers = [
+        shortbread        : "com.github.matthiasrobbers:shortbread:$versions.shortbread",
+        shortbreadCompiler: "com.github.matthiasrobbers:shortbread-compiler:$versions.shortbread",
+]
 
-            shortbread              : "com.github.matthiasrobbers:shortbread:$shortbread",
-            shortbreadCompiler      : "com.github.matthiasrobbers:shortbread-compiler:$shortbread",
+ext.jetbrains = [
+        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlinLanguage"
+]
 
-            lastAdapter             : "com.github.nitrico.lastadapter:lastadapter:$lastAdapter",
-            recyclerViewPager       : "com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2",
-            textDrawable            : "com.amulyakhare:com.amulyakhare.textdrawable:$textDrawable",
+ext.terrakok = [
+        cicerone: "ru.terrakok.cicerone:cicerone:$versions.cicerone"
+]
 
-            firebaseCore            : "com.google.firebase:firebase-core:$playServices",
-            firebasePerf            : "com.google.firebase:firebase-perf:$playServices",
-            firebaseCrash           : "com.google.firebase:firebase-crash:$playServices",
+ext.popalay = [
+        androidPermissionX: "com.github.Popalay:AndroidPermissionX:$versions.androidPermissionX"
+]
 
-            router                  : "ru.terrakok.cicerone:cicerone:$cicerone",
-    ]
+ext.databinding = [
+        compiler: "com.android.databinding:compiler:$versions.gradlePlugin"
+]
 
-    domainDependencies = [
-            rxJava         : "io.reactivex.rxjava2:rxjava:$rxJava",
-            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
+ext.rxDatabindings = [
+        rxdatabindings: "com.stepango.rxdatabindings:rxdatabindings:$versions.rxDataBinding"
+]
 
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinLanguage",
+ext.cardIo = [
+        android: "io.card:android-sdk:$versions.cardIo"
+]
 
-            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotation}",
-            javaxInject    : "javax.inject:javax.inject:${javaxInject}",
+ext.lastadapter = [
+        lastAdapter: "com.github.nitrico.lastadapter:lastadapter:$versions.lastAdapter"
+]
 
-            contacts       : "com.github.tamir7.contacts:contacts:$contacts",
-    ]
+ext.lsjwzh = [
+        recyclerViewPager: "com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2"
+]
 
-    dataDependencies = [
-            rxJava            : "io.reactivex.rxjava2:rxjava:$rxJava",
-            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:$rxKotlin",
+ext.amulyakhare = [
+        textDrawable: "com.amulyakhare:com.amulyakhare.textdrawable:$versions.textDrawable"
+]
 
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinLanguage",
+ext.annotation = [
+        jsr250: "javax.annotation:jsr250-api:$versions.javaxAnnotation"
+]
 
-            dagger            : "com.google.dagger:dagger:$dagger",
-            daggerCompiler    : "com.google.dagger:dagger-compiler:$dagger",
+ext.javax = [
+        inject: "javax.inject:javax.inject:$versions.javaxInject"
+]
 
-            gson              : "com.google.code.gson:gson:$gson",
+ext.tamir7 = [
+        contacts: "com.github.tamir7.contacts:contacts:$versions.contacts"
+]
 
-            roomRuntime       : "android.arch.persistence.room:runtime:$archComponents",
-            roomRxJava2       : "android.arch.persistence.room:rxjava2:$archComponents",
-            roomCompiler      : "android.arch.persistence.room:compiler:$archComponents",
+ext.google = [
+        gson: "com.google.code.gson:gson:$versions.gson"
+]
 
-            streamApi         : "com.annimon:stream:$streamApi",
-            androidPermissionX: "com.github.Popalay:AndroidPermissionX:$androidPermissionX",
-            contacts          : "com.github.tamir7.contacts:contacts:$contacts",
-    ]
+ext.testDependencies = [
+        junit        : "junit:junit:$versions.jUnit",
+        mockito      : "org.mockito:mockito-core:$versions.mockito",
+        mockitoKotlin: "com.nhaarman:mockito-kotlin-kt1.1:$versions.mockitoKotlin",
+        assertJ      : "org.assertj:assertj-core:$versions.assertJ",
+        kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlinLanguage",
+]
 
-    developmentDependencies = [
-            leakCanary      : "com.squareup.leakcanary:leakcanary-android:$leakCanary",
-            leakCanaryNoOp  : "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary",
-            stetho          : "com.facebook.stetho:stetho:$stetho",
-            androidProguards: "com.github.yongjhih.android-proguards:android-proguards:$androidProguards",
-            debugDb         : "com.amitshekhar.android:debug-db:$debugDb",
-    ]
-
-    testDomainDependencies = [
-            junit        : "junit:junit:$jUnit",
-            mockito      : "org.mockito:mockito-core:$mockito",
-            mockitoKotlin: "com.nhaarman:mockito-kotlin-kt1.1:$mockitoKotlin",
-            assertJ      : "org.assertj:assertj-core:$assertJ",
-            kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinLanguage",
-    ]
-}
+ext.development = [
+        leakCanary      : "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
+        leakCanaryNoOp  : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakCanary",
+        stetho          : "com.facebook.stetho:stetho:$versions.stetho",
+        androidProguards: "com.github.yongjhih.android-proguards:android-proguards:$versions.androidProguards",
+        debugDb         : "com.amitshekhar.android:debug-db:$versions.debugDb",
+]

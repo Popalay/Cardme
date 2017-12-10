@@ -2,16 +2,26 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+def config = rootProject.ext.configurations
+
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion config.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+
     }
 }
 
@@ -20,21 +30,20 @@ dependencies {
 
     api project(':domain')
 
-    implementation dataDependencies.kotlin
+    implementation jetbrains.kotlin
 
-    implementation dataDependencies.rxJava
-    implementation dataDependencies.rxKotlin
+    implementation rxJava2.rxJava
+    implementation rxJava2.rxKotlin
 
-    implementation dataDependencies.dagger
-    kapt dataDependencies.daggerCompiler
+    implementation dagger.dagger
+    kapt dagger.daggerCompiler
 
-    api dataDependencies.roomRuntime
-    api dataDependencies.roomRxJava2
-    kapt dataDependencies.roomCompiler
+    api arch.roomRuntime
+    api arch.roomRxJava2
+    kapt arch.roomCompiler
 
-    api dataDependencies.contacts
-    api dataDependencies.gson
+    api tamir7.contacts
+    api google.gson
 
-    implementation dataDependencies.streamApi
-    implementation dataDependencies.androidPermissionX
+    implementation popalay.androidPermissionX
 }

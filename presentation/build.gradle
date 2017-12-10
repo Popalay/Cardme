@@ -6,15 +6,16 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 apply from: "../buildsystem/script-git-version.gradle"
 
-def globalConf = rootProject.ext
+def config = rootProject.ext.configurations
+def signIn = rootProject.ext.signIn
 
 android {
-    compileSdkVersion globalConf.compileSdkVersion
+    compileSdkVersion config.compileSdkVersion
 
     defaultConfig {
         applicationId "com.popalay.cardme"
-        minSdkVersion globalConf.minSdkVersion
-        targetSdkVersion globalConf.targetSdkVersion
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
 
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -23,14 +24,14 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file(globalConf.debugStoreFile)
+            storeFile file(signIn.debugStoreFile)
         }
 
         release {
-            storeFile file(globalConf.releaseStoreFile)
-            keyAlias globalConf.keyAlias
-            keyPassword globalConf.keyPassword
-            storePassword globalConf.storePassword
+            storeFile file(signIn.releaseStoreFile)
+            keyAlias signIn.keyAlias
+            keyPassword signIn.keyPassword
+            storePassword signIn.storePassword
         }
     }
 
@@ -82,52 +83,52 @@ dependencies {
     implementation project(':data')
     api project(":domain")
 
-    implementation presentationDependencies.cardView
-    implementation presentationDependencies.recyclerView
-    implementation presentationDependencies.supportLib
-    implementation presentationDependencies.supportDesign
-    implementation presentationDependencies.customTabs
-    implementation presentationDependencies.constraintLayout
+    implementation support.cardView
+    implementation support.recyclerView
+    implementation support.supportLib
+    implementation support.design
+    implementation support.customTabs
+    implementation support.constraintLayout
 
-    implementation presentationDependencies.recyclerViewPager
-    implementation presentationDependencies.textDrawable
+    implementation arch.archComponentsRuntime
+    implementation arch.archComponentsExtensions
+    kapt arch.archComponentsCompiler
 
-    implementation presentationDependencies.lastAdapter
+    implementation lsjwzh.recyclerViewPager
+    implementation amulyakhare.textDrawable
 
-    kapt presentationDependencies.databindingCompiler
-    implementation presentationDependencies.rxDatabinding
+    implementation lastadapter.lastAdapter
 
-    implementation presentationDependencies.archComponentsRuntime
-    implementation presentationDependencies.archComponentsExtensions
-    kapt presentationDependencies.archComponentsCompiler
+    kapt databinding.compiler
+    implementation rxDatabindings.rxdatabindings
 
-    implementation presentationDependencies.router
+    implementation terrakok.cicerone
 
-    implementation presentationDependencies.dagger
-    kapt presentationDependencies.daggerCompiler
-    implementation presentationDependencies.daggerAndroidSupport
-    kapt presentationDependencies.daggerAndroidProcessor
+    implementation dagger.dagger
+    kapt dagger.daggerCompiler
+    implementation dagger.daggerAndroidSupport
+    kapt dagger.daggerAndroidProcessor
 
-    implementation presentationDependencies.rxJava
-    implementation presentationDependencies.rxAndroid
-    implementation presentationDependencies.rxKotlin
-    implementation presentationDependencies.rxRelay
+    implementation rxJava2.rxJava
+    implementation rxJava2.rxAndroid
+    implementation rxJava2.rxKotlin
+    implementation jakewharton.rxRelay
 
-    implementation presentationDependencies.cardIo
+    implementation cardIo.android
 
-    implementation presentationDependencies.shortbread
-    kapt presentationDependencies.shortbreadCompiler
+    implementation matthiasrobbers.shortbread
+    kapt matthiasrobbers.shortbreadCompiler
 
-    implementation presentationDependencies.firebaseCore
-    implementation presentationDependencies.firebasePerf
-    implementation presentationDependencies.firebaseCrash
+    implementation firebase.firebaseCore
+    implementation firebase.firebasePerf
+    implementation firebase.firebaseCrash
 
-    implementation developmentDependencies.androidProguards
-    implementation developmentDependencies.stetho
-    debugImplementation developmentDependencies.debugDb
-    debugImplementation developmentDependencies.leakCanary
-    releaseImplementation developmentDependencies.leakCanaryNoOp
-    testImplementation developmentDependencies.leakCanaryNoOp
+    implementation development.androidProguards
+    implementation development.stetho
+    debugImplementation development.debugDb
+    debugImplementation development.leakCanary
+    releaseImplementation development.leakCanaryNoOp
+    testImplementation development.leakCanaryNoOp
 }
 
 apply plugin: 'com.google.gms.google-services'

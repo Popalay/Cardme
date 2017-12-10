@@ -5,26 +5,26 @@ targetCompatibility = 1.7
 
 configurations.all {
     resolutionStrategy {
-        force domainDependencies.kotlin
+        force jetbrains.kotlin
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation domainDependencies.kotlin
+    implementation jetbrains.kotlin
 
-    implementation domainDependencies.rxJava
-    implementation domainDependencies.rxKotlin
+    implementation rxJava2.rxJava
+    implementation rxJava2.rxKotlin
 
-    implementation domainDependencies.javaxAnnotation
-    implementation domainDependencies.javaxInject
+    implementation annotation.jsr250
+    implementation javax.inject
 
-    implementation domainDependencies.contacts
+    implementation tamir7.contacts
 
-    testImplementation testDomainDependencies.junit
-    testImplementation testDomainDependencies.mockito
-    testImplementation testDomainDependencies.mockitoKotlin
-    testImplementation testDomainDependencies.assertJ
-    testImplementation testDomainDependencies.kotlinTest
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.assertJ
+    testImplementation testDependencies.kotlinTest
 }
