@@ -29,23 +29,23 @@ class DataHolderRepository @Inject constructor(
     }
 
     override fun markAsTrash(data: Holder): Completable = Completable.fromAction {
-        holderDao.insertOrUpdate(data.toData().apply { isTrash = true })
+        holderDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun restore(data: Holder): Completable = Completable.fromAction {
-        holderDao.insertOrUpdate(data.toData().apply { isTrash = false })
+        holderDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun contains(id: String): Single<Boolean> = holderDao.getCount(id).map { it > 0 }
 
     override fun getAll(): Flowable<List<Holder>> = holderDao.getAll()
-            .flatMap(this::addCounts)
+            .flatMap(::addCounts)
 
     override fun getAllTrashed(): Flowable<List<Holder>> = holderDao.getAllTrashed()
-            .flatMap(this::addCounts)
+            .flatMap(::addCounts)
 
     override fun getAllNotTrashed(): Flowable<List<Holder>> = holderDao.getAllNotTrashed()
-            .flatMap(this::addCounts)
+            .flatMap(::addCounts)
 
     override fun get(id: String): Flowable<Holder> = Flowables.combineLatest(
             holderDao.get(id), cardDao.getCountByHolder(id), debtDao.getCountByHolder(id))

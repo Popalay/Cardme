@@ -5,8 +5,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "settings")
 data class Settings(
-        @PrimaryKey var id: Long,
-        var language: String,
-        var theme: String,
-        var isCardBackground: Boolean = false
+        @PrimaryKey val id: Long,
+        val language: String,
+        val theme: String,
+        val isCardBackground: Boolean = false
 )

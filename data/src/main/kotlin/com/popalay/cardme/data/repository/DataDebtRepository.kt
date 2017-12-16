@@ -37,11 +37,11 @@ class DataDebtRepository @Inject constructor(
             .map { it.map { it.toDomain() } }
 
     override fun markAsTrash(data: Debt): Completable = Completable.fromAction {
-        debtDao.insertOrUpdate(data.toData().apply { isTrash = true })
+        debtDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun restore(data: Debt): Completable = Completable.fromAction {
-        debtDao.insertOrUpdate(data.toData().apply { isTrash = false })
+        debtDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun removeTrashed(): Completable = debtDao.getAllTrashed()

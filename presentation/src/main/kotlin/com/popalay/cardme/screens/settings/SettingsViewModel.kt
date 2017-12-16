@@ -2,9 +2,9 @@ package com.popalay.cardme.screens.settings
 
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import com.popalay.cardme.base.BaseViewModel
 import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Settings
-import com.popalay.cardme.base.BaseViewModel
 import com.stepango.rxdatabindings.observe
 import com.stepango.rxdatabindings.setTo
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,8 +30,8 @@ class SettingsViewModel @Inject constructor(
 
         showImages.observe()
                 .filter { settings.get() != null }
-                .map { settings.get().isCardBackground = it; settings.get() }
-                .flatMapCompletable(settingsInteractor::saveSettings)
+                .map { settings.set(settings.get().copy(isCardBackground = it)) }
+                .flatMapCompletable { settingsInteractor.saveSettings(settings.get()) }
                 .subscribeBy()
                 .addTo(disposables)
     }

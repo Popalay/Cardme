@@ -15,15 +15,15 @@ import com.popalay.cardme.data.R
                 childColumns = arrayOf("holderName"),
                 onDelete = ForeignKey.CASCADE)])
 data class Card(
-        @PrimaryKey var number: String,
-        var title: String,
-        var redactedNumber: String,
-        @CardType var cardType: Long,
-        var generatedBackgroundSeed: Long,
-        var position: Int,
-        var isTrash: Boolean,
-        var isPending: Boolean,
-        var holderName: String
+        @PrimaryKey val number: String,
+        val title: String,
+        val redactedNumber: String,
+        @CardType val cardType: Long,
+        val generatedBackgroundSeed: Long,
+        val position: Int,
+        val isTrash: Boolean,
+        val isPending: Boolean,
+        val holderName: String
 ) {
 
     companion object {

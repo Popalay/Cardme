@@ -58,7 +58,7 @@
                 android:layout_marginEnd="@dimen/normal"
                 android:layout_toStartOf="@id/image_card_type"
                 android:gravity="center_vertical"
-                android:text="@={item.title}"
+                android:text="@{item.title}"
                 />
 
             <com.popalay.cardme.widget.CharacterWrapTextView

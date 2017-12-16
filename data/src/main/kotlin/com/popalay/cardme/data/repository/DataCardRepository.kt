@@ -39,14 +39,14 @@ class DataCardRepository @Inject constructor(
             .map { it.map { it.toDomain() } }
 
     override fun markAsTrash(data: Card): Completable = Completable.fromAction {
-        cardDao.insertOrUpdate(data.toData().apply { isTrash = true })
+        cardDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun removeTrashed(): Completable = cardDao.getAllTrashed()
             .flatMapCompletable { Completable.fromAction { cardDao.deleteAll(it) } }
 
     override fun restore(data: Card): Completable = Completable.fromAction {
-        cardDao.insertOrUpdate(data.toData().apply { isTrash = false })
+        cardDao.insertOrUpdate(data.copy(isTrash = true).toData())
     }
 
     override fun contains(id: String): Single<Boolean> = cardDao.getCount(id).map { it > 0 }

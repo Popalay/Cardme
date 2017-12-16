@@ -1,7 +1,7 @@
 package com.popalay.cardme.domain.model
 
 data class Settings(
-        var language: String = "",
-        var theme: String = "",
-        var isCardBackground: Boolean = true
+        val language: String = "",
+        val theme: String = "",
+        val isCardBackground: Boolean = true
 )

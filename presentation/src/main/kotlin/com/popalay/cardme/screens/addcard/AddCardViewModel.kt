@@ -6,12 +6,12 @@ import android.databinding.ObservableField
 import android.view.inputmethod.EditorInfo
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.popalay.cardme.base.BaseViewModel
+import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.domain.interactor.HolderInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.base.BaseViewModel
-import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.clean
 import com.popalay.cardme.utils.extensions.setTo
@@ -69,8 +69,8 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         Observables.combineLatest(
-                holderName.observe().doOnNext { card.get()?.holderName = it.clean() },
-                title.observe().doOnNext { card.get()?.title = it.clean() })
+                holderName.observe().doOnNext { card.set(card.get().copy(holderName = it.clean())) },
+                title.observe().doOnNext { card.set(card.get().copy(title = it.clean())) })
                 .switchMapSingle { cardInteractor.hasAllData(card.get(), it.first) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(canSaveState::accept)

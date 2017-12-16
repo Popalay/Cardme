@@ -18,17 +18,17 @@ class CardInteractor @Inject constructor(
 ) {
 
     fun save(card: Card): Completable = holderInteractor.save(Holder(name = card.holderName))
-            .andThen(cardRepository.save(card.apply { isPending = false }))
+            .andThen(cardRepository.save(card.copy(isPending = false)))
             .subscribeOn(Schedulers.io())
 
 
     fun savePending(card: Card): Completable = cardRepository.contains(card.number)
             .flatMapCompletable { if (!it) Completable.complete() else Completable.error(createCardExistError()) }
             .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
-            .andThen(cardRepository.save(card.apply {
-                isPending = true
-                generatedBackgroundSeed = System.nanoTime()
-            }))
+            .andThen(cardRepository.save(card.copy(
+                    isPending = true,
+                    generatedBackgroundSeed = System.nanoTime()
+            )))
             .subscribeOn(Schedulers.io())
 
     fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
@@ -49,7 +49,7 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun update(items: List<Card>): Completable {
-        items.forEachIndexed { index, card -> card.position = index }
+        items.forEachIndexed { index, card -> card.copy(position = index) }
         return cardRepository.update(items)
                 .subscribeOn(Schedulers.io())
     }

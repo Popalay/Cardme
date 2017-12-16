@@ -12,9 +12,9 @@ import android.arch.persistence.room.PrimaryKey
                 childColumns = ["holderName"],
                 onDelete = ForeignKey.CASCADE)])
 data class Debt(
-        @PrimaryKey(autoGenerate = true) var id: Long,
-        var message: String,
-        var createdAt: Long,
-        var isTrash: Boolean,
-        var holderName: String
+        @PrimaryKey(autoGenerate = true) val id: Long,
+        val message: String,
+        val createdAt: Long,
+        val isTrash: Boolean,
+        val holderName: String
 )
