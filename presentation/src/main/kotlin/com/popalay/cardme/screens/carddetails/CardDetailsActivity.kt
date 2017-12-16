@@ -8,10 +8,17 @@ import android.nfc.NfcEvent
 import android.os.Bundle
 import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
-import com.popalay.cardme.databinding.ActivityCardDetailsBinding
 import com.popalay.cardme.base.BaseActivity
 import com.popalay.cardme.base.navigation.CustomNavigator
-import com.popalay.cardme.utils.extensions.*
+import com.popalay.cardme.databinding.ActivityCardDetailsBinding
+import com.popalay.cardme.utils.extensions.createNdefMessage
+import com.popalay.cardme.utils.extensions.getDataBinding
+import com.popalay.cardme.utils.extensions.getViewModel
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.onEnd
+import com.popalay.cardme.utils.extensions.openShareChooser
+import com.popalay.cardme.utils.extensions.shareUsingNfc
+import com.popalay.cardme.utils.extensions.showAnimated
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
@@ -45,18 +52,19 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
     override fun onBackPressed() = exitWithAnimation()
 
     fun exitWithAnimation() {
-        b.buttonRemove.hideAnimated()
-        b.buttonEdit.hideAnimated(DURATION_SHORT / 3)
-        b.buttonNfc.hideAnimated(2 * DURATION_SHORT / 3)
-        b.buttonShare.hideAnimated(DURATION_SHORT) { supportFinishAfterTransition() }
+        with(b) {
+            listOf(buttonRemove, buttonEdit, buttonNfc, buttonShare)
+                    .forEachIndexed { index, view -> view.hideAnimated(index * DURATION_SHORT / 3) }
+        }
     }
 
     private fun initUi() {
         window.sharedElementEnterTransition.onEnd {
-            b.buttonShare.showAnimated()
-            b.buttonNfc.showAnimated(DURATION_SHORT / 3)
-            b.buttonEdit.showAnimated(2 * DURATION_SHORT / 3)
-            b.buttonRemove.showAnimated(DURATION_SHORT)
+            with(b) {
+                listOf(buttonRemove, buttonEdit, buttonNfc, buttonShare)
+                        .reversed()
+                        .forEachIndexed { index, view -> view.showAnimated(index * DURATION_SHORT / 3) }
+            }
         }
 
         viewModelFacade.onShareCard()
