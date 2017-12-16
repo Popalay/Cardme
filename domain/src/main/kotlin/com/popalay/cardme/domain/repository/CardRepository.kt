@@ -12,5 +12,6 @@ interface CardRepository : Repository<Card, String> {
     fun toJson(card: Card): Single<String>
 
     fun fromJson(source: String): Single<Card>
+
     fun getNotTrashedByHolder(holderName: String): Flowable<List<Card>>
 }

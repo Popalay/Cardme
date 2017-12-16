@@ -16,7 +16,8 @@ class DataDeviceRepository @Inject constructor(
 
     override fun supportNfc() = context.packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
 
-    override fun getContactsNames(): Single<List<String>> = PermissionChecker.checkSingle(context, Manifest.permission.READ_CONTACTS)
-            .map { if (it) contactProvider.getContacts().map { it.displayName } else listOf() }
+    override fun getContactsNames(): Single<List<String>> =
+            PermissionChecker.checkSingle(context, Manifest.permission.READ_CONTACTS)
+                    .map { if (it) contactProvider.getContacts().map { it.displayName } else listOf() }
 
 }

@@ -24,11 +24,9 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class UiModule {
 
-    @Binds
-    abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    @Binds abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-    @PerActivity
-    @ContributesAndroidInjector()
+    @PerActivity @ContributesAndroidInjector
     abstract fun contributeSplashActivity(): SplashActivity
 
     @PerActivity

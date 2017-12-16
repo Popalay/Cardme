@@ -36,7 +36,9 @@ class HolderInteractor @Inject constructor(
         return names.filter(String::isNotBlank).distinct().sorted()
     }
 
-    fun getNames(): Flowable<List<String>> = Flowables.combineLatest(holderRepository.getAll(),
-            deviceRepository.getContactsNames().toFlowable(), this::transform)
+    fun getNames(): Flowable<List<String>> = Flowables.combineLatest(
+            holderRepository.getAll(),
+            deviceRepository.getContactsNames().toFlowable(),
+            this::transform)
             .subscribeOn(Schedulers.io())
 }

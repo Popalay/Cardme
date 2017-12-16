@@ -9,11 +9,29 @@ import com.popalay.cardme.domain.model.Debt as DomainDebt
 import com.popalay.cardme.domain.model.Holder as DomainHolder
 import com.popalay.cardme.domain.model.Settings as DomainSettings
 
-fun DomainCard.toData(
-) = DataCard(number, title, redactedNumber, cardType, generatedBackgroundSeed, position, isTrash, isPending, holderName)
+fun DomainCard.toData() = DataCard(
+        number,
+        title,
+        redactedNumber,
+        cardType,
+        generatedBackgroundSeed,
+        position,
+        isTrash,
+        isPending,
+        holderName
+)
 
-fun DataCard.toDomain(
-) = DomainCard(number, title, redactedNumber, cardType, generatedBackgroundSeed, position, isTrash, isPending, holderName)
+fun DataCard.toDomain() = DomainCard(
+        number,
+        title,
+        redactedNumber,
+        cardType,
+        generatedBackgroundSeed,
+        position,
+        isTrash,
+        isPending,
+        holderName
+)
 
 fun DomainHolder.toData() = DataHolder(name, isTrash)
 

@@ -15,18 +15,16 @@ class DebtsInteractor @Inject constructor(
         private val holderInteractor: HolderInteractor
 ) {
 
-    fun save(debt: Debt): Completable {
-        return holderInteractor.save(Holder(name = debt.holderName))
-                .andThen(debtRepository.save(debt))
-                .subscribeOn(Schedulers.io())
-    }
+    fun save(debt: Debt): Completable = holderInteractor.save(Holder(name = debt.holderName))
+            .andThen(debtRepository.save(debt))
+            .subscribeOn(Schedulers.io())
 
     fun getAllNotTrashed(): Flowable<List<Debt>> = debtRepository.getAllNotTrashed()
             .subscribeOn(Schedulers.io())
 
-    fun getAllNotTrashedByHolder(holderName: String): Flowable<List<Debt>>
-            = debtRepository.getNotTrashedByHolder(holderName)
-            .subscribeOn(Schedulers.io())
+    fun getAllNotTrashedByHolder(holderName: String): Flowable<List<Debt>> =
+            debtRepository.getNotTrashedByHolder(holderName)
+                    .subscribeOn(Schedulers.io())
 
     fun markAsTrash(debt: Debt): Completable = debtRepository.markAsTrash(debt)
             .subscribeOn(Schedulers.io())

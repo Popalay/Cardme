@@ -17,22 +17,19 @@ class CardInteractor @Inject constructor(
         private val holderInteractor: HolderInteractor
 ) {
 
-    fun save(card: Card): Completable {
-        return holderInteractor.save(Holder(name = card.holderName))
-                .andThen(cardRepository.save(card.apply { isPending = false }))
-                .subscribeOn(Schedulers.io())
-    }
+    fun save(card: Card): Completable = holderInteractor.save(Holder(name = card.holderName))
+            .andThen(cardRepository.save(card.apply { isPending = false }))
+            .subscribeOn(Schedulers.io())
 
-    fun savePending(card: Card): Completable {
-        return cardRepository.contains(card.number)
-                .flatMapCompletable { if (!it) Completable.complete() else Completable.error(createCardExistError()) }
-                .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
-                .andThen(cardRepository.save(card.apply {
-                    isPending = true
-                    generatedBackgroundSeed = System.nanoTime()
-                }))
-                .subscribeOn(Schedulers.io())
-    }
+
+    fun savePending(card: Card): Completable = cardRepository.contains(card.number)
+            .flatMapCompletable { if (!it) Completable.complete() else Completable.error(createCardExistError()) }
+            .andThen(holderInteractor.savePending(Holder(name = card.holderName)))
+            .andThen(cardRepository.save(card.apply {
+                isPending = true
+                generatedBackgroundSeed = System.nanoTime()
+            }))
+            .subscribeOn(Schedulers.io())
 
     fun get(cardNumber: String): Flowable<Card> = cardRepository.get(cardNumber)
             .subscribeOn(Schedulers.io())
@@ -52,7 +49,7 @@ class CardInteractor @Inject constructor(
             .subscribeOn(Schedulers.io())
 
     fun update(items: List<Card>): Completable {
-        items.mapIndexed { index, card -> card.position = index }
+        items.forEachIndexed { index, card -> card.position = index }
         return cardRepository.update(items)
                 .subscribeOn(Schedulers.io())
     }
@@ -69,6 +66,5 @@ class CardInteractor @Inject constructor(
     fun getFromJson(source: String): Single<Card> = cardRepository.fromJson(source)
             .subscribeOn(Schedulers.io())
 
-    private fun createCardExistError(): Throwable =
-            ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST)
+    private fun createCardExistError(): Throwable = ExceptionFactory.createError(ExceptionFactory.ErrorType.CARD_EXIST)
 }

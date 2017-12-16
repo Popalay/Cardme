@@ -9,11 +9,11 @@ import android.support.annotation.IntDef
 import com.popalay.cardme.data.R
 
 @Entity(tableName = "cards",
-        indices = [(Index("number", unique = true)), (Index("holderName"))],
-        foreignKeys = [(ForeignKey(entity = Holder::class,
+        indices = [Index("number", unique = true), Index("holderName")],
+        foreignKeys = [ForeignKey(entity = Holder::class,
                 parentColumns = arrayOf("name"),
                 childColumns = arrayOf("holderName"),
-                onDelete = ForeignKey.CASCADE))])
+                onDelete = ForeignKey.CASCADE)])
 data class Card(
         @PrimaryKey var number: String,
         var title: String,

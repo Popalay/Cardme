@@ -10,12 +10,24 @@ import shortbread.Shortbread
 
 class App : DaggerApplication() {
 
+    companion object {
+
+        @JvmStatic lateinit var appComponent: AppComponent
+
+    }
+
     override fun onCreate() {
         super.onCreate()
         if (LeakCanary.isInAnalyzerProcess(this)) return
-        app = this
-
         applyAutoInjector()
+        initializeDevelopmentTools()
+    }
+
+    override fun applicationInjector() = DaggerAppComponent.builder()
+            .application(this)
+            .build().apply { appComponent = this }
+
+    private fun initializeDevelopmentTools() {
         LeakCanary.install(this)
         Shortbread.create(this)
 
@@ -24,14 +36,4 @@ class App : DaggerApplication() {
                 .build())
     }
 
-    override fun applicationInjector() = DaggerAppComponent.builder()
-            .application(this)
-            .build().apply { appComponent = this }
-
-    companion object {
-
-        lateinit var app: App
-        @JvmStatic lateinit var appComponent: AppComponent
-
-    }
 }

@@ -33,16 +33,12 @@ fun Application.applyAutoInjector() = registerActivityLifecycleCallbacks(
         })
 
 private fun handleActivity(activity: Activity) {
-    if (activity is Injectable || activity is HasSupportFragmentInjector) {
-        AndroidInjection.inject(activity)
-    }
+    if (activity is Injectable || activity is HasSupportFragmentInjector) AndroidInjection.inject(activity)
     if (activity is FragmentActivity) {
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
                 object : FragmentManager.FragmentLifecycleCallbacks() {
                     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, s: Bundle?) {
-                        if (f is Injectable) {
-                            AndroidSupportInjection.inject(f)
-                        }
+                        if (f is Injectable) AndroidSupportInjection.inject(f)
                     }
                 }, true)
     }

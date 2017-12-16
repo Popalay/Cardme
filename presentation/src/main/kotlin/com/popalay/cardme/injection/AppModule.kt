@@ -15,15 +15,12 @@ class AppModule {
     private val cicerone = Cicerone.create(CustomRouter())
 
     @Provides
-    @Singleton
     fun provideApplicationContext(app: App): Context = app.applicationContext
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideRouter(): CustomRouter = cicerone.router
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideNavigatorHolder(): NavigatorHolder = cicerone.navigatorHolder
 
 }
