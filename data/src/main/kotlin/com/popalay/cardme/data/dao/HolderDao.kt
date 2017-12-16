@@ -2,15 +2,13 @@ package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.Query
 import io.reactivex.Flowable
 import io.reactivex.Single
 import com.popalay.cardme.data.model.Holder as DataHolder
 
 @Dao
-interface HolderDao {
+interface HolderDao : BaseDao<DataHolder> {
 
     @Query("SELECT * FROM holders " +
             "WHERE name = :name " +
@@ -35,13 +33,7 @@ interface HolderDao {
             "ORDER BY name")
     fun getAllNotTrashed(): Flowable<List<DataHolder>>
 
-    @Insert(onConflict = IGNORE)
-    fun insertOrUpdate(holder: DataHolder)
-
     @Delete
     fun deleteAll(holders: List<DataHolder>)
-
-    @Delete
-    fun delete(holder: DataHolder)
 
 }

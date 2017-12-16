@@ -1,12 +1,15 @@
 package com.popalay.cardme.data.dao
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Delete
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import android.arch.persistence.room.Query
+import android.arch.persistence.room.Update
 import com.popalay.cardme.data.model.Debt
 import io.reactivex.Flowable
 
 @Dao
-interface DebtDao {
+interface DebtDao : BaseDao<Debt> {
 
     @Query("SELECT * FROM debts " +
             "WHERE id = :id " +
@@ -36,16 +39,10 @@ interface DebtDao {
             "WHERE isTrash = 0 AND holderName = :holderName")
     fun getCountByHolder(holderName: String): Flowable<Int>
 
-    @Insert(onConflict = REPLACE)
-    fun insertOrUpdate(debt: Debt)
-
     @Update(onConflict = REPLACE)
     fun updateAll(debts: List<Debt>)
 
     @Delete
     fun deleteAll(debts: List<Debt>)
-
-    @Delete
-    fun delete(debt: Debt)
 
 }
