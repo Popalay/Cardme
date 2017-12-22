@@ -14,7 +14,7 @@ ext.configurations = [
 ]
 
 ext.versions = [
-        gradlePlugin      : "3.0.1",
+        gradlePlugin      : "3.1.0-alpha06",
         kotlinLanguage    : "1.2.0",
 
         //Libraries
