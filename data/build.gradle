@@ -26,24 +26,17 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':domain')
-
     implementation jetbrains.kotlin
-
     implementation rxJava2.rxJava
     implementation rxJava2.rxKotlin
-
     implementation dagger.dagger
     kapt dagger.daggerCompiler
-
     api arch.roomRuntime
     api arch.roomRxJava2
     kapt arch.roomCompiler
-
     api tamir7.contacts
     api google.gson
-
     implementation popalay.androidPermissionX
 }

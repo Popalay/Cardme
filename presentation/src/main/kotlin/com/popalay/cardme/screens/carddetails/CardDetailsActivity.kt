@@ -52,19 +52,15 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
     override fun onBackPressed() = exitWithAnimation()
 
     fun exitWithAnimation() {
-        with(b) {
-            listOf(buttonRemove, buttonEdit, buttonNfc, buttonShare)
-                    .forEachIndexed { index, view -> view.hideAnimated(index * DURATION_SHORT / 3) }
-        }
+        listOf(b.buttonRemove, b.buttonEdit, b.buttonNfc, b.buttonShare)
+                .forEachIndexed { index, view -> view.hideAnimated(index * DURATION_SHORT / 3) }
     }
 
     private fun initUi() {
         window.sharedElementEnterTransition.onEnd {
-            with(b) {
-                listOf(buttonRemove, buttonEdit, buttonNfc, buttonShare)
-                        .reversed()
-                        .forEachIndexed { index, view -> view.showAnimated(index * DURATION_SHORT / 3) }
-            }
+            listOf(b.buttonRemove, b.buttonEdit, b.buttonNfc, b.buttonShare)
+                    .reversed()
+                    .forEachIndexed { index, view -> view.showAnimated(index * DURATION_SHORT / 3) }
         }
 
         viewModelFacade.onShareCard()
