@@ -69,8 +69,8 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)
 
         Observables.combineLatest(
-                holderName.observe().doOnNext { card.set(card.get().copy(holderName = it.clean())) },
-                title.observe().doOnNext { card.set(card.get().copy(title = it.clean())) })
+                holderName.observe().doOnNext { card.set(card.get()?.copy(holderName = it.clean())) },
+                title.observe().doOnNext { card.set(card.get()?.copy(title = it.clean())) })
                 .switchMapSingle { cardInteractor.hasAllData(card.get(), it.first) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(canSaveState::accept)
