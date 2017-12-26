@@ -2,10 +2,16 @@ package com.popalay.cardme.screens.addcard
 
 import com.popalay.cardme.base.BaseViewModel
 import com.popalay.cardme.base.navigation.CustomRouter
-import com.popalay.cardme.domain.interactor.CardInteractor
-import com.popalay.cardme.domain.interactor.HolderInteractor
-import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.usecase.Action
+import com.popalay.cardme.domain.usecase.GetCardByNumberAction.CardResultSuccess
+import com.popalay.cardme.domain.usecase.GetCardByNumberUseCase
+import com.popalay.cardme.domain.usecase.GetHolderNamesAction.HolderNamesResultSuccess
+import com.popalay.cardme.domain.usecase.GetHolderNamesUseCase
+import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction.ShowCardBackgroundSuccess
+import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundUseCase
+import com.popalay.cardme.domain.usecase.ValidateCardAction.ValidateCardResult
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
@@ -18,32 +24,26 @@ import javax.inject.Named
 class AddCardViewModel @Inject constructor(
         @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
         private val router: CustomRouter,
-        cardInteractor: CardInteractor,
-        holderInteractor: HolderInteractor,
-        settingsInteractor: SettingsInteractor
-) : BaseViewModelNew<AddCardState, AddCardAction, AddCardSignal>() {
+        getCardByNumberUseCase: GetCardByNumberUseCase,
+        shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
+        getHolderNamesUseCase: GetHolderNamesUseCase
+) : BaseViewModelNew<AddCardState, AddCardSignal>() {
 
     init {
 
-        disposables += cardInteractor.get(cardNumber)
+        disposables += Flowable.merge(
+                getCardByNumberUseCase.execute(cardNumber),
+                shouldShowCardBackgroundUseCase.execute(),
+                getHolderNamesUseCase.execute()
+        )
+                .doOnNext(::dispatch)
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { dispatch(AddCardAction.CardResultSuccess(it)) }
-                .subscribeBy(this::handleBaseError)
-
-        disposables += settingsInteractor.listenShowCardsBackground()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { dispatch(AddCardAction.CardBackgroundResultSuccess(it)) }
-                .subscribeBy(this::handleBaseError)
-
-        disposables += holderInteractor.getNames()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { dispatch(AddCardAction.HolderNamesResultSuccess(it)) }
                 .subscribeBy(this::handleBaseError)
 
         /*Observables.combineLatest(
-                holderName.observe().doOnNext { card.set(card.get()?.copy(holderName = it.clean())) },
-                title.observe().doOnNext { card.set(card.get()?.copy(title = it.clean())) })
-                .switchMapSingle { cardInteractor.hasAllData(card.get(), it.first) }
+                holderName.observe().doOnNext { card.set(card.execute()?.copy(holderName = it.clean())) },
+                title.observe().doOnNext { card.set(card.execute()?.copy(title = it.clean())) })
+                .switchMapSingle { cardInteractor.hasAllData(card.execute(), it.first) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(canSaveState::accept)
                 .subscribeBy(this::handleBaseError)
@@ -52,7 +52,7 @@ class AddCardViewModel @Inject constructor(
         acceptClickListener
                 .applyThrottling()
                 .filter { it && canSaveState.value }
-                .map { card.get() }
+                .map { card.execute() }
                 .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
                 .doOnNext { router.exit() }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,13 +67,14 @@ class AddCardViewModel @Inject constructor(
                 .addTo(disposables)*/
     }
 
-    override fun reduce(oldState: AddCardState?, action: AddCardAction): AddCardState {
+    override fun reduce(oldState: AddCardState?, action: Action): AddCardState {
         val state = oldState ?: AddCardState()
         return when (action) {
-            is AddCardAction.CardResultSuccess -> state.copy(card = action.card)
-            is AddCardAction.HolderNamesResultSuccess -> state.copy(holderNames = action.holderNames)
-            is AddCardAction.CardBackgroundResultSuccess -> state.copy(showBackground = action.showCardBackground)
-            is AddCardAction.CardValidationSuccess -> state.copy(canSave = action.valid)
+            is CardResultSuccess -> state.copy(card = action.card)
+            is ShowCardBackgroundSuccess -> state.copy(showBackground = action.show)
+            is HolderNamesResultSuccess -> state.copy(holderNames = action.names)
+            is ValidateCardResult -> state.copy(canSave = action.valid)
+            else -> state
         }
     }
 
@@ -85,13 +86,6 @@ class AddCardViewModel @Inject constructor(
             is AddCardSignal.AcceptSignal -> TODO()
         }
     }
-}
-
-sealed class AddCardAction : Action {
-    data class CardResultSuccess(val card: Card) : AddCardAction()
-    data class HolderNamesResultSuccess(val holderNames: List<String>) : AddCardAction()
-    data class CardBackgroundResultSuccess(val showCardBackground: Boolean) : AddCardAction()
-    data class CardValidationSuccess(val valid: Boolean) : AddCardAction()
 }
 
 sealed class AddCardSignal : Signal {
@@ -108,34 +102,32 @@ data class AddCardState(
         val canSave: Boolean = false
 ) : State
 
-interface Action
-
 interface State
 
 interface Signal
 
-interface Dispatcher<in A : Action> {
-    fun dispatch(action: A)
+interface Dispatcher {
+    fun dispatch(action: Action)
 }
 
 interface Handler<in SI : Signal> {
     fun handle(signal: SI)
 }
 
-interface Reducer<S : State, in A : Action> {
-    fun reduce(oldState: S?, action: A): S
+interface Reducer<S : State> {
+    fun reduce(oldState: S?, action: Action): S
 }
 
 interface StateProvider<S : State> {
     fun newState(): Observable<S>
 }
 
-abstract class BaseViewModelNew<S : State, in A : Action, in SI : Signal>
-    : BaseViewModel(), Dispatcher<A>, Reducer<S, A>, StateProvider<S>, Handler<SI> {
+abstract class BaseViewModelNew<S : State, in SI : Signal>
+    : BaseViewModel(), Dispatcher, Reducer<S>, StateProvider<S>, Handler<SI> {
 
     private val stateSubject: Subject<S> = BehaviorSubject.create<S>()
 
-    override fun dispatch(action: A) {
+    override fun dispatch(action: Action) {
         reduce(stateSubject.blockingLast(null), action).also(stateSubject::onNext)
     }
 
