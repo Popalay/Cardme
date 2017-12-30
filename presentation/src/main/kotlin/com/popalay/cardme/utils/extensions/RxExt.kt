@@ -27,3 +27,5 @@ fun <T : Any, U : Any> Observable<T>.notOfType(clazz: Class<U>): Observable<T> {
     checkNotNull(clazz) { "clazz is null" }
     return filter { !clazz.isInstance(it) }
 }
+
+fun <T : Any> T.toObservable(): Observable<T> = Observable.just(this)

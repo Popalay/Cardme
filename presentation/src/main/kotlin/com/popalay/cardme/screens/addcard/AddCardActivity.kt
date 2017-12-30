@@ -22,6 +22,7 @@ import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.stringAdapter
 import com.popalay.cardme.utils.extensions.bindView
 import com.popalay.cardme.utils.extensions.getViewModel
+import com.popalay.cardme.utils.extensions.toObservable
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -89,7 +90,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     override fun getRootView(): View = layoutRoot
 
     override fun intents(): Observable<AddCardIntent> = Observable.merge(
-            Observable.just(AddCardIntent.Initial(extraCardNumber)),
+            AddCardIntent.Initial(extraCardNumber).toObservable(),
             RxTextView.textChanges(inputTitle).map(CharSequence::toString).map(AddCardIntent::TitleChanged),
             RxTextView.textChanges(inputHolder).map(CharSequence::toString).map(AddCardIntent::NameChanged),
             acceptIntentPublisher
