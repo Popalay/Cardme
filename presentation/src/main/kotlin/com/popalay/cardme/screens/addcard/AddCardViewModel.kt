@@ -16,10 +16,8 @@ import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject
-import javax.inject.Named
 
 class AddCardViewModel @Inject constructor(
-        @Named(AddCardActivity.KEY_CARD_NUMBER) cardNumber: String,
         private val router: CustomRouter,
         private val cardDetailsUseCase: CardDetailsUseCase,
         private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
@@ -30,8 +28,8 @@ class AddCardViewModel @Inject constructor(
         get() = ObservableTransformer<AddCardIntent, AddCardIntent> {
             it.publish {
                 Observable.merge<AddCardIntent>(
-                        it.ofType(AddCardIntent.InitialIntent::class.java).take(1),
-                        it.notOfType(AddCardIntent.InitialIntent::class.java)
+                        it.ofType(AddCardIntent.Initial::class.java).take(1),
+                        it.notOfType(AddCardIntent.Initial::class.java)
                 )
             }
         }
@@ -84,10 +82,10 @@ class AddCardViewModel @Inject constructor(
     }
 
     override fun actionFromIntent(intent: AddCardIntent): Action = when (intent) {
-        is AddCardIntent.InitialIntent -> GetCardDetailsAction(intent.number)
-        is AddCardIntent.NameChangedIntent -> TODO()
-        is AddCardIntent.TitleChangedIntent -> TODO()
-        is AddCardIntent.AcceptIntent -> TODO()
+        is AddCardIntent.Initial -> GetCardDetailsAction(intent.number)
+        is AddCardIntent.NameChanged -> TODO()
+        is AddCardIntent.TitleChanged -> TODO()
+        is AddCardIntent.Accept -> TODO()
     }
 
     override fun compose(): Observable<AddCardViewState> = intentsSubject
@@ -100,10 +98,10 @@ class AddCardViewModel @Inject constructor(
 }
 
 sealed class AddCardIntent : Intent {
-    data class InitialIntent(val number: String) : AddCardIntent()
-    data class NameChangedIntent(val name: String) : AddCardIntent()
-    data class TitleChangedIntent(val title: String) : AddCardIntent()
-    object AcceptIntent : AddCardIntent()
+    data class Initial(val number: String) : AddCardIntent()
+    data class NameChanged(val name: String) : AddCardIntent()
+    data class TitleChanged(val title: String) : AddCardIntent()
+    object Accept : AddCardIntent()
 }
 
 data class AddCardViewState(

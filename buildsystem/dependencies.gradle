@@ -30,6 +30,7 @@ ext.versions = [
         rxRelay           : "2.0.0",
         rxDataBinding     : "1.1.1",
         autoDispose       : "0.5.1",
+        rxBinding         : "2.0.0",
 
         //DI
         dagger            : "2.13",
@@ -77,7 +78,8 @@ ext.rxJava2 = [
 ]
 
 ext.jakewharton = [
-        rxRelay: "com.jakewharton.rxrelay2:rxrelay:$versions.rxRelay",
+        rxRelay  : "com.jakewharton.rxrelay2:rxrelay:$versions.rxRelay",
+        rxBinding: "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding",
 ]
 
 ext.dagger = [

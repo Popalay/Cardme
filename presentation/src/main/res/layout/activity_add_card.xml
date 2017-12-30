@@ -28,6 +28,7 @@
                 app:layout_collapseMode="parallax">
 
                 <com.popalay.cardme.widget.CreditCardView
+                    android:id="@+id/view_credit_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/normal"
@@ -46,6 +47,7 @@
                             android:layout_alignParentEnd="true" />
 
                         <TextView
+                            android:id="@+id/text_title"
                             style="@style/Cardme.CardText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -56,12 +58,14 @@
                             android:gravity="center_vertical" />
 
                         <com.popalay.cardme.widget.CharacterWrapTextView
+                            android:id="@+id/text_card_number"
                             style="@style/Cardme.CardNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true" />
 
                         <TextView
+                            android:id="@+id/text_holder"
                             style="@style/Cardme.CardText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -80,8 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Cardme.Toolbar"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_back" />
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -105,7 +108,7 @@
                 android:hint="@string/holder_name">
 
                 <AutoCompleteTextView
-                    android:id="@+id/text_holder"
+                    android:id="@+id/input_holder"
                     style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,7 +127,7 @@
                 android:hint="@string/title">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/text_title"
+                    android:id="@+id/input_title"
                     style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -4,19 +4,22 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
-
 import com.popalay.cardme.utils.PatternBackgroundUtils
 
 class CreditCardView : CardView {
 
     var isWithImage: Boolean = false
-        set(withImage) {
-            if (this.isWithImage == withImage) return
-            field = withImage
+        set(value) {
+            if (isWithImage == value) return
+            field = value
             updateBackground()
         }
 
-    private var seed: Long = 0
+    var seed: Long = 0
+        set(value) {
+            field = if (value == 0L) System.nanoTime() else value
+            updateBackground()
+        }
 
     constructor(context: Context) : super(context)
 
@@ -26,8 +29,6 @@ class CreditCardView : CardView {
 
     fun setBackgroundGeneratorSeed(seed: Long) {
         this.seed = seed
-        if (this.seed == 0L) this.seed = System.nanoTime()
-        updateBackground()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

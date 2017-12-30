@@ -113,6 +113,7 @@ dependencies {
     implementation rxJava2.rxAndroid
     implementation rxJava2.rxKotlin
     implementation jakewharton.rxRelay
+    implementation jakewharton.rxBinding
 
     implementation cardIo.android
 

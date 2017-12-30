@@ -8,14 +8,13 @@
 package com.popalay.cardme.base.mvi
 
 import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 
 /**
  * Created by Denys Nykyforov on 30.12.2017
  * Copyright (c) 2017. All right reserved
  */
-interface MviView<in S : ViewState, I : Intent> {
+interface MviView<S : ViewState, I : Intent> : Consumer<S> {
 
     fun intents(): Observable<I>
-
-    fun render(state: S)
 }
