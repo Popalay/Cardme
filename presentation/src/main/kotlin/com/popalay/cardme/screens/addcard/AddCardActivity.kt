@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.TextView
+import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.popalay.cardme.R
 import com.popalay.cardme.base.RightSlidingActivity
@@ -25,6 +26,7 @@ import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.toObservable
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -117,12 +119,13 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        textTitle.setOnFocusChangeListener { _, focus ->
-            appBarLayout.setExpanded(!focus)
-        }
-
-        textHolder.setOnFocusChangeListener { _, focus ->
-            appBarLayout.setExpanded(!focus)
-        }
+        Observables.combineLatest(RxView.focusChanges(textTitle), RxView.focusChanges(textHolder))
+                .map {
+                    val (titleFocus, holderFocus) = it
+                    !titleFocus or !holderFocus
+                }
+                .distinctUntilChanged()
+                .bindToLifecycle()
+                .subscribe(appBarLayout::setExpanded)
     }
 }
