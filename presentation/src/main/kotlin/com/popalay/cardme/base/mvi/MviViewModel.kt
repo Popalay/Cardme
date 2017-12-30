@@ -16,6 +16,8 @@ abstract class MviViewModel<S : ViewState, I : Intent> : BaseViewModel(), Reduce
 
     protected val intentsSubject: PublishSubject<I> = PublishSubject.create()
 
+    protected val currentState: S get() = statesObservable.blockingLast()
+
     @Suppress("LeakingThis")
     private val statesObservable: Observable<S> = compose()
 

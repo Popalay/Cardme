@@ -7,4 +7,8 @@
 
 package com.popalay.cardme.base.mvi
 
+import io.reactivex.ObservableTransformer
+
 interface Intent
+
+typealias IntentFilter<I> = ObservableTransformer<I, I>

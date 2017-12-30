@@ -8,9 +8,8 @@
 package com.popalay.cardme.domain.usecase
 
 import com.popalay.cardme.domain.repository.SettingsRepository
-import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction.ShowCardBackgroundError
-import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction.ShowCardBackgroundSuccess
-import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,18 +17,26 @@ import javax.inject.Singleton
 @Singleton
 class ShouldShowCardBackgroundUseCase @Inject constructor(
         private val settingsRepository: SettingsRepository
-) {
+) : UseCase<ShouldShowCardBackgroundAction> {
 
-    fun execute(): Flowable<ShouldShowCardBackgroundAction> = settingsRepository.listen()
-            .distinctUntilChanged()
-            .map { it.isCardBackground }
-            .distinctUntilChanged()
-            .map { ShowCardBackgroundSuccess(it) as ShouldShowCardBackgroundAction }
-            .onErrorReturn { ShowCardBackgroundError(it) }
-            .subscribeOn(Schedulers.io())
+    override fun apply(upstream: Observable<ShouldShowCardBackgroundAction>): ObservableSource<Result> =
+            upstream.switchMap {
+                settingsRepository.listen()
+                        .map { it.isCardBackground }
+                        .distinctUntilChanged()
+                        .toObservable()
+                        .map(ShouldShowCardBackgroundResult::Success)
+                        .cast(ShouldShowCardBackgroundResult::class.java)
+                        .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
+                        .startWith(ShouldShowCardBackgroundResult.Idle)
+                        .subscribeOn(Schedulers.io())
+            }
 }
 
-sealed class ShouldShowCardBackgroundAction : Action {
-    data class ShowCardBackgroundSuccess(val show: Boolean) : ShouldShowCardBackgroundAction()
-    data class ShowCardBackgroundError(val throwable: Throwable) : ShouldShowCardBackgroundAction()
+object ShouldShowCardBackgroundAction : Action
+
+sealed class ShouldShowCardBackgroundResult : Result {
+    data class Success(val show: Boolean) : ShouldShowCardBackgroundResult()
+    data class Failure(val throwable: Throwable) : ShouldShowCardBackgroundResult()
+    object Idle : ShouldShowCardBackgroundResult()
 }

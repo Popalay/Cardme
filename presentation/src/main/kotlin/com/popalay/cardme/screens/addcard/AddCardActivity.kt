@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.TextInputEditText
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -42,7 +41,6 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     private val layoutRoot: ViewGroup by bindView(R.id.layout_root)
     private val imageCardType: ImageView by bindView(R.id.image_card_type)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-    private val collapsingToolbar: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
     private val appBarLayout: AppBarLayout by bindView(R.id.app_bar_layout)
     private val textHolder: AutoCompleteTextView by bindView(R.id.text_holder)
     private val textTitle: TextView by bindView(R.id.text_title)

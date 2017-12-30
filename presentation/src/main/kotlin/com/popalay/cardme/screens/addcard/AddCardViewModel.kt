@@ -1,31 +1,39 @@
 package com.popalay.cardme.screens.addcard
 
-import com.popalay.cardme.base.mvi.Intent
+import com.popalay.cardme.base.mvi.IntentFilter
 import com.popalay.cardme.base.mvi.MviViewModel
-import com.popalay.cardme.base.mvi.ViewState
 import com.popalay.cardme.base.navigation.CustomRouter
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.usecase.Action
+import com.popalay.cardme.domain.usecase.ActionTransformer
 import com.popalay.cardme.domain.usecase.CardDetailsResult
 import com.popalay.cardme.domain.usecase.CardDetailsUseCase
 import com.popalay.cardme.domain.usecase.GetCardDetailsAction
-import com.popalay.cardme.domain.usecase.GetHolderNamesUseCase
+import com.popalay.cardme.domain.usecase.GetHolderNamesAction
+import com.popalay.cardme.domain.usecase.HolderNamesUseCase
 import com.popalay.cardme.domain.usecase.Result
+import com.popalay.cardme.domain.usecase.SaveCardAction
+import com.popalay.cardme.domain.usecase.SaveCardResult
+import com.popalay.cardme.domain.usecase.SaveCardUseCase
+import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundUseCase
+import com.popalay.cardme.domain.usecase.ValidateCardAction
+import com.popalay.cardme.domain.usecase.ValidateCardResult
+import com.popalay.cardme.domain.usecase.ValidateCardUseCase
 import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
 import javax.inject.Inject
 
 class AddCardViewModel @Inject constructor(
         private val router: CustomRouter,
         private val cardDetailsUseCase: CardDetailsUseCase,
+        private val validateCardUseCase: ValidateCardUseCase,
+        private val saveCardUseCase: SaveCardUseCase,
         private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
-        private val getHolderNamesUseCase: GetHolderNamesUseCase
+        private val holderNamesUseCase: HolderNamesUseCase
 ) : MviViewModel<AddCardViewState, AddCardIntent>() {
 
     private val intentFilter
-        get() = ObservableTransformer<AddCardIntent, AddCardIntent> {
+        get() = IntentFilter<AddCardIntent> {
             it.publish {
                 Observable.merge<AddCardIntent>(
                         it.ofType(AddCardIntent.Initial::class.java).take(1),
@@ -35,42 +43,18 @@ class AddCardViewModel @Inject constructor(
         }
 
     private val actions
-        get() = ObservableTransformer<Action, Result> {
+        get() = ActionTransformer {
             it.publish {
-                Observable.merge<Result>(
+                Observable.merge(listOf(
                         it.ofType(GetCardDetailsAction::class.java).compose(cardDetailsUseCase),
-                        it.ofType(GetCardDetailsAction::class.java).compose(cardDetailsUseCase)
-                )
+                        it.ofType(ShouldShowCardBackgroundAction::class.java).compose(shouldShowCardBackgroundUseCase),
+                        it.ofType(GetHolderNamesAction::class.java).compose(holderNamesUseCase),
+                        it.ofType(GetCardDetailsAction::class.java).compose(cardDetailsUseCase),
+                        it.ofType(ValidateCardAction::class.java).compose(validateCardUseCase),
+                        it.ofType(SaveCardAction::class.java).compose(saveCardUseCase)
+                ))
             }
         }
-
-    init {
-        /*Observables.combineLatest(
-                holderName.observe().doOnNext { card.set(card.execute()?.copy(holderName = it.clean())) },
-                title.observe().doOnNext { card.set(card.execute()?.copy(title = it.clean())) })
-                .switchMapSingle { cardInteractor.hasAllData(card.execute(), it.first) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(canSaveState::accept)
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
-
-        acceptClickListener
-                .applyThrottling()
-                .filter { it && canSaveState.value }
-                .map { card.execute() }
-                .switchMapSingle { cardInteractor.save(it).toSingleDefault(true) }
-                .doOnNext { router.exit() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
-
-        editorActionListener
-                .applyThrottling()
-                .filter { it == EditorInfo.IME_ACTION_`DONE }
-                .doOnNext { acceptClickListener.accept(true) }
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)*/
-    }
 
     override fun reduce(oldState: AddCardViewState, result: Result): AddCardViewState = when (result) {
         is CardDetailsResult -> when (result) {
@@ -78,14 +62,27 @@ class AddCardViewModel @Inject constructor(
             is CardDetailsResult.Failure -> oldState.copy(error = result.throwable)
             is CardDetailsResult.Idle -> oldState
         }
-        else -> oldState
+        is ValidateCardResult -> when (result) {
+            is ValidateCardResult.Success -> oldState.copy(canSave = result.valid)
+            is ValidateCardResult.Failure -> oldState.copy(error = result.throwable)
+            is ValidateCardResult.Idle -> oldState
+        }
+        is SaveCardResult -> when (result) {
+            is SaveCardResult.Success -> {
+                router.exit() //TODO: think about this
+                oldState
+            }
+            is SaveCardResult.Failure -> oldState.copy(error = result.throwable)
+            is SaveCardResult.Idle -> oldState
+        }
+        else -> throw IllegalStateException("Can not reduce state for result ${result.javaClass.name}")
     }
 
     override fun actionFromIntent(intent: AddCardIntent): Action = when (intent) {
-        is AddCardIntent.Initial -> GetCardDetailsAction(intent.number)
-        is AddCardIntent.NameChanged -> TODO()
-        is AddCardIntent.TitleChanged -> TODO()
-        is AddCardIntent.Accept -> TODO()
+        is AddCardIntent.Initial -> GetCardDetailsAction(intent.number) //TODO: and ShouldShowCardBackgroundAction, GetHolderNamesAction
+        is AddCardIntent.NameChanged -> ValidateCardAction(intent.name) //TODO: set name into state
+        is AddCardIntent.TitleChanged -> TODO() //TODO: set title into state
+        is AddCardIntent.Accept -> SaveCardAction(currentState.card)
     }
 
     override fun compose(): Observable<AddCardViewState> = intentsSubject
@@ -95,29 +92,4 @@ class AddCardViewModel @Inject constructor(
             .scan(AddCardViewState.idle(), ::reduce)
             .replay(1)
             .autoConnect(0)
-}
-
-sealed class AddCardIntent : Intent {
-    data class Initial(val number: String) : AddCardIntent()
-    data class NameChanged(val name: String) : AddCardIntent()
-    data class TitleChanged(val title: String) : AddCardIntent()
-    object Accept : AddCardIntent()
-}
-
-data class AddCardViewState(
-        val card: Card,
-        val showBackground: Boolean,
-        val holderNames: List<String>,
-        val canSave: Boolean,
-        val error: Throwable?
-) : ViewState {
-    companion object {
-        fun idle() = AddCardViewState(
-                card = Card(),
-                showBackground = false,
-                holderNames = listOf(),
-                canSave = false,
-                error = null
-        )
-    }
 }

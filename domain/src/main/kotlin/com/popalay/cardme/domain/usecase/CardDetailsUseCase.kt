@@ -11,7 +11,6 @@ import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import io.reactivex.ObservableTransformer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -30,12 +29,6 @@ class CardDetailsUseCase @Inject constructor(
                         .subscribeOn(Schedulers.io())
             }
 }
-
-internal typealias UseCase<A> = ObservableTransformer<A, Result>
-
-interface Action
-
-interface Result
 
 data class GetCardDetailsAction(val number: String) : Action
 
