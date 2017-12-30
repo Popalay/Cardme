@@ -64,12 +64,12 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
         }
 
         viewModelFacade.onShareCard()
+                .bindToLifecycle()
                 .subscribe { openShareChooser(R.string.share_card, it) }
-                .addTo(disposables)
 
         viewModelFacade.onShareCardUsingNfc()
+                .bindToLifecycle()
                 .subscribe { shareUsingNfc(R.string.share_card, it) }
-                .addTo(disposables)
     }
 
 }

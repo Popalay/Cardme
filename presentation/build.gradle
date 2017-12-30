@@ -123,6 +123,11 @@ dependencies {
     implementation firebase.firebasePerf
     implementation firebase.firebaseCrash
 
+    implementation uber.autoDispose
+    implementation uber.autoDisposeKotlin
+    implementation uber.autoDisposeArchcomponents
+    implementation uber.autoDisposeArchcomponentsKotlin
+
     implementation development.androidProguards
     implementation development.stetho
     debugImplementation development.debugDb

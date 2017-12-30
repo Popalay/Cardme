@@ -1,186 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    >
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.popalay.cardme.screens.addcard.AddCardViewModel"
-            />
-
-    </data>
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:fitsSystemWindows="true"
-        android:focusableInTouchMode="true"
-        >
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            app:contentScrim="?colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:contentScrim="?colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:titleEnabled="false"
-                >
+                android:layout_marginTop="?actionBarSize"
+                app:layout_collapseMode="parallax">
 
-                <FrameLayout
+                <com.popalay.cardme.widget.CreditCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="?actionBarSize"
-                    app:layout_collapseMode="parallax"
-                    >
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginEnd="@dimen/normal"
+                    android:layout_marginStart="@dimen/normal">
 
-                    <com.popalay.cardme.widget.CreditCardView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/normal"
-                        android:layout_marginEnd="@dimen/normal"
-                        android:layout_marginStart="@dimen/normal"
-                        app:backgroundGeneratorSeed="@{vm.card.generatedBackgroundSeed}"
-                        app:withImage="@{vm.showImage}"
-                        >
+                        android:padding="@dimen/normal">
 
-                        <RelativeLayout
+                        <ImageView
+                            android:id="@+id/image_card_type"
+                            android:layout_width="@dimen/card_type_icon_size"
+                            android:layout_height="@dimen/card_type_icon_size"
+                            android:layout_alignParentEnd="true" />
+
+                        <TextView
+                            style="@style/Cardme.CardText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/normal"
-                            >
+                            android:layout_alignBottom="@id/image_card_type"
+                            android:layout_alignTop="@id/image_card_type"
+                            android:layout_marginEnd="@dimen/normal"
+                            android:layout_toStartOf="@id/image_card_type"
+                            android:gravity="center_vertical" />
 
-                            <ImageView
-                                android:id="@+id/image_card_type"
-                                android:layout_width="@dimen/card_type_icon_size"
-                                android:layout_height="@dimen/card_type_icon_size"
-                                android:layout_alignParentEnd="true"
-                                android:src="@{vm.card.iconRes}"
-                                />
+                        <com.popalay.cardme.widget.CharacterWrapTextView
+                            style="@style/Cardme.CardNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
 
-                            <TextView
-                                style="@style/Cardme.CardText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBottom="@id/image_card_type"
-                                android:layout_alignTop="@id/image_card_type"
-                                android:layout_marginEnd="@dimen/normal"
-                                android:layout_toStartOf="@id/image_card_type"
-                                android:gravity="center_vertical"
-                                android:text="@={vm.title}"
-                                />
+                        <TextView
+                            style="@style/Cardme.CardText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/normal"
+                            android:layout_marginTop="@dimen/smallest" />
 
-                            <com.popalay.cardme.widget.CharacterWrapTextView
-                                style="@style/Cardme.CardNumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="@{vm.card.number}"
-                                />
+                    </RelativeLayout>
 
-                            <TextView
-                                style="@style/Cardme.CardText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginBottom="@dimen/normal"
-                                android:layout_marginTop="@dimen/smallest"
-                                android:text="@={vm.holderName}"
-                                />
+                </com.popalay.cardme.widget.CreditCardView>
 
-                        </RelativeLayout>
+            </FrameLayout>
 
-                    </com.popalay.cardme.widget.CreditCardView>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Cardme.Toolbar"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_back" />
 
-                </FrameLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/Cardme.Toolbar"
-                    app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_back"
-                    bind:backByArrow="@{true}"
-                    />
+    </android.support.design.widget.AppBarLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="@dimen/normal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:padding="@dimen/normal"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:layout_height="wrap_content"
+                android:hint="@string/holder_name">
 
-                <android.support.design.widget.TextInputLayout
+                <AutoCompleteTextView
+                    android:id="@+id/text_holder"
+                    style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/holder_name"
-                    >
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/smallest"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textCapWords|textAutoCorrect"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/text_holder"
-                        style="@style/Cardme.SingleLineText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/normal"
-                        android:layout_marginTop="@dimen/smallest"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords|textAutoCorrect"
-                        android:text="@={vm.holderName}"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                        bind:stringAdapter="@{vm.holderNames}"
-                        />
+            </android.support.design.widget.TextInputLayout>
 
-                </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/title">
 
-                <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/text_title"
+                    style="@style/Cardme.SingleLineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title"
-                    >
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/normal"
+                    android:layout_marginTop="@dimen/smallest"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords|textAutoCorrect"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/text_title"
-                        style="@style/Cardme.SingleLineText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/normal"
-                        android:layout_marginTop="@dimen/smallest"
-                        android:imeOptions="actionDone"
-                        android:inputType="textCapWords|textAutoCorrect"
-                        android:text="@={vm.title}"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                        bind:onEditorAction="@{vm.editorActionListener}"
-                        />
+            </android.support.design.widget.TextInputLayout>
 
-                </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
-            </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        </android.support.v4.widget.NestedScrollView>
-
-    </android.support.design.widget.CoordinatorLayout>
-
-</layout>
+</android.support.design.widget.CoordinatorLayout>

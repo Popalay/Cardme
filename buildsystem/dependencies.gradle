@@ -29,6 +29,7 @@ ext.versions = [
         rxKotlin          : "2.1.0",
         rxRelay           : "2.0.0",
         rxDataBinding     : "1.1.1",
+        autoDispose       : "0.5.1",
 
         //DI
         dagger            : "2.13",
@@ -104,6 +105,13 @@ ext.firebase = [
 ext.matthiasrobbers = [
         shortbread        : "com.github.matthiasrobbers:shortbread:$versions.shortbread",
         shortbreadCompiler: "com.github.matthiasrobbers:shortbread-compiler:$versions.shortbread",
+]
+
+ext.uber = [
+        autoDispose                    : "com.uber.autodispose:autodispose:$versions.autoDispose",
+        autoDisposeArchcomponents      : "com.uber.autodispose:autodispose-android-archcomponents:$versions.autoDispose",
+        autoDisposeKotlin              : "com.uber.autodispose:autodispose-kotlin:$versions.autoDispose",
+        autoDisposeArchcomponentsKotlin: "com.uber.autodispose:autodispose-android-archcomponents-kotlin:$versions.autoDispose",
 ]
 
 ext.jetbrains = [
