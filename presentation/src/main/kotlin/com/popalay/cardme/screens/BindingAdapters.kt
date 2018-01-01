@@ -128,8 +128,7 @@ fun RecyclerView.setItemTouchHelper(onSwiped: Relay<Int>?, onUndoSwipe: Relay<Bo
             onSwiped.accept(position)
 
             if (onUndoSwipe == null) return
-            Snackbar.make(this@setItemTouchHelper, undoMessage ?: "", Snackbar.LENGTH_LONG)
-                    .setDuration(DURATION_UNDO_MESSAGE.toInt())
+            Snackbar.make(this@setItemTouchHelper, undoMessage ?: "", DURATION_UNDO_MESSAGE)
                     .setAction(R.string.action_undo) {
                         onUndoSwipe.accept(true)
                         it.isEnabled = false

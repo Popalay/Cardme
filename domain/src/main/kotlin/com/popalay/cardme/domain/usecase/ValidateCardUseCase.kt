@@ -7,6 +7,7 @@
 
 package com.popalay.cardme.domain.usecase
 
+import com.popalay.cardme.domain.model.Card
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.Single
@@ -19,10 +20,10 @@ class ValidateCardUseCase @Inject constructor(
 ) : UseCase<ValidateCardAction> {
 
     override fun apply(upstream: Observable<ValidateCardAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                Single.fromCallable { it.holderName.isNotBlank() }
+            upstream.switchMap { action ->
+                Single.fromCallable { action.card.holderName.isNotBlank() }
                         .toObservable()
-                        .map(ValidateCardResult::Success)
+                        .map { ValidateCardResult.Success(action.card, it) }
                         .cast(ValidateCardResult::class.java)
                         .onErrorReturn(ValidateCardResult::Failure)
                         .startWith(ValidateCardResult.Idle)
@@ -30,10 +31,10 @@ class ValidateCardUseCase @Inject constructor(
             }
 }
 
-data class ValidateCardAction(val holderName: String) : Action
+data class ValidateCardAction(val card: Card) : Action
 
 sealed class ValidateCardResult : Result {
-    data class Success(val valid: Boolean) : ValidateCardResult()
+    data class Success(val card: Card, val valid: Boolean) : ValidateCardResult()
     data class Failure(val throwable: Throwable) : ValidateCardResult()
     object Idle : ValidateCardResult()
 }

@@ -10,9 +10,13 @@ package com.popalay.cardme.screens.addcard
 import com.popalay.cardme.base.mvi.Intent
 
 sealed class AddCardIntent : Intent {
-    data class InitialGetCard(val number: String) : AddCardIntent()
-    object InitialGetHolderNames : AddCardIntent()
-    object InitialGetShoulsShowBackground: AddCardIntent()
+
+    sealed class Initial : AddCardIntent() {
+        data class GetCard(val number: String) : AddCardIntent.Initial()
+        object GetHolderNames : AddCardIntent.Initial()
+        object GetShouldShowBackground : AddCardIntent.Initial()
+    }
+
     data class NameChanged(val name: String) : AddCardIntent()
     data class TitleChanged(val title: String) : AddCardIntent()
     object Accept : AddCardIntent()

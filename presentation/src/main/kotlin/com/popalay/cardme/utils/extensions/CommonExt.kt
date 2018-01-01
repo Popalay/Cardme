@@ -19,6 +19,8 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.ShareCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.base.BaseViewModel
 
@@ -67,6 +69,12 @@ internal fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String)
         }
     }
 }
+
+internal fun <T : ViewDataBinding> getDataBinding(
+        inflater: LayoutInflater?,
+        @LayoutRes layoutId: Int,
+        container: ViewGroup?
+): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
 
 internal fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
 ): T = DataBindingUtil.setContentView(this, layoutId)

@@ -1,10 +1,9 @@
-package com.popalay.cardme.screens.home
+package com.popalay.cardme.screens.carddetails
 
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.base.navigation.CustomNavigator
+import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.screens.addcard.AddCardActivity
-import com.popalay.cardme.screens.carddetails.CardDetailsActivity
 import javax.inject.Inject
 
 class CardDetailsNavigator @Inject constructor(
