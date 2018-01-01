@@ -1,5 +1,6 @@
 package com.popalay.cardme.utils.extensions
 
+import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.ComponentName
@@ -18,8 +19,6 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.ShareCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import com.popalay.cardme.R
 import com.popalay.cardme.base.BaseViewModel
 
@@ -72,15 +71,13 @@ internal fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String)
 internal fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
 ): T = DataBindingUtil.setContentView(this, layoutId)
 
-internal fun <T : ViewDataBinding> Fragment.getDataBinding(
-        inflater: LayoutInflater?,
-        @LayoutRes layoutId: Int,
-        container: ViewGroup?
-): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
-
 internal inline fun <reified T : BaseViewModel> FragmentActivity.getViewModel(
         factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)
+
+internal inline fun <reified T : ViewModel> FragmentActivity.bindViewModel(
+        factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, factory).get(T::class.java) }
 
 internal inline fun <reified T : BaseViewModel> Fragment.getViewModel(
         factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(unsafeActivity.application)

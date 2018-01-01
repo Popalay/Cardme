@@ -36,8 +36,8 @@ class AddCardViewModel @Inject constructor(
         get() = IntentFilter<AddCardIntent> {
             it.publish {
                 Observable.merge<AddCardIntent>(
-                        it.ofType(AddCardIntent.Initial::class.java).take(1),
-                        it.notOfType(AddCardIntent.Initial::class.java)
+                        it.ofType(AddCardIntent.InitialGetCard::class.java).take(1),
+                        it.notOfType(AddCardIntent.InitialGetCard::class.java)
                 )
             }
         }
@@ -79,7 +79,9 @@ class AddCardViewModel @Inject constructor(
     }
 
     override fun actionFromIntent(intent: AddCardIntent): Action = when (intent) {
-        is AddCardIntent.Initial -> GetCardDetailsAction(intent.number) //TODO: and ShouldShowCardBackgroundAction, GetHolderNamesAction
+        is AddCardIntent.InitialGetCard -> GetCardDetailsAction(intent.number)
+        is AddCardIntent.InitialGetHolderNames -> GetHolderNamesAction
+        is AddCardIntent.InitialGetShoulsShowBackground -> ShouldShowCardBackgroundAction
         is AddCardIntent.NameChanged -> ValidateCardAction(intent.name) //TODO: set name into state
         is AddCardIntent.TitleChanged -> TODO() //TODO: set title into state
         is AddCardIntent.Accept -> SaveCardAction(currentState.card)

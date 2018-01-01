@@ -22,8 +22,7 @@ import com.popalay.cardme.base.mvi.MviView
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.stringAdapter
 import com.popalay.cardme.utils.extensions.bindView
-import com.popalay.cardme.utils.extensions.getViewModel
-import com.popalay.cardme.utils.extensions.toObservable
+import com.popalay.cardme.utils.extensions.bindViewModel
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -56,7 +55,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
 
     private lateinit var acceptMenuItem: MenuItem
 
-    private val viewModel by lazy { getViewModel<AddCardViewModel>(factory) }
+    private val viewModel by bindViewModel<AddCardViewModel>(factory)
     private val extraCardNumber get() = intent.getStringExtra(KEY_CARD_NUMBER)
     private val acceptIntentPublisher = PublishSubject.create<AddCardIntent.Accept>()
 
@@ -78,9 +77,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_accept -> acceptIntentPublisher.onNext(AddCardIntent.Accept)
-        }
+        if (item.itemId == R.id.action_accept) acceptIntentPublisher.onNext(AddCardIntent.Accept)
         return super.onOptionsItemSelected(item)
     }
 
@@ -92,7 +89,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     override fun getRootView(): View = layoutRoot
 
     override fun intents(): Observable<AddCardIntent> = Observable.merge(
-            AddCardIntent.Initial(extraCardNumber).toObservable(),
+            getInitialIntent(),
             RxTextView.textChanges(inputTitle).map(CharSequence::toString).map(AddCardIntent::TitleChanged),
             RxTextView.textChanges(inputHolder).map(CharSequence::toString).map(AddCardIntent::NameChanged),
             acceptIntentPublisher
@@ -128,4 +125,10 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
                 .bindToLifecycle()
                 .subscribe(appBarLayout::setExpanded)
     }
+
+    private fun getInitialIntent() = Observable.fromArray(
+            AddCardIntent.InitialGetCard(extraCardNumber),
+            AddCardIntent.InitialGetHolderNames,
+            AddCardIntent.InitialGetShoulsShowBackground
+    )
 }
