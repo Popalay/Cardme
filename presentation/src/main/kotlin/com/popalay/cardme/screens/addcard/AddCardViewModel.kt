@@ -24,6 +24,7 @@ import com.popalay.cardme.domain.usecase.ValidateCardUseCase
 import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.ofType
 import javax.inject.Inject
 
 class AddCardViewModel @Inject constructor(
@@ -35,13 +36,13 @@ class AddCardViewModel @Inject constructor(
         private val holderNamesUseCase: HolderNamesUseCase
 ) : MviViewModel<AddCardViewState, AddCardIntent>() {
 
-    override val statesObservable = compose()
-
     private val intentFilter
         get() = IntentFilter<AddCardIntent> {
             it.publish {
                 Observable.merge<AddCardIntent>(
-                        it.ofType(AddCardIntent.Initial::class.java).take(1),
+                        it.ofType<AddCardIntent.Initial.GetCard>().take(1),
+                        it.ofType<AddCardIntent.Initial.GetHolderNames>().take(1),
+                        it.ofType<AddCardIntent.Initial.GetShouldShowBackground>().take(1),
                         it.notOfType(AddCardIntent.Initial::class.java)
                 )
             }
@@ -51,11 +52,11 @@ class AddCardViewModel @Inject constructor(
         get() = ActionTransformer {
             it.publish {
                 Observable.merge(listOf(
-                        it.ofType(GetCardDetailsAction::class.java).compose(cardDetailsUseCase),
-                        it.ofType(ShouldShowCardBackgroundAction::class.java).compose(shouldShowCardBackgroundUseCase),
-                        it.ofType(GetHolderNamesAction::class.java).compose(holderNamesUseCase),
-                        it.ofType(ValidateCardAction::class.java).compose(validateCardUseCase),
-                        it.ofType(SaveCardAction::class.java).compose(saveCardUseCase)
+                        it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase),
+                        it.ofType<ShouldShowCardBackgroundAction>().compose(shouldShowCardBackgroundUseCase),
+                        it.ofType<GetHolderNamesAction>().compose(holderNamesUseCase),
+                        it.ofType<ValidateCardAction>().compose(validateCardUseCase),
+                        it.ofType<SaveCardAction>().compose(saveCardUseCase)
                 ))
             }
         }
@@ -71,7 +72,7 @@ class AddCardViewModel @Inject constructor(
 
     override fun compose(): Observable<AddCardViewState> = intentsSubject
             .compose(intentFilter)
-            .map(this::actionFromIntent)
+            .map(::actionFromIntent)
             .compose(actions)
             .scan(AddCardViewState.idle(), ::reduce)
             .replay(1)
@@ -83,22 +84,18 @@ class AddCardViewModel @Inject constructor(
             is CardDetailsResult -> when (this) {
                 is CardDetailsResult.Success -> oldState.copy(card = card)
                 is CardDetailsResult.Failure -> oldState.copy(error = throwable)
-                is CardDetailsResult.Idle -> oldState
             }
             is HolderNamesResult -> when (this) {
                 is HolderNamesResult.Success -> oldState.copy(holderNames = names)
                 is HolderNamesResult.Failure -> oldState.copy(error = throwable)
-                is HolderNamesResult.Idle -> oldState
             }
             is ShouldShowCardBackgroundResult -> when (this) {
                 is ShouldShowCardBackgroundResult.Success -> oldState.copy(showBackground = show)
                 is ShouldShowCardBackgroundResult.Failure -> oldState.copy(error = throwable)
-                is ShouldShowCardBackgroundResult.Idle -> oldState
             }
             is ValidateCardResult -> when (this) {
                 is ValidateCardResult.Success -> oldState.copy(canSave = valid, card = card)
                 is ValidateCardResult.Failure -> oldState.copy(error = throwable, canSave = false)
-                is ValidateCardResult.Idle -> oldState
             }
             is SaveCardResult -> when (this) {
                 is SaveCardResult.Success -> {
@@ -106,9 +103,8 @@ class AddCardViewModel @Inject constructor(
                     oldState
                 }
                 is SaveCardResult.Failure -> oldState.copy(error = throwable)
-                is SaveCardResult.Idle -> oldState
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
-        }
+        }.also { currentState = it }
     }
 }

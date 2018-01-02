@@ -25,7 +25,6 @@ class SaveCardUseCase @Inject constructor(
                         .map { SaveCardResult.Success }
                         .cast(SaveCardResult::class.java)
                         .onErrorReturn(SaveCardResult::Failure)
-                        .startWith(SaveCardResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 }
@@ -35,5 +34,4 @@ data class SaveCardAction(val card: Card) : Action
 sealed class SaveCardResult : Result {
     object Success : SaveCardResult()
     data class Failure(val throwable: Throwable) : SaveCardResult()
-    object Idle : SaveCardResult()
 }

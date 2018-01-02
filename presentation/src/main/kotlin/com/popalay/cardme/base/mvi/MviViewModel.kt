@@ -14,13 +14,11 @@ import io.reactivex.subjects.PublishSubject
 
 abstract class MviViewModel<S : ViewState, I : Intent> : BaseViewModel(), Reducer<S>, StateProvider<S> {
 
-    protected abstract val statesObservable: Observable<S>
+    override val states: Observable<S> get() = compose()
+
     protected val intentsSubject: PublishSubject<I> = PublishSubject.create()
-    protected val currentState: S get() = statesObservable.blockingLast()
+    protected lateinit var currentState: S
 
-    override fun states(): Observable<S> = statesObservable
-
-    @Suppress("unused")
     fun processIntents(intents: Observable<I>) {
         intents.subscribe(intentsSubject)
     }

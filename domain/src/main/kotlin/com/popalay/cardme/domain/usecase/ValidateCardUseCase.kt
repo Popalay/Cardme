@@ -26,7 +26,6 @@ class ValidateCardUseCase @Inject constructor(
                         .map { ValidateCardResult.Success(action.card, it) }
                         .cast(ValidateCardResult::class.java)
                         .onErrorReturn(ValidateCardResult::Failure)
-                        .startWith(ValidateCardResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 }
@@ -36,5 +35,4 @@ data class ValidateCardAction(val card: Card) : Action
 sealed class ValidateCardResult : Result {
     data class Success(val card: Card, val valid: Boolean) : ValidateCardResult()
     data class Failure(val throwable: Throwable) : ValidateCardResult()
-    object Idle : ValidateCardResult()
 }

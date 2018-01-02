@@ -10,5 +10,5 @@ package com.popalay.cardme.base.mvi
 import io.reactivex.Observable
 
 interface StateProvider<S : ViewState> {
-    fun states(): Observable<S>
+    val states: Observable<S>
 }

@@ -25,7 +25,6 @@ class CardDetailsUseCase @Inject constructor(
                         .map(CardDetailsResult::Success)
                         .cast(CardDetailsResult::class.java)
                         .onErrorReturn(CardDetailsResult::Failure)
-                        .startWith(CardDetailsResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 }
@@ -35,5 +34,4 @@ data class GetCardDetailsAction(val number: String) : Action
 sealed class CardDetailsResult : Result {
     data class Success(val card: Card) : CardDetailsResult()
     data class Failure(val throwable: Throwable) : CardDetailsResult()
-    object Idle : CardDetailsResult()
 }

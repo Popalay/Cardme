@@ -31,7 +31,6 @@ class HolderNamesUseCase @Inject constructor(
                         .map(HolderNamesResult::Success)
                         .cast(HolderNamesResult::class.java)
                         .onErrorReturn(HolderNamesResult::Failure)
-                        .startWith(HolderNamesResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 
@@ -47,5 +46,4 @@ object GetHolderNamesAction : Action
 sealed class HolderNamesResult : Result {
     data class Success(val names: List<String>) : HolderNamesResult()
     data class Failure(val throwable: Throwable) : HolderNamesResult()
-    object Idle : HolderNamesResult()
 }

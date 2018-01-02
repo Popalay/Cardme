@@ -28,7 +28,6 @@ class ShouldShowCardBackgroundUseCase @Inject constructor(
                         .map(ShouldShowCardBackgroundResult::Success)
                         .cast(ShouldShowCardBackgroundResult::class.java)
                         .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
-                        .startWith(ShouldShowCardBackgroundResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 }
@@ -38,5 +37,4 @@ object ShouldShowCardBackgroundAction : Action
 sealed class ShouldShowCardBackgroundResult : Result {
     data class Success(val show: Boolean) : ShouldShowCardBackgroundResult()
     data class Failure(val throwable: Throwable) : ShouldShowCardBackgroundResult()
-    object Idle : ShouldShowCardBackgroundResult()
 }
