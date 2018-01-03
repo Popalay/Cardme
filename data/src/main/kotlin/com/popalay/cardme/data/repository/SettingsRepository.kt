@@ -5,14 +5,14 @@ import com.popalay.cardme.data.toData
 import com.popalay.cardme.data.toDomain
 import com.popalay.cardme.domain.model.Settings
 import com.popalay.cardme.domain.repository.SettingsRepository
+import dagger.Reusable
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DataSettingsRepository @Inject constructor(
+@Reusable
+class SettingsRepository @Inject constructor(
         private val settingsDao: SettingsDao
 ) : SettingsRepository {
 

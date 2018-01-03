@@ -5,14 +5,14 @@ import com.popalay.cardme.data.toData
 import com.popalay.cardme.data.toDomain
 import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.repository.DebtRepository
+import dagger.Reusable
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DataDebtRepository @Inject constructor(
+@Reusable
+class DebtRepository @Inject constructor(
         private val debtDao: DebtDao
 ) : DebtRepository {
 

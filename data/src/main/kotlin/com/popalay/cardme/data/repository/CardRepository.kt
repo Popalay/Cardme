@@ -6,14 +6,14 @@ import com.popalay.cardme.data.toData
 import com.popalay.cardme.data.toDomain
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
+import dagger.Reusable
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DataCardRepository @Inject constructor(
+@Reusable
+class CardRepository @Inject constructor(
         private val cardDao: CardDao,
         private val gson: Gson
 ) : CardRepository {

@@ -13,12 +13,10 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 
 interface BaseDao<in T> {
 
-    @Insert
-    fun insert(data: T)
+    @Insert fun insert(data: T)
 
     @Insert(onConflict = REPLACE)
     fun insertOrUpdate(data: T)
 
-    @Delete
-    fun delete(data: T)
+    @Delete fun delete(data: T)
 }

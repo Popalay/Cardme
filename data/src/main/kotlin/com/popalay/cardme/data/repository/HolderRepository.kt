@@ -7,6 +7,7 @@ import com.popalay.cardme.data.toData
 import com.popalay.cardme.data.toDomain
 import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.HolderRepository
+import dagger.Reusable
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -14,11 +15,10 @@ import io.reactivex.Single
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.Maybes
 import javax.inject.Inject
-import javax.inject.Singleton
 import com.popalay.cardme.data.model.Holder as DataHolder
 
-@Singleton
-class DataHolderRepository @Inject constructor(
+@Reusable
+class HolderRepository @Inject constructor(
         private val holderDao: HolderDao,
         private val cardDao: CardDao,
         private val debtDao: DebtDao

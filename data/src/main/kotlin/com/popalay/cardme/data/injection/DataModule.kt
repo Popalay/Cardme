@@ -9,11 +9,6 @@ import com.popalay.cardme.data.dao.CardDao
 import com.popalay.cardme.data.dao.DebtDao
 import com.popalay.cardme.data.dao.HolderDao
 import com.popalay.cardme.data.dao.SettingsDao
-import com.popalay.cardme.data.repository.DataCardRepository
-import com.popalay.cardme.data.repository.DataDebtRepository
-import com.popalay.cardme.data.repository.DataHolderRepository
-import com.popalay.cardme.data.repository.DataSettingsRepository
-import com.popalay.cardme.data.repository.device.DataDeviceRepository
 import com.popalay.cardme.domain.repository.CardRepository
 import com.popalay.cardme.domain.repository.DebtRepository
 import com.popalay.cardme.domain.repository.DeviceRepository
@@ -23,24 +18,24 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
+import com.popalay.cardme.data.repository.CardRepository as CardRepositoryImpl
+import com.popalay.cardme.data.repository.DebtRepository as DebtRepositoryImpl
+import com.popalay.cardme.data.repository.HolderRepository as HolderRepositoryImpl
+import com.popalay.cardme.data.repository.SettingsRepository as SettingsRepositoryImpl
+import com.popalay.cardme.data.repository.device.DeviceRepository as DeviceRepositoryImpl
 
 @Module
 abstract class DataModule {
 
-    @Binds @Singleton
-    abstract fun bindsDeviceRepositoryRepositiory(repository: DataDeviceRepository): DeviceRepository
+    @Binds abstract fun bindsDeviceRepositoryRepositiory(repository: DeviceRepositoryImpl): DeviceRepository
 
-    @Binds @Singleton
-    abstract fun bindsCardRepositoryRepositiory(repository: DataCardRepository): CardRepository
+    @Binds abstract fun bindsCardRepositoryRepositiory(repository: CardRepositoryImpl): CardRepository
 
-    @Binds @Singleton
-    abstract fun bindsDebtRepositoryRepositiory(repository: DataDebtRepository): DebtRepository
+    @Binds abstract fun bindsDebtRepositoryRepositiory(repository: DebtRepositoryImpl): DebtRepository
 
-    @Binds @Singleton
-    abstract fun bindsHolderRepositoryRepositiory(repository: DataHolderRepository): HolderRepository
+    @Binds abstract fun bindsHolderRepositoryRepositiory(repository: HolderRepositoryImpl): HolderRepository
 
-    @Binds @Singleton
-    abstract fun bindsSettingsRepositoryRepositiory(repository: DataSettingsRepository): SettingsRepository
+    @Binds abstract fun bindsSettingsRepositoryRepositiory(repository: SettingsRepositoryImpl): SettingsRepository
 
     @Module
     companion object {
@@ -68,5 +63,4 @@ abstract class DataModule {
         @Provides @JvmStatic
         fun provideSettingsDao(database: Database): SettingsDao = database.settingsDao()
     }
-
 }

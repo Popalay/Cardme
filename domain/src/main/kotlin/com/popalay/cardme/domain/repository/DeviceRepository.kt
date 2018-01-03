@@ -7,5 +7,4 @@ interface DeviceRepository {
     fun supportNfc(): Boolean
 
     fun getContactsNames(): Single<List<String>>
-
 }
