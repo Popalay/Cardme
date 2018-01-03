@@ -29,6 +29,7 @@ class SaveCardUseCase @Inject constructor(
                         .cast(SaveCardResult::class.java)
                         .onErrorReturn(SaveCardResult::Failure)
                         .toObservable()
+                        .startWith(SaveCardResult.Idle)
                         .subscribeOn(Schedulers.io())
             }
 }
@@ -37,5 +38,6 @@ data class SaveCardAction(val card: Card) : Action
 
 sealed class SaveCardResult : Result {
     object Success : SaveCardResult()
+    object Idle : SaveCardResult()
     data class Failure(val throwable: Throwable) : SaveCardResult()
 }

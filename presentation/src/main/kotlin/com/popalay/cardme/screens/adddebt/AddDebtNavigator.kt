@@ -7,6 +7,5 @@ class AddDebtNavigator @Inject constructor(
         private val activity: AddDebtActivity
 ) : CustomNavigator(activity) {
 
-    override fun exit() = activity.exitWithAnimation()
-
+    override fun exit() = activity.runOnUiThread { activity.exitWithAnimation() }
 }

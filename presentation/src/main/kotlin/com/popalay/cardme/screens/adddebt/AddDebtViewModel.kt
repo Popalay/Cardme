@@ -1,62 +1,90 @@
 package com.popalay.cardme.screens.adddebt
 
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
-import com.jakewharton.rxrelay2.PublishRelay
-import com.popalay.cardme.base.BaseViewModel
+import com.popalay.cardme.base.mvi.IntentFilter
+import com.popalay.cardme.base.mvi.MviViewModel
 import com.popalay.cardme.base.navigation.CustomRouter
-import com.popalay.cardme.domain.interactor.DebtsInteractor
-import com.popalay.cardme.domain.interactor.HolderInteractor
-import com.popalay.cardme.domain.model.Debt
-import com.popalay.cardme.utils.extensions.applyThrottling
-import com.popalay.cardme.utils.extensions.clean
-import com.popalay.cardme.utils.extensions.setTo
-import com.stepango.rxdatabindings.ObservableString
-import com.stepango.rxdatabindings.observe
-import com.stepango.rxdatabindings.setTo
+import com.popalay.cardme.domain.usecase.Action
+import com.popalay.cardme.domain.usecase.ActionTransformer
+import com.popalay.cardme.domain.usecase.GetHolderNamesAction
+import com.popalay.cardme.domain.usecase.HolderNamesResult
+import com.popalay.cardme.domain.usecase.HolderNamesUseCase
+import com.popalay.cardme.domain.usecase.Result
+import com.popalay.cardme.domain.usecase.SaveDebtAction
+import com.popalay.cardme.domain.usecase.SaveDebtResult
+import com.popalay.cardme.domain.usecase.SaveDebtUseCase
+import com.popalay.cardme.domain.usecase.ValidateDebtAction
+import com.popalay.cardme.domain.usecase.ValidateDebtResult
+import com.popalay.cardme.domain.usecase.ValidateDebtUseCase
+import com.popalay.cardme.utils.extensions.notOfType
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.ofType
 import javax.inject.Inject
 
 class AddDebtViewModel @Inject constructor(
-        router: CustomRouter,
-        holderInteractor: HolderInteractor,
-        debtsInteractor: DebtsInteractor
-) : BaseViewModel() {
+        private val router: CustomRouter,
+        private val holderNamesUseCase: HolderNamesUseCase,
+        private var validateDebtUseCase: ValidateDebtUseCase,
+        private val saveDebtUseCase: SaveDebtUseCase
+) : MviViewModel<AddDebtViewState, AddDebtIntent>() {
 
-    val to = ObservableString()
-    val message = ObservableString()
-    val canSave = ObservableBoolean()
-    val holderNames = ObservableArrayList<String>()
+    private val intentFilter
+        get() = IntentFilter<AddDebtIntent> {
+            it.publish {
+                Observable.merge<AddDebtIntent>(
+                        it.ofType<AddDebtIntent.Initial.GetHolderNames>().take(1),
+                        it.notOfType(AddDebtIntent.Initial::class.java)
+                )
+            }
+        }
 
-    val addClick: PublishRelay<Boolean> = PublishRelay.create<Boolean>()
+    private val actions
+        get() = ActionTransformer {
+            it.publish {
+                Observable.merge(listOf(
+                        it.ofType<GetHolderNamesAction>().compose(holderNamesUseCase),
+                        it.ofType<ValidateDebtAction>().compose(validateDebtUseCase),
+                        it.ofType<SaveDebtAction>().compose(saveDebtUseCase)
+                ))
+            }
+        }
 
-    private val debt = ObservableField<Debt>(Debt())
+    override fun actionFromIntent(intent: AddDebtIntent): Action = when (intent) {
+        is AddDebtIntent.Initial.GetHolderNames -> GetHolderNamesAction
+        is AddDebtIntent.DebtHolderNameChanged -> ValidateDebtAction(intent.debt)
+        is AddDebtIntent.DebtInformationChanged -> ValidateDebtAction(intent.debt)
+        is AddDebtIntent.Accept -> SaveDebtAction(intent.debt)
+    }
 
-    init {
+    override fun compose(): Observable<AddDebtViewState> = intentsSubject
+            .compose(intentFilter)
+            .map(::actionFromIntent)
+            .compose(actions)
+            .scan(AddDebtViewState.idle(), ::reduce)
+            .replay(1)
+            .autoConnect(0)
+            .observeOn(AndroidSchedulers.mainThread())
 
-        holderInteractor.getNames()
-                .observeOn(AndroidSchedulers.mainThread())
-                .setTo(holderNames)
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
-
-        Observables.combineLatest(to.observe().doOnNext { debt.set(debt.get().copy(holderName = it.clean())) },
-                message.observe().doOnNext { debt.set(debt.get().copy(message = it.clean())) })
-                .map { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() }
-                .setTo(canSave)
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
-
-        addClick.applyThrottling()
-                .filter { it && canSave.get() }
-                .switchMapSingle { debtsInteractor.save(debt.get()).toSingleDefault(true) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { router.exit() }
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
+    override fun reduce(oldState: AddDebtViewState, result: Result): AddDebtViewState = with(result) {
+        when (this) {
+            is HolderNamesResult -> when (this) {
+                is HolderNamesResult.Success -> oldState.copy(holderNames = names)
+                is HolderNamesResult.Failure -> oldState.copy(error = throwable)
+            }
+            is ValidateDebtResult -> when (this) {
+                is ValidateDebtResult.Success -> oldState.copy(canSave = valid)
+                is ValidateDebtResult.Failure -> oldState.copy(error = throwable, canSave = false)
+                is ValidateDebtResult.Idle -> oldState.copy(debt = debt)
+            }
+            is SaveDebtResult -> when (this) {
+                is SaveDebtResult.Success -> {
+                    router.exit()
+                    oldState
+                }
+                is SaveDebtResult.Failure -> oldState.copy(error = throwable)
+                is SaveDebtResult.Idle -> oldState
+            }
+            else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
+        }
     }
 }

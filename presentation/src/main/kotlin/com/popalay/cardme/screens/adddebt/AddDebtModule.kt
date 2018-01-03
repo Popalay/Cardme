@@ -11,14 +11,10 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class AddDebtModule {
 
-    @Binds
-    @IntoMap
-    @PerActivity
+    @Binds @IntoMap @PerActivity
     @ViewModelKey(AddDebtViewModel::class)
     abstract fun bindsAddDebtViewModel(viewModel: AddDebtViewModel): ViewModel
 
-    @Binds
-    @PerActivity
+    @Binds @PerActivity
     abstract fun bindsNavigator(navigator: AddDebtNavigator): CustomNavigator
-
 }

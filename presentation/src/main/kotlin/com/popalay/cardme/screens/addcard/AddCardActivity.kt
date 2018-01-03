@@ -56,6 +56,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     private val inputTitle: TextInputEditText by bindView(R.id.input_title)
 
     @Inject lateinit var factory: ViewModelProvider.Factory
+
     private lateinit var viewModel: AddCardViewModel
     private lateinit var lastState: AddCardViewState
 

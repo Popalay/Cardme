@@ -100,10 +100,11 @@ class AddCardViewModel @Inject constructor(
             }
             is SaveCardResult -> when (this) {
                 is SaveCardResult.Success -> {
-                    router.exit() //TODO: think about this
+                    router.exit()
                     oldState
                 }
                 is SaveCardResult.Failure -> oldState.copy(error = throwable)
+                is SaveCardResult.Idle -> oldState
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }
