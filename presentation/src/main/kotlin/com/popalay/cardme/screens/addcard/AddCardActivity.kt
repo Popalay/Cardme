@@ -98,12 +98,10 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
         if (state == lastState) return
         with(state) {
             with(card) {
-                if (title != inputTitle.text.toString()) {
-                    inputTitle.setText(title)
-                }
-                if (holderName != inputHolder.text.toString()) {
-                    inputHolder.setText(holderName)
-                }
+                inputTitle.setText(title)
+                inputTitle.setSelection(title.length)
+                inputHolder.setText(holderName)
+                inputHolder.setSelection(holderName.length)
                 textTitle.text = title
                 textHolder.text = holderName
                 imageCardType.setImageResource(iconRes)

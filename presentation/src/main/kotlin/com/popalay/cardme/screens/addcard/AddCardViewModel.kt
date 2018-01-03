@@ -94,8 +94,9 @@ class AddCardViewModel @Inject constructor(
                 is ShouldShowCardBackgroundResult.Failure -> oldState.copy(error = throwable)
             }
             is ValidateCardResult -> when (this) {
-                is ValidateCardResult.Success -> oldState.copy(canSave = valid, card = card)
+                is ValidateCardResult.Success -> oldState.copy(canSave = valid)
                 is ValidateCardResult.Failure -> oldState.copy(error = throwable, canSave = false)
+                is ValidateCardResult.Idle -> oldState.copy(card = card)
             }
             is SaveCardResult -> when (this) {
                 is SaveCardResult.Success -> {
