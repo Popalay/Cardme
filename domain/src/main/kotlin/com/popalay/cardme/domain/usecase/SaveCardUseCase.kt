@@ -21,7 +21,7 @@ class SaveCardUseCase @Inject constructor(
     override fun apply(upstream: Observable<SaveCardAction>): ObservableSource<Result> =
             upstream.switchMap {
                 cardRepository.save(it.card)
-                        .toObservable<Nothing>()
+                        .toObservable<SaveCardResult>()
                         .map { SaveCardResult.Success }
                         .cast(SaveCardResult::class.java)
                         .onErrorReturn(SaveCardResult::Failure)

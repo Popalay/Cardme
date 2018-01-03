@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.transition.Transition
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.utils.animation.EndAnimatorListener
 import com.popalay.cardme.utils.animation.EndTransitionListener
@@ -78,4 +79,8 @@ fun Transition?.onEnd(block: () -> Unit) {
         }
 
     })
+}
+
+fun TextView.setTextIfNeeded(value: String) {
+    if (value != text.toString()) text = value
 }

@@ -65,9 +65,9 @@ class AddCardViewModel @Inject constructor(
         is AddCardIntent.Initial.GetCard -> GetCardDetailsAction(intent.number)
         is AddCardIntent.Initial.GetHolderNames -> GetHolderNamesAction
         is AddCardIntent.Initial.GetShouldShowBackground -> ShouldShowCardBackgroundAction
-        is AddCardIntent.NameChanged -> ValidateCardAction(currentState.card.copy(holderName = intent.name))
-        is AddCardIntent.TitleChanged -> ValidateCardAction(currentState.card.copy(title = intent.title))
-        is AddCardIntent.Accept -> SaveCardAction(currentState.card)
+        is AddCardIntent.CardNameChanged -> ValidateCardAction(intent.card)
+        is AddCardIntent.CardTitleChanged -> ValidateCardAction(intent.card)
+        is AddCardIntent.Accept -> SaveCardAction(intent.card)
     }
 
     override fun compose(): Observable<AddCardViewState> = intentsSubject
@@ -106,6 +106,6 @@ class AddCardViewModel @Inject constructor(
                 is SaveCardResult.Failure -> oldState.copy(error = throwable)
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
-        }.also { currentState = it }
+        }
     }
 }

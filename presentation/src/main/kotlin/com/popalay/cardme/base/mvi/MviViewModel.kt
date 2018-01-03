@@ -17,7 +17,6 @@ abstract class MviViewModel<S : ViewState, I : Intent> : BaseViewModel(), Reduce
     override val states: Observable<S> get() = compose()
 
     protected val intentsSubject: PublishSubject<I> = PublishSubject.create()
-    protected lateinit var currentState: S
 
     fun processIntents(intents: Observable<I>) {
         intents.subscribe(intentsSubject)

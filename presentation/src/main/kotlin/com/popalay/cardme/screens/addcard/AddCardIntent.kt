@@ -8,6 +8,7 @@
 package com.popalay.cardme.screens.addcard
 
 import com.popalay.cardme.base.mvi.Intent
+import com.popalay.cardme.domain.model.Card
 
 sealed class AddCardIntent : Intent {
 
@@ -17,7 +18,7 @@ sealed class AddCardIntent : Intent {
         object GetShouldShowBackground : AddCardIntent.Initial()
     }
 
-    data class NameChanged(val name: String) : AddCardIntent()
-    data class TitleChanged(val title: String) : AddCardIntent()
-    object Accept : AddCardIntent()
+    data class CardNameChanged(val card: Card) : AddCardIntent()
+    data class CardTitleChanged(val card: Card) : AddCardIntent()
+    data class Accept(val card: Card) : AddCardIntent()
 }

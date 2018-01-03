@@ -16,5 +16,5 @@ import io.reactivex.functions.Consumer
  */
 interface MviView<S : ViewState, I : Intent> : Consumer<S> {
 
-    fun intents(): Observable<I>
+    val intents: Observable<I>
 }
