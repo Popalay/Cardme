@@ -9,13 +9,16 @@ package com.popalay.cardme.data.dao
 
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import android.arch.persistence.room.OnConflictStrategy
 
 interface BaseDao<in T> {
 
     @Insert fun insert(data: T)
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertOrIgnore(data: T)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(data: T)
 
     @Delete fun delete(data: T)

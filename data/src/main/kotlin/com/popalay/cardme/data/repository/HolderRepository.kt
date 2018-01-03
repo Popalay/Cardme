@@ -25,7 +25,7 @@ class HolderRepository @Inject constructor(
 ) : HolderRepository {
 
     override fun save(data: Holder): Completable = Completable.fromAction {
-        holderDao.insertOrUpdate(data.toData())
+        holderDao.insertOrIgnore(data.toData())
     }
 
     override fun markAsTrash(data: Holder): Completable = Completable.fromAction {
