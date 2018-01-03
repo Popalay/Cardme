@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TextInputEditText
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -99,6 +100,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     override fun accept(state: AddCardViewState) {
         lastState = state
         with(state) {
+            Log.w("AddCardState", error)
             with(card) {
                 inputTitle.setTextIfNeeded(title)
                 inputHolder.setTextIfNeeded(holderName)

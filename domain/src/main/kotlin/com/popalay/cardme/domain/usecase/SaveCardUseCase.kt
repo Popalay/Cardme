@@ -8,23 +8,27 @@
 package com.popalay.cardme.domain.usecase
 
 import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.CardRepository
+import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SaveCardUseCase @Inject constructor(
-        private val cardRepository: CardRepository
+        private val cardRepository: CardRepository,
+        private val holderRepository: HolderRepository
 ) : UseCase<SaveCardAction> {
 
     override fun apply(upstream: Observable<SaveCardAction>): ObservableSource<Result> =
             upstream.switchMap {
-                cardRepository.save(it.card)
-                        .toObservable<SaveCardResult>()
-                        .map { SaveCardResult.Success }
+                holderRepository.save(Holder(name = it.card.holderName))
+                        .andThen(cardRepository.save(it.card))
+                        .toSingleDefault(SaveCardResult.Success)
                         .cast(SaveCardResult::class.java)
                         .onErrorReturn(SaveCardResult::Failure)
+                        .toObservable()
                         .subscribeOn(Schedulers.io())
             }
 }
