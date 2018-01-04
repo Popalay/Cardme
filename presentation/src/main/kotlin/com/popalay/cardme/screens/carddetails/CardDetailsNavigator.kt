@@ -16,5 +16,7 @@ class CardDetailsNavigator @Inject constructor(
         else -> null
     }
 
-    override fun exit() = activity.exitWithAnimation()
+    override fun exit() {
+        activity.exitWithAnimation()
+    }
 }

@@ -19,7 +19,6 @@ import com.popalay.cardme.utils.extensions.onEnd
 import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.extensions.shareUsingNfc
 import com.popalay.cardme.utils.extensions.showAnimated
-import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 
@@ -46,14 +45,18 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
         initUi()
     }
 
-    override fun createNdefMessage(event: NfcEvent?) = createNdefMessage(
-            viewModelFacade.getCardShareNfcObject().blockingGet().toByteArray())
+    override fun createNdefMessage(event: NfcEvent?) =
+            createNdefMessage(viewModelFacade.getCardShareNfcObject().blockingGet().toByteArray())
 
-    override fun onBackPressed() = exitWithAnimation()
+    override fun onBackPressed() {
+        exitWithAnimation()
+    }
 
     fun exitWithAnimation() {
-        listOf(b.buttonRemove, b.buttonEdit, b.buttonNfc, b.buttonShare)
-                .forEachIndexed { index, view -> view.hideAnimated(index * DURATION_SHORT / 3) }
+        b.buttonRemove.hideAnimated()
+        b.buttonEdit.hideAnimated(DURATION_SHORT / 3)
+        b.buttonNfc.hideAnimated(2 * DURATION_SHORT / 3)
+        b.buttonShare.hideAnimated(DURATION_SHORT) { supportFinishAfterTransition() }
     }
 
     private fun initUi() {
