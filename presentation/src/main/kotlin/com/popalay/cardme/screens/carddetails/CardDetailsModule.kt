@@ -6,29 +6,15 @@ import com.popalay.cardme.injection.PerActivity
 import com.popalay.cardme.injection.ViewModelKey
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
-import javax.inject.Named
 
 @Module
-abstract class CardDetailsModule {
+interface CardDetailsModule {
 
     @Binds @PerActivity
-    abstract fun bindsNavigator(navigator: CardDetailsNavigator): CustomNavigator
+    fun bindsNavigator(navigator: CardDetailsNavigator): CustomNavigator
 
     @Binds @IntoMap @PerActivity
     @ViewModelKey(CardDetailsViewModel::class)
-    abstract fun bindsCardDetailsViewModel(viewModel: CardDetailsViewModel): ViewModel
-
-    @Module
-    companion object {
-
-        @Provides @PerActivity @JvmStatic
-        @Named(CardDetailsActivity.KEY_CARD_NUMBER)
-        fun provideCardNumber(activity: CardDetailsActivity): String =
-                activity.intent.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
-
-        @Provides @PerActivity @JvmStatic
-        fun provideViewModelFacade(viewModel: CardDetailsViewModel): CardDetailsViewModelFacade = viewModel
-    }
+    fun bindsCardDetailsViewModel(viewModel: CardDetailsViewModel): ViewModel
 }

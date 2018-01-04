@@ -28,7 +28,7 @@ class AddDebtViewModel @Inject constructor(
         private val saveDebtUseCase: SaveDebtUseCase
 ) : MviViewModel<AddDebtViewState, AddDebtIntent>() {
 
-    private val intentFilter
+    override val intentFilter
         get() = IntentFilter<AddDebtIntent> {
             it.publish {
                 Observable.merge<AddDebtIntent>(
@@ -38,7 +38,7 @@ class AddDebtViewModel @Inject constructor(
             }
         }
 
-    private val actions
+    override val actions
         get() = ActionTransformer {
             it.publish {
                 Observable.merge(listOf(

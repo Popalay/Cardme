@@ -1,0 +1,35 @@
+/*
+ * Created by popalay on 04.01.18 23:00
+ * Copyright (c) 2018. All right reserved.
+ *
+ * Last modified 03.01.18 23:54
+ */
+
+package com.popalay.cardme.screens.carddetails
+
+import com.popalay.cardme.base.mvi.ViewState
+import com.popalay.cardme.domain.model.Card
+
+data class CardDetailsViewState(
+        val card: Card,
+        val showBackground: Boolean,
+        val holderNames: List<String>,
+        val canSave: Boolean,
+        val inEditMode: Boolean,
+        val showShareDialog: Boolean,
+        val nfcEnabled: Boolean,
+        val error: Throwable?
+) : ViewState {
+    companion object {
+        fun idle() = CardDetailsViewState(
+                card = Card(),
+                showBackground = false,
+                holderNames = listOf(),
+                canSave = false,
+                inEditMode = false,
+                showShareDialog = false,
+                nfcEnabled = false,
+                error = null
+        )
+    }
+}

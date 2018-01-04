@@ -36,7 +36,7 @@ class AddCardViewModel @Inject constructor(
         private val holderNamesUseCase: HolderNamesUseCase
 ) : MviViewModel<AddCardViewState, AddCardIntent>() {
 
-    private val intentFilter
+    override val intentFilter
         get() = IntentFilter<AddCardIntent> {
             it.publish {
                 Observable.merge<AddCardIntent>(
@@ -48,7 +48,7 @@ class AddCardViewModel @Inject constructor(
             }
         }
 
-    private val actions
+    override val actions
         get() = ActionTransformer {
             it.publish {
                 Observable.merge(listOf(

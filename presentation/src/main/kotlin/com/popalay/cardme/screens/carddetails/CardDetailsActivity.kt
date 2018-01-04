@@ -25,14 +25,15 @@ import javax.inject.Inject
 class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback {
 
     companion object {
-        const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
+
+        private const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
+
         fun getIntent(context: Context, number: String) = Intent(context, CardDetailsActivity::class.java).apply {
             putExtra(KEY_CARD_NUMBER, number)
         }
     }
 
     @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject lateinit var viewModelFacade: CardDetailsViewModelFacade
     @Inject override lateinit var navigator: CustomNavigator
 
     private lateinit var b: ActivityCardDetailsBinding
@@ -74,5 +75,4 @@ class CardDetailsActivity : BaseActivity(), NfcAdapter.CreateNdefMessageCallback
                 .bindToLifecycle()
                 .subscribe { shareUsingNfc(R.string.share_card, it) }
     }
-
 }
