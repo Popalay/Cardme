@@ -42,7 +42,5 @@ interface DebtDao : BaseDao<Debt> {
     @Update(onConflict = REPLACE)
     fun updateAll(debts: List<Debt>)
 
-    @Delete
-    fun deleteAll(debts: List<Debt>)
-
+    @Delete fun deleteAll(debts: List<Debt>)
 }

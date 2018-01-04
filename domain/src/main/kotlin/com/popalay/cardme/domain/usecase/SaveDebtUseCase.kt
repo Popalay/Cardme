@@ -8,23 +8,19 @@
 package com.popalay.cardme.domain.usecase
 
 import com.popalay.cardme.domain.model.Debt
-import com.popalay.cardme.domain.model.Holder
 import com.popalay.cardme.domain.repository.DebtRepository
-import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SaveDebtUseCase @Inject constructor(
-        private val debtRepository: DebtRepository,
-        private val holderRepository: HolderRepository
+        private val debtRepository: DebtRepository
 ) : UseCase<SaveDebtAction> {
 
     override fun apply(upstream: Observable<SaveDebtAction>): ObservableSource<Result> =
             upstream.switchMap {
-                holderRepository.save(Holder(name = it.card.holderName))
-                        .andThen(debtRepository.save(it.card))
+                debtRepository.save(it.card)
                         .toSingleDefault(SaveDebtResult.Success)
                         .cast(SaveDebtResult::class.java)
                         .onErrorReturn(SaveDebtResult::Failure)

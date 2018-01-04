@@ -125,7 +125,6 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
         pageAdapter = HomePageAdapter(supportFragmentManager)
         b.viewPager.adapter = pageAdapter
-        b.viewPager.pageMargin = -resources.getDimensionPixelSize(R.dimen.normal)
     }
 
     //TODO create specific class

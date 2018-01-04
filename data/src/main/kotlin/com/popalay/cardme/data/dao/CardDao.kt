@@ -48,7 +48,5 @@ interface CardDao : BaseDao<Card> {
     @Update(onConflict = REPLACE)
     fun updateAll(cards: List<Card>)
 
-    @Delete
-    fun deleteAll(cards: List<Card>)
-
+    @Delete fun deleteAll(cards: List<Card>)
 }

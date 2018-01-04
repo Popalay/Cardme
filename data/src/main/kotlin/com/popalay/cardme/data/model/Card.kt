@@ -1,7 +1,6 @@
 package com.popalay.cardme.data.model
 
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.DrawableRes
@@ -9,11 +8,8 @@ import android.support.annotation.IntDef
 import com.popalay.cardme.data.R
 
 @Entity(tableName = "cards",
-        indices = [Index("number", unique = true), Index("holderName")],
-        foreignKeys = [ForeignKey(entity = Holder::class,
-                parentColumns = arrayOf("name"),
-                childColumns = arrayOf("holderName"),
-                onDelete = ForeignKey.CASCADE)])
+        indices = [Index("number", unique = true), Index("holderName")]
+)
 data class Card(
         @PrimaryKey val number: String,
         val title: String,
