@@ -2,17 +2,22 @@ package com.popalay.cardme.screens.home
 
 import android.content.Intent
 import android.os.Bundle
-import com.popalay.cardme.R
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.base.navigation.CustomNavigator
-import com.popalay.cardme.screens.*
+import com.popalay.cardme.domain.model.Card
+import com.popalay.cardme.screens.SCREEN_ADD_CARD
+import com.popalay.cardme.screens.SCREEN_ADD_DEBT
+import com.popalay.cardme.screens.SCREEN_CARD_DETAILS
+import com.popalay.cardme.screens.SCREEN_HOLDER_DETAILS
+import com.popalay.cardme.screens.SCREEN_HOME
+import com.popalay.cardme.screens.SCREEN_SCAN_CARD
+import com.popalay.cardme.screens.SCREEN_SETTINGS
+import com.popalay.cardme.screens.SCREEN_TRASH
 import com.popalay.cardme.screens.addcard.AddCardActivity
 import com.popalay.cardme.screens.adddebt.AddDebtActivity
 import com.popalay.cardme.screens.carddetails.CardDetailsActivity
 import com.popalay.cardme.screens.cards.CardsFragment
 import com.popalay.cardme.screens.debts.DebtsFragment
 import com.popalay.cardme.screens.holderdetails.HolderDetailsActivity
-import com.popalay.cardme.screens.holders.HoldersFragment
 import com.popalay.cardme.screens.settings.SettingsActivity
 import com.popalay.cardme.screens.trash.TrashActivity
 import com.popalay.cardme.utils.extensions.findFragmentByType
@@ -23,23 +28,7 @@ import javax.inject.Inject
 
 class HomeNavigator @Inject constructor(
         private val activity: HomeActivity
-) : CustomNavigator(activity, R.id.host) {
-
-    override fun createFragment(screenKey: String, data: Any?) = when (screenKey) {
-        SCREEN_CARDS -> {
-            activity.selectTab(R.id.cards)
-            CardsFragment.newInstance()
-        }
-        SCREEN_HOLDERS -> {
-            activity.selectTab(R.id.holders)
-            HoldersFragment.newInstance()
-        }
-        SCREEN_DEBTS -> {
-            activity.selectTab(R.id.debts);
-            DebtsFragment.newInstance()
-        }
-        else -> null
-    }
+) : CustomNavigator(activity) {
 
     @Suppress("UNCHECKED_CAST")
     override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
@@ -62,5 +51,4 @@ class HomeNavigator @Inject constructor(
         }
         return super.createStartActivityOptions(command, activityIntent)
     }
-
 }

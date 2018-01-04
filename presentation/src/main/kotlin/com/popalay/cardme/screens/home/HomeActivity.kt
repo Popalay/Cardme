@@ -16,15 +16,14 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.popalay.cardme.R
-import com.popalay.cardme.domain.interactor.ShortcutInteractor
-import com.popalay.cardme.databinding.ActivityHomeBinding
 import com.popalay.cardme.base.BaseActivity
 import com.popalay.cardme.base.navigation.CustomNavigator
+import com.popalay.cardme.databinding.ActivityHomeBinding
+import com.popalay.cardme.domain.interactor.ShortcutInteractor
 import com.popalay.cardme.screens.cards.CardsFragment
 import com.popalay.cardme.utils.extensions.findFragmentByType
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
-import com.popalay.cardme.utils.extensions.setSelectedItem
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import shortbread.Shortcut
@@ -34,7 +33,9 @@ import javax.inject.Inject
 class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
     companion object {
-        private val MENU_SETTINGS = Menu.FIRST
+
+        private const val MENU_SETTINGS = Menu.FIRST
+
         fun getIntent(context: Context) = Intent(context, HomeActivity::class.java)
     }
 
@@ -46,6 +47,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
 
     private lateinit var b: ActivityHomeBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var pageAdapter: HomePageAdapter
 
     private var adapter: NfcAdapter? = null
     private var pendingIntent: PendingIntent? = null
@@ -55,7 +57,7 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = getDataBinding(R.layout.activity_home)
-        b.vm = getViewModel<HomeViewModel>(factory)
+        b.vm = getViewModel(factory)
         initNfcListening()
         initUI()
     }
@@ -112,10 +114,6 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
         return super.onOptionsItemSelected(item)
     }
 
-    fun selectTab(itemId: Int) {
-        b.bottomBar.setSelectedItem(itemId, false)
-    }
-
     override fun supportFragmentInjector() = androidInjector
 
     private fun initUI() {
@@ -124,6 +122,10 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.isDrawerIndicatorEnabled = true
         b.drawerLayout.addDrawerListener(toggle)
+
+        pageAdapter = HomePageAdapter(supportFragmentManager)
+        b.viewPager.adapter = pageAdapter
+        b.viewPager.pageMargin = -resources.getDimensionPixelSize(R.dimen.normal)
     }
 
     //TODO create specific class
@@ -138,12 +140,12 @@ class HomeActivity : BaseActivity(), HasSupportFragmentInjector {
             throw RuntimeException("fail", e)
         }
         filters = arrayOf(ndef)
-        techLists = arrayOf((arrayOf<String>(NfcF::class.java.name)))
+        techLists = arrayOf((arrayOf(NfcF::class.java.name)))
     }
 
     private fun processIntent(intent: Intent) {
         val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-        val msg = rawMsgs [0] as NdefMessage
+        val msg = rawMsgs[0] as NdefMessage
         val bytes = msg.records[0].payload
         viewModelFacade.onNfcMessageRead(bytes)
         getIntent().action = null

@@ -9,8 +9,6 @@ import com.popalay.cardme.screens.cards.CardsFragment
 import com.popalay.cardme.screens.cards.CardsModule
 import com.popalay.cardme.screens.debts.DebtsFragment
 import com.popalay.cardme.screens.debts.DebtsModule
-import com.popalay.cardme.screens.holders.HoldersFragment
-import com.popalay.cardme.screens.holders.HoldersModule
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,8 +18,7 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class HomeModule {
 
-    @Binds
-    @PerActivity
+    @Binds @PerActivity
     abstract fun bindsNavigator(navigator: HomeNavigator): CustomNavigator
 
     @PerFragment
@@ -29,16 +26,10 @@ abstract class HomeModule {
     abstract fun contributeCardsFragment(): CardsFragment
 
     @PerFragment
-    @ContributesAndroidInjector(modules = [HoldersModule::class])
-    abstract fun contributeHoldersFragment(): HoldersFragment
-
-    @PerFragment
     @ContributesAndroidInjector(modules = [DebtsModule::class])
     abstract fun contributeDebtsFragment(): DebtsFragment
 
-    @Binds
-    @IntoMap
-    @PerActivity
+    @Binds @IntoMap @PerActivity
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindsHomeViewModel(viewModel: HomeViewModel): ViewModel
 

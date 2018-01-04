@@ -2,15 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="vm"
-            type="com.popalay.cardme.screens.home.HomeViewModel"
-            />
+            type="com.popalay.cardme.screens.home.HomeViewModel" />
     </data>
 
     <android.support.v4.widget.DrawerLayout
@@ -18,62 +16,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:openDrawer="start"
-        >
+        tools:openDrawer="start">
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/Cardme.Toolbar"
-                    app:navigationIcon="@drawable/ic_hamburger"
-                    />
+                    app:navigationIcon="@drawable/ic_hamburger" />
 
             </android.support.design.widget.AppBarLayout>
 
-            <LinearLayout
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                >
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    >
-
-                    <FrameLayout
-                        android:id="@+id/host"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
-
-                    <include layout="@layout/shadow" />
-
-                </FrameLayout>
-
-                <android.support.design.widget.BottomNavigationView
-                    android:id="@+id/bottom_bar"
-                    style="@style/Cardme.BottomBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:menu="@menu/menu_home"
-                    bind:bottomNavigationListener="@{vm.bottomNavigationClick}"
-                    />
-
-            </LinearLayout>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
 
@@ -85,8 +51,7 @@
             app:headerLayout="@layout/header_drawer"
             app:itemTextColor="@color/primary_text"
             app:menu="@menu/drawer_menu"
-            bind:drawerNavigationListener="@{vm.drawerNavigationClick}"
-            />
+            bind:drawerNavigationListener="@{vm.drawerNavigationClick}" />
 
     </android.support.v4.widget.DrawerLayout>
 
