@@ -21,7 +21,6 @@ import com.popalay.cardme.DEBOUNCE_DELAY_MS
 import com.popalay.cardme.R
 import com.popalay.cardme.base.RightSlidingActivity
 import com.popalay.cardme.base.mvi.MviView
-import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.stringAdapter
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
@@ -39,8 +38,8 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
 
         private const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
 
-        fun getIntent(context: Context, card: Card) = Intent(context, AddCardActivity::class.java).apply {
-            putExtra(KEY_CARD_NUMBER, card.number)
+        fun getIntent(context: Context, number: String) = Intent(context, AddCardActivity::class.java).apply {
+            putExtra(KEY_CARD_NUMBER, number)
         }
     }
 

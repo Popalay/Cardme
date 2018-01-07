@@ -10,6 +10,9 @@ import com.popalay.cardme.domain.usecase.CardDetailsUseCase
 import com.popalay.cardme.domain.usecase.CheckNfcAction
 import com.popalay.cardme.domain.usecase.CheckNfcResult
 import com.popalay.cardme.domain.usecase.CheckNfcUseCase
+import com.popalay.cardme.domain.usecase.EditCardAction
+import com.popalay.cardme.domain.usecase.EditCardResult
+import com.popalay.cardme.domain.usecase.EditCardUseCase
 import com.popalay.cardme.domain.usecase.GetCardDetailsAction
 import com.popalay.cardme.domain.usecase.GetHolderNamesAction
 import com.popalay.cardme.domain.usecase.HolderNamesResult
@@ -42,7 +45,8 @@ class CardDetailsViewModel @Inject constructor(
         private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
         private val holderNamesUseCase: HolderNamesUseCase,
         private val checkNfcUseCase: CheckNfcUseCase,
-        private val moveCardToTrashUseCase: MoveCardToTrashUseCase
+        private val moveCardToTrashUseCase: MoveCardToTrashUseCase,
+        private val editCardUseCase: EditCardUseCase
 ) : MviViewModel<CardDetailsViewState, CardDetailsIntent>() {
 
     override val intentFilter
@@ -68,6 +72,7 @@ class CardDetailsViewModel @Inject constructor(
                         it.ofType<ValidateCardAction>().compose(validateCardUseCase),
                         it.ofType<SaveCardAction>().compose(saveCardUseCase),
                         it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
+                        it.ofType<EditCardAction>().compose(editCardUseCase),
                         it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase)
                 ))
             }
@@ -80,9 +85,12 @@ class CardDetailsViewModel @Inject constructor(
         is CardDetailsIntent.Initial.CheckNfc -> CheckNfcAction
         is CardDetailsIntent.CardNameChanged -> ValidateCardAction(intent.card)
         is CardDetailsIntent.CardTitleChanged -> ValidateCardAction(intent.card)
-        is CardDetailsIntent.Accept -> SaveCardAction(intent.card)
-        is CardDetailsIntent.DeleteCard -> MoveCardToTrashAction(intent.card)
+        is CardDetailsIntent.MarkAsTrash -> MoveCardToTrashAction(intent.card)
         is CardDetailsIntent.ShareCard -> TODO()
+        is CardDetailsIntent.Edit -> when (intent.inEditMode) {
+            true -> SaveCardAction(intent.card)
+            false -> EditCardAction(intent.card)
+        }
     }
 
     override fun compose(): Observable<CardDetailsViewState> = intentsSubject
@@ -97,7 +105,7 @@ class CardDetailsViewModel @Inject constructor(
     override fun reduce(oldState: CardDetailsViewState, result: Result): CardDetailsViewState = with(result) {
         when (this) {
             is CardDetailsResult -> when (this) {
-                is CardDetailsResult.Success -> oldState.copy(card = card)
+                is CardDetailsResult.Success -> oldState.copy(card = card, inEditMode = card.isPending)
                 is CardDetailsResult.Failure -> oldState.copy(error = throwable)
             }
             is HolderNamesResult -> when (this) {
@@ -116,7 +124,7 @@ class CardDetailsViewModel @Inject constructor(
             is SaveCardResult -> when (this) {
                 is SaveCardResult.Success -> {
                     router.exit()
-                    oldState
+                    oldState.copy(inEditMode = false)
                 }
                 is SaveCardResult.Failure -> oldState.copy(error = throwable)
                 is SaveCardResult.Idle -> oldState
@@ -131,6 +139,9 @@ class CardDetailsViewModel @Inject constructor(
                     oldState
                 }
                 is MoveCardToTrashResult.Failure -> oldState.copy(error = throwable)
+            }
+            is EditCardResult -> when (this) {
+                EditCardResult.Success -> oldState.copy(inEditMode = true)
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }

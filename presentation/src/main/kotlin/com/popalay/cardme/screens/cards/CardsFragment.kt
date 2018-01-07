@@ -67,13 +67,15 @@ class CardsFragment : BaseFragment() {
     }
 
     fun createCardDetailsTransition(activityIntent: Intent): Bundle {
-        val position = viewModelFacade.getPositionOfCard(activityIntent
-                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
+        val position = viewModelFacade.getPositionOfCard(
+                activityIntent.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
+        )
 
-        return ActivityOptionsCompat.makeSceneTransitionAnimation(unsafeActivity,
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(
+                unsafeActivity,
                 b.listCards.findViewHolderForAdapterPosition(position).itemView,
-                getString(R.string.transition_card_details))
-                .toBundle() ?: Bundle.EMPTY
+                getString(R.string.transition_card_details)
+        ).toBundle() ?: Bundle.EMPTY
     }
 
     private fun initUI() {
@@ -85,10 +87,14 @@ class CardsFragment : BaseFragment() {
 
         viewModelFacade.doOnShowCardExistsDialog()
                 .subscribe {
-                    DialogFactory.createCustomButtonsDialog(unsafeContext,
-                            R.string.error_card_exist, R.string.action_yes, R.string.action_cancel,
+                    DialogFactory.createCustomButtonsDialog(
+                            unsafeContext,
+                            R.string.error_card_exist,
+                            R.string.action_yes,
+                            R.string.action_cancel,
                             onPositive = viewModelFacade::onWantToOverwrite,
-                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss)
+                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss
+                    )
                             .apply { setCancelable(false) }
                             .show()
                 }.addTo(disposables)

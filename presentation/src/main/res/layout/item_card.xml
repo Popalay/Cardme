@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="item"
-            type="com.popalay.cardme.domain.model.Card"
-            />
+            type="com.popalay.cardme.domain.model.Card" />
 
         <variable
             name="withImage"
-            type="boolean"
-            />
+            type="boolean" />
 
         <variable
             name="publisher"
-            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.domain.model.Card>"
-            />
+            type="com.jakewharton.rxrelay2.Relay&lt;com.popalay.cardme.domain.model.Card>" />
     </data>
 
     <com.popalay.cardme.widget.CreditCardView
@@ -32,22 +28,20 @@
         android:transitionName="@string/transition_card_details"
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
-        app:withImage="@{withImage}"
-        >
+        app:withImage="@{withImage}">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/normal"
-            >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_card_type"
                 android:layout_width="@dimen/card_type_icon_size"
                 android:layout_height="@dimen/card_type_icon_size"
                 android:layout_alignParentEnd="true"
-                android:src="@{item.iconRes}"
-                />
+                android:layout_marginEnd="@dimen/normal"
+                android:layout_marginTop="@dimen/normal"
+                android:src="@{item.iconRes}" />
 
             <TextView
                 style="@style/Cardme.CardText"
@@ -56,10 +50,10 @@
                 android:layout_alignBottom="@id/image_card_type"
                 android:layout_alignTop="@id/image_card_type"
                 android:layout_marginEnd="@dimen/normal"
+                android:layout_marginStart="@dimen/normal"
                 android:layout_toStartOf="@id/image_card_type"
                 android:gravity="center_vertical"
-                android:text="@{item.title}"
-                />
+                android:text="@{item.title}" />
 
             <com.popalay.cardme.widget.CharacterWrapTextView
                 android:id="@+id/text_number"
@@ -67,20 +61,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/normal"
+                android:layout_marginStart="@dimen/normal"
                 android:gravity="center"
-                android:text="@{item.redactedNumber}"
-                />
+                android:text="@{item.redactedNumber}" />
 
             <TextView
                 android:id="@+id/text_holder"
                 style="@style/Cardme.CardText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_type_icon_size"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/normal"
-                android:layout_marginTop="@dimen/smallest"
-                android:text="@{item.holderName}"
-                />
+                android:layout_marginEnd="@dimen/normal"
+                android:layout_marginStart="@dimen/normal"
+                android:gravity="center_vertical"
+                android:text="@{item.holderName}" />
 
         </RelativeLayout>
 

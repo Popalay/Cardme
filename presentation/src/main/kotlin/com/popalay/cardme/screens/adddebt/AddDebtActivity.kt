@@ -28,6 +28,7 @@ import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.transitions.FabTransform
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -97,7 +98,7 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
 
     private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputTo)
             .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
             .map { it.editable().toString() }
             .distinctUntilChanged()
             .map { lastState.debt.copy(holderName = it) }
@@ -105,7 +106,7 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
 
     private fun getInformationChangedIntent() = RxTextView.afterTextChangeEvents(inputMessage)
             .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
             .map { it.editable().toString() }
             .distinctUntilChanged()
             .map { lastState.debt.copy(message = it) }

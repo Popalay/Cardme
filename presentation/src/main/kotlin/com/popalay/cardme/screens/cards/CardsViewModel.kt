@@ -3,13 +3,13 @@ package com.popalay.cardme.screens.cards
 import android.databinding.ObservableBoolean
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.popalay.cardme.base.BaseViewModel
+import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.domain.AppException
 import com.popalay.cardme.domain.ExceptionFactory
 import com.popalay.cardme.domain.interactor.CardInteractor
 import com.popalay.cardme.domain.interactor.SettingsInteractor
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.base.BaseViewModel
-import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.screens.SCREEN_CARD_DETAILS
 import com.popalay.cardme.screens.SCREEN_SCAN_CARD
@@ -105,7 +105,7 @@ class CardsViewModel @Inject constructor(
 
     override fun getPositionOfCard(number: String) = cards.indexOfFirst { it.number == number }
 
-    private fun navigateToAddCard() = router.navigateTo(SCREEN_ADD_CARD, pendingCard)
+    private fun navigateToAddCard() = router.navigateTo(SCREEN_ADD_CARD, pendingCard?.number)
 
     private fun handleLocalError(throwable: Throwable) {
         handleBaseError(throwable)

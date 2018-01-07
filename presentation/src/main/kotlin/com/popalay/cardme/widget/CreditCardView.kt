@@ -40,7 +40,7 @@ class CreditCardView : CardView {
     }
 
     private fun updateBackground() {
-        if (childCount == 0) throw RuntimeException("Credit card view must has a least one child")
+        require(childCount != 0) { "Credit card view must has a least one child" }
         getChildAt(0).background = PatternBackgroundUtils.generateBackground(context, seed, isWithImage)
     }
 }
