@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,20 +20,21 @@
 
     <com.popalay.cardme.widget.CreditCardView
         android:id="@+id/card_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> publisher.accept(item)}"
         android:stateListAnimator="@anim/lift_on_touch"
-        android:transitionName="@string/transition_card_details"
+        android:transitionName="@string/card_background"
         app:backgroundGeneratorSeed="@{item.generatedBackgroundSeed}"
         app:cardCornerRadius="@dimen/card_corners"
-        app:withImage="@{withImage}">
+        app:withImage="@{withImage}"
+        tools:layout_height="200dp">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_card_type"
@@ -41,43 +43,56 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/normal"
                 android:layout_marginTop="@dimen/normal"
-                android:src="@{item.iconRes}" />
+                android:src="@{item.iconRes}"
+                android:transitionName="@string/transition_card_type_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/text_title"
                 style="@style/Cardme.CardText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/image_card_type"
-                android:layout_alignTop="@id/image_card_type"
-                android:layout_marginEnd="@dimen/normal"
-                android:layout_marginStart="@dimen/normal"
-                android:layout_toStartOf="@id/image_card_type"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:gravity="center_vertical"
-                android:text="@{item.title}" />
+                android:paddingEnd="@dimen/normal"
+                android:paddingStart="@dimen/normal"
+                android:text="@{item.title}"
+                android:transitionName="@string/transition_card_title"
+                app:layout_constraintBottom_toBottomOf="@id/image_card_type"
+                app:layout_constraintEnd_toStartOf="@id/image_card_type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_card_type" />
 
             <com.popalay.cardme.widget.CharacterWrapTextView
                 android:id="@+id/text_number"
                 style="@style/Cardme.CardNumber"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/normal"
                 android:layout_marginStart="@dimen/normal"
                 android:gravity="center"
-                android:text="@{item.redactedNumber}" />
+                android:text="@{item.redactedNumber}"
+                android:transitionName="@string/transition_card_number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_holder"
                 style="@style/Cardme.CardText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/card_type_icon_size"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/normal"
-                android:layout_marginStart="@dimen/normal"
                 android:gravity="center_vertical"
-                android:text="@{item.holderName}" />
+                android:paddingEnd="@dimen/normal"
+                android:paddingStart="@dimen/normal"
+                android:text="@{item.holderName}"
+                android:transitionName="@string/transition_card_holder_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </com.popalay.cardme.widget.CreditCardView>
 

@@ -19,6 +19,7 @@ class EditCardUseCase @Inject constructor(
             upstream.switchMap {
                 Observable.just(EditCardResult.Success)
                         .cast(EditCardResult::class.java)
+                        .startWith(EditCardResult.Idle)
             }
 }
 
@@ -26,4 +27,5 @@ data class EditCardAction(val card: Card) : Action
 
 sealed class EditCardResult : Result {
     object Success : EditCardResult()
+    object Idle : EditCardResult()
 }

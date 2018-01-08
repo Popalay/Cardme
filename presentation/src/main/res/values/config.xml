@@ -8,6 +8,10 @@
 
     <!-- transition shared elements -->
     <string name="transition_add_debt" translatable="false">transition_add_debt</string>
-    <string name="transition_card_details" translatable="false">transition_card_details</string>
+    <string name="transition_card_background" translatable="false">transition_card_background</string>
+    <string name="transition_card_number" translatable="false">transition_card_number</string>
+    <string name="transition_card_holder_name" translatable="false">transition_card_holder_name</string>
+    <string name="transition_card_title" translatable="false">transition_card_title</string>
+    <string name="transition_card_type_image" translatable="false">transition_card_type_image</string>
 
 </resources>

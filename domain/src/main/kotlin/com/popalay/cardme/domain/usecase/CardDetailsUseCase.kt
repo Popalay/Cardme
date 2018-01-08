@@ -34,4 +34,5 @@ data class GetCardDetailsAction(val number: String) : Action
 sealed class CardDetailsResult : Result {
     data class Success(val card: Card) : CardDetailsResult()
     data class Failure(val throwable: Throwable) : CardDetailsResult()
+    object Idle : CardDetailsResult()
 }

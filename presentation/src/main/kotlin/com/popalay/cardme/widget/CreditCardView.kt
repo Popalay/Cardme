@@ -4,9 +4,16 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import com.popalay.cardme.utils.PatternBackgroundUtils
 
 class CreditCardView : CardView {
+
+    private val imageView: ImageView = ImageView(context)
+
+    init {
+        addView(imageView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+    }
 
     var isWithImage: Boolean = false
         set(value) {
@@ -40,7 +47,6 @@ class CreditCardView : CardView {
     }
 
     private fun updateBackground() {
-        require(childCount != 0) { "Credit card view must has a least one child" }
-        getChildAt(0).background = PatternBackgroundUtils.generateBackground(context, seed, isWithImage)
+        imageView.background = PatternBackgroundUtils.generateBackground(context, seed, isWithImage)
     }
 }

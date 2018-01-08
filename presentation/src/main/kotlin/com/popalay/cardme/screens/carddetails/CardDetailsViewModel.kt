@@ -105,6 +105,7 @@ class CardDetailsViewModel @Inject constructor(
     override fun reduce(oldState: CardDetailsViewState, result: Result): CardDetailsViewState = with(result) {
         when (this) {
             is CardDetailsResult -> when (this) {
+                is CardDetailsResult.Idle -> oldState
                 is CardDetailsResult.Success -> oldState.copy(card = card, inEditMode = card.isPending)
                 is CardDetailsResult.Failure -> oldState.copy(error = throwable)
             }
@@ -122,10 +123,7 @@ class CardDetailsViewModel @Inject constructor(
                 is ValidateCardResult.Idle -> oldState.copy(card = card)
             }
             is SaveCardResult -> when (this) {
-                is SaveCardResult.Success -> {
-                    router.exit()
-                    oldState.copy(inEditMode = false)
-                }
+                is SaveCardResult.Success -> oldState.copy(inEditMode = false)
                 is SaveCardResult.Failure -> oldState.copy(error = throwable)
                 is SaveCardResult.Idle -> oldState
             }
@@ -141,7 +139,8 @@ class CardDetailsViewModel @Inject constructor(
                 is MoveCardToTrashResult.Failure -> oldState.copy(error = throwable)
             }
             is EditCardResult -> when (this) {
-                EditCardResult.Success -> oldState.copy(inEditMode = true)
+                is EditCardResult.Idle -> oldState.copy(inEditMode = true, animateButtons = true)
+                is EditCardResult.Success -> oldState.copy(inEditMode = true, animateButtons = false)
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }

@@ -43,7 +43,7 @@ fun RecyclerView.onItemTouch(callback: (e: MotionEvent) -> Unit) = apply {
 }
 
 fun View.hideAnimated(delay: Long = 0L, endListener: (() -> Unit)? = null) {
-    this.animate()
+    animate()
             .setStartDelay(delay)
             .scaleX(0F)
             .scaleY(0F)
@@ -58,7 +58,7 @@ fun View.hideAnimated(delay: Long = 0L, endListener: (() -> Unit)? = null) {
 }
 
 fun View.showAnimated(delay: Long = 0L, endListener: (() -> Unit)? = null) {
-    this.animate()
+    animate()
             .setStartDelay(delay)
             .scaleX(1F)
             .scaleY(1F)

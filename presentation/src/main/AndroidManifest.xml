@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.popalay.cardme"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    package="com.popalay.cardme"
     tools:ignore="UnusedAttribute">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -56,7 +56,8 @@
 
         <activity
             android:name=".screens.carddetails.CardDetailsActivity"
-            android:theme="@style/Cardme.Translucent.DialogActivity" />
+            android:theme="@style/Cardme.Translucent.DialogActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".screens.trash.TrashActivity"

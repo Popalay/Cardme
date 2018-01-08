@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
+import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,10 +73,27 @@ class CardsFragment : BaseFragment() {
                 activityIntent.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
         )
 
+        val transitions = mutableListOf<Pair<View, String>>()
+        b.listCards.findViewHolderForAdapterPosition(position).itemView.let {
+            val imageBackground = it.findViewById<View>(R.id.card_view)
+            transitions += Pair(imageBackground, ViewCompat.getTransitionName(imageBackground))
+
+            val imageType = it.findViewById<View>(R.id.image_card_type)
+            transitions += Pair(imageType, ViewCompat.getTransitionName(imageType))
+
+            val textTitle = it.findViewById<View>(R.id.text_title)
+            transitions += Pair(textTitle, ViewCompat.getTransitionName(textTitle))
+
+            val textNumber = it.findViewById<View>(R.id.text_number)
+            transitions += Pair(textNumber, ViewCompat.getTransitionName(textNumber))
+
+            val textHolderName = it.findViewById<View>(R.id.text_holder)
+            transitions += Pair(textHolderName, ViewCompat.getTransitionName(textHolderName))
+        }
+
         return ActivityOptionsCompat.makeSceneTransitionAnimation(
                 unsafeActivity,
-                b.listCards.findViewHolderForAdapterPosition(position).itemView,
-                getString(R.string.transition_card_details)
+                *transitions.toTypedArray()
         ).toBundle() ?: Bundle.EMPTY
     }
 

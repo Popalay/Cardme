@@ -6,8 +6,8 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.NfcEvent
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageButton
@@ -27,7 +27,6 @@ import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
-import com.popalay.cardme.utils.extensions.onEnd
 import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.utils.extensions.showAnimated
@@ -50,6 +49,7 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         }
     }
 
+    private val layoutRoot: ViewGroup by bindView(R.id.layout_root)
     private val imageCardType: ImageView by bindView(R.id.image_card_type)
     private val textNumber: CharacterWrapTextView by bindView(R.id.text_number)
     private val inputTitle: EditText by bindView(R.id.input_title)
@@ -59,7 +59,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
     private val buttonNfc: ImageButton by bindView(R.id.button_nfc)
     private val buttonEdit: ImageButton by bindView(R.id.button_edit)
     private val buttonRemove: ImageButton by bindView(R.id.button_remove)
-    private val layoutRoot: ConstraintLayout by bindView(R.id.layout_root)
 
     @Inject lateinit var factory: ViewModelProvider.Factory
     @Inject override lateinit var navigator: CustomNavigator
@@ -89,21 +88,30 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 
     override fun accept(state: CardDetailsViewState) {
         if (lastState == state) return
-        with(state) {
+
+        //TODO: the state is interrupting the animation
+        if (state == CardDetailsViewState.idle()) {
+            buttonRemove.showAnimated()
+            buttonEdit.showAnimated(DURATION_SHORT / 3)
+            buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
+            buttonShare.showAnimated(DURATION_SHORT)
+        } else with(state) {
             Log.w("AddCardState", error)
             inputHolder.stringAdapter(holderNames)
             cardView.isWithImage = showBackground
-            buttonNfc.setVisibility(nfcEnabled && !inEditMode)
-            if (lastState?.inEditMode != state.inEditMode) toggleEditMode()
-            with(card) {
-                inputTitle.setTextIfNeeded(title)
-                inputHolder.setTextIfNeeded(holderName)
-                imageCardType.setImageResource(iconRes)
-                textNumber.text = number
-                cardView.seed = generatedBackgroundSeed
-                buttonShare.setVisibility(!isPending && !inEditMode)
-                buttonRemove.setVisibility(!isPending && !inEditMode)
-            }
+            inputTitle.setTextIfNeeded(card.title)
+            inputHolder.setTextIfNeeded(card.holderName)
+            imageCardType.setImageResource(card.iconRes)
+            textNumber.text = card.number
+            cardView.seed = card.generatedBackgroundSeed
+
+            inputHolder.isEnabled = inEditMode
+            inputTitle.isEnabled = inEditMode
+            buttonEdit.isEnabled = !inEditMode || inEditMode && canSave
+            buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode, animateButtons)
+            buttonShare.setVisibility(!card.isPending && !inEditMode, animateButtons)
+            buttonRemove.setVisibility(!card.isPending && !inEditMode, animateButtons)
+            buttonEdit.setImageResource(if (inEditMode) R.drawable.ic_done else R.drawable.ic_write)
         }
         lastState = state
     }
@@ -135,24 +143,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
             CardDetailsIntent.Initial.GetShouldShowBackground
     )
 
-    private fun CardDetailsViewState.toggleEditMode() {
-        if (lastState != null) {
-            if (inEditMode) {
-                if (!card.isPending) buttonShare.hideAnimated()
-                if (!card.isPending) buttonRemove.hideAnimated()
-                if (nfcEnabled) buttonNfc.hideAnimated()
-            } else {
-                if (!card.isPending) buttonShare.showAnimated()
-                if (!card.isPending) buttonRemove.showAnimated()
-                if (nfcEnabled) buttonNfc.showAnimated()
-            }
-        }
-        inputHolder.isEnabled = inEditMode
-        inputTitle.isEnabled = inEditMode
-        buttonEdit.isEnabled = !inEditMode || inEditMode && canSave
-        buttonEdit.setImageResource(if (inEditMode) R.drawable.ic_done else R.drawable.ic_write)
-    }
-
     private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputHolder)
             .skipInitialValue()
             .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
@@ -171,11 +161,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
             .map { lastState!!.card.copy(title = it) }
             .map(CardDetailsIntent::CardTitleChanged)
 
-    /*   private fun getAcceptIntent() = RxView.clicks(buttonSave)
-               .applyThrottling()
-               .map { lastState.debt }
-               .map(AddDebtIntent::Accept)*/
-
     private fun getEditIntent() = RxView.clicks(buttonEdit)
             .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
             .filter { lastState != null }
@@ -190,12 +175,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
             .map(CardDetailsIntent::MarkAsTrash)
 
     private fun initUi() {
-        window.sharedElementEnterTransition.onEnd {
-            listOf(buttonRemove, buttonEdit, buttonNfc, buttonShare)
-                    .reversed()
-                    .forEachIndexed { index, view -> view.showAnimated(index * DURATION_SHORT / 3) }
-        }
-
         layoutRoot.setOnClickListener { router.exit() }
 
         buttonShare.setOnClickListener {

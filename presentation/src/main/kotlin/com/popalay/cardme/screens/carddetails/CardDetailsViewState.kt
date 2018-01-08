@@ -18,6 +18,7 @@ data class CardDetailsViewState(
         val inEditMode: Boolean,
         val showShareDialog: Boolean,
         val nfcEnabled: Boolean,
+        val animateButtons: Boolean,
         val error: Throwable?
 ) : ViewState {
     companion object {
@@ -29,6 +30,7 @@ data class CardDetailsViewState(
                 inEditMode = false,
                 showShareDialog = false,
                 nfcEnabled = false,
+                animateButtons = false,
                 error = null
         )
     }

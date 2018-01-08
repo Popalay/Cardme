@@ -6,10 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.popalay.cardme.DEBOUNCE_DELAY_MS
@@ -39,11 +39,11 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
         fun getIntent(context: Context) = Intent(context, AddDebtActivity::class.java)
     }
 
+    private val layoutRoot: ViewGroup by bindView(R.id.layout_root)
     private val inputTo: AutoCompleteTextView by bindView(R.id.input_to)
     private val inputMessage: EditText by bindView(R.id.input_message)
     private val container: LinearLayout by bindView(R.id.container)
     private val buttonSave: FloatingActionButton by bindView(R.id.button_save)
-    private val layoutRoot: ScrollView by bindView(R.id.layout_root)
 
     @Inject lateinit var factory: ViewModelProvider.Factory
     @Inject override lateinit var navigator: CustomNavigator

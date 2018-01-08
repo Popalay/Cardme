@@ -22,6 +22,8 @@ import com.jakewharton.rxrelay2.Relay
 import com.popalay.cardme.App
 import com.popalay.cardme.DURATION_UNDO_MESSAGE
 import com.popalay.cardme.R
+import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback
 
 @BindingAdapter("listPlaceholder")
@@ -35,8 +37,14 @@ fun ImageView.setImageResource(resource: Int) {
 }
 
 @BindingAdapter("android:visibility")
-fun View.setVisibility(visible: Boolean) {
-    this.visibility = if (visible) View.VISIBLE else View.GONE
+fun View.setVisibility(visible: Boolean, animated: Boolean = false) {
+    if (visible == (visibility == View.VISIBLE)) return
+    if (visible) {
+        visibility = View.VISIBLE
+        if (animated) showAnimated()
+    } else {
+        if (animated) hideAnimated { visibility = View.GONE } else visibility = View.GONE
+    }
 }
 
 @BindingAdapter("hasFixedSize")

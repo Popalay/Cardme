@@ -82,6 +82,7 @@ class AddCardViewModel @Inject constructor(
     override fun reduce(oldState: AddCardViewState, result: Result): AddCardViewState = with(result) {
         when (this) {
             is CardDetailsResult -> when (this) {
+                is CardDetailsResult.Idle -> oldState
                 is CardDetailsResult.Success -> oldState.copy(card = card)
                 is CardDetailsResult.Failure -> oldState.copy(error = throwable)
             }
