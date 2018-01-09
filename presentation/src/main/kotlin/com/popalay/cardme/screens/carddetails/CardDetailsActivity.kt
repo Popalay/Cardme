@@ -94,13 +94,17 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         if (lastState == state) return
 
         //TODO: the state is interrupting the animation
-        if (state == CardDetailsViewState.idle()) {
-            buttonRemove.showAnimated()
-            buttonEdit.showAnimated(DURATION_SHORT / 3)
-            buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
-            buttonShare.showAnimated(DURATION_SHORT)
-        } else with(state) {
+        with(state) {
             Log.w("AddCardState", error)
+            if (animateButtons) {
+                buttonRemove.showAnimated()
+                buttonEdit.showAnimated(DURATION_SHORT / 3)
+                buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
+                buttonShare.showAnimated(DURATION_SHORT)
+            }
+            buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode)
+            buttonShare.setVisibility(!card.isPending && !inEditMode)
+            buttonRemove.setVisibility(!card.isPending && !inEditMode)
             inputHolder.stringAdapter(holderNames)
             cardView.isWithImage = showBackground
             inputTitle.setTextIfNeeded(card.title)
@@ -112,9 +116,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
             inputHolder.isEnabled = inEditMode
             inputTitle.isEnabled = inEditMode
             buttonEdit.isEnabled = !inEditMode || inEditMode && canSave
-            buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode, animateButtons)
-            buttonShare.setVisibility(!card.isPending && !inEditMode, animateButtons)
-            buttonRemove.setVisibility(!card.isPending && !inEditMode, animateButtons)
             buttonEdit.setImageResource(if (inEditMode) R.drawable.ic_done else R.drawable.ic_write)
         }
         lastState = state

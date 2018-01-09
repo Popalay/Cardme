@@ -34,39 +34,55 @@ import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 
 
 class CardDetailsViewModel @Inject constructor(
-        private val router: CustomRouter,
-        private val cardDetailsUseCase: CardDetailsUseCase,
-        private val validateCardUseCase: ValidateCardUseCase,
-        private val saveCardUseCase: SaveCardUseCase,
-        private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
-        private val holderNamesUseCase: HolderNamesUseCase,
-        private val checkNfcUseCase: CheckNfcUseCase,
-        private val moveCardToTrashUseCase: MoveCardToTrashUseCase,
-        private val editCardUseCase: EditCardUseCase
+    private val router: CustomRouter,
+    private val cardDetailsUseCase: CardDetailsUseCase,
+    private val validateCardUseCase: ValidateCardUseCase,
+    private val saveCardUseCase: SaveCardUseCase,
+    private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
+    private val holderNamesUseCase: HolderNamesUseCase,
+    private val checkNfcUseCase: CheckNfcUseCase,
+    private val moveCardToTrashUseCase: MoveCardToTrashUseCase,
+    private val editCardUseCase: EditCardUseCase
 ) : MviViewModel<CardDetailsViewState, CardDetailsIntent>() {
+
+    companion object {
+
+        private const val BUTTONS_ANIMATION_DURATION = 200L
+    }
 
     override val intentFilter
         get() = IntentFilter<CardDetailsIntent> {
             it.publish {
-                Observable.merge<CardDetailsIntent>(listOf(
+                Observable.merge<CardDetailsIntent>(
+                    listOf(
                         it.ofType<CardDetailsIntent.Initial.GetCard>().take(1),
                         it.ofType<CardDetailsIntent.Initial.GetHolderNames>().take(1),
                         it.ofType<CardDetailsIntent.Initial.GetShouldShowBackground>().take(1),
                         it.ofType<CardDetailsIntent.Initial.CheckNfc>().take(1),
                         it.notOfType(CardDetailsIntent.Initial::class.java)
-                ))
+                    )
+                )
             }
         }
 
     override val actions
         get() = ActionTransformer {
             it.publish {
-                Observable.merge(listOf(
-                        it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase),
+                Observable.merge(
+                    listOf(
+                        it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase)
+                            .concatWith {
+                                Observable.timer(BUTTONS_ANIMATION_DURATION, MILLISECONDS, Schedulers.io())
+                                    .map { ButtonsAnimationFinishedResult }
+                            }
+                            .cast(Result::class.java)
+                            .startWith(ButtonsAnimationStartedResult),
                         it.ofType<ShouldShowCardBackgroundAction>().compose(shouldShowCardBackgroundUseCase),
                         it.ofType<GetHolderNamesAction>().compose(holderNamesUseCase),
                         it.ofType<ValidateCardAction>().compose(validateCardUseCase),
@@ -74,7 +90,8 @@ class CardDetailsViewModel @Inject constructor(
                         it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
                         it.ofType<EditCardAction>().compose(editCardUseCase),
                         it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase)
-                ))
+                    )
+                )
             }
         }
 
@@ -94,13 +111,13 @@ class CardDetailsViewModel @Inject constructor(
     }
 
     override fun compose(): Observable<CardDetailsViewState> = intentsSubject
-            .compose(intentFilter)
-            .map(::actionFromIntent)
-            .compose(actions)
-            .scan(CardDetailsViewState.idle(), ::reduce)
-            .replay(1)
-            .autoConnect(0)
-            .observeOn(AndroidSchedulers.mainThread())
+        .compose(intentFilter)
+        .map(::actionFromIntent)
+        .compose(actions)
+        .scan(CardDetailsViewState.idle(), ::reduce)
+        .replay(1)
+        .autoConnect(0)
+        .observeOn(AndroidSchedulers.mainThread())
 
     override fun reduce(oldState: CardDetailsViewState, result: Result): CardDetailsViewState = with(result) {
         when (this) {
@@ -142,9 +159,14 @@ class CardDetailsViewModel @Inject constructor(
                 is EditCardResult.Idle -> oldState.copy(inEditMode = true, animateButtons = true)
                 is EditCardResult.Success -> oldState.copy(inEditMode = true, animateButtons = false)
             }
+            is ButtonsAnimationFinishedResult -> oldState.copy(animateButtons = false)
+            is ButtonsAnimationStartedResult -> oldState.copy(animateButtons = true)
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }
     }
+
+    private object ButtonsAnimationFinishedResult : Result
+    private object ButtonsAnimationStartedResult : Result
 
 /*    fun onShareCard(): Observable<String> = shareCardClick
             .applyThrottling()

@@ -22,8 +22,6 @@ import com.jakewharton.rxrelay2.Relay
 import com.popalay.cardme.App
 import com.popalay.cardme.DURATION_UNDO_MESSAGE
 import com.popalay.cardme.R
-import com.popalay.cardme.utils.extensions.hideAnimated
-import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.recycler.SimpleItemTouchHelperCallback
 
 @BindingAdapter("listPlaceholder")
@@ -37,14 +35,8 @@ fun ImageView.setImageResource(resource: Int) {
 }
 
 @BindingAdapter("android:visibility")
-fun View.setVisibility(visible: Boolean, animated: Boolean = false) {
-    if (visible == (visibility == View.VISIBLE)) return
-    if (visible) {
-        visibility = View.VISIBLE
-        if (animated) showAnimated()
-    } else {
-        if (animated) hideAnimated { visibility = View.GONE } else visibility = View.GONE
-    }
+fun View.setVisibility(visible: Boolean) {
+    visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("hasFixedSize")
@@ -125,10 +117,15 @@ fun NavigationView.drawerNavigationListener(listener: Relay<Int>) {
     }
 }
 
-@BindingAdapter(value = ["onSwiped", "onUndoSwipe", "undoMessage", "onDragged", "onDropped", "swipeDrawable"], requireAll = false)
-fun RecyclerView.setItemTouchHelper(onSwiped: Relay<Int>?, onUndoSwipe: Relay<Boolean>?, undoMessage: String?,
-                                    onDragged: Relay<Pair<Int, Int>>?, onDropped: Relay<Boolean>?,
-                                    swipeDrawable: Drawable?) {
+@BindingAdapter(
+    value = ["onSwiped", "onUndoSwipe", "undoMessage", "onDragged", "onDropped", "swipeDrawable"],
+    requireAll = false
+)
+fun RecyclerView.setItemTouchHelper(
+    onSwiped: Relay<Int>?, onUndoSwipe: Relay<Boolean>?, undoMessage: String?,
+    onDragged: Relay<Pair<Int, Int>>?, onDropped: Relay<Boolean>?,
+    swipeDrawable: Drawable?
+) {
     val swipeCallback = if (onSwiped == null) null
     else object : SimpleItemTouchHelperCallback.SwipeCallback {
 
@@ -137,11 +134,11 @@ fun RecyclerView.setItemTouchHelper(onSwiped: Relay<Int>?, onUndoSwipe: Relay<Bo
 
             if (onUndoSwipe == null) return
             Snackbar.make(this@setItemTouchHelper, undoMessage ?: "", DURATION_UNDO_MESSAGE)
-                    .setAction(R.string.action_undo) {
-                        onUndoSwipe.accept(true)
-                        it.isEnabled = false
-                    }
-                    .show()
+                .setAction(R.string.action_undo) {
+                    onUndoSwipe.accept(true)
+                    it.isEnabled = false
+                }
+                .show()
         }
     }
     val dragCallback = if (onDragged == null) null
@@ -153,5 +150,5 @@ fun RecyclerView.setItemTouchHelper(onSwiped: Relay<Int>?, onUndoSwipe: Relay<Bo
     }
 
     ItemTouchHelper(SimpleItemTouchHelperCallback(swipeCallback, dragCallback, swipeDrawable))
-            .attachToRecyclerView(this)
+        .attachToRecyclerView(this)
 }
