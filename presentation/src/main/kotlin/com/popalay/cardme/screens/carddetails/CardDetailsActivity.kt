@@ -38,15 +38,17 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent>, NfcAdapter.CreateNdefMessageCallback {
+class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent>,
+    NfcAdapter.CreateNdefMessageCallback {
 
     companion object {
 
         internal const val KEY_CARD_NUMBER = "KEY_CARD_NUMBER"
 
-        internal fun getIntent(context: Context, number: String) = Intent(context, CardDetailsActivity::class.java).apply {
-            putExtra(KEY_CARD_NUMBER, number)
-        }
+        internal fun getIntent(context: Context, number: String) =
+            Intent(context, CardDetailsActivity::class.java).apply {
+                putExtra(KEY_CARD_NUMBER, number)
+            }
     }
 
     private val layoutRoot: ViewGroup by bindView(R.id.layout_root)
@@ -69,13 +71,15 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
     private val extraCardNumber get() = requireNotNull(intent.getStringExtra(KEY_CARD_NUMBER))
 
     override val intents: Observable<CardDetailsIntent>
-        get() = Observable.merge(listOf(
+        get() = Observable.merge(
+            listOf(
                 getInitialIntent(),
                 getNameChangedIntent(),
                 getTitleChangedIntent(),
                 getEditIntent(),
                 getMarkAsTrashIntent()
-        ))
+            )
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +120,7 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         lastState = state
     }
 
-    override fun createNdefMessage(event: NfcEvent?) = null
+    override fun createNdefMessage(event: NfcEvent?): Nothing? = null
     //createNdefMessage(viewModelFacade.getCardShareNfcObject().blockingGet().toByteArray())
 
     override fun onBackPressed() {
@@ -132,47 +136,47 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 
     private fun bind(viewModel: CardDetailsViewModel) {
         viewModel.states
-                .bindToLifecycle()
-                .subscribe(::accept)
+            .bindToLifecycle()
+            .subscribe(::accept)
         viewModel.processIntents(intents)
     }
 
     private fun getInitialIntent() = Observable.fromArray(
-            CardDetailsIntent.Initial.GetCard(extraCardNumber),
-            CardDetailsIntent.Initial.GetHolderNames,
-            CardDetailsIntent.Initial.GetShouldShowBackground
+        CardDetailsIntent.Initial.GetCard(extraCardNumber),
+        CardDetailsIntent.Initial.GetHolderNames,
+        CardDetailsIntent.Initial.GetShouldShowBackground
     )
 
     private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputHolder)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .filter { lastState != null }
-            .map { lastState!!.card.copy(holderName = it) }
-            .map(CardDetailsIntent::CardNameChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .filter { lastState != null }
+        .map { lastState!!.card.copy(holderName = it) }
+        .map(CardDetailsIntent::CardNameChanged)
 
     private fun getTitleChangedIntent() = RxTextView.afterTextChangeEvents(inputTitle)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .filter { lastState != null }
-            .map { lastState!!.card.copy(title = it) }
-            .map(CardDetailsIntent::CardTitleChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .filter { lastState != null }
+        .map { lastState!!.card.copy(title = it) }
+        .map(CardDetailsIntent::CardTitleChanged)
 
     private fun getEditIntent() = RxView.clicks(buttonEdit)
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
-            .filter { lastState != null }
-            .map { lastState!! }
-            .map { CardDetailsIntent.Edit(it.card, it.inEditMode) }
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
+        .filter { lastState != null }
+        .map { lastState!! }
+        .map { CardDetailsIntent.Edit(it.card, it.inEditMode) }
 
     private fun getMarkAsTrashIntent() = RxView.clicks(buttonRemove)
-            .applyThrottling()
-            .filter { lastState != null }
-            .map { lastState!! }
-            .map { it.card }
-            .map(CardDetailsIntent::MarkAsTrash)
+        .applyThrottling()
+        .filter { lastState != null }
+        .map { lastState!! }
+        .map { it.card }
+        .map(CardDetailsIntent::MarkAsTrash)
 
     private fun initUi() {
         layoutRoot.setOnClickListener { router.exit() }
