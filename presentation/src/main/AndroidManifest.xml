@@ -57,7 +57,7 @@
         <activity
             android:name=".screens.carddetails.CardDetailsActivity"
             android:theme="@style/Cardme.Translucent.DialogActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
             android:name=".screens.trash.TrashActivity"

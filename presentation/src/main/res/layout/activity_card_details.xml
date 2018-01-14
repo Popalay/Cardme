@@ -11,10 +11,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_root"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true">
+        android:layout_height="wrap_content">
 
         <com.popalay.cardme.widget.CreditCardView
             android:id="@+id/card_view"
@@ -125,6 +124,7 @@
             style="@style/Cardme.Button.Rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal"
             android:backgroundTint="@color/selector_fab_bg"
             android:contentDescription="@string/edit"
             android:scaleX="0"
@@ -132,21 +132,21 @@
             android:src="@drawable/ic_write"
             app:layout_constraintEnd_toStartOf="@+id/button_remove"
             app:layout_constraintStart_toEndOf="@+id/button_nfc"
-            app:layout_constraintTop_toTopOf="@id/button_share"
-            app:layout_goneMarginTop="@dimen/normal" />
+            app:layout_constraintTop_toBottomOf="@id/card_view" />
 
         <ImageButton
             android:id="@+id/button_remove"
             style="@style/Cardme.Button.Rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal"
             android:contentDescription="@string/add_to_trash"
             android:scaleX="0"
             android:scaleY="0"
             android:src="@drawable/ic_trash"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button_edit"
-            app:layout_constraintTop_toTopOf="@id/button_share" />
+            app:layout_constraintTop_toBottomOf="@id/card_view" />
 
     </android.support.constraint.ConstraintLayout>
 
