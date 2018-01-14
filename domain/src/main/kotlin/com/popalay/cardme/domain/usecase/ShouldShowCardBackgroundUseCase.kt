@@ -10,26 +10,27 @@ package com.popalay.cardme.domain.usecase
 import com.popalay.cardme.domain.repository.SettingsRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ShouldShowCardBackgroundUseCase @Inject constructor(
-        private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository
 ) : UseCase<ShouldShowCardBackgroundAction> {
 
     override fun apply(upstream: Observable<ShouldShowCardBackgroundAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                settingsRepository.listen()
-                        .map { it.isCardBackground }
-                        .distinctUntilChanged()
-                        .toObservable()
-                        .map(ShouldShowCardBackgroundResult::Success)
-                        .cast(ShouldShowCardBackgroundResult::class.java)
-                        .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
+        upstream.switchMap {
+            settingsRepository.listen()
+                .map { it.isCardBackground }
+                .distinctUntilChanged()
+                .toObservable()
+                .map(ShouldShowCardBackgroundResult::Success)
+                .cast<ShouldShowCardBackgroundResult>()
+                .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
+                .subscribeOn(Schedulers.io())
+        }
 }
 
 object ShouldShowCardBackgroundAction : Action

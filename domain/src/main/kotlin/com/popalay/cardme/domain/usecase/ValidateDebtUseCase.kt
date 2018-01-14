@@ -11,6 +11,7 @@ import com.popalay.cardme.domain.model.Debt
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.Single
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,15 +21,15 @@ class ValidateDebtUseCase @Inject constructor(
 ) : UseCase<ValidateDebtAction> {
 
     override fun apply(upstream: Observable<ValidateDebtAction>): ObservableSource<Result> =
-            upstream.switchMap { action ->
-                Single.fromCallable { action.debt.holderName.isNotBlank() && action.debt.message.isNotBlank() }
-                        .toObservable()
-                        .map(ValidateDebtResult::Success)
-                        .cast(ValidateDebtResult::class.java)
-                        .onErrorReturn(ValidateDebtResult::Failure)
-                        .startWith(ValidateDebtResult.Idle(action.debt))
-                        .subscribeOn(Schedulers.io())
-            }
+        upstream.switchMap { action ->
+            Single.fromCallable { action.debt.holderName.isNotBlank() && action.debt.message.isNotBlank() }
+                .toObservable()
+                .map(ValidateDebtResult::Success)
+                .cast<ValidateDebtResult>()
+                .onErrorReturn(ValidateDebtResult::Failure)
+                .startWith(ValidateDebtResult.Idle(action.debt))
+                .subscribeOn(Schedulers.io())
+        }
 }
 
 data class ValidateDebtAction(val debt: Debt) : Action

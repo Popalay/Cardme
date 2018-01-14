@@ -10,9 +10,6 @@ import com.popalay.cardme.domain.usecase.CardDetailsUseCase
 import com.popalay.cardme.domain.usecase.CheckNfcAction
 import com.popalay.cardme.domain.usecase.CheckNfcResult
 import com.popalay.cardme.domain.usecase.CheckNfcUseCase
-import com.popalay.cardme.domain.usecase.EditCardAction
-import com.popalay.cardme.domain.usecase.EditCardResult
-import com.popalay.cardme.domain.usecase.EditCardUseCase
 import com.popalay.cardme.domain.usecase.GetCardDetailsAction
 import com.popalay.cardme.domain.usecase.GetHolderNamesAction
 import com.popalay.cardme.domain.usecase.HolderNamesResult
@@ -34,10 +31,7 @@ import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
-
 
 class CardDetailsViewModel @Inject constructor(
     private val router: CustomRouter,
@@ -47,14 +41,8 @@ class CardDetailsViewModel @Inject constructor(
     private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
     private val holderNamesUseCase: HolderNamesUseCase,
     private val checkNfcUseCase: CheckNfcUseCase,
-    private val moveCardToTrashUseCase: MoveCardToTrashUseCase,
-    private val editCardUseCase: EditCardUseCase
+    private val moveCardToTrashUseCase: MoveCardToTrashUseCase
 ) : MviViewModel<CardDetailsViewState, CardDetailsIntent>() {
-
-    companion object {
-
-        private const val BUTTONS_ANIMATION_DURATION = 200L
-    }
 
     override val intentFilter
         get() = IntentFilter<CardDetailsIntent> {
@@ -76,19 +64,13 @@ class CardDetailsViewModel @Inject constructor(
             it.publish {
                 Observable.merge(
                     listOf(
-                        it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase)
-                            .concatWith {
-                                Observable.timer(BUTTONS_ANIMATION_DURATION, MILLISECONDS, Schedulers.io())
-                                    .map { ButtonsAnimationFinishedResult }
-                            }
-                            .cast(Result::class.java)
-                            .startWith(ButtonsAnimationStartedResult),
+                        it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase),
+                        it.ofType<EditCardAction>().map { ToggleEditModeResult },
                         it.ofType<ShouldShowCardBackgroundAction>().compose(shouldShowCardBackgroundUseCase),
                         it.ofType<GetHolderNamesAction>().compose(holderNamesUseCase),
                         it.ofType<ValidateCardAction>().compose(validateCardUseCase),
                         it.ofType<SaveCardAction>().compose(saveCardUseCase),
                         it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
-                        it.ofType<EditCardAction>().compose(editCardUseCase),
                         it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase)
                     )
                 )
@@ -104,10 +86,7 @@ class CardDetailsViewModel @Inject constructor(
         is CardDetailsIntent.CardTitleChanged -> ValidateCardAction(intent.card)
         is CardDetailsIntent.MarkAsTrash -> MoveCardToTrashAction(intent.card)
         is CardDetailsIntent.ShareCard -> TODO()
-        is CardDetailsIntent.Edit -> when (intent.inEditMode) {
-            true -> SaveCardAction(intent.card)
-            false -> EditCardAction(intent.card)
-        }
+        is CardDetailsIntent.Edit -> if (intent.inEditMode) SaveCardAction(intent.card) else EditCardAction
     }
 
     override fun compose(): Observable<CardDetailsViewState> = intentsSubject
@@ -122,7 +101,6 @@ class CardDetailsViewModel @Inject constructor(
     override fun reduce(oldState: CardDetailsViewState, result: Result): CardDetailsViewState = with(result) {
         when (this) {
             is CardDetailsResult -> when (this) {
-                is CardDetailsResult.Idle -> oldState
                 is CardDetailsResult.Success -> oldState.copy(card = card, inEditMode = card.isPending)
                 is CardDetailsResult.Failure -> oldState.copy(error = throwable)
             }
@@ -155,18 +133,13 @@ class CardDetailsViewModel @Inject constructor(
                 }
                 is MoveCardToTrashResult.Failure -> oldState.copy(error = throwable)
             }
-            is EditCardResult -> when (this) {
-                is EditCardResult.Idle -> oldState.copy(inEditMode = true, animateButtons = true)
-                is EditCardResult.Success -> oldState.copy(inEditMode = true, animateButtons = false)
-            }
-            is ButtonsAnimationFinishedResult -> oldState.copy(animateButtons = false)
-            is ButtonsAnimationStartedResult -> oldState.copy(animateButtons = true)
+            is ToggleEditModeResult -> oldState.copy(inEditMode = true)
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }
     }
 
-    private object ButtonsAnimationFinishedResult : Result
-    private object ButtonsAnimationStartedResult : Result
+    private object ToggleEditModeResult : Result
+    private object EditCardAction : Action
 
 /*    fun onShareCard(): Observable<String> = shareCardClick
             .applyThrottling()

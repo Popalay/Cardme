@@ -27,6 +27,7 @@ import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.onEnd
 import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.utils.extensions.showAnimated
@@ -96,12 +97,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         //TODO: the state is interrupting the animation
         with(state) {
             Log.w("AddCardState", error)
-            if (animateButtons) {
-                buttonRemove.showAnimated()
-                buttonEdit.showAnimated(DURATION_SHORT / 3)
-                buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
-                buttonShare.showAnimated(DURATION_SHORT)
-            }
             buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode)
             buttonShare.setVisibility(!card.isPending && !inEditMode)
             buttonRemove.setVisibility(!card.isPending && !inEditMode)
@@ -180,6 +175,13 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         .map(CardDetailsIntent::MarkAsTrash)
 
     private fun initUi() {
+        window.sharedElementEnterTransition.onEnd {
+            buttonRemove.showAnimated()
+            buttonEdit.showAnimated(DURATION_SHORT / 3)
+            buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
+            buttonShare.showAnimated(DURATION_SHORT)
+        }
+
         layoutRoot.setOnClickListener { router.exit() }
 
         buttonShare.setOnClickListener {

@@ -11,23 +11,24 @@ import com.popalay.cardme.domain.model.Debt
 import com.popalay.cardme.domain.repository.DebtRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SaveDebtUseCase @Inject constructor(
-        private val debtRepository: DebtRepository
+    private val debtRepository: DebtRepository
 ) : UseCase<SaveDebtAction> {
 
     override fun apply(upstream: Observable<SaveDebtAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                debtRepository.save(it.card)
-                        .toSingleDefault(SaveDebtResult.Success)
-                        .cast(SaveDebtResult::class.java)
-                        .onErrorReturn(SaveDebtResult::Failure)
-                        .toObservable()
-                        .startWith(SaveDebtResult.Idle)
-                        .subscribeOn(Schedulers.io())
-            }
+        upstream.switchMap {
+            debtRepository.save(it.card)
+                .toSingleDefault(SaveDebtResult.Success)
+                .toObservable()
+                .cast<SaveDebtResult>()
+                .onErrorReturn(SaveDebtResult::Failure)
+                .startWith(SaveDebtResult.Idle)
+                .subscribeOn(Schedulers.io())
+        }
 }
 
 data class SaveDebtAction(val card: Debt) : Action

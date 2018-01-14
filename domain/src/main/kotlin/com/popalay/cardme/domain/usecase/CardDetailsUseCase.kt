@@ -11,6 +11,7 @@ import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class CardDetailsUseCase @Inject constructor(
                 cardRepository.get(it.number)
                         .toObservable()
                         .map(CardDetailsResult::Success)
-                        .cast(CardDetailsResult::class.java)
+                        .cast<CardDetailsResult>()
                         .onErrorReturn(CardDetailsResult::Failure)
                         .subscribeOn(Schedulers.io())
             }
@@ -34,5 +35,4 @@ data class GetCardDetailsAction(val number: String) : Action
 sealed class CardDetailsResult : Result {
     data class Success(val card: Card) : CardDetailsResult()
     data class Failure(val throwable: Throwable) : CardDetailsResult()
-    object Idle : CardDetailsResult()
 }

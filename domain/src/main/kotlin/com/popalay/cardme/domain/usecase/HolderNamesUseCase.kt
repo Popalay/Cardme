@@ -13,32 +13,34 @@ import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.rxkotlin.Flowables
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HolderNamesUseCase @Inject constructor(
-        private val deviceRepository: DeviceRepository,
-        private val holderRepository: HolderRepository
+    private val deviceRepository: DeviceRepository,
+    private val holderRepository: HolderRepository
 ) : UseCase<GetHolderNamesAction> {
 
     override fun apply(upstream: Observable<GetHolderNamesAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                Flowables.combineLatest(
-                        holderRepository.getAll(),
-                        deviceRepository.getContactsNames().toFlowable(),
-                        this::transform)
-                        .toObservable()
-                        .map(HolderNamesResult::Success)
-                        .cast(HolderNamesResult::class.java)
-                        .onErrorReturn(HolderNamesResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
+        upstream.switchMap {
+            Flowables.combineLatest(
+                holderRepository.getAll(),
+                deviceRepository.getContactsNames().toFlowable(),
+                this::transform
+            )
+                .toObservable()
+                .map(HolderNamesResult::Success)
+                .cast<HolderNamesResult>()
+                .onErrorReturn(HolderNamesResult::Failure)
+                .subscribeOn(Schedulers.io())
+        }
 
     private fun transform(holders: List<Holder>, contacts: List<String>) =
-            holders.map(Holder::name).toMutableList().apply {
-                        addAll(contacts)
-                        filter(String::isNotBlank).distinct().sorted()
-                    }
+        holders.map(Holder::name).toMutableList().apply {
+                addAll(contacts)
+                filter(String::isNotBlank).distinct().sorted()
+            }
 }
 
 object GetHolderNamesAction : Action

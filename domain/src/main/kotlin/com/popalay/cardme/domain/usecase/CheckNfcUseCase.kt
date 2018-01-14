@@ -11,24 +11,25 @@ import com.popalay.cardme.domain.repository.DeviceRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.Single
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CheckNfcUseCase @Inject constructor(
-        private val deviceRepository: DeviceRepository
+    private val deviceRepository: DeviceRepository
 ) : UseCase<CheckNfcAction> {
 
     override fun apply(upstream: Observable<CheckNfcAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                Single.fromCallable(deviceRepository::supportNfc)
-                        .toObservable()
-                        .map(ShouldShowCardBackgroundResult::Success)
-                        .cast(ShouldShowCardBackgroundResult::class.java)
-                        .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
+        upstream.switchMap {
+            Single.fromCallable(deviceRepository::supportNfc)
+                .toObservable()
+                .map(ShouldShowCardBackgroundResult::Success)
+                .cast<ShouldShowCardBackgroundResult>()
+                .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
+                .subscribeOn(Schedulers.io())
+        }
 }
 
 object CheckNfcAction : Action
