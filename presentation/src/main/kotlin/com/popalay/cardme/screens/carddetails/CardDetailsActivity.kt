@@ -175,7 +175,12 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
         .map(CardDetailsIntent::MarkAsTrash)
 
     private fun initUi() {
-        window.sharedElementEnterTransition.onEnd {
+        if (window.sharedElementEnterTransition.targets.isEmpty()) {
+            buttonRemove.showAnimated()
+            buttonEdit.showAnimated(DURATION_SHORT / 3)
+            buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
+            buttonShare.showAnimated(DURATION_SHORT)
+        } else window.sharedElementEnterTransition.onEnd {
             buttonRemove.showAnimated()
             buttonEdit.showAnimated(DURATION_SHORT / 3)
             buttonNfc.showAnimated(2 * DURATION_SHORT / 3)

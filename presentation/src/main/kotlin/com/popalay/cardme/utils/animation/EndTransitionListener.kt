@@ -4,11 +4,19 @@ import android.transition.Transition
 
 interface EndTransitionListener : Transition.TransitionListener {
 
-    override fun onTransitionStart(transition: Transition) = Unit
+    override fun onTransitionStart(transition: Transition){
 
-    override fun onTransitionCancel(transition: Transition) = Unit
+    }
 
-    override fun onTransitionPause(transition: Transition) = Unit
+    override fun onTransitionCancel(transition: Transition){
 
-    override fun onTransitionResume(transition: Transition) = Unit
+    }
+
+    override fun onTransitionPause(transition: Transition){
+
+    }
+
+    override fun onTransitionResume(transition: Transition){
+
+    }
 }
