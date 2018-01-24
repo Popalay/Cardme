@@ -70,7 +70,8 @@ class CardDetailsViewModel @Inject constructor(
 						it.ofType<ValidateCardAction>().compose(validateCardUseCase),
 						it.ofType<SaveCardAction>().compose(saveCardUseCase),
 						it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
-						it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase)
+						it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase),
+						it.ofType<AnimateButtonsAction>().map { AnimateButtonsResult }
 					)
 				)
 			}
@@ -78,13 +79,14 @@ class CardDetailsViewModel @Inject constructor(
 
 	override fun actionFromIntent(intent: CardDetailsIntent): Action = when (intent) {
 		is CardDetailsIntent.Initial.GetCard -> GetCardDetailsAction(intent.number)
-		CardDetailsIntent.Initial.GetHolderNames -> GetHolderNamesAction
-		CardDetailsIntent.Initial.GetShouldShowBackground -> ShouldShowCardBackgroundAction
-		CardDetailsIntent.Initial.CheckNfc -> CheckNfcAction
 		is CardDetailsIntent.CardNameChanged -> ValidateCardAction(intent.card)
 		is CardDetailsIntent.CardTitleChanged -> ValidateCardAction(intent.card)
 		is CardDetailsIntent.MarkAsTrash -> MoveCardToTrashAction(intent.card)
 		is CardDetailsIntent.ShareCard -> TODO()
+		CardDetailsIntent.Initial.GetHolderNames -> GetHolderNamesAction
+		CardDetailsIntent.Initial.GetShouldShowBackground -> ShouldShowCardBackgroundAction
+		CardDetailsIntent.Initial.CheckNfc -> CheckNfcAction
+		CardDetailsIntent.EnterTransitionFinished -> AnimateButtonsAction
 	}
 
 	override fun compose(): Observable<CardDetailsViewState> = intentsSubject
@@ -131,9 +133,13 @@ class CardDetailsViewModel @Inject constructor(
 				}
 				is MoveCardToTrashResult.Failure -> oldState.copy(error = throwable)
 			}
+			AnimateButtonsResult -> oldState.copy(animateButtons = true)
 			else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
 		}
 	}
+
+	private object AnimateButtonsAction : Action
+	private object AnimateButtonsResult : Result
 
 /*    fun onShareCard(): Observable<String> = shareCardClick
             .applyThrottling()

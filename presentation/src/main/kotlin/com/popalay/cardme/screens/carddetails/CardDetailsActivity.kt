@@ -22,6 +22,7 @@ import com.popalay.cardme.base.mvi.MviView
 import com.popalay.cardme.base.navigation.CustomNavigator
 import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.screens.SCREEN_ADD_CARD
+import com.popalay.cardme.screens.carddetails.CardDetailsIntent.EnterTransitionFinished
 import com.popalay.cardme.screens.setVisibility
 import com.popalay.cardme.screens.stringAdapter
 import com.popalay.cardme.utils.extensions.applyThrottling
@@ -39,7 +40,6 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent>,
 	NfcAdapter.CreateNdefMessageCallback {
@@ -79,7 +79,8 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 				getInitialIntent(),
 				getNameChangedIntent(),
 				getTitleChangedIntent(),
-				getMarkAsTrashIntent()
+				getMarkAsTrashIntent(),
+				getEnterTransitionFinishedIntent()
 			)
 		)
 
@@ -93,7 +94,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 
 	override fun accept(state: CardDetailsViewState) {
 		if (lastState == state) return
-		//TODO: the state is interrupting the animation
 		with(state) {
 			Log.w("AddCardState", error)
 			buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode)
@@ -111,6 +111,13 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 			inputTitle.isEnabled = inEditMode
 			buttonEdit.isEnabled = !inEditMode || inEditMode && canSave
 			buttonEdit.setImageResource(if (inEditMode) R.drawable.ic_done else R.drawable.ic_write)
+
+			if (animateButtons) {
+				buttonRemove.showAnimated()
+				buttonEdit.showAnimated(DURATION_SHORT / 3)
+				buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
+				buttonShare.showAnimated(DURATION_SHORT)
+			}
 		}
 		lastState = state
 	}
@@ -163,14 +170,13 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 		.map { lastState.card }
 		.map(CardDetailsIntent::MarkAsTrash)
 
-	private fun initUi() {
+	private fun getEnterTransitionFinishedIntent() = Observable.create<EnterTransitionFinished> {
 		window.sharedElementEnterTransition.onEnd {
-			buttonRemove.showAnimated()
-			buttonEdit.showAnimated(DURATION_SHORT / 3)
-			buttonNfc.showAnimated(2 * DURATION_SHORT / 3)
-			buttonShare.showAnimated(DURATION_SHORT)
+			it.onNext(CardDetailsIntent.EnterTransitionFinished)
 		}
+	}
 
+	private fun initUi() {
 		RxView.clicks(layoutRoot)
 			.applyThrottling()
 			.bindToLifecycle()
