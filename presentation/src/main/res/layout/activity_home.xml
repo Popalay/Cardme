@@ -37,14 +37,11 @@
 
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tab_layout"
+                        style="@style/Cardme.TabLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="-4dp"
-                        app:tabIndicatorColor="@color/white"
-                        app:tabIndicatorHeight="1dp"
-                        app:tabPaddingBottom="@dimen/small"
-                        app:tabSelectedTextColor="@color/white" />
+                        android:layout_marginBottom="-4dp" />
 
                 </FrameLayout>
 

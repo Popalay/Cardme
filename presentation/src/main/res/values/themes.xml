@@ -1,0 +1,88 @@
+<resources>
+
+    <style name="Cardme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="RightLeftActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_right_left_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/nothing</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
+    </style>
+
+    <style name="RightFadeActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/nothing</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
+    </style>
+
+    <style name="Cardme.Sliding">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Cardme.Sliding.Right">
+        <item name="android:windowAnimationStyle">@style/RightLeftActivity</item>
+    </style>
+
+    <style name="Cardme.Splash">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+    </style>
+
+    <style name="Cardme.Home">
+        <item name="android:windowAnimationStyle">@style/RightFadeActivity</item>
+    </style>
+
+    <style name="Cardme.HolderDetails" parent="Cardme.Sliding.Right" />
+
+    <style name="Cardme.AddCard" parent="Cardme.Sliding.Right" />
+
+    <style name="Cardme.Settings" parent="Cardme.Sliding.Right" />
+
+    <style name="Cardme.Trash" parent="Cardme.Sliding.Right" />
+
+    <style name="Cardme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Cardme.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="Cardme.Dialog.Progress">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Cardme.Translucent">
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Cardme.Translucent.DialogActivity">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+</resources>

@@ -23,5 +23,4 @@ sealed class CardDetailsIntent : Intent {
     data class CardTitleChanged(val card: Card) : CardDetailsIntent()
     data class ShareCard(val card: Card) : CardDetailsIntent()
     data class MarkAsTrash(val card: Card) : CardDetailsIntent()
-    data class Edit(val card: Card, val inEditMode: Boolean) : CardDetailsIntent()
 }

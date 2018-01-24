@@ -12,22 +12,22 @@ import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), Injectable {
 
-    @Inject lateinit var navigationHolder: NavigatorHolder
+	@Inject lateinit var navigationHolder: NavigatorHolder
 
-    @Suppress("LeakingThis")
-    protected open var navigator = CustomNavigator(this)
+	@Suppress("LeakingThis")
+	protected open var navigator = CustomNavigator(this)
 
-    private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
+	private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
-    }
+	override fun onResumeFragments() {
+		super.onResumeFragments()
+		navigationHolder.setNavigator(navigator)
+	}
 
-    override fun onPause() {
-        navigationHolder.removeNavigator()
-        super.onPause()
-    }
+	override fun onPause() {
+		navigationHolder.removeNavigator()
+		super.onPause()
+	}
 
-    @CheckReturnValue fun <T> Observable<T>.bindToLifecycle() = autoDisposable(scopeProvider)
+	@CheckReturnValue fun <T> Observable<T>.bindToLifecycle() = autoDisposable(scopeProvider)
 }

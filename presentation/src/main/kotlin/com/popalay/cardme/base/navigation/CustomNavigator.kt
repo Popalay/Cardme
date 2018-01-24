@@ -13,29 +13,31 @@ import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 
 open class CustomNavigator(
-        private val activity: BaseActivity,
-        containerId: Int = 0
+	private val activity: BaseActivity,
+	containerId: Int = 0
 ) : SupportAppNavigator(activity, containerId) {
 
-    override fun applyCommand(command: Command?) {
-        if (command is ForwardToUrl) {
-            activity.openLink(command.url)
-        } else if (command is ForwardForResult) {
-            createActivityIntent(command.screenKey, command.transitionData)?.let {
-                activity.currentFragment()?.startActivityForResult(it, command.requestCode)
-                        ?: activity.startActivityForResult(it, command.requestCode)
-            }
-        } else super.applyCommand(command)
-    }
+	override fun applyCommand(command: Command?) {
+		when (command) {
+			is ForwardToUrl -> activity.openLink(command.url)
+			is ForwardForResult -> createActivityIntent(command.screenKey, command.transitionData)?.let {
+				activity.currentFragment()?.startActivityForResult(it, command.requestCode)
+						?: activity.startActivityForResult(it, command.requestCode)
+			}
+			else -> super.applyCommand(command)
+		}
+	}
 
-    override fun createFragment(screenKey: String, data: Any?): Fragment? = null
+	override fun createFragment(screenKey: String, data: Any?): Fragment? = null
 
-    override fun createActivityIntent(screenKey: String, data: Any?): Intent? = null
+	override fun createActivityIntent(screenKey: String, data: Any?): Intent? = null
 
-    override fun setupFragmentTransactionAnimation(command: Command?,
-                                                   currentFragment: Fragment?,
-                                                   nextFragment: Fragment?,
-                                                   fragmentTransaction: FragmentTransaction?) {
-        fragmentTransaction?.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-    }
+	override fun setupFragmentTransactionAnimation(
+		command: Command?,
+		currentFragment: Fragment?,
+		nextFragment: Fragment?,
+		fragmentTransaction: FragmentTransaction?
+	) {
+		fragmentTransaction?.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+	}
 }

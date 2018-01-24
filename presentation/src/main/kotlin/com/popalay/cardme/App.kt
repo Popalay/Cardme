@@ -35,5 +35,4 @@ class App : DaggerApplication() {
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .build())
     }
-
 }
