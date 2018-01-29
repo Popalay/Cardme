@@ -93,6 +93,14 @@ internal inline fun <reified T : ViewModel> FragmentActivity.bindViewModel(
 	factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
 ): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, factory).get(T::class.java) }
 
+internal inline fun <reified T : Any> Activity.extra(name: String): Lazy<T> =
+	lazy(LazyThreadSafetyMode.NONE) {
+		when (T::class) {
+			String::class -> requireNotNull(intent.getStringExtra(name)) as T
+			else -> throw IllegalArgumentException("${T::class} not supports")
+		}
+	}
+
 internal inline fun <reified T : BaseViewModel> Fragment.getViewModel(
 	factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(unsafeActivity.application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)

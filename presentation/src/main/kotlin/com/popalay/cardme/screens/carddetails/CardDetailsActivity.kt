@@ -25,6 +25,7 @@ import com.popalay.cardme.screens.setVisibility
 import com.popalay.cardme.utils.animation.EndTransitionListener
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
+import com.popalay.cardme.utils.extensions.extra
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
 import com.popalay.cardme.utils.extensions.openShareChooser
@@ -65,8 +66,8 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 	@Inject lateinit var router: CustomRouter
 
 	private val viewModel by lazy { getViewModel<CardDetailsViewModel>(factory) }
+	private val extraCardNumber: String by extra(KEY_CARD_NUMBER)
 	private var lastState: CardDetailsViewState = CardDetailsViewState.idle()
-	private val extraCardNumber get() = requireNotNull(intent.getStringExtra(KEY_CARD_NUMBER))
 
 	override val intents: Observable<CardDetailsIntent>
 		get() = Observable.merge(
