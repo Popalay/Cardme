@@ -11,22 +11,13 @@ import com.popalay.cardme.domain.usecase.CheckNfcAction
 import com.popalay.cardme.domain.usecase.CheckNfcResult
 import com.popalay.cardme.domain.usecase.CheckNfcUseCase
 import com.popalay.cardme.domain.usecase.GetCardDetailsAction
-import com.popalay.cardme.domain.usecase.GetHolderNamesAction
-import com.popalay.cardme.domain.usecase.HolderNamesResult
-import com.popalay.cardme.domain.usecase.HolderNamesUseCase
 import com.popalay.cardme.domain.usecase.MoveCardToTrashAction
 import com.popalay.cardme.domain.usecase.MoveCardToTrashResult
 import com.popalay.cardme.domain.usecase.MoveCardToTrashUseCase
 import com.popalay.cardme.domain.usecase.Result
-import com.popalay.cardme.domain.usecase.SaveCardAction
-import com.popalay.cardme.domain.usecase.SaveCardResult
-import com.popalay.cardme.domain.usecase.SaveCardUseCase
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundResult
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundUseCase
-import com.popalay.cardme.domain.usecase.ValidateCardAction
-import com.popalay.cardme.domain.usecase.ValidateCardResult
-import com.popalay.cardme.domain.usecase.ValidateCardUseCase
 import com.popalay.cardme.utils.extensions.notOfType
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,10 +27,7 @@ import javax.inject.Inject
 class CardDetailsViewModel @Inject constructor(
 	private val router: CustomRouter,
 	private val cardDetailsUseCase: CardDetailsUseCase,
-	private val validateCardUseCase: ValidateCardUseCase,
-	private val saveCardUseCase: SaveCardUseCase,
 	private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
-	private val holderNamesUseCase: HolderNamesUseCase,
 	private val checkNfcUseCase: CheckNfcUseCase,
 	private val moveCardToTrashUseCase: MoveCardToTrashUseCase
 ) : MviViewModel<CardDetailsViewState, CardDetailsIntent>() {
@@ -50,7 +38,6 @@ class CardDetailsViewModel @Inject constructor(
 				Observable.merge<CardDetailsIntent>(
 					listOf(
 						it.ofType<CardDetailsIntent.Initial.GetCard>().take(1),
-						it.ofType<CardDetailsIntent.Initial.GetHolderNames>().take(1),
 						it.ofType<CardDetailsIntent.Initial.GetShouldShowBackground>().take(1),
 						it.ofType<CardDetailsIntent.Initial.CheckNfc>().take(1),
 						it.notOfType(CardDetailsIntent.Initial::class.java)
@@ -66,9 +53,6 @@ class CardDetailsViewModel @Inject constructor(
 					listOf(
 						it.ofType<GetCardDetailsAction>().compose(cardDetailsUseCase),
 						it.ofType<ShouldShowCardBackgroundAction>().compose(shouldShowCardBackgroundUseCase),
-						it.ofType<GetHolderNamesAction>().compose(holderNamesUseCase),
-						it.ofType<ValidateCardAction>().compose(validateCardUseCase),
-						it.ofType<SaveCardAction>().compose(saveCardUseCase),
 						it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
 						it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase),
 						it.ofType<AnimateButtonsAction>().map { AnimateButtonsResult }
@@ -79,11 +63,8 @@ class CardDetailsViewModel @Inject constructor(
 
 	override fun actionFromIntent(intent: CardDetailsIntent): Action = when (intent) {
 		is CardDetailsIntent.Initial.GetCard -> GetCardDetailsAction(intent.number)
-		is CardDetailsIntent.CardNameChanged -> ValidateCardAction(intent.card)
-		is CardDetailsIntent.CardTitleChanged -> ValidateCardAction(intent.card)
 		is CardDetailsIntent.MarkAsTrash -> MoveCardToTrashAction(intent.card)
-		is CardDetailsIntent.ShareCard -> TODO()
-		CardDetailsIntent.Initial.GetHolderNames -> GetHolderNamesAction
+		is CardDetailsIntent.ShareByNfc -> TODO()
 		CardDetailsIntent.Initial.GetShouldShowBackground -> ShouldShowCardBackgroundAction
 		CardDetailsIntent.Initial.CheckNfc -> CheckNfcAction
 		CardDetailsIntent.EnterTransitionFinished -> AnimateButtonsAction
@@ -101,26 +82,12 @@ class CardDetailsViewModel @Inject constructor(
 	override fun reduce(oldState: CardDetailsViewState, result: Result): CardDetailsViewState = with(result) {
 		when (this) {
 			is CardDetailsResult -> when (this) {
-				is CardDetailsResult.Success -> oldState.copy(card = card, inEditMode = card.isPending)
+				is CardDetailsResult.Success -> oldState.copy(card = card)
 				is CardDetailsResult.Failure -> oldState.copy(error = throwable)
-			}
-			is HolderNamesResult -> when (this) {
-				is HolderNamesResult.Success -> oldState.copy(holderNames = names)
-				is HolderNamesResult.Failure -> oldState.copy(error = throwable)
 			}
 			is ShouldShowCardBackgroundResult -> when (this) {
 				is ShouldShowCardBackgroundResult.Success -> oldState.copy(showBackground = show)
 				is ShouldShowCardBackgroundResult.Failure -> oldState.copy(error = throwable)
-			}
-			is ValidateCardResult -> when (this) {
-				is ValidateCardResult.Success -> oldState.copy(canSave = valid)
-				is ValidateCardResult.Failure -> oldState.copy(error = throwable, canSave = false)
-				is ValidateCardResult.Idle -> oldState.copy(card = card)
-			}
-			is SaveCardResult -> when (this) {
-				is SaveCardResult.Failure -> oldState.copy(error = throwable)
-				SaveCardResult.Success -> oldState.copy(inEditMode = false)
-				SaveCardResult.Idle -> oldState
 			}
 			is CheckNfcResult -> when (this) {
 				is CheckNfcResult.Success -> oldState.copy(nfcEnabled = supportsNfc)

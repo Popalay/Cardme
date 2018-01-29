@@ -14,14 +14,11 @@ sealed class CardDetailsIntent : Intent {
 
 	sealed class Initial : CardDetailsIntent() {
 		data class GetCard(val number: String) : CardDetailsIntent.Initial()
-		object GetHolderNames : CardDetailsIntent.Initial()
 		object GetShouldShowBackground : CardDetailsIntent.Initial()
 		object CheckNfc : CardDetailsIntent.Initial()
 	}
 
-	data class CardNameChanged(val card: Card) : CardDetailsIntent()
-	data class CardTitleChanged(val card: Card) : CardDetailsIntent()
-	data class ShareCard(val card: Card) : CardDetailsIntent()
 	data class MarkAsTrash(val card: Card) : CardDetailsIntent()
+	data class ShareByNfc(val card: Card) : CardDetailsIntent()
 	object EnterTransitionFinished : CardDetailsIntent()
 }

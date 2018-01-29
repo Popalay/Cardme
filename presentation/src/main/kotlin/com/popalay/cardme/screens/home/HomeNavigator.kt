@@ -26,30 +26,31 @@ import ru.terrakok.cicerone.commands.Forward
 import javax.inject.Inject
 
 class HomeNavigator @Inject constructor(
-        private val activity: HomeActivity
+	private val activity: HomeActivity
 ) : CustomNavigator(activity) {
 
-    @Suppress("UNCHECKED_CAST")
-    override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
-        SCREEN_HOME -> HomeActivity.getIntent(activity)
-        SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
-        SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as String)
-        SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
-        SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
-        SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
-        SCREEN_TRASH -> TrashActivity.getIntent(activity)
-        SCREEN_CARD_DETAILS -> CardDetailsActivity.getIntent(activity, data as String)
-        else -> null
-    }
+	@Suppress("UNCHECKED_CAST")
+	override fun createActivityIntent(screenKey: String, data: Any?) = when (screenKey) {
+		SCREEN_HOME -> HomeActivity.getIntent(activity)
+		SCREEN_HOLDER_DETAILS -> HolderDetailsActivity.getIntent(activity, data as String)
+		SCREEN_ADD_CARD -> AddCardActivity.getIntent(activity, data as String)
+		SCREEN_SCAN_CARD -> Intent(activity, CardIOActivity::class.java)
+		SCREEN_SETTINGS -> SettingsActivity.getIntent(activity)
+		SCREEN_ADD_DEBT -> AddDebtActivity.getIntent(activity)
+		SCREEN_TRASH -> TrashActivity.getIntent(activity)
+		SCREEN_CARD_DETAILS -> CardDetailsActivity.getIntent(activity, data as String)
+		else -> null
+	}
 
-    override fun createStartActivityOptions(command: Command?, activityIntent: Intent): Bundle? {
-        if (command is Forward) {
-            return when (command.screenKey) {
-                SCREEN_ADD_DEBT -> activity.findFragmentByType<DebtsFragment>()?.createAddDebtTransition(activityIntent)
-                SCREEN_CARD_DETAILS -> activity.findFragmentByType<CardsFragment>()?.createCardDetailsTransition(activityIntent)
-                else -> super.createStartActivityOptions(command, activityIntent)
-            }
-        }
-        return super.createStartActivityOptions(command, activityIntent)
-    }
+	override fun createStartActivityOptions(command: Command?, activityIntent: Intent): Bundle? {
+		return if (command is Forward) {
+			return when (command.screenKey) {
+				SCREEN_ADD_DEBT -> activity.findFragmentByType<DebtsFragment>()
+					?.createAddDebtTransition(activityIntent)
+				SCREEN_CARD_DETAILS -> activity.findFragmentByType<CardsFragment>()
+					?.createCardDetailsTransition(activityIntent)
+				else -> super.createStartActivityOptions(command, activityIntent)
+			}
+		} else super.createStartActivityOptions(command, activityIntent)
+	}
 }

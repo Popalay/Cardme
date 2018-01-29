@@ -13,9 +13,6 @@ import com.popalay.cardme.domain.model.Card
 data class CardDetailsViewState(
         val card: Card,
         val showBackground: Boolean,
-        val holderNames: List<String>,
-        val canSave: Boolean,
-        val inEditMode: Boolean,
         val showShareDialog: Boolean,
         val nfcEnabled: Boolean,
         val animateButtons: Boolean,
@@ -25,9 +22,6 @@ data class CardDetailsViewState(
         fun idle() = CardDetailsViewState(
                 card = Card(),
                 showBackground = false,
-                holderNames = listOf(),
-                canSave = false,
-                inEditMode = false,
                 showShareDialog = false,
                 nfcEnabled = false,
                 animateButtons = false,

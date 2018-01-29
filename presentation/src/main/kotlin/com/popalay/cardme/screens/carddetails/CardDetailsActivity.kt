@@ -6,15 +6,13 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.NfcEvent
 import android.os.Bundle
+import android.transition.Transition
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
-import com.jakewharton.rxbinding2.widget.RxTextView
-import com.popalay.cardme.DEBOUNCE_DELAY_MS
 import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.R
 import com.popalay.cardme.base.BaseActivity
@@ -24,12 +22,11 @@ import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.screens.carddetails.CardDetailsIntent.EnterTransitionFinished
 import com.popalay.cardme.screens.setVisibility
-import com.popalay.cardme.screens.stringAdapter
+import com.popalay.cardme.utils.animation.EndTransitionListener
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
-import com.popalay.cardme.utils.extensions.onEnd
 import com.popalay.cardme.utils.extensions.openShareChooser
 import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.utils.extensions.showAnimated
@@ -37,8 +34,6 @@ import com.popalay.cardme.utils.extensions.subscribeBy
 import com.popalay.cardme.widget.CharacterWrapTextView
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent>,
@@ -57,8 +52,8 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 	private val layoutRoot: ViewGroup by bindView(R.id.layout_root)
 	private val imageCardType: ImageView by bindView(R.id.image_card_type)
 	private val textNumber: CharacterWrapTextView by bindView(R.id.text_number)
-	private val inputTitle: EditText by bindView(R.id.input_title)
-	private val inputHolder: AutoCompleteTextView by bindView(R.id.input_holder)
+	private val textTitle: TextView by bindView(R.id.text_title)
+	private val textHolder: TextView by bindView(R.id.text_holder)
 	private val cardView: CreditCardView by bindView(R.id.card_view)
 	private val buttonShare: ImageButton by bindView(R.id.button_share)
 	private val buttonNfc: ImageButton by bindView(R.id.button_nfc)
@@ -77,10 +72,9 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 		get() = Observable.merge(
 			listOf(
 				getInitialIntent(),
-				getNameChangedIntent(),
-				getTitleChangedIntent(),
 				getMarkAsTrashIntent(),
-				getEnterTransitionFinishedIntent()
+				getEnterTransitionFinishedIntent(),
+				getShareByNfcIntent()
 			)
 		)
 
@@ -96,21 +90,13 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 		if (lastState == state) return
 		with(state) {
 			Log.w("AddCardState", error)
-			buttonNfc.setVisibility(!card.isPending && nfcEnabled && !inEditMode)
-			buttonShare.setVisibility(!card.isPending && !inEditMode)
-			buttonRemove.setVisibility(!card.isPending && !inEditMode)
-			inputHolder.stringAdapter(holderNames)
+			buttonNfc.setVisibility(nfcEnabled)
 			cardView.isWithImage = showBackground
-			inputTitle.setTextIfNeeded(card.title)
-			inputHolder.setTextIfNeeded(card.holderName)
+			textTitle.setTextIfNeeded(card.title)
+			textHolder.setTextIfNeeded(card.holderName)
 			imageCardType.setImageResource(card.iconRes)
 			textNumber.text = card.number
 			cardView.seed = card.generatedBackgroundSeed
-
-			inputHolder.isEnabled = inEditMode
-			inputTitle.isEnabled = inEditMode
-			buttonEdit.isEnabled = !inEditMode || inEditMode && canSave
-			buttonEdit.setImageResource(if (inEditMode) R.drawable.ic_done else R.drawable.ic_write)
 
 			if (animateButtons) {
 				buttonRemove.showAnimated()
@@ -145,35 +131,26 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 
 	private fun getInitialIntent() = Observable.fromArray(
 		CardDetailsIntent.Initial.GetCard(extraCardNumber),
-		CardDetailsIntent.Initial.GetHolderNames,
 		CardDetailsIntent.Initial.GetShouldShowBackground
 	)
-
-	private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputHolder)
-		.skipInitialValue()
-		.throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
-		.map { it.editable().toString() }
-		.distinctUntilChanged()
-		.map { lastState.card.copy(holderName = it) }
-		.map(CardDetailsIntent::CardNameChanged)
-
-	private fun getTitleChangedIntent() = RxTextView.afterTextChangeEvents(inputTitle)
-		.skipInitialValue()
-		.throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, Schedulers.computation())
-		.map { it.editable().toString() }
-		.distinctUntilChanged()
-		.map { lastState.card.copy(title = it) }
-		.map(CardDetailsIntent::CardTitleChanged)
 
 	private fun getMarkAsTrashIntent() = RxView.clicks(buttonRemove)
 		.applyThrottling()
 		.map { lastState.card }
 		.map(CardDetailsIntent::MarkAsTrash)
 
+	private fun getShareByNfcIntent() = RxView.clicks(buttonNfc)
+		.applyThrottling()
+		.map { lastState.card }
+		.map(CardDetailsIntent::ShareByNfc)
+
 	private fun getEnterTransitionFinishedIntent() = Observable.create<EnterTransitionFinished> {
-		window.sharedElementEnterTransition.onEnd {
-			it.onNext(CardDetailsIntent.EnterTransitionFinished)
-		}
+		window.enterTransition.addListener(object : EndTransitionListener {
+			override fun onTransitionEnd(transition: Transition?) {
+				transition?.removeListener(this)
+				it.onNext(CardDetailsIntent.EnterTransitionFinished)
+			}
+		})
 	}
 
 	private fun initUi() {

@@ -1,153 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    android:overScrollMode="never"
-    android:scrollbars="none">
+    android:fitsSystemWindows="true">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/layout_root"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.popalay.cardme.widget.CreditCardView
+        android:id="@+id/card_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal"
+        android:transitionName="@string/card_background"
+        app:cardCornerRadius="@dimen/card_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="200dp">
 
-        <com.popalay.cardme.widget.CreditCardView
-            android:id="@+id/card_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/normal"
-            android:transitionName="@string/card_background"
-            app:cardCornerRadius="@dimen/card_corners"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_height="200dp">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/image_card_type"
+                android:layout_width="@dimen/card_type_icon_size"
+                android:layout_height="@dimen/card_type_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/normal"
+                android:layout_marginTop="@dimen/normal"
+                android:transitionName="@string/transition_card_type_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/image_card_type"
-                    android:layout_width="@dimen/card_type_icon_size"
-                    android:layout_height="@dimen/card_type_icon_size"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/normal"
-                    android:layout_marginTop="@dimen/normal"
-                    android:transitionName="@string/transition_card_type_image"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/text_title"
+                style="@style/Cardme.CardText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/normal"
+                android:paddingStart="@dimen/normal"
+                android:transitionName="@string/transition_card_title"
+                app:layout_constraintBottom_toBottomOf="@id/image_card_type"
+                app:layout_constraintEnd_toStartOf="@id/image_card_type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_card_type" />
 
-                <EditText
-                    android:id="@+id/input_title"
-                    style="@style/Cardme.CardText"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="@dimen/small"
-                    android:background="@drawable/selector_input"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="@dimen/normal"
-                    android:paddingStart="@dimen/normal"
-                    android:transitionName="@string/transition_card_title"
-                    app:layout_constraintBottom_toBottomOf="@id/image_card_type"
-                    app:layout_constraintEnd_toStartOf="@id/image_card_type"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/image_card_type" />
+            <com.popalay.cardme.widget.CharacterWrapTextView
+                android:id="@+id/text_number"
+                style="@style/Cardme.CardNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/normal"
+                android:layout_marginStart="@dimen/normal"
+                android:gravity="center"
+                android:transitionName="@string/transition_card_number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.popalay.cardme.widget.CharacterWrapTextView
-                    android:id="@+id/text_number"
-                    style="@style/Cardme.CardNumber"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/normal"
-                    android:layout_marginStart="@dimen/normal"
-                    android:transitionName="@string/transition_card_number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/text_holder"
+                style="@style/Cardme.CardText"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_type_icon_size"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/normal"
+                android:paddingStart="@dimen/normal"
+                android:transitionName="@string/transition_card_holder_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/input_holder"
-                    style="@style/Cardme.CardText"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_type_icon_size"
-                    android:background="@drawable/selector_input"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="@dimen/normal"
-                    android:paddingStart="@dimen/normal"
-                    android:transitionName="@string/transition_card_holder_name"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
-            </android.support.constraint.ConstraintLayout>
+    </com.popalay.cardme.widget.CreditCardView>
 
-        </com.popalay.cardme.widget.CreditCardView>
+    <ImageButton
+        android:id="@+id/button_share"
+        style="@style/Cardme.Button.Rounded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal"
+        android:contentDescription="@string/share"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:src="@drawable/ic_share"
+        app:layout_constraintEnd_toStartOf="@+id/button_nfc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_view" />
 
-        <ImageButton
-            android:id="@+id/button_share"
-            style="@style/Cardme.Button.Rounded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal"
-            android:contentDescription="@string/share"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:src="@drawable/ic_share"
-            app:layout_constraintEnd_toStartOf="@+id/button_nfc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_view" />
+    <ImageButton
+        android:id="@+id/button_nfc"
+        style="@style/Cardme.Button.Rounded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal"
+        android:contentDescription="@string/share_using_nfc"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:src="@drawable/ic_nfc"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit"
+        app:layout_constraintStart_toEndOf="@+id/button_share"
+        app:layout_constraintTop_toBottomOf="@id/card_view" />
 
-        <ImageButton
-            android:id="@+id/button_nfc"
-            style="@style/Cardme.Button.Rounded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal"
-            android:contentDescription="@string/share_using_nfc"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:src="@drawable/ic_nfc"
-            app:layout_constraintEnd_toStartOf="@+id/button_edit"
-            app:layout_constraintStart_toEndOf="@+id/button_share"
-            app:layout_constraintTop_toBottomOf="@id/card_view" />
+    <ImageButton
+        android:id="@+id/button_edit"
+        style="@style/Cardme.Button.Rounded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal"
+        android:backgroundTint="@color/selector_fab_bg"
+        android:contentDescription="@string/edit"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:src="@drawable/ic_write"
+        app:layout_constraintEnd_toStartOf="@+id/button_remove"
+        app:layout_constraintStart_toEndOf="@+id/button_nfc"
+        app:layout_constraintTop_toBottomOf="@id/card_view" />
 
-        <ImageButton
-            android:id="@+id/button_edit"
-            style="@style/Cardme.Button.Rounded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal"
-            android:backgroundTint="@color/selector_fab_bg"
-            android:contentDescription="@string/edit"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:src="@drawable/ic_write"
-            app:layout_constraintEnd_toStartOf="@+id/button_remove"
-            app:layout_constraintStart_toEndOf="@+id/button_nfc"
-            app:layout_constraintTop_toBottomOf="@id/card_view" />
+    <ImageButton
+        android:id="@+id/button_remove"
+        style="@style/Cardme.Button.Rounded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal"
+        android:contentDescription="@string/add_to_trash"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:src="@drawable/ic_trash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_edit"
+        app:layout_constraintTop_toBottomOf="@id/card_view" />
 
-        <ImageButton
-            android:id="@+id/button_remove"
-            style="@style/Cardme.Button.Rounded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal"
-            android:contentDescription="@string/add_to_trash"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:src="@drawable/ic_trash"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_edit"
-            app:layout_constraintTop_toBottomOf="@id/card_view" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</ScrollView>
+</android.support.constraint.ConstraintLayout>

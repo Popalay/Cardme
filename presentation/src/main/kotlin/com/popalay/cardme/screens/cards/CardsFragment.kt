@@ -3,8 +3,6 @@ package com.popalay.cardme.screens.cards
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +16,7 @@ import com.popalay.cardme.utils.DialogFactory
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.hideAnimated
+import com.popalay.cardme.utils.extensions.makeSceneTransitionAnimation
 import com.popalay.cardme.utils.extensions.showAnimated
 import com.popalay.cardme.utils.extensions.unsafeActivity
 import com.popalay.cardme.utils.extensions.unsafeContext
@@ -25,97 +24,95 @@ import com.popalay.cardme.utils.recycler.SpacingItemDecoration
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class CardsFragment : BaseFragment() {
 
-    companion object {
-        const val SCAN_REQUEST_CODE = 121
-        fun newInstance() = CardsFragment()
-    }
+	companion object {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject lateinit var viewModelFacade: CardsViewModelFacade
+		const val SCAN_REQUEST_CODE = 121
 
-    private lateinit var b: FragmentCardsBinding
+		fun newInstance() = CardsFragment()
+	}
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        b = getDataBinding(inflater, R.layout.fragment_cards, container)
-        b.vm = getViewModel(factory)
-        initUI()
-        return b.root
-    }
+	@Inject lateinit var factory: ViewModelProvider.Factory
+	@Inject lateinit var viewModelFacade: CardsViewModelFacade
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCAN_REQUEST_CODE) {
-            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-                val scanResult = data.getParcelableExtra<CreditCard>(CardIOActivity.EXTRA_SCAN_RESULT)
-                viewModelFacade.onCardScanned(DataTransformers.transform(scanResult))
-            }
-        }
-    }
+	private lateinit var b: FragmentCardsBinding
 
-    override fun onResume() {
-        super.onResume()
-        b.buttonAdd.showAnimated()
-    }
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		b = getDataBinding(inflater, R.layout.fragment_cards, container)
+		b.vm = getViewModel(factory)
+		initUI()
+		return b.root
+	}
 
-    override fun onPause() {
-        super.onPause()
-        b.buttonAdd.hideAnimated()
-    }
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (requestCode == SCAN_REQUEST_CODE) {
+			if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+				val scanResult = data.getParcelableExtra<CreditCard>(CardIOActivity.EXTRA_SCAN_RESULT)
+				viewModelFacade.onCardScanned(DataTransformers.transform(scanResult))
+			}
+		}
+	}
 
-    fun createCardDetailsTransition(activityIntent: Intent): Bundle {
-        val position = viewModelFacade.getPositionOfCard(
-                activityIntent.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
-        )
+	override fun onResume() {
+		super.onResume()
+		b.buttonAdd.showAnimated()
+	}
 
-        val transitions = mutableListOf<Pair<View, String>>()
-        b.listCards.findViewHolderForAdapterPosition(position).itemView.let {
-            val imageBackground = it.findViewById<View>(R.id.card_view)
-            transitions += Pair(imageBackground, ViewCompat.getTransitionName(imageBackground))
+	override fun onPause() {
+		super.onPause()
+		b.buttonAdd.hideAnimated()
+	}
 
-            val imageType = it.findViewById<View>(R.id.image_card_type)
-            transitions += Pair(imageType, ViewCompat.getTransitionName(imageType))
+	fun createCardDetailsTransition(activityIntent: Intent): Bundle {
+		val position = viewModelFacade.getPositionOfCard(
+			activityIntent.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
+		)
 
-            val textTitle = it.findViewById<View>(R.id.text_title)
-            transitions += Pair(textTitle, ViewCompat.getTransitionName(textTitle))
+		b.listCards.findViewHolderForAdapterPosition(position).itemView.run {
+			val imageBackground = findViewById<View>(R.id.card_view)
+			val imageType = findViewById<View>(R.id.image_card_type)
+			val textTitle = findViewById<View>(R.id.text_title)
+			val textNumber = findViewById<View>(R.id.text_number)
+			val textHolderName = findViewById<View>(R.id.text_holder)
 
-            val textNumber = it.findViewById<View>(R.id.text_number)
-            transitions += Pair(textNumber, ViewCompat.getTransitionName(textNumber))
+			return unsafeActivity.makeSceneTransitionAnimation(
+				imageBackground to ViewCompat.getTransitionName(imageBackground),
+				imageType to ViewCompat.getTransitionName(imageType),
+				textTitle to ViewCompat.getTransitionName(textTitle),
+				textNumber to ViewCompat.getTransitionName(textNumber),
+				textHolderName to ViewCompat.getTransitionName(textHolderName)
+			)
+		}
+	}
 
-            val textHolderName = it.findViewById<View>(R.id.text_holder)
-            transitions += Pair(textHolderName, ViewCompat.getTransitionName(textHolderName))
-        }
+	private fun initUI() {
+		b.listCards.addItemDecoration(SpacingItemDecoration.create {
+			dividerSize = resources.getDimension(R.dimen.normal).toInt()
+			showBetween = true
+			showOnSides = true
+		})
 
-        return ActivityOptionsCompat.makeSceneTransitionAnimation(
-                unsafeActivity,
-                *transitions.toTypedArray()
-        ).toBundle() ?: Bundle.EMPTY
-    }
-
-    private fun initUI() {
-        b.listCards.addItemDecoration(SpacingItemDecoration.create {
-            dividerSize = resources.getDimension(R.dimen.normal).toInt()
-            showBetween = true
-            showOnSides = true
-        })
-
-        viewModelFacade.doOnShowCardExistsDialog()
-                .subscribe {
-                    DialogFactory.createCustomButtonsDialog(
-                            unsafeContext,
-                            R.string.error_card_exist,
-                            R.string.action_yes,
-                            R.string.action_cancel,
-                            onPositive = viewModelFacade::onWantToOverwrite,
-                            onDismiss = viewModelFacade::onShowCardExistsDialogDismiss
-                    )
-                            .apply { setCancelable(false) }
-                            .show()
-                }.addTo(disposables)
-    }
+		viewModelFacade.doOnShowCardExistsDialog()
+			.subscribeBy {
+				DialogFactory.createCustomButtonsDialog(
+					unsafeContext,
+					R.string.error_card_exist,
+					R.string.action_yes,
+					R.string.action_cancel,
+					onPositive = viewModelFacade::onWantToOverwrite,
+					onDismiss = viewModelFacade::onShowCardExistsDialogDismiss
+				)
+					.apply { setCancelable(false) }
+					.show()
+			}.addTo(disposables)
+	}
 }

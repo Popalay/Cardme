@@ -20,26 +20,37 @@ import javax.inject.Inject
 
 class DebtsFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = DebtsFragment()
-    }
+	companion object {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
+		fun newInstance() = DebtsFragment()
+	}
 
-    private lateinit var b: FragmentDebtsBinding
+	@Inject lateinit var factory: ViewModelProvider.Factory
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        b = getDataBinding<FragmentDebtsBinding>(inflater, R.layout.fragment_debts, container)
-        b.vm = getViewModel<DebtsViewModel>(factory)
-        return b.root
-    }
+	private lateinit var b: FragmentDebtsBinding
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		b = getDataBinding(inflater, R.layout.fragment_debts, container)
+		b.vm = getViewModel(factory)
+		return b.root
+	}
 
 
-    fun createAddDebtTransition(activityIntent: Intent): Bundle {
-        FabTransform.addExtras(activityIntent, ContextCompat.getColor(unsafeContext, R.color.accent), R.drawable.ic_write)
-        val options = ActivityOptions.makeSceneTransitionAnimation(unsafeActivity, b.buttonWrite, getString(R.string.transition_add_debt))
-        return options.toBundle()
-    }
+	fun createAddDebtTransition(activityIntent: Intent): Bundle {
+		FabTransform.addExtras(
+			activityIntent,
+			ContextCompat.getColor(unsafeContext, R.color.accent),
+			R.drawable.ic_write
+		)
+		val options = ActivityOptions.makeSceneTransitionAnimation(
+			unsafeActivity,
+			b.buttonWrite,
+			getString(R.string.transition_add_debt)
+		)
+		return options.toBundle()
+	}
 }

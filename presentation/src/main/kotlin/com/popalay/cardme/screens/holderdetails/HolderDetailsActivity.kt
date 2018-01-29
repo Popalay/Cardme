@@ -23,79 +23,82 @@ import javax.inject.Inject
 
 class HolderDetailsActivity : RightSlidingActivity() {
 
-    companion object {
-        const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
-        fun getIntent(context: Context, name: String) = Intent(context, HolderDetailsActivity::class.java).apply {
-            putExtra(KEY_HOLDER_DETAILS, name)
-        }
-    }
+	companion object {
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
-    @Inject override lateinit var navigator: CustomNavigator
-    @Inject lateinit var viewModelFacade: HolderDetailsViewModelFacade
+		const val KEY_HOLDER_DETAILS = "KEY_HOLDER_DETAILS"
 
-    private lateinit var b: ActivityHolderDetailsBinding
+		fun getIntent(context: Context, name: String) = Intent(context, HolderDetailsActivity::class.java).apply {
+			putExtra(KEY_HOLDER_DETAILS, name)
+		}
+	}
 
-    private var isCardTouched: Boolean = false
+	@Inject lateinit var factory: ViewModelProvider.Factory
+	@Inject override lateinit var navigator: CustomNavigator
+	@Inject lateinit var viewModelFacade: HolderDetailsViewModelFacade
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        b = getDataBinding(R.layout.activity_holder_details)
-        b.vm = getViewModel(factory)
-        initUI()
-    }
+	private lateinit var b: ActivityHolderDetailsBinding
 
-    override fun getRootView(): View = b.root
+	private var isCardTouched: Boolean = false
 
-    override fun canSlideRight() = !b.listCards.isAnimating
-            && (b.listCards.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
-            || !isCardTouched
-            || b.listCards.childCount == 0
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		b = getDataBinding(R.layout.activity_holder_details)
+		b.vm = getViewModel(factory)
+		initUI()
+	}
 
-    fun createCardDetailsTransition(activityIntent: Intent): Bundle? {
-        val position = viewModelFacade.getPositionOfCard(activityIntent
-                .getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER))
+	override fun getRootView(): View = b.root
 
-        val transitions = mutableListOf<Pair<View, String>>()
-        b.listCards.findViewHolderForAdapterPosition(position).itemView.let {
-            val imageBackground = it.findViewById<View>(R.id.card_view)
-            transitions += Pair(imageBackground, ViewCompat.getTransitionName(imageBackground))
+	override fun canSlideRight() = !b.listCards.isAnimating
+			&& (b.listCards.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
+			|| !isCardTouched
+			|| b.listCards.childCount == 0
 
-            val imageType = it.findViewById<View>(R.id.image_card_type)
-            transitions += Pair(imageType, ViewCompat.getTransitionName(imageType))
+	fun createCardDetailsTransition(activityIntent: Intent): Bundle? {
+		val position = viewModelFacade.getPositionOfCard(
+			activityIntent
+				.getStringExtra(CardDetailsActivity.KEY_CARD_NUMBER)
+		)
 
-            val textTitle = it.findViewById<View>(R.id.text_title)
-            transitions += Pair(textTitle, ViewCompat.getTransitionName(textTitle))
+		val transitions = mutableListOf<Pair<View, String>>()
+		b.listCards.findViewHolderForAdapterPosition(position).itemView.let {
+			val imageBackground = it.findViewById<View>(R.id.card_view)
+			transitions += Pair(imageBackground, ViewCompat.getTransitionName(imageBackground))
 
-            val textNumber = it.findViewById<View>(R.id.text_number)
-            transitions += Pair(textNumber, ViewCompat.getTransitionName(textNumber))
+			val imageType = it.findViewById<View>(R.id.image_card_type)
+			transitions += Pair(imageType, ViewCompat.getTransitionName(imageType))
 
-            val textHolderName = it.findViewById<View>(R.id.text_holder)
-            transitions += Pair(textHolderName, ViewCompat.getTransitionName(textHolderName))
-        }
+			val textTitle = it.findViewById<View>(R.id.text_title)
+			transitions += Pair(textTitle, ViewCompat.getTransitionName(textTitle))
 
-        return ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-                *transitions.toTypedArray()
-        ).toBundle() ?: Bundle.EMPTY
-    }
+			val textNumber = it.findViewById<View>(R.id.text_number)
+			transitions += Pair(textNumber, ViewCompat.getTransitionName(textNumber))
 
-    private fun initUI() {
-        setSupportActionBar(b.toolbar)
+			val textHolderName = it.findViewById<View>(R.id.text_holder)
+			transitions += Pair(textHolderName, ViewCompat.getTransitionName(textHolderName))
+		}
 
-        b.listCards.addItemDecoration(SpacingItemDecoration.create {
-            dividerSize = resources.getDimension(R.dimen.normal).toInt()
-            showBetween = true
-            showOnSides = true
-            onTop = false
-        })
+		return ActivityOptionsCompat.makeSceneTransitionAnimation(
+			this,
+			*transitions.toTypedArray()
+		).toBundle() ?: Bundle.EMPTY
+	}
 
-        b.listCards.onItemTouch {
-            when (it.action) {
-                MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> isCardTouched = true
-                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> isCardTouched = false
-            }
-        }
+	private fun initUI() {
+		setSupportActionBar(b.toolbar)
 
-    }
+		b.listCards.addItemDecoration(SpacingItemDecoration.create {
+			dividerSize = resources.getDimension(R.dimen.normal).toInt()
+			showBetween = true
+			showOnSides = true
+			onTop = false
+		})
+
+		b.listCards.onItemTouch {
+			when (it.action) {
+				MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> isCardTouched = true
+				MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> isCardTouched = false
+			}
+		}
+	}
 }
