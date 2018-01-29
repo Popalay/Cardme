@@ -22,7 +22,7 @@ import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.screens.SCREEN_ADD_CARD
 import com.popalay.cardme.screens.carddetails.CardDetailsIntent.EnterTransitionFinished
 import com.popalay.cardme.screens.setVisibility
-import com.popalay.cardme.utils.animation.EndTransitionListener
+import com.popalay.cardme.utils.animation.SimpleTransitionListener
 import com.popalay.cardme.utils.extensions.applyThrottling
 import com.popalay.cardme.utils.extensions.bindView
 import com.popalay.cardme.utils.extensions.extra
@@ -146,10 +146,11 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 		.map(CardDetailsIntent::ShareByNfc)
 
 	private fun getEnterTransitionFinishedIntent() = Observable.create<EnterTransitionFinished> {
-		window.enterTransition.addListener(object : EndTransitionListener {
+		window.enterTransition.addListener(object : SimpleTransitionListener {
 			override fun onTransitionEnd(transition: Transition?) {
-				transition?.removeListener(this)
 				it.onNext(CardDetailsIntent.EnterTransitionFinished)
+				it.onComplete()
+				it.setCancellable { transition?.removeListener(this) }
 			}
 		})
 	}

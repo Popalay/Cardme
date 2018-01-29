@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.popalay.cardme.DURATION_SHORT
 import com.popalay.cardme.utils.animation.EndAnimatorListener
-import com.popalay.cardme.utils.animation.EndTransitionListener
+import com.popalay.cardme.utils.animation.SimpleTransitionListener
 
 fun BottomNavigationView.setSelectedItem(itemId: Int, notify: Boolean) {
 	if (notify) {
@@ -72,7 +72,7 @@ fun View.showAnimated(delay: Long = 0L, endListener: (() -> Unit)? = null) {
 }
 
 fun Transition?.onEnd(block: () -> Unit) {
-	this?.addListener(object : EndTransitionListener {
+	this?.addListener(object : SimpleTransitionListener {
 		override fun onTransitionEnd(transition: Transition?) {
 			block()
 			transition?.removeListener(this)
