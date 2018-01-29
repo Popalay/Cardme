@@ -15,6 +15,9 @@ import com.popalay.cardme.domain.usecase.MoveCardToTrashAction
 import com.popalay.cardme.domain.usecase.MoveCardToTrashResult
 import com.popalay.cardme.domain.usecase.MoveCardToTrashUseCase
 import com.popalay.cardme.domain.usecase.Result
+import com.popalay.cardme.domain.usecase.ShareCardByNfcAction
+import com.popalay.cardme.domain.usecase.ShareCardByNfcResult
+import com.popalay.cardme.domain.usecase.ShareCardByNfcUseCase
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundAction
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundResult
 import com.popalay.cardme.domain.usecase.ShouldShowCardBackgroundUseCase
@@ -29,7 +32,8 @@ class CardDetailsViewModel @Inject constructor(
 	private val cardDetailsUseCase: CardDetailsUseCase,
 	private val shouldShowCardBackgroundUseCase: ShouldShowCardBackgroundUseCase,
 	private val checkNfcUseCase: CheckNfcUseCase,
-	private val moveCardToTrashUseCase: MoveCardToTrashUseCase
+	private val moveCardToTrashUseCase: MoveCardToTrashUseCase,
+	private val shareCardByNfcUseCase: ShareCardByNfcUseCase
 ) : MviViewModel<CardDetailsViewState, CardDetailsIntent>() {
 
 	override val intentFilter
@@ -55,6 +59,7 @@ class CardDetailsViewModel @Inject constructor(
 						it.ofType<ShouldShowCardBackgroundAction>().compose(shouldShowCardBackgroundUseCase),
 						it.ofType<CheckNfcAction>().compose(checkNfcUseCase),
 						it.ofType<MoveCardToTrashAction>().compose(moveCardToTrashUseCase),
+						it.ofType<ShareCardByNfcAction>().compose(shareCardByNfcUseCase),
 						it.ofType<AnimateButtonsAction>().map { AnimateButtonsResult }
 					)
 				)
@@ -64,7 +69,7 @@ class CardDetailsViewModel @Inject constructor(
 	override fun actionFromIntent(intent: CardDetailsIntent): Action = when (intent) {
 		is CardDetailsIntent.Initial.GetCard -> GetCardDetailsAction(intent.number)
 		is CardDetailsIntent.MarkAsTrash -> MoveCardToTrashAction(intent.card)
-		is CardDetailsIntent.ShareByNfc -> TODO()
+		is CardDetailsIntent.ShareByNfc -> ShareCardByNfcAction(intent.card)
 		CardDetailsIntent.Initial.GetShouldShowBackground -> ShouldShowCardBackgroundAction
 		CardDetailsIntent.Initial.CheckNfc -> CheckNfcAction
 		CardDetailsIntent.EnterTransitionFinished -> AnimateButtonsAction
@@ -100,6 +105,10 @@ class CardDetailsViewModel @Inject constructor(
 				}
 				is MoveCardToTrashResult.Failure -> oldState.copy(error = throwable)
 			}
+			is ShareCardByNfcResult -> when (this) {
+				ShareCardByNfcResult.Success -> oldState
+				is ShareCardByNfcResult.Failure -> oldState.copy(error = throwable)
+			}
 			AnimateButtonsResult -> oldState.copy(animateButtons = true)
 			else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
 		}
@@ -107,15 +116,4 @@ class CardDetailsViewModel @Inject constructor(
 
 	private object AnimateButtonsAction : Action
 	private object AnimateButtonsResult : Result
-
-/*    fun onShareCard(): Observable<String> = shareCardClick
-            .applyThrottling()
-            .map { card.get().number }
-
-    fun onShareCardUsingNfc(): Observable<String> = shareNfcCardClick
-            .applyThrottling()
-            .filter { enableShareNfc.get() }
-            .flatMapSingle { cardInteractor.prepareForSharing(card.get()) }
-
-    fun getCardShareNfcObject() = cardInteractor.prepareForSharing(card.get())*/
 }

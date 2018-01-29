@@ -4,14 +4,10 @@ import android.app.Activity
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.net.Uri
-import android.nfc.NdefMessage
-import android.nfc.NdefRecord
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
@@ -48,33 +44,6 @@ internal fun FragmentActivity.openShareChooser(@StringRes title: Int, text: Stri
 	}
 }
 
-internal fun FragmentActivity.shareUsingNfc(@StringRes title: Int, text: String) {
-	val targetShareIntents = mutableListOf<Intent>()
-	val shareIntent = Intent()
-	shareIntent.action = Intent.ACTION_SEND
-	shareIntent.type = "text/plain"
-	val resInfos = packageManager.queryIntentActivities(shareIntent, 0)
-	if (!resInfos.isEmpty()) {
-		for (resInfo in resInfos) {
-			val packageName = resInfo.activityInfo.packageName
-			if (packageName.contains("nfc")) {
-				val intent = Intent()
-				intent.component = ComponentName(packageName, resInfo.activityInfo.name)
-				intent.action = Intent.ACTION_SEND
-				intent.type = "text/plain"
-				intent.putExtra(Intent.EXTRA_TEXT, text)
-				intent.`package` = packageName
-				targetShareIntents.add(intent)
-			}
-		}
-		if (!targetShareIntents.isEmpty()) {
-			val chooserIntent = Intent.createChooser(targetShareIntents.removeAt(0), getString(title))
-			chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toTypedArray())
-			startActivity(chooserIntent)
-		}
-	}
-}
-
 internal fun <T : ViewDataBinding> getDataBinding(
 	inflater: LayoutInflater?,
 	@LayoutRes layoutId: Int,
@@ -104,13 +73,6 @@ internal inline fun <reified T : Any> Activity.extra(name: String): Lazy<T> =
 internal inline fun <reified T : BaseViewModel> Fragment.getViewModel(
 	factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(unsafeActivity.application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)
-
-internal fun Context.createNdefMessage(byteArray: ByteArray) = NdefMessage(
-	arrayOf(
-		NdefRecord.createMime("application/" + packageName, byteArray),
-		NdefRecord.createApplicationRecord(packageName)
-	)
-)
 
 internal fun Context.openLink(url: Uri) {
 	val builder = CustomTabsIntent.Builder()

@@ -3,8 +3,6 @@ package com.popalay.cardme.screens.carddetails
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
-import android.nfc.NfcAdapter
-import android.nfc.NfcEvent
 import android.os.Bundle
 import android.transition.Transition
 import android.util.Log
@@ -37,8 +35,7 @@ import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent>,
-	NfcAdapter.CreateNdefMessageCallback {
+class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDetailsIntent> {
 
 	companion object {
 
@@ -82,7 +79,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_card_details)
-		NfcAdapter.getDefaultAdapter(this)?.setNdefPushMessageCallback(this, this)
 		initUi()
 		bind(viewModel)
 	}
@@ -108,9 +104,6 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 		}
 		lastState = state
 	}
-
-	override fun createNdefMessage(event: NfcEvent?): Nothing? = null
-	//createNdefMessage(viewModelFacade.getCardShareNfcObject().blockingGet().toByteArray())
 
 	override fun onBackPressed() {
 		exitWithAnimation()
@@ -170,9 +163,5 @@ class CardDetailsActivity : BaseActivity(), MviView<CardDetailsViewState, CardDe
 			.applyThrottling()
 			.bindToLifecycle()
 			.subscribeBy { router.navigateTo(SCREEN_ADD_CARD, lastState.card.number) }
-/*
-        viewModelFacade.onShareCardUsingNfc()
-                .bindToLifecycle()
-                .subscribe { shareUsingNfc(R.string.share_card, it) }*/
 	}
 }

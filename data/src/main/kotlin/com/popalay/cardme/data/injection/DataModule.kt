@@ -14,6 +14,7 @@ import com.popalay.cardme.domain.repository.DebtRepository
 import com.popalay.cardme.domain.repository.DeviceRepository
 import com.popalay.cardme.domain.repository.HolderRepository
 import com.popalay.cardme.domain.repository.SettingsRepository
+import com.popalay.cardme.domain.repository.ShareRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,44 +24,47 @@ import com.popalay.cardme.data.repository.DebtRepository as DebtRepositoryImpl
 import com.popalay.cardme.data.repository.HolderRepository as HolderRepositoryImpl
 import com.popalay.cardme.data.repository.SettingsRepository as SettingsRepositoryImpl
 import com.popalay.cardme.data.repository.device.DeviceRepository as DeviceRepositoryImpl
+import com.popalay.cardme.data.repository.device.ShareRepository as ShareRepositoryImpl
 
 @Module
 abstract class DataModule {
 
-    @Binds abstract fun bindsDeviceRepositoryRepositiory(repository: DeviceRepositoryImpl): DeviceRepository
+	@Binds abstract fun bindsDeviceRepository(repository: DeviceRepositoryImpl): DeviceRepository
 
-    @Binds abstract fun bindsCardRepositoryRepositiory(repository: CardRepositoryImpl): CardRepository
+	@Binds abstract fun bindsCardRepository(repository: CardRepositoryImpl): CardRepository
 
-    @Binds abstract fun bindsDebtRepositoryRepositiory(repository: DebtRepositoryImpl): DebtRepository
+	@Binds abstract fun bindsDebtRepository(repository: DebtRepositoryImpl): DebtRepository
 
-    @Binds abstract fun bindsHolderRepositoryRepositiory(repository: HolderRepositoryImpl): HolderRepository
+	@Binds abstract fun bindsHolderRepository(repository: HolderRepositoryImpl): HolderRepository
 
-    @Binds abstract fun bindsSettingsRepositoryRepositiory(repository: SettingsRepositoryImpl): SettingsRepository
+	@Binds abstract fun bindsSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
 
-    @Module
-    companion object {
+	@Binds abstract fun bindsShareRepository(repository: ShareRepositoryImpl): ShareRepository
 
-        @Provides @Singleton @JvmStatic
-        fun provideGson(): Gson = GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create()
+	@Module
+	companion object {
 
-        @Provides @Singleton @JvmStatic
-        fun provideDatabase(context: Context): Database =
-                Room.databaseBuilder(context, Database::class.java, "cardme-db")
-                        .fallbackToDestructiveMigration()
-                        .build()
+		@Provides @Singleton @JvmStatic
+		fun provideGson(): Gson = GsonBuilder()
+			.excludeFieldsWithoutExposeAnnotation()
+			.create()
 
-        @Provides @JvmStatic
-        fun provideCardDao(database: Database): CardDao = database.cardDao()
+		@Provides @Singleton @JvmStatic
+		fun provideDatabase(context: Context): Database =
+			Room.databaseBuilder(context, Database::class.java, "cardme-db")
+				.fallbackToDestructiveMigration()
+				.build()
 
-        @Provides @JvmStatic
-        fun provideDebtDao(database: Database): DebtDao = database.debtDao()
+		@Provides @JvmStatic
+		fun provideCardDao(database: Database): CardDao = database.cardDao()
 
-        @Provides @JvmStatic
-        fun provideHolderDao(database: Database): HolderDao = database.holderDao()
+		@Provides @JvmStatic
+		fun provideDebtDao(database: Database): DebtDao = database.debtDao()
 
-        @Provides @JvmStatic
-        fun provideSettingsDao(database: Database): SettingsDao = database.settingsDao()
-    }
+		@Provides @JvmStatic
+		fun provideHolderDao(database: Database): HolderDao = database.holderDao()
+
+		@Provides @JvmStatic
+		fun provideSettingsDao(database: Database): SettingsDao = database.settingsDao()
+	}
 }
