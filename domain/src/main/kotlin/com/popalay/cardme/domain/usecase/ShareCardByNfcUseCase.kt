@@ -9,6 +9,7 @@ package com.popalay.cardme.domain.usecase
 
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.domain.repository.CardRepository
+import com.popalay.cardme.domain.repository.ShareRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.rxkotlin.cast
@@ -16,12 +17,14 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ShareCardByNfcUseCase @Inject constructor(
-	private val cardRepository: CardRepository
+	private val cardRepository: CardRepository,
+	private val shareRepository: ShareRepository
 ) : UseCase<ShareCardByNfcAction> {
 
 	override fun apply(upstream: Observable<ShareCardByNfcAction>): ObservableSource<Result> =
 		upstream.switchMap {
-			cardRepository.save(it.card)
+			cardRepository.toJson(it.card)
+				.flatMapCompletable { shareRepository.shareByNfc(it) }
 				.toSingleDefault(ShareCardByNfcResult.Success)
 				.toObservable()
 				.cast<ShareCardByNfcResult>()

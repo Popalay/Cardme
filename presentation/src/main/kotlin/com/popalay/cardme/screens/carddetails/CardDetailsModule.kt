@@ -9,19 +9,12 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class CardDetailsModule {
+interface CardDetailsModule {
 
 	@Binds @PerActivity
-	abstract fun bindsNavigator(navigator: CardDetailsNavigator): CustomNavigator
+	fun bindsNavigator(navigator: CardDetailsNavigator): CustomNavigator
 
 	@Binds @IntoMap @PerActivity
 	@ViewModelKey(CardDetailsViewModel::class)
-	abstract fun bindsCardDetailsViewModel(viewModel: CardDetailsViewModel): ViewModel
-
-	@Module
-	companion object {
-
-		@Binds @PerActivity @JvmStatic
-		fun provideNdefReceiver(activity: CardDetailsActivity) = NdefReceiver(activity)
-	}
+	fun bindsCardDetailsViewModel(viewModel: CardDetailsViewModel): ViewModel
 }

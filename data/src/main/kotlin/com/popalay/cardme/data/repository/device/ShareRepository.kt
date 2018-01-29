@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.popalay.cardme.domain.repository.ShareRepository
 import dagger.Reusable
+import io.reactivex.Completable
 import javax.inject.Inject
 
 @Reusable
@@ -12,7 +13,7 @@ class ShareRepository @Inject constructor(
 	private val context: Context
 ) : ShareRepository {
 
-	override fun shareByNfc(content: String) {
+	override fun shareByNfc(content: String): Completable = Completable.fromAction {
 		val targetShareIntents = mutableListOf<Intent>()
 		val shareIntent = Intent()
 		shareIntent.action = Intent.ACTION_SEND
