@@ -53,20 +53,22 @@ class AddCardViewModel @Inject constructor(
     override val reducer = LambdaReducer<AddCardViewState> {
         when (this) {
             is CardDetailsUseCase.Result -> when (this) {
+                CardDetailsUseCase.Result.Idle -> it
                 is CardDetailsUseCase.Result.Success -> it.copy(card = card)
                 is CardDetailsUseCase.Result.Failure -> it.copy(error = throwable)
             }
             is HolderNamesUseCase.Result -> when (this) {
                 is HolderNamesUseCase.Result.Success -> it.copy(holderNames = names)
                 is HolderNamesUseCase.Result.Failure -> it.copy(error = throwable)
+                else -> it
             }
             is ShouldShowCardBackgroundUseCase.Result -> when (this) {
                 is ShouldShowCardBackgroundUseCase.Result.Success -> it.copy(showBackground = show)
                 is ShouldShowCardBackgroundUseCase.Result.Failure -> it.copy(error = throwable)
             }
             is ValidateCardUseCase.Result -> when (this) {
-                is ValidateCardUseCase.Result.Valid -> it.copy(card = card)
-                is ValidateCardUseCase.Result.Invalid -> it.copy(card = card, error = throwable, canSave = false)
+                is ValidateCardUseCase.Result.Valid -> it.copy(card = card, canSave = true)
+                is ValidateCardUseCase.Result.Invalid -> it.copy(card = card, canSave = false, error = throwable)
             }
             is SaveCardUseCase.Result -> when (this) {
                 is SaveCardUseCase.Result.Failure -> it.copy(error = throwable)

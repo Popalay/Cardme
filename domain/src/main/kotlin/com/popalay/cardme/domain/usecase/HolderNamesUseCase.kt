@@ -30,6 +30,7 @@ class HolderNamesUseCase @Inject constructor(
             .toObservable()
             .map(Result::Success)
             .cast(Result::class.java)
+            .startWith(Result.Idle)
             .onErrorReturn(Result::Failure)
             .subscribeOn(Schedulers.io())
     }
@@ -43,6 +44,7 @@ class HolderNamesUseCase @Inject constructor(
     object Action : UseCase.Action
 
     sealed class Result : UseCase.Result {
+        object Idle : Result()
         data class Success(val names: List<String>) : Result()
         data class Failure(val throwable: Throwable) : Result()
     }

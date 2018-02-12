@@ -23,6 +23,7 @@ class CardDetailsUseCase @Inject constructor(
             .toObservable()
             .map(Result::Success)
             .cast(Result::class.java)
+            .startWith(Result.Idle)
             .onErrorReturn(Result::Failure)
             .subscribeOn(Schedulers.io())
     }
@@ -30,6 +31,7 @@ class CardDetailsUseCase @Inject constructor(
     data class Action(val number: String) : UseCase.Action
 
     sealed class Result : UseCase.Result {
+        object Idle : Result()
         data class Success(val card: Card) : Result()
         data class Failure(val throwable: Throwable) : Result()
     }

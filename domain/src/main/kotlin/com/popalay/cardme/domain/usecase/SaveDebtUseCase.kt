@@ -18,16 +18,15 @@ class SaveDebtUseCase @Inject constructor(
     private val debtRepository: DebtRepository
 ) : UseCase<SaveDebtUseCase.Action, SaveDebtUseCase.Result> {
 
-    override fun apply(upstream: Observable<Action>): ObservableSource<SaveDebtUseCase.Result> =
-        upstream.switchMap {
-            debtRepository.save(it.card)
-                .toSingleDefault(Result.Success)
-                .cast(Result::class.java)
-                .onErrorReturn(Result::Failure)
-                .toObservable()
-                .startWith(Result.Idle)
-                .subscribeOn(Schedulers.io())
-        }
+    override fun apply(upstream: Observable<Action>): ObservableSource<SaveDebtUseCase.Result> = upstream.switchMap {
+        debtRepository.save(it.card)
+            .toSingleDefault(Result.Success)
+            .cast(Result::class.java)
+            .onErrorReturn(Result::Failure)
+            .toObservable()
+            .startWith(Result.Idle)
+            .subscribeOn(Schedulers.io())
+    }
 
     data class Action(val card: Debt) : UseCase.Action
 
