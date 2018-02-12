@@ -10,31 +10,31 @@ package com.popalay.cardme.domain.usecase
 import com.popalay.cardme.domain.model.Debt
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ValidateDebtUseCase @Inject constructor(
-) : UseCase<ValidateDebtAction> {
+) : UseCase<ValidateDebtUseCase.Action, ValidateDebtUseCase.Result> {
 
-    override fun apply(upstream: Observable<ValidateDebtAction>): ObservableSource<Result> =
-            upstream.switchMap { action ->
-                Single.fromCallable { action.debt.holderName.isNotBlank() && action.debt.message.isNotBlank() }
-                        .toObservable()
-                        .map(ValidateDebtResult::Success)
-                        .cast(ValidateDebtResult::class.java)
-                        .onErrorReturn(ValidateDebtResult::Failure)
-                        .startWith(ValidateDebtResult.Idle(action.debt))
-                        .subscribeOn(Schedulers.io())
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap { action ->
+        Observable.fromCallable {
+            if (action.debt.holderName.isNotBlank() && action.debt.message.isNotBlank()) {
+                Result.Valid(action.debt)
+            } else {
+                // TODO: Replace IllegalStateException with specific ValidationException
+                Result.Invalid(action.debt, IllegalStateException("Debt's holder name and message cannot be blank"))
             }
-}
+        }
+            .onErrorReturn { Result.Invalid(action.debt, it) }
+            .subscribeOn(Schedulers.io())
+    }
 
-data class ValidateDebtAction(val debt: Debt) : Action
+    data class Action(val debt: Debt) : UseCase.Action
 
-sealed class ValidateDebtResult : Result {
-    data class Success(val valid: Boolean) : ValidateDebtResult()
-    data class Failure(val throwable: Throwable) : ValidateDebtResult()
-    data class Idle(val debt: Debt) : ValidateDebtResult()
+    sealed class Result(debt: Debt) : UseCase.Result {
+        data class Valid(val debt: Debt) : Result(debt)
+        data class Invalid(val debt: Debt, val throwable: Throwable) : Result(debt)
+    }
 }

@@ -13,10 +13,9 @@ import io.reactivex.ObservableTransformer
  * Created by Denys Nykyforov on 30.12.2017
  * Copyright (c) 2017. All right reserved
  */
-interface Action
+interface UseCase<A : UseCase.Action, R : UseCase.Result> : ObservableTransformer<A, R> {
 
-interface Result
+    interface Action
 
-internal typealias UseCase<A> = ObservableTransformer<A, Result>
-
-typealias ActionTransformer = ObservableTransformer<Action, Result>
+    interface Result
+}

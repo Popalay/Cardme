@@ -1,28 +1,20 @@
 /*
- * Created by popalay on 30.12.17 20:08
- * Copyright (c) 2017. All right reserved.
+ * Created by Ruslan on 09.02.18 16:04
+ * Copyright (c) 2018. All right reserved.
  *
- * Last modified 30.12.17 20:08
+ * Last modified 09.02.18 16:04
  */
 
 package com.popalay.cardme.base.mvi
 
-import com.popalay.cardme.base.BaseViewModel
-import com.popalay.cardme.domain.usecase.Action
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.functions.Consumer
 
-abstract class MviViewModel<S : ViewState, I : Intent> : BaseViewModel(), Reducer<S>, StateProvider<S> {
+/**
+ * Created by Ruslan Sierov on 09.02.18
+ * Copyright (c) 2018. All right reserved
+ */
+interface MviViewModel<I, S> : Consumer<I> {
 
-    override val states: Observable<S> get() = compose()
-
-    protected val intentsSubject: PublishSubject<I> = PublishSubject.create()
-
-    fun processIntents(intents: Observable<I>) {
-        intents.subscribe(intentsSubject)
-    }
-
-    protected abstract fun actionFromIntent(intent: I): Action
-
-    protected abstract fun compose(): Observable<S>
+    val states: Observable<S>
 }

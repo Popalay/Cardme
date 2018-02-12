@@ -1,5 +1,6 @@
 package com.popalay.cardme.screens.addcard
 
+import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
@@ -21,6 +22,8 @@ import com.popalay.cardme.DEBOUNCE_DELAY_MS
 import com.popalay.cardme.R
 import com.popalay.cardme.base.RightSlidingActivity
 import com.popalay.cardme.base.mvi.MviView
+import com.popalay.cardme.base.mvi.MviViewModel
+import com.popalay.cardme.domain.log
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.stringAdapter
 import com.popalay.cardme.utils.extensions.applyThrottling
@@ -29,6 +32,7 @@ import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,8 +61,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
 
     @Inject lateinit var factory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: AddCardViewModel
-    private lateinit var lastState: AddCardViewState
+    private var lastState: AddCardViewState = AddCardViewState.idle()
 
     private var acceptMenuItem: MenuItem? = null
     private val extraCardNumber get() = intent.getStringExtra(KEY_CARD_NUMBER)
@@ -66,10 +69,10 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
 
     override val intents: Observable<AddCardIntent>
         get() = Observable.merge(
-                getInitialIntent(),
-                getTitleChangedIntent(),
-                getNameChangedIntent(),
-                getAcceptIntent()
+            getInitialIntent(),
+            getTitleChangedIntent(),
+            getNameChangedIntent(),
+            getAcceptIntent()
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +80,7 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
         setContentView(R.layout.activity_add_card)
         initUI()
 
-        viewModel = getViewModel<AddCardViewModel>(factory).also { bind(it) }
+        bind(getViewModel<AddCardViewModel>(factory))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -98,6 +101,15 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
 
     override fun getRootView(): View = layoutRoot
 
+    private fun bind(viewModel: MviViewModel<AddCardIntent, AddCardViewState>) {
+        viewModel.states
+            .log("STATES")
+            .observeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle()
+            .subscribe(this)
+        intents.subscribe(viewModel)
+    }
+
     override fun accept(state: AddCardViewState) {
         lastState = state
         with(state) {
@@ -117,45 +129,38 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
         }
     }
 
-    private fun bind(viewModel: AddCardViewModel) {
-        viewModel.states
-                .bindToLifecycle()
-                .subscribe(::accept)
-        viewModel.processIntents(intents)
-    }
-
     private fun getInitialIntent() = Observable.fromArray(
-            AddCardIntent.Initial.GetCard(extraCardNumber),
-            AddCardIntent.Initial.GetHolderNames,
-            AddCardIntent.Initial.GetShouldShowBackground
+        AddCardIntent.Initial.GetCard(extraCardNumber),
+        AddCardIntent.Initial.GetHolderNames,
+        AddCardIntent.Initial.GetShouldShowBackground
     )
 
     private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputHolder)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .map { lastState.card.copy(holderName = it) }
-            .map(AddCardIntent::CardNameChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .map { lastState.card.copy(holderName = it) }
+        .map(AddCardIntent::CardNameChanged)
 
     private fun getTitleChangedIntent() = RxTextView.afterTextChangeEvents(inputTitle)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .map { lastState.card.copy(title = it) }
-            .map(AddCardIntent::CardTitleChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .map { lastState.card.copy(title = it) }
+        .map(AddCardIntent::CardTitleChanged)
 
     private fun getAcceptIntent() = acceptIntentPublisher
-            .applyThrottling()
+        .applyThrottling()
 
     private fun initUI() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         Observable.merge(RxView.focusChanges(inputTitle), RxView.focusChanges(inputHolder))
-                .map(Boolean::not)
-                .bindToLifecycle()
-                .subscribe(appBarLayout::setExpanded)
+            .map(Boolean::not)
+            .bindToLifecycle()
+            .subscribe(appBarLayout::setExpanded)
     }
 }

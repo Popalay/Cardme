@@ -17,33 +17,33 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HolderNamesUseCase @Inject constructor(
-        private val deviceRepository: DeviceRepository,
-        private val holderRepository: HolderRepository
-) : UseCase<GetHolderNamesAction> {
+    private val deviceRepository: DeviceRepository,
+    private val holderRepository: HolderRepository
+) : UseCase<HolderNamesUseCase.Action, HolderNamesUseCase.Result> {
 
-    override fun apply(upstream: Observable<GetHolderNamesAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                Flowables.combineLatest(
-                        holderRepository.getAll(),
-                        deviceRepository.getContactsNames().toFlowable(),
-                        this::transform)
-                        .toObservable()
-                        .map(HolderNamesResult::Success)
-                        .cast(HolderNamesResult::class.java)
-                        .onErrorReturn(HolderNamesResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap {
+        Flowables.combineLatest(
+            holderRepository.getAll(),
+            deviceRepository.getContactsNames().toFlowable(),
+            this::transform
+        )
+            .toObservable()
+            .map(Result::Success)
+            .cast(Result::class.java)
+            .onErrorReturn(Result::Failure)
+            .subscribeOn(Schedulers.io())
+    }
 
     private fun transform(holders: List<Holder>, contacts: List<String>) =
-            holders.map(Holder::name).toMutableList().apply {
-                        addAll(contacts)
-                        filter(String::isNotBlank).distinct().sorted()
-                    }
-}
+        holders.map(Holder::name).toMutableList().apply {
+            addAll(contacts)
+            filter(String::isNotBlank).distinct().sorted()
+        }
 
-object GetHolderNamesAction : Action
+    object Action : UseCase.Action
 
-sealed class HolderNamesResult : Result {
-    data class Success(val names: List<String>) : HolderNamesResult()
-    data class Failure(val throwable: Throwable) : HolderNamesResult()
+    sealed class Result : UseCase.Result {
+        data class Success(val names: List<String>) : Result()
+        data class Failure(val throwable: Throwable) : Result()
+    }
 }

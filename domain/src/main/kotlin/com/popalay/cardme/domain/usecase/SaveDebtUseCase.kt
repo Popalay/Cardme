@@ -15,25 +15,25 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SaveDebtUseCase @Inject constructor(
-        private val debtRepository: DebtRepository
-) : UseCase<SaveDebtAction> {
+    private val debtRepository: DebtRepository
+) : UseCase<SaveDebtUseCase.Action, SaveDebtUseCase.Result> {
 
-    override fun apply(upstream: Observable<SaveDebtAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                debtRepository.save(it.card)
-                        .toSingleDefault(SaveDebtResult.Success)
-                        .cast(SaveDebtResult::class.java)
-                        .onErrorReturn(SaveDebtResult::Failure)
-                        .toObservable()
-                        .startWith(SaveDebtResult.Idle)
-                        .subscribeOn(Schedulers.io())
-            }
-}
+    override fun apply(upstream: Observable<Action>): ObservableSource<SaveDebtUseCase.Result> =
+        upstream.switchMap {
+            debtRepository.save(it.card)
+                .toSingleDefault(Result.Success)
+                .cast(Result::class.java)
+                .onErrorReturn(Result::Failure)
+                .toObservable()
+                .startWith(Result.Idle)
+                .subscribeOn(Schedulers.io())
+        }
 
-data class SaveDebtAction(val card: Debt) : Action
+    data class Action(val card: Debt) : UseCase.Action
 
-sealed class SaveDebtResult : Result {
-    object Success : SaveDebtResult()
-    object Idle : SaveDebtResult()
-    data class Failure(val throwable: Throwable) : SaveDebtResult()
+    sealed class Result : UseCase.Result {
+        object Success : Result()
+        object Idle : Result()
+        data class Failure(val throwable: Throwable) : Result()
+    }
 }

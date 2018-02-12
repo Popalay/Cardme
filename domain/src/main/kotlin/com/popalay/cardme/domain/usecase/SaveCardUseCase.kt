@@ -15,25 +15,24 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SaveCardUseCase @Inject constructor(
-        private val cardRepository: CardRepository
-) : UseCase<SaveCardAction> {
+    private val cardRepository: CardRepository
+) : UseCase<SaveCardUseCase.Action, SaveCardUseCase.Result> {
 
-    override fun apply(upstream: Observable<SaveCardAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                cardRepository.save(it.card.copy(isPending = false))
-                        .toSingleDefault(SaveCardResult.Success)
-                        .cast(SaveCardResult::class.java)
-                        .onErrorReturn(SaveCardResult::Failure)
-                        .toObservable()
-                        .startWith(SaveCardResult.Idle)
-                        .subscribeOn(Schedulers.io())
-            }
-}
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap {
+        cardRepository.save(it.card.copy(isPending = false))
+            .toSingleDefault(Result.Success)
+            .toObservable()
+            .cast(Result::class.java)
+            .onErrorReturn(Result::Failure)
+            .startWith(Result.Idle)
+            .subscribeOn(Schedulers.io())
+    }
 
-data class SaveCardAction(val card: Card) : Action
+    sealed class Result : UseCase.Result {
+        object Idle : Result()
+        object Success : Result()
+        data class Failure(val throwable: Throwable) : Result()
+    }
 
-sealed class SaveCardResult : Result {
-    object Success : SaveCardResult()
-    object Idle : SaveCardResult()
-    data class Failure(val throwable: Throwable) : SaveCardResult()
+    data class Action(val card: Card) : UseCase.Action
 }

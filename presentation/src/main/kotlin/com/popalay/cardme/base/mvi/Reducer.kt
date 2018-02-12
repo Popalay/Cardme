@@ -7,8 +7,12 @@
 
 package com.popalay.cardme.base.mvi
 
-import com.popalay.cardme.domain.usecase.Result
+import com.popalay.cardme.domain.usecase.UseCase
+import io.reactivex.functions.BiFunction
 
-interface Reducer<S : ViewState> {
-    fun reduce(oldState: S, result: Result): S
+typealias Reducer<S> = BiFunction<S, UseCase.Result, S>
+
+class LambdaReducer<S>(private val block: UseCase.Result.(oldState: S) -> S) : Reducer<S> {
+
+    override fun apply(oldState: S, result: UseCase.Result): S = block(result, oldState)
 }

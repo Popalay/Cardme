@@ -16,6 +16,7 @@ import com.popalay.cardme.DEBOUNCE_DELAY_MS
 import com.popalay.cardme.R
 import com.popalay.cardme.base.BaseActivity
 import com.popalay.cardme.base.mvi.MviView
+import com.popalay.cardme.base.mvi.MviViewModel
 import com.popalay.cardme.base.navigation.CustomNavigator
 import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.screens.stringAdapter
@@ -53,10 +54,10 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
 
     override val intents: Observable<AddDebtIntent>
         get() = Observable.merge(
-                getInitialIntent(),
-                getInformationChangedIntent(),
-                getNameChangedIntent(),
-                getAcceptIntent()
+            getInitialIntent(),
+            getInformationChangedIntent(),
+            getNameChangedIntent(),
+            getAcceptIntent()
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +74,10 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
         buttonSave.hideAnimated { supportFinishAfterTransition() }
     }
 
+    private fun bind(viewModel: MviViewModel<AddDebtIntent, AddDebtViewState>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun accept(state: AddDebtViewState) {
         lastState = state
         with(state) {
@@ -87,34 +92,32 @@ class AddDebtActivity : BaseActivity(), MviView<AddDebtViewState, AddDebtIntent>
     }
 
     private fun bind(viewModel: AddDebtViewModel) {
-        viewModel.states
-                .bindToLifecycle()
-                .subscribe(::accept)
-        viewModel.processIntents(intents)
+        viewModel.states.bindToLifecycle().subscribe(this)
+        intents.bindToLifecycle().subscribe(viewModel)
     }
 
     private fun getInitialIntent() = Observable.just(AddDebtIntent.Initial.GetHolderNames)
 
     private fun getNameChangedIntent() = RxTextView.afterTextChangeEvents(inputTo)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .map { lastState.debt.copy(holderName = it) }
-            .map(AddDebtIntent::DebtHolderNameChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .map { lastState.debt.copy(holderName = it) }
+        .map(AddDebtIntent::DebtHolderNameChanged)
 
     private fun getInformationChangedIntent() = RxTextView.afterTextChangeEvents(inputMessage)
-            .skipInitialValue()
-            .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
-            .map { it.editable().toString() }
-            .distinctUntilChanged()
-            .map { lastState.debt.copy(message = it) }
-            .map(AddDebtIntent::DebtInformationChanged)
+        .skipInitialValue()
+        .throttleLast(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS)
+        .map { it.editable().toString() }
+        .distinctUntilChanged()
+        .map { lastState.debt.copy(message = it) }
+        .map(AddDebtIntent::DebtInformationChanged)
 
     private fun getAcceptIntent() = RxView.clicks(buttonSave)
-            .applyThrottling()
-            .map { lastState.debt }
-            .map(AddDebtIntent::Accept)
+        .applyThrottling()
+        .map { lastState.debt }
+        .map(AddDebtIntent::Accept)
 
     private fun initUi() {
         FabTransform.setup(this, container)

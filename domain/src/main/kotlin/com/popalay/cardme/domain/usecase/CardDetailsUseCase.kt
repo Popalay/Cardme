@@ -15,23 +15,22 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CardDetailsUseCase @Inject constructor(
-        private val cardRepository: CardRepository
-) : UseCase<GetCardDetailsAction> {
+    private val cardRepository: CardRepository
+) : UseCase<CardDetailsUseCase.Action, CardDetailsUseCase.Result> {
 
-    override fun apply(upstream: Observable<GetCardDetailsAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                cardRepository.get(it.number)
-                        .toObservable()
-                        .map(CardDetailsResult::Success)
-                        .cast(CardDetailsResult::class.java)
-                        .onErrorReturn(CardDetailsResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
-}
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap {
+        cardRepository.get(it.number)
+            .toObservable()
+            .map(Result::Success)
+            .cast(Result::class.java)
+            .onErrorReturn(Result::Failure)
+            .subscribeOn(Schedulers.io())
+    }
 
-data class GetCardDetailsAction(val number: String) : Action
+    data class Action(val number: String) : UseCase.Action
 
-sealed class CardDetailsResult : Result {
-    data class Success(val card: Card) : CardDetailsResult()
-    data class Failure(val throwable: Throwable) : CardDetailsResult()
+    sealed class Result : UseCase.Result {
+        data class Success(val card: Card) : Result()
+        data class Failure(val throwable: Throwable) : Result()
+    }
 }

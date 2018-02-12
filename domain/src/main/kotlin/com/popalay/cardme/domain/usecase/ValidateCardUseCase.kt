@@ -8,34 +8,33 @@
 package com.popalay.cardme.domain.usecase
 
 import com.popalay.cardme.domain.model.Card
-import com.popalay.cardme.domain.usecase.ValidateCardResult.Idle
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ValidateCardUseCase @Inject constructor(
-) : UseCase<ValidateCardAction> {
+) : UseCase<ValidateCardUseCase.Action, ValidateCardUseCase.Result> {
 
-    override fun apply(upstream: Observable<ValidateCardAction>): ObservableSource<Result> =
-            upstream.switchMap { action ->
-                Single.fromCallable { action.card.holderName.isNotBlank() }
-                        .toObservable()
-                        .map(ValidateCardResult::Success)
-                        .cast(ValidateCardResult::class.java)
-                        .onErrorReturn(ValidateCardResult::Failure)
-                        .startWith(Idle(action.card))
-                        .subscribeOn(Schedulers.io())
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap { action ->
+        Observable.fromCallable {
+            if (action.card.holderName.isNotBlank()) {
+                Result.Valid(action.card)
+            } else {
+                // TODO: Replace IllegalStateException with specific ValidationException
+                Result.Invalid(action.card, IllegalStateException("Card's holder name cannot be blank"))
             }
-}
+        }
+            .onErrorReturn { Result.Invalid(action.card, it) }
+            .subscribeOn(Schedulers.io())
+    }
 
-data class ValidateCardAction(val card: Card) : Action
+    data class Action(val card: Card) : UseCase.Action
 
-sealed class ValidateCardResult : Result {
-    data class Success(val valid: Boolean) : ValidateCardResult()
-    data class Failure(val throwable: Throwable) : ValidateCardResult()
-    data class Idle(val card: Card) : ValidateCardResult()
+    sealed class Result(card: Card) : UseCase.Result {
+        data class Valid(val card: Card) : Result(card)
+        data class Invalid(val card: Card, val throwable: Throwable) : Result(card)
+    }
 }

@@ -16,25 +16,25 @@ import javax.inject.Singleton
 
 @Singleton
 class ShouldShowCardBackgroundUseCase @Inject constructor(
-        private val settingsRepository: SettingsRepository
-) : UseCase<ShouldShowCardBackgroundAction> {
+    private val settingsRepository: SettingsRepository
+) : UseCase<ShouldShowCardBackgroundUseCase.Action, ShouldShowCardBackgroundUseCase.Result> {
 
-    override fun apply(upstream: Observable<ShouldShowCardBackgroundAction>): ObservableSource<Result> =
-            upstream.switchMap {
-                settingsRepository.listen()
-                        .map { it.isCardBackground }
-                        .distinctUntilChanged()
-                        .toObservable()
-                        .map(ShouldShowCardBackgroundResult::Success)
-                        .cast(ShouldShowCardBackgroundResult::class.java)
-                        .onErrorReturn(ShouldShowCardBackgroundResult::Failure)
-                        .subscribeOn(Schedulers.io())
-            }
-}
+    override fun apply(upstream: Observable<ShouldShowCardBackgroundUseCase.Action>): ObservableSource<Result> =
+        upstream.switchMap {
+            settingsRepository.listen()
+                .map { it.isCardBackground }
+                .distinctUntilChanged()
+                .toObservable()
+                .map(Result::Success)
+                .cast(Result::class.java)
+                .onErrorReturn(Result::Failure)
+                .subscribeOn(Schedulers.io())
+        }
 
-object ShouldShowCardBackgroundAction : Action
+    object Action : UseCase.Action
 
-sealed class ShouldShowCardBackgroundResult : Result {
-    data class Success(val show: Boolean) : ShouldShowCardBackgroundResult()
-    data class Failure(val throwable: Throwable) : ShouldShowCardBackgroundResult()
+    sealed class Result : UseCase.Result {
+        data class Success(val show: Boolean) : Result()
+        data class Failure(val throwable: Throwable) : Result()
+    }
 }
