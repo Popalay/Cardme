@@ -2,10 +2,10 @@ package com.popalay.cardme.base
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.graphics.Point
-import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GestureDetectorCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -28,8 +28,9 @@ abstract class RightSlidingActivity : BaseActivity() {
 
     private var root: View by Delegates.notNull()
     private var screenSize: Point by Delegates.notNull()
-    private var windowScrim: ColorDrawable by Delegates.notNull()
+    private var windowScrim: Drawable by Delegates.notNull()
     private var gestureDetector: GestureDetectorCompat by Delegates.notNull()
+    private var rootElevation: Float by Delegates.notNull()
     private var startX = 0F
     private var startY = 0F
     private var isSliding = false
@@ -40,8 +41,9 @@ abstract class RightSlidingActivity : BaseActivity() {
         root = findViewById(android.R.id.content)
         root.setBackgroundResource(R.color.window_background)
         windowManager.defaultDisplay.getSize(screenSize)
-        windowScrim = ColorDrawable(Color.argb(0xE0, 0, 0, 0))
+        windowScrim = requireNotNull(ContextCompat.getDrawable(this, R.color.scrim))
         window.setBackgroundDrawable(windowScrim)
+        rootElevation = resources.getDimension(R.dimen.small_elevation)
         val flingVelocity = ViewConfiguration.get(this).scaledMaximumFlingVelocity / 3F
         gestureDetector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(
@@ -77,6 +79,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                 if (!isSliding) {
                     isSliding = true
                     onSlidingStarted()
+                    addElevation()
                     ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
                 }
@@ -95,16 +98,16 @@ abstract class RightSlidingActivity : BaseActivity() {
                         toLeft()
                     }
                 }
-                startX = 0f
-                startY = 0f
+                startX = 0F
+                startY = 0F
             }
         }
         return handled || super.dispatchTouchEvent(ev)
     }
 
-    protected open fun onSlidingFinished() = Unit
+    protected open fun onSlidingFinished() {}
 
-    protected open fun onSlidingStarted() = Unit
+    protected open fun onSlidingStarted() {}
 
     protected open fun canSlideRight() = true
 
@@ -138,6 +141,11 @@ abstract class RightSlidingActivity : BaseActivity() {
             duration = ANIMATION_DURATION
             interpolator = AccelerateInterpolator()
             addUpdateListener { updateScrim() }
+            addListener(object : EndAnimatorListener {
+                override fun onAnimationEnd(animator: Animator) {
+                    removeElevation()
+                }
+            })
         }.start()
     }
 
@@ -146,5 +154,13 @@ abstract class RightSlidingActivity : BaseActivity() {
         val alpha = (progress * 255F).toInt()
         windowScrim.alpha = 255 - alpha
         window.setBackgroundDrawable(windowScrim)
+    }
+
+    private fun addElevation(){
+        root.elevation = rootElevation
+    }
+
+    private fun removeElevation(){
+        root.elevation = 0F
     }
 }
