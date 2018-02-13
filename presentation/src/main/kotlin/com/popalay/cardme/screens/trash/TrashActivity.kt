@@ -7,10 +7,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
 import com.popalay.cardme.R
-import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.base.RightSlidingActivity
+import com.popalay.cardme.databinding.ActivityTrashBinding
 import com.popalay.cardme.utils.extensions.getDataBinding
 import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.onItemTouch
@@ -20,6 +19,7 @@ import javax.inject.Inject
 class TrashActivity : RightSlidingActivity() {
 
     companion object {
+
         fun getIntent(context: Context) = Intent(context, TrashActivity::class.java)
     }
 
@@ -31,12 +31,10 @@ class TrashActivity : RightSlidingActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = getDataBinding<ActivityTrashBinding>(R.layout.activity_trash)
-        b.vm = getViewModel<TrashViewModel>(factory)
+        b = getDataBinding(R.layout.activity_trash)
+        b.vm = getViewModel(factory)
         initUI()
     }
-
-    override fun getRootView(): View = b.root
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.trash_menu, menu)
@@ -67,7 +65,5 @@ class TrashActivity : RightSlidingActivity() {
                 MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> isCardTouched = false
             }
         }
-
     }
-
 }

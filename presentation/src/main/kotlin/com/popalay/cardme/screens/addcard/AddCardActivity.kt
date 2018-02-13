@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
@@ -54,7 +53,8 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
     private val inputHolder: AutoCompleteTextView by bindView(R.id.input_holder)
     private val inputTitle: TextInputEditText by bindView(R.id.input_title)
 
-    @Inject lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var viewModel: AddCardViewModel
     private lateinit var lastState: AddCardViewState
@@ -94,8 +94,6 @@ class AddCardActivity : RightSlidingActivity(), MviView<AddCardViewState, AddCar
         onBackPressed()
         return true
     }
-
-    override fun getRootView(): View = layoutRoot
 
     override fun accept(state: AddCardViewState) {
         lastState = state

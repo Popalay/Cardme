@@ -17,47 +17,52 @@ import com.popalay.cardme.R
 import com.popalay.cardme.utils.animation.EndAnimatorListener
 import kotlin.properties.Delegates
 
-
 abstract class RightSlidingActivity : BaseActivity() {
 
     companion object {
+
         private const val GESTURE_THRESHOLD = 10
         private const val ANIMATION_DURATION = 200L
-        private const val SWIPE_START_PART = 3
+        private const val SWIPE_START_PART = 0.3F
     }
 
+    private var root: View by Delegates.notNull()
+    private var screenSize: Point by Delegates.notNull()
+    private var windowScrim: ColorDrawable by Delegates.notNull()
+    private var gestureDetector: GestureDetectorCompat by Delegates.notNull()
     private var startX = 0F
     private var startY = 0F
     private var isSliding = false
-    private lateinit var root: View
-    private var screenSize: Point by Delegates.notNull<Point>()
-    private var windowScrim: ColorDrawable by Delegates.notNull<ColorDrawable>()
-    private lateinit var gestureDetector: GestureDetectorCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         screenSize = Point()
+        root = findViewById(android.R.id.content)
+        root.setBackgroundResource(R.color.window_background)
         windowManager.defaultDisplay.getSize(screenSize)
         windowScrim = ColorDrawable(Color.argb(0xE0, 0, 0, 0))
-        windowScrim.alpha = 0
         window.setBackgroundDrawable(windowScrim)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        root = getRootView()
-        root.setBackgroundResource(R.color.window_background)
         val flingVelocity = ViewConfiguration.get(this).scaledMaximumFlingVelocity / 3F
         gestureDetector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onFling(event1: MotionEvent, event2: MotionEvent,
-                                 velocityX: Float, velocityY: Float): Boolean {
-                return if (event2.x > event1.x && velocityX > flingVelocity && canSlideRight()) {
-                    clearScrim()
-                    finish()
-                    true
-                } else false
+            override fun onFling(
+                event1: MotionEvent,
+                event2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ) = if (event2.x > event1.x && velocityX > flingVelocity && canSlideRight()) {
+                doAfterSlide { supportFinishAfterTransition() }
+                true
+            } else {
+                false
             }
         })
+    }
+
+    override fun finish() {
+        doAfterSlide {
+            super.finish()
+            overridePendingTransition(0, 0)
+        }
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -71,7 +76,6 @@ abstract class RightSlidingActivity : BaseActivity() {
             MotionEvent.ACTION_MOVE -> if (isSlidingRight(startX, startY, ev) && canSlideRight() || isSliding) {
                 if (!isSliding) {
                     isSliding = true
-                    window.statusBarColor = Color.TRANSPARENT
                     onSlidingStarted()
                     ev.action = MotionEvent.ACTION_CANCEL
                     super.dispatchTouchEvent(ev)
@@ -86,7 +90,7 @@ abstract class RightSlidingActivity : BaseActivity() {
                     onSlidingFinished()
                     handled = true
                     if (shouldClose(root.x)) {
-                        closeRightAndDismiss()
+                        doAfterSlide { supportFinishAfterTransition() }
                     } else {
                         toLeft()
                     }
@@ -98,21 +102,13 @@ abstract class RightSlidingActivity : BaseActivity() {
         return handled || super.dispatchTouchEvent(ev)
     }
 
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(0, R.anim.activity_right_left_exit)
-    }
-
-    protected abstract fun getRootView(): View
-
     protected open fun onSlidingFinished() = Unit
 
     protected open fun onSlidingStarted() = Unit
 
     protected open fun canSlideRight() = true
 
-    private fun shouldClose(delta: Float): Boolean = delta > screenSize.x / SWIPE_START_PART
+    private fun shouldClose(delta: Float): Boolean = delta / screenSize.x > SWIPE_START_PART
 
     private fun isSlidingRight(startX: Float, startY: Float, ev: MotionEvent): Boolean {
         val deltaY = Math.abs(ev.y - startY)
@@ -120,15 +116,15 @@ abstract class RightSlidingActivity : BaseActivity() {
         return deltaX > GESTURE_THRESHOLD && deltaY < GESTURE_THRESHOLD
     }
 
-    private fun closeRightAndDismiss() {
+    private fun doAfterSlide(block: () -> Unit) {
         val start = root.x
         val finish = screenSize.x.toFloat()
-        ObjectAnimator.ofFloat(root, "x", start, finish).apply {
+        ObjectAnimator.ofFloat(root, View.X, start, finish).apply {
             duration = ANIMATION_DURATION
             interpolator = DecelerateInterpolator()
             addListener(object : EndAnimatorListener {
                 override fun onAnimationEnd(animator: Animator) {
-                    finish()
+                    block()
                 }
             })
             addUpdateListener { updateScrim() }
@@ -138,7 +134,7 @@ abstract class RightSlidingActivity : BaseActivity() {
     private fun toLeft() {
         val start = root.x
         val finish = 0F
-        ObjectAnimator.ofFloat(root, "x", start, finish).apply {
+        ObjectAnimator.ofFloat(root, View.X, start, finish).apply {
             duration = ANIMATION_DURATION
             interpolator = AccelerateInterpolator()
             addUpdateListener { updateScrim() }
@@ -149,11 +145,6 @@ abstract class RightSlidingActivity : BaseActivity() {
         val progress = root.x / screenSize.x
         val alpha = (progress * 255F).toInt()
         windowScrim.alpha = 255 - alpha
-        window.setBackgroundDrawable(windowScrim)
-    }
-
-    private fun clearScrim() {
-        windowScrim.alpha = 0
         window.setBackgroundDrawable(windowScrim)
     }
 }

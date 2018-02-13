@@ -29,7 +29,6 @@
     </style>
 
     <style name="Cardme.Sliding">
-        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>

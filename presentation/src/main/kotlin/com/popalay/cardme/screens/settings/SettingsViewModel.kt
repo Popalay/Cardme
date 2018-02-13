@@ -13,7 +13,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-        private val settingsInteractor: SettingsInteractor
+    private val settingsInteractor: SettingsInteractor
 ) : BaseViewModel() {
 
     val settings = ObservableField<Settings>()
@@ -21,18 +21,18 @@ class SettingsViewModel @Inject constructor(
 
     init {
         settingsInteractor.listenSettings()
-                .observeOn(AndroidSchedulers.mainThread())
-                .setTo(settings)
-                .map { it.isCardBackground }
-                .setTo(showImages)
-                .subscribeBy(this::handleBaseError)
-                .addTo(disposables)
+            .observeOn(AndroidSchedulers.mainThread())
+            .setTo(settings)
+            .map { it.isCardBackground }
+            .setTo(showImages)
+            .subscribeBy(this::handleBaseError)
+            .addTo(disposables)
 
         showImages.observe()
-                .filter { settings.get() != null }
-                .map { settings.set(settings.get()?.copy(isCardBackground = it)) }
-                .flatMapCompletable { settingsInteractor.saveSettings(settings.get()!!) }
-                .subscribeBy()
-                .addTo(disposables)
+            .filter { settings.get() != null }
+            .map { settings.set(settings.get()?.copy(isCardBackground = it)) }
+            .flatMapCompletable { settingsInteractor.saveSettings(settings.get()!!) }
+            .subscribeBy()
+            .addTo(disposables)
     }
 }

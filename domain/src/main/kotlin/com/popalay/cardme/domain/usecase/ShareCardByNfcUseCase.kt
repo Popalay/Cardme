@@ -17,25 +17,25 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ShareCardByNfcUseCase @Inject constructor(
-	private val cardRepository: CardRepository,
-	private val shareRepository: ShareRepository
+    private val cardRepository: CardRepository,
+    private val shareRepository: ShareRepository
 ) : UseCase<ShareCardByNfcAction> {
 
-	override fun apply(upstream: Observable<ShareCardByNfcAction>): ObservableSource<Result> =
-		upstream.switchMap {
-			cardRepository.toJson(it.card)
-				.flatMapCompletable { shareRepository.shareByNfc(it) }
-				.toSingleDefault(ShareCardByNfcResult.Success)
-				.toObservable()
-				.cast<ShareCardByNfcResult>()
-				.onErrorReturn(ShareCardByNfcResult::Failure)
-				.subscribeOn(Schedulers.io())
-		}
+    override fun apply(upstream: Observable<ShareCardByNfcAction>): ObservableSource<Result> =
+        upstream.switchMap {
+            cardRepository.toJson(it.card)
+                .flatMapCompletable { shareRepository.shareByNfc(it) }
+                .toSingleDefault(ShareCardByNfcResult.Success)
+                .toObservable()
+                .cast<ShareCardByNfcResult>()
+                .onErrorReturn(ShareCardByNfcResult::Failure)
+                .subscribeOn(Schedulers.io())
+        }
 }
 
 data class ShareCardByNfcAction(val card: Card) : Action
 
 sealed class ShareCardByNfcResult : Result {
-	object Success : ShareCardByNfcResult()
-	data class Failure(val throwable: Throwable) : ShareCardByNfcResult()
+    object Success : ShareCardByNfcResult()
+    data class Failure(val throwable: Throwable) : ShareCardByNfcResult()
 }
