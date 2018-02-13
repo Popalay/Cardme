@@ -1,7 +1,6 @@
 package com.popalay.cardme.utils.extensions
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -45,7 +44,7 @@ internal fun FragmentActivity.openShareChooser(@StringRes title: Int, text: Stri
 }
 
 internal fun <T : ViewDataBinding> getDataBinding(
-	inflater: LayoutInflater?,
+	inflater: LayoutInflater,
 	@LayoutRes layoutId: Int,
 	container: ViewGroup?
 ): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
@@ -57,10 +56,6 @@ internal fun <T : ViewDataBinding> FragmentActivity.getDataBinding(
 internal inline fun <reified T : BaseViewModel> FragmentActivity.getViewModel(
 	factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
 ): T = ViewModelProviders.of(this, factory).get(T::class.java)
-
-internal inline fun <reified T : ViewModel> FragmentActivity.bindViewModel(
-	factory: ViewModelProvider.Factory = ViewModelProviders.DefaultFactory(application)
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, factory).get(T::class.java) }
 
 internal inline fun <reified T : Any> Activity.extra(name: String): Lazy<T> =
 	lazy(LazyThreadSafetyMode.NONE) {
