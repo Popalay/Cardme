@@ -1,7 +1,7 @@
 package com.popalay.cardme.screens.addcard
 
 import com.popalay.cardme.base.mvi.BaseMviViewModel
-import com.popalay.cardme.base.mvi.LambdaProcessor
+import com.popalay.cardme.base.mvi.IntentProcessor
 import com.popalay.cardme.base.mvi.LambdaReducer
 import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.domain.usecase.CardDetailsUseCase
@@ -23,20 +23,19 @@ class AddCardViewModel @Inject constructor(
 
     override val initialState = AddCardViewState.idle()
 
-    override val processor = LambdaProcessor<AddCardIntent> {
+    override val processor = IntentProcessor<AddCardIntent> {
         listOf(
             it.ofType<AddCardIntent.Initial.GetCard>()
                 .take(1)
                 .map { CardDetailsUseCase.Action(it.number) }
                 .compose(cardDetailsUseCase),
-            it.ofType<AddCardIntent.Initial.GetHolderNames>()
-                .take(1)
-                .map { HolderNamesUseCase.Action }
-                .compose(holderNamesUseCase),
             it.ofType<AddCardIntent.Initial.GetShouldShowBackground>()
                 .take(1)
                 .map { ShouldShowCardBackgroundUseCase.Action }
                 .compose(shouldShowCardBackgroundUseCase),
+            it.ofType<AddCardIntent.CardNameChanged>()
+                .map { HolderNamesUseCase.Action(it.card.holderName) }
+                .compose(holderNamesUseCase),
             it.ofType<AddCardIntent.CardNameChanged>()
                 .map { ValidateCardUseCase.Action(it.card) }
                 .compose(validateCardUseCase),
@@ -53,9 +52,9 @@ class AddCardViewModel @Inject constructor(
     override val reducer = LambdaReducer<AddCardViewState> {
         when (this) {
             is CardDetailsUseCase.Result -> when (this) {
-                CardDetailsUseCase.Result.Idle -> it
                 is CardDetailsUseCase.Result.Success -> it.copy(card = card)
                 is CardDetailsUseCase.Result.Failure -> it.copy(error = throwable)
+                CardDetailsUseCase.Result.Idle -> it
             }
             is HolderNamesUseCase.Result -> when (this) {
                 is HolderNamesUseCase.Result.Success -> it.copy(holderNames = names)
@@ -68,7 +67,7 @@ class AddCardViewModel @Inject constructor(
             }
             is ValidateCardUseCase.Result -> when (this) {
                 is ValidateCardUseCase.Result.Valid -> it.copy(card = card, canSave = true)
-                is ValidateCardUseCase.Result.Invalid -> it.copy(card = card, canSave = false, error = throwable)
+                is ValidateCardUseCase.Result.Invalid -> it.copy(card = card, canSave = false)
             }
             is SaveCardUseCase.Result -> when (this) {
                 is SaveCardUseCase.Result.Failure -> it.copy(error = throwable)

@@ -16,9 +16,9 @@ import io.reactivex.ObservableTransformer
  * Copyright (c) 2018. All right reserved
  */
 
-interface Processor<I : Intent> : ObservableTransformer<I, UseCase.Result>
+interface Processor<I> : ObservableTransformer<I, UseCase.Result>
 
-class LambdaProcessor<I : Intent>(
+class IntentProcessor<I : Intent>(
     private val block: (sharedIntents: Observable<I>) -> List<Observable<out UseCase.Result>>
 ) : Processor<I> {
 

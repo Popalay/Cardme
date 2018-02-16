@@ -14,7 +14,7 @@ import io.reactivex.functions.Consumer
  * Created by Ruslan Sierov on 09.02.18
  * Copyright (c) 2018. All right reserved
  */
-interface MviViewModel<I, S> : Consumer<I> {
+interface MviViewModel<I : Intent, S : ViewState> : Consumer<I> {
 
     val states: Observable<S>
 }

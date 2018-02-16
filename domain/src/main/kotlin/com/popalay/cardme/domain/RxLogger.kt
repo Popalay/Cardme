@@ -34,7 +34,7 @@ inline fun printEvent(tag: String, error: Throwable?) = when {
 
 inline fun tag() = Thread.currentThread().stackTrace
     .first { it.fileName.endsWith(".kt") }
-    .let { stack -> "${stack.fileName.removeSuffix(".kt")}::${stack.methodName}:${stack.lineNumber}" }
+    .let { stack -> "${stack.fileName.removeSuffix(".kt")}::${stack.methodName} on ${Thread.currentThread().name}" }
 
 inline fun <reified T> Single<T>.log(tag: String = tag()): Single<T> {
     return doOnEvent { success, error -> printEvent(tag, success, error) }

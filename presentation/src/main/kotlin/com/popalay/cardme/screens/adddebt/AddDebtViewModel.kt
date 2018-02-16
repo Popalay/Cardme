@@ -1,7 +1,7 @@
 package com.popalay.cardme.screens.adddebt
 
 import com.popalay.cardme.base.mvi.BaseMviViewModel
-import com.popalay.cardme.base.mvi.LambdaProcessor
+import com.popalay.cardme.base.mvi.IntentProcessor
 import com.popalay.cardme.base.mvi.LambdaReducer
 import com.popalay.cardme.base.navigation.CustomRouter
 import com.popalay.cardme.domain.usecase.HolderNamesUseCase
@@ -13,17 +13,16 @@ import javax.inject.Inject
 class AddDebtViewModel @Inject constructor(
     private val router: CustomRouter,
     private val holderNamesUseCase: HolderNamesUseCase,
-    private var validateDebtUseCase: ValidateDebtUseCase,
+    private val validateDebtUseCase: ValidateDebtUseCase,
     private val saveDebtUseCase: SaveDebtUseCase
 ) : BaseMviViewModel<AddDebtViewState, AddDebtIntent>() {
 
     override val initialState = AddDebtViewState.idle()
 
-    override val processor = LambdaProcessor<AddDebtIntent> {
+    override val processor = IntentProcessor<AddDebtIntent> {
         listOf(
-            it.ofType<AddDebtIntent.Initial.GetHolderNames>()
-                .take(1)
-                .map { HolderNamesUseCase.Action }
+            it.ofType<AddDebtIntent.DebtHolderNameChanged>()
+                .map { HolderNamesUseCase.Action(it.debt.holderName) }
                 .compose(holderNamesUseCase),
             it.ofType<AddDebtIntent.DebtHolderNameChanged>()
                 .map { ValidateDebtUseCase.Action(it.debt) }

@@ -28,11 +28,11 @@ class SaveCardUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
+    data class Action(val card: Card) : UseCase.Action
+
     sealed class Result : UseCase.Result {
         object Idle : Result()
         object Success : Result()
         data class Failure(val throwable: Throwable) : Result()
     }
-
-    data class Action(val card: Card) : UseCase.Action
 }

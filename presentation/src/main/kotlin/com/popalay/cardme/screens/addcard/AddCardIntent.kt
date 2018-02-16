@@ -14,7 +14,6 @@ sealed class AddCardIntent : Intent {
 
     sealed class Initial : AddCardIntent() {
         data class GetCard(val number: String) : AddCardIntent.Initial()
-        object GetHolderNames : AddCardIntent.Initial()
         object GetShouldShowBackground : AddCardIntent.Initial()
     }
 

@@ -12,8 +12,6 @@ import com.popalay.cardme.domain.repository.DeviceRepository
 import com.popalay.cardme.domain.repository.HolderRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import io.reactivex.rxkotlin.Flowables
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HolderNamesUseCase @Inject constructor(
@@ -21,30 +19,24 @@ class HolderNamesUseCase @Inject constructor(
     private val holderRepository: HolderRepository
 ) : UseCase<HolderNamesUseCase.Action, HolderNamesUseCase.Result> {
 
-    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap {
-        Flowables.combineLatest(
-            holderRepository.getAll(),
-            deviceRepository.getContactsNames().toFlowable(),
-            this::transform
-        )
-            .toObservable()
-            .map(Result::Success)
-            .cast(Result::class.java)
-            .startWith(Result.Idle)
-            .onErrorReturn(Result::Failure)
-            .subscribeOn(Schedulers.io())
-    }
-
-    private fun transform(holders: List<Holder>, contacts: List<String>) =
-        holders.map(Holder::name).toMutableList().apply {
-            addAll(contacts)
-            filter(String::isNotBlank).distinct().sorted()
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream
+        .distinctUntilChanged()
+        .switchMapSingle { action ->
+            holderRepository.getAll()
+                .first(listOf())
+                .flattenAsObservable { it }
+                .map { it.name }
+                .mergeWith(deviceRepository.getContactsNames().flattenAsObservable { it })
+                .distinct()
+                .filter { it.startsWith(action.query) }
+                .filter { it.isNotBlank() }
+                .toSortedList()
+                .map(Result::Success)
         }
 
-    object Action : UseCase.Action
+    data class Action(val query: String) : UseCase.Action
 
     sealed class Result : UseCase.Result {
-        object Idle : Result()
         data class Success(val names: List<String>) : Result()
         data class Failure(val throwable: Throwable) : Result()
     }

@@ -19,17 +19,16 @@ class ShouldShowCardBackgroundUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : UseCase<ShouldShowCardBackgroundUseCase.Action, ShouldShowCardBackgroundUseCase.Result> {
 
-    override fun apply(upstream: Observable<ShouldShowCardBackgroundUseCase.Action>): ObservableSource<Result> =
-        upstream.switchMap {
-            settingsRepository.listen()
-                .map { it.isCardBackground }
-                .distinctUntilChanged()
-                .toObservable()
-                .map(Result::Success)
-                .cast(Result::class.java)
-                .onErrorReturn(Result::Failure)
-                .subscribeOn(Schedulers.io())
-        }
+    override fun apply(upstream: Observable<Action>): ObservableSource<Result> = upstream.switchMap {
+        settingsRepository.listen()
+            .map { it.isCardBackground }
+            .distinctUntilChanged()
+            .toObservable()
+            .map(Result::Success)
+            .cast(Result::class.java)
+            .onErrorReturn(Result::Failure)
+            .subscribeOn(Schedulers.io())
+    }
 
     object Action : UseCase.Action
 

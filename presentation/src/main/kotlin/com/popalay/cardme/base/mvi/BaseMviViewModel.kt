@@ -9,6 +9,7 @@ package com.popalay.cardme.base.mvi
 
 import com.popalay.cardme.base.BaseViewModel
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
 abstract class BaseMviViewModel<S : ViewState, I : Intent>
@@ -17,11 +18,12 @@ abstract class BaseMviViewModel<S : ViewState, I : Intent>
     override val states: Observable<S> by lazy(LazyThreadSafetyMode.NONE) {
         intentsSubject
             .hide()
+            .observeOn(Schedulers.computation())
             .compose(processor)
             .scan(initialState, reducer)
             .distinctUntilChanged()
             .replay(1)
-            .autoConnect(0)
+            .autoConnect(1) { disposables.add(it) }
     }
 
     protected abstract val initialState: S
