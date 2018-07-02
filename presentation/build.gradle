@@ -99,7 +99,6 @@ dependencies {
 
     implementation lastadapter.lastAdapter
 
-    kapt databinding.compiler
     implementation rxDatabindings.rxdatabindings
 
     implementation terrakok.cicerone

@@ -23,55 +23,55 @@ class AddCardViewModel @Inject constructor(
 
     override val initialState = AddCardViewState.idle()
 
-    override val processor = IntentProcessor<AddCardIntent> {
+    override val processor = IntentProcessor<AddCardIntent> { intents ->
         listOf(
-            it.ofType<AddCardIntent.Initial.GetCard>()
+            intents.ofType<AddCardIntent.Initial.GetCard>()
                 .take(1)
                 .map { CardDetailsUseCase.Action(it.number) }
                 .compose(cardDetailsUseCase),
-            it.ofType<AddCardIntent.Initial.GetShouldShowBackground>()
+            intents.ofType<AddCardIntent.Initial.GetShouldShowBackground>()
                 .take(1)
                 .map { ShouldShowCardBackgroundUseCase.Action }
                 .compose(shouldShowCardBackgroundUseCase),
-            it.ofType<AddCardIntent.CardNameChanged>()
+            intents.ofType<AddCardIntent.CardNameChanged>()
                 .map { HolderNamesUseCase.Action(it.card.holderName) }
                 .compose(holderNamesUseCase),
-            it.ofType<AddCardIntent.CardNameChanged>()
+            intents.ofType<AddCardIntent.CardNameChanged>()
                 .map { ValidateCardUseCase.Action(it.card) }
                 .compose(validateCardUseCase),
-            it.ofType<AddCardIntent.CardTitleChanged>()
+            intents.ofType<AddCardIntent.CardTitleChanged>()
                 .map { ValidateCardUseCase.Action(it.card) }
                 .compose(validateCardUseCase),
-            it.ofType<AddCardIntent.Accept>()
+            intents.ofType<AddCardIntent.Accept>()
                 .map { SaveCardUseCase.Action(it.card) }
                 .compose(saveCardUseCase)
                 .doOnNext { if (it == SaveCardUseCase.Result.Success) router.exit() }
         )
     }
 
-    override val reducer = LambdaReducer<AddCardViewState> {
+    override val reducer = LambdaReducer<AddCardViewState> { state ->
         when (this) {
             is CardDetailsUseCase.Result -> when (this) {
-                is CardDetailsUseCase.Result.Success -> it.copy(card = card)
-                is CardDetailsUseCase.Result.Failure -> it.copy(error = throwable)
-                CardDetailsUseCase.Result.Idle -> it
+                is CardDetailsUseCase.Result.Success -> state.copy(card = card)
+                is CardDetailsUseCase.Result.Failure -> state.copy(error = throwable)
+                CardDetailsUseCase.Result.Idle -> state
             }
             is HolderNamesUseCase.Result -> when (this) {
-                is HolderNamesUseCase.Result.Success -> it.copy(holderNames = names)
-                is HolderNamesUseCase.Result.Failure -> it.copy(error = throwable)
-                else -> it
+                is HolderNamesUseCase.Result.Success -> state.copy(holderNames = names)
+                is HolderNamesUseCase.Result.Failure -> state.copy(error = throwable)
+                else -> state
             }
             is ShouldShowCardBackgroundUseCase.Result -> when (this) {
-                is ShouldShowCardBackgroundUseCase.Result.Success -> it.copy(showBackground = show)
-                is ShouldShowCardBackgroundUseCase.Result.Failure -> it.copy(error = throwable)
+                is ShouldShowCardBackgroundUseCase.Result.Success -> state.copy(showBackground = show)
+                is ShouldShowCardBackgroundUseCase.Result.Failure -> state.copy(error = throwable)
             }
             is ValidateCardUseCase.Result -> when (this) {
-                is ValidateCardUseCase.Result.Valid -> it.copy(card = card, canSave = true)
-                is ValidateCardUseCase.Result.Invalid -> it.copy(card = card, canSave = false)
+                is ValidateCardUseCase.Result.Valid -> state.copy(card = card, canSave = true)
+                is ValidateCardUseCase.Result.Invalid -> state.copy(card = card, canSave = false)
             }
             is SaveCardUseCase.Result -> when (this) {
-                is SaveCardUseCase.Result.Failure -> it.copy(error = throwable)
-                else -> it
+                is SaveCardUseCase.Result.Failure -> state.copy(error = throwable)
+                else -> state
             }
             else -> throw IllegalStateException("Can not reduce state for result ${javaClass.name}")
         }

@@ -30,8 +30,8 @@ class SettingsViewModel @Inject constructor(
 
         showImages.observe()
                 .filter { settings.get() != null }
-                .map { settings.set(settings.get().copy(isCardBackground = it)) }
-                .flatMapCompletable { settingsInteractor.saveSettings(settings.get()) }
+                .map { settings.set(settings.get()!!.copy(isCardBackground = it)) }
+                .flatMapCompletable { settingsInteractor.saveSettings(settings.get()!!) }
                 .subscribeBy()
                 .addTo(disposables)
     }

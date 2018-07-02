@@ -1,6 +1,7 @@
 package com.popalay.cardme.screens.addcard
 
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.popalay.cardme.R
 import com.popalay.cardme.base.RightSlidingActivity
+import com.popalay.cardme.base.ViewModelFactory
 import com.popalay.cardme.base.mvi.BindableMviView
 import com.popalay.cardme.domain.model.Card
 import com.popalay.cardme.screens.setDropDownItems
@@ -27,8 +29,12 @@ import com.popalay.cardme.utils.extensions.getViewModel
 import com.popalay.cardme.utils.extensions.setTextIfNeeded
 import com.popalay.cardme.widget.CreditCardView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.reflect.KProperty0
 
 class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState, AddCardIntent> {
 
@@ -56,7 +62,7 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
     @Inject lateinit var factory: ViewModelProvider.Factory
     private var acceptMenuItem: MenuItem? = null
 
-    private var lastState: AddCardViewState = AddCardViewState.idle()
+    private lateinit var lastState: AddCardViewState
 
     private val intentsPublisher = PublishSubject.create<AddCardIntent>()
 
@@ -69,15 +75,21 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
     private val nameChangedIntent
         get() = RxTextView.textChanges(inputHolder)
             .skipInitialValue()
+            .subscribeOn(AndroidSchedulers.mainThread())
             .map { it.toString() }
-            .map { lastState.card.copy(holderName = it) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { lastState.card != null }
+            .map { lastState.card?.copy(holderName = it) }
             .map(AddCardIntent::CardNameChanged)
 
     private val titleChangedIntent
         get() = RxTextView.textChanges(inputTitle)
             .skipInitialValue()
+            .subscribeOn(AndroidSchedulers.mainThread())
             .map { it.toString() }
-            .map { lastState.card.copy(title = it) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { lastState.card != null }
+            .map { lastState.card?.copy(title = it) }
             .map(AddCardIntent::CardTitleChanged)
 
     override val intents: Observable<AddCardIntent> = Observable.defer {
@@ -93,7 +105,7 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
         Log.v("STATE", state.toString())
         lastState = state
         with(state) {
-            with(card) {
+            if (card != null) with(card) {
                 inputTitle.setTextIfNeeded(title)
                 inputHolder.setTextIfNeeded(holderName)
                 textTitle.text = title
@@ -102,6 +114,7 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
                 textCardNumber.text = number
                 viewCreditCard.seed = generatedBackgroundSeed
             }
+
             viewCreditCard.isWithImage = showBackground
             acceptMenuItem?.isEnabled = canSave
             inputHolder.setDropDownItems(holderNames)
@@ -115,6 +128,7 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
         initUI()
 
         bind(getViewModel<AddCardViewModel>(factory))
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -124,7 +138,7 @@ class AddCardActivity : RightSlidingActivity(), BindableMviView<AddCardViewState
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_accept) intentsPublisher.onNext(AddCardIntent.Accept(lastState.card))
+        if (item.itemId == R.id.action_accept) intentsPublisher.onNext(AddCardIntent.Accept(lastState.card!!))
         return super.onOptionsItemSelected(item)
     }
 

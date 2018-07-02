@@ -74,7 +74,7 @@ internal fun <T : ViewDataBinding> getDataBinding(
         inflater: LayoutInflater?,
         @LayoutRes layoutId: Int,
         container: ViewGroup?
-): T = DataBindingUtil.inflate(inflater, layoutId, container, false)
+): T = DataBindingUtil.inflate(inflater!!, layoutId, container, false)
 
 internal fun <T : ViewDataBinding> FragmentActivity.getDataBinding(@LayoutRes layoutId: Int
 ): T = DataBindingUtil.setContentView(this, layoutId)

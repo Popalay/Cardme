@@ -73,14 +73,14 @@ class CardDetailsViewModel @Inject constructor(
 
     override fun onShareCard(): Observable<String> = shareCardClick
             .applyThrottling()
-            .map { card.get().number }
+            .map { card.get()?.number }
 
     override fun onShareCardUsingNfc(): Observable<String> = shareNfcCardClick
             .applyThrottling()
             .filter { enableShareNfc.get() }
-            .flatMapSingle { cardInteractor.prepareForSharing(card.get()) }
+            .flatMapSingle { cardInteractor.prepareForSharing(card.get()!!) }
 
-    override fun getCardShareNfcObject() = cardInteractor.prepareForSharing(card.get())
+    override fun getCardShareNfcObject() = cardInteractor.prepareForSharing(card.get()!!)
 
 }
 
